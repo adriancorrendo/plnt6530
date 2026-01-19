@@ -1371,5 +1371,68 @@
       "Quarto",
       "Quarto Basics"
     ]
+  },
+  {
+    "objectID": "coding/p_value/p_value.html",
+    "href": "coding/p_value/p_value.html",
+    "title": "What Does a p-value Really Mean? And Is It Useful for Farmers?",
+    "section": "",
+    "text": "Modern agriculture is full of experiments:\n\n🚜 Does this new fungicide really pay?\n🌱 Should I push nitrogen from 150 to 200 kg N/ha?\n🧪 Is this biological product doing anything, or is it just marketing?\n\nWhen agronomists and researchers answer these questions, they often report p-values:\n“Yield increase was significant at p &lt; 0.05.”\nBut what does that actually mean, probabilistically?\nAnd more importantly: does it answer the questions farmers care about?\nThis short article unpacks the meaning of a p-value and contrasts it with a more intuitive, Bayesian way to talk about probability for farm decisions."
+  },
+  {
+    "objectID": "coding/p_value/p_value.html#why-talk-about-p-values-on-the-farm",
+    "href": "coding/p_value/p_value.html#why-talk-about-p-values-on-the-farm",
+    "title": "What Does a p-value Really Mean? And Is It Useful for Farmers?",
+    "section": "",
+    "text": "Modern agriculture is full of experiments:\n\n🚜 Does this new fungicide really pay?\n🌱 Should I push nitrogen from 150 to 200 kg N/ha?\n🧪 Is this biological product doing anything, or is it just marketing?\n\nWhen agronomists and researchers answer these questions, they often report p-values:\n“Yield increase was significant at p &lt; 0.05.”\nBut what does that actually mean, probabilistically?\nAnd more importantly: does it answer the questions farmers care about?\nThis short article unpacks the meaning of a p-value and contrasts it with a more intuitive, Bayesian way to talk about probability for farm decisions."
+  },
+  {
+    "objectID": "coding/p_value/p_value.html#what-is-a-p-value-probabilistically",
+    "href": "coding/p_value/p_value.html#what-is-a-p-value-probabilistically",
+    "title": "What Does a p-value Really Mean? And Is It Useful for Farmers?",
+    "section": "🎲 What is a p-value, probabilistically?",
+    "text": "🎲 What is a p-value, probabilistically?\nSuppose we are testing:\n\nH₀ (null hypothesis): there is no true difference between two treatments\n\nH₁ (alternative): there is a true difference\n\nWe run an experiment, calculate a test statistic (like a t-statistic), and obtain a p-value.\nProbabilistic definition:\n\nThe p-value is the probability of observing data at least as extreme as what we observed, if the null hypothesis were true.\n\nIn mathematical notation:\n[ p = P( H_0 ) ]\nSo if p = 0.03, it means:\n\nIf there were truly no effect, then in repeated experiments you would see a result this extreme (or more extreme) only 3% of the time, just by random chance.\n\nIt does not mean:\n\n❌ “There is a 3% chance the null is true.”\n\n❌ “There is a 97% chance the treatment works.”\n\n❌ “There is a 3% chance this result is due to chance.”\n\nThe key is the direction of the conditioning:\n\np-value: probability of the data, given H₀\n\nWhat farmers want: probability of H₀ or H₁, given the data\n\nThese are not the same thing."
+  },
+  {
+    "objectID": "coding/p_value/p_value.html#an-agronomy-example-nitrogen-rate-comparison",
+    "href": "coding/p_value/p_value.html#an-agronomy-example-nitrogen-rate-comparison",
+    "title": "What Does a p-value Really Mean? And Is It Useful for Farmers?",
+    "section": "🌱 An agronomy example: nitrogen rate comparison",
+    "text": "🌱 An agronomy example: nitrogen rate comparison\nImagine a trial comparing 150 vs 200 kg N/ha in corn across several fields.\nYou find:\n\n🌽 Mean yield difference: +0.6 t/ha (200 &gt; 150)\n\n📉 p-value: 0.04\n\nThe strict interpretation is:\n\nIf there were really no yield difference between 150 and 200 kg N/ha, you would see a difference of 0.6 t/ha or larger (in either direction) only about 4 times in 100 experiments like this.\n\nStatistically, we might say this result is “significant at the 5% level.”\nBut the farmer’s questions are different:\n\n💭 “What is the chance that 200 kg N/ha will actually give me more yield this year?”\n\n💰 “What is the chance it will give me more profit, considering N price and grain price?”\n\n⚖️ “How big is the upside, and how big is the downside risk?”\n\nThe p-value does not directly answer any of those."
+  },
+  {
+    "objectID": "coding/p_value/p_value.html#limitations-of-p-values-for-farm-decisions",
+    "href": "coding/p_value/p_value.html#limitations-of-p-values-for-farm-decisions",
+    "title": "What Does a p-value Really Mean? And Is It Useful for Farmers?",
+    "section": "⚠️ Limitations of p-values for farm decisions",
+    "text": "⚠️ Limitations of p-values for farm decisions\nP-values are useful for researchers, but they are awkward for decision-makers. Some key limitations:\n\n1️⃣ They answer a different question\n\nStatistics question:\n&gt; If the treatment does nothing, how surprising are my data?\n\nFarmer question:\n&gt; Given my data (plus what we knew before), how likely is it that the treatment helps?\n\nThese are related but not the same.\n\n\n2️⃣ The 0.05 cutoff is arbitrary\nA result with p = 0.049 is “significant”; p = 0.051 is “non-significant.”\nIn practice, these two situations often provide very similar evidence, yet the label changes.\nFor communication and decision-making, this can be misleading.\n\n\n3️⃣ Magnitude and economics can be ignored\nIt’s possible to have:\n\n📌 A tiny yield gain with very small p-value (statistically significant but not profitable), or\n\n📌 A large yield gain with p = 0.10 (not “significant” at 0.05), which might still be attractive if the downside risk is small.\n\nFarmers (and advisors) care about effect size and profit, not just whether p &lt; 0.05.\n\n\n4️⃣ Intuition is backwards\nThe p-value starts from “assume no effect” and asks about the probability of the data.\nBut most people naturally think in the Bayesian direction:\n\nGiven what I’ve seen, how likely is it that there’s a real effect?"
+  },
+  {
+    "objectID": "coding/p_value/p_value.html#a-bayesian-way-to-think-probability-of-benefit",
+    "href": "coding/p_value/p_value.html#a-bayesian-way-to-think-probability-of-benefit",
+    "title": "What Does a p-value Really Mean? And Is It Useful for Farmers?",
+    "section": "🎯 A Bayesian way to think: probability of benefit",
+    "text": "🎯 A Bayesian way to think: probability of benefit\nBayesian thinking flips the conditioning:\n\nStart with what we already know (prior), then update with new data to get a posterior: a direct probability statement about the effect.\n\nInstead of talking about p-values, we talk about distributions and probabilities of benefit.\nImagine we combine:\n\n📚 Prior knowledge (multi-location trials, previous years, expert opinion)\n\n🧪 New data from this year’s on-farm trial\n\nWe might end up with statements like:\n\n“Given everything we know, there is a 75% chance that 200 kg N/ha yields at least 0.4 t/ha more than 150 kg N/ha.”\n\n“There is a 60% chance that 200 kg N/ha increases profit at current prices, and a 20% chance that it reduces profit by more than $20/ha.”\n\nThis maps much more directly onto real decisions:\n\nIf you are risk-neutral, you might choose the treatment with higher expected profit.\n\nIf you are risk-averse, you might prioritize avoiding the downside and accept a lower expected profit.\n\nThe key point: Bayesian outputs describe how likely different outcomes are, which is exactly what farmers care about."
+  },
+  {
+    "objectID": "coding/p_value/p_value.html#what-farmers-actually-hear-and-what-they-need",
+    "href": "coding/p_value/p_value.html#what-farmers-actually-hear-and-what-they-need",
+    "title": "What Does a p-value Really Mean? And Is It Useful for Farmers?",
+    "section": "👂 What farmers actually hear (and what they need)",
+    "text": "👂 What farmers actually hear (and what they need)\nIn extension work and on-farm research networks, results are often summarized as:\n\n“The fungicide treatment was not statistically significant.”\n\n“The new practice was significantly better than the control at p &lt; 0.01.”\n\nFrom a farmer’s perspective, more helpful summaries would be:\n\n“Across 10 trials, the fungicide increased yield in 7 out of 10 site-years.”\n\n“Given this data and previous research, there is about a 70% chance the fungicide increases yield, and about a 50% chance it increases profit at current prices.”\n\n“The risk of losing more than $20/ha with this fungicide appears low.”\n\nYou can deliver this kind of language using fully Bayesian models, or by combining frequentist estimates with simple probability approximations. The important shift is conceptual:\n\nMove from “Is it significant?” to “What is the probability and size of benefit, and what is the risk?”"
+  },
+  {
+    "objectID": "coding/p_value/p_value.html#practical-implications-for-agronomy-and-on-farm-research",
+    "href": "coding/p_value/p_value.html#practical-implications-for-agronomy-and-on-farm-research",
+    "title": "What Does a p-value Really Mean? And Is It Useful for Farmers?",
+    "section": "🧪 Practical implications for agronomy and on-farm research",
+    "text": "🧪 Practical implications for agronomy and on-farm research\nFor researchers and students:\n\n🧠 Understanding p-values is still essential because they dominate the scientific literature.\nAlways pair p-values with:\n\n📏 Estimated effect size (e.g., t/ha difference)\n\n📊 Confidence intervals\n\n💸 Economic interpretation\n\n\nFor farmers and advisors:\n\nEmphasize:\n\n📈 Probability the practice increases yield\n\n💰 Probability it increases profit\n\n⚖️ Distribution of possible outcomes (risk vs reward)\n\n\nThis mindset naturally leads toward a Bayesian way of thinking, even if you don’t explicitly present the statistics as “Bayesian.”"
+  },
+  {
+    "objectID": "coding/p_value/p_value.html#take-home-messages",
+    "href": "coding/p_value/p_value.html#take-home-messages",
+    "title": "What Does a p-value Really Mean? And Is It Useful for Farmers?",
+    "section": "✅ Take-home messages",
+    "text": "✅ Take-home messages\n\nProbabilistic meaning of a p-value:\n[ p = P( H_0 ) ]\nIt is a probability about the data, given the assumption of no true effect.\nFarmer relevance:\nP-values help researchers avoid being fooled by noise, but they do not directly answer\n&gt; “What are my chances that this will help me?”\nor\n&gt; “Will it pay?”\nBayesian perspective:\nFocuses on (P( )): probabilities of benefit and profit, which align much better with real decision-making on the farm.\n\nIn other words:\n\n🧰 Keep p-values in the statistical toolbox, but speak to farmers in terms of probabilities of benefit, risk, and profit—which is, in spirit, a Bayesian way of thinking."
   }
 ]

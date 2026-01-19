@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Dr.&nbsp;Adrian Correndo">
+<meta name="dcterms.date" content="2026-01-16">
 
-<title>PLNT6530|01 - Calendar – PLNT6530 - Winter 2026</title>
+<title>What Does a p-value Really Mean? And Is It Useful for Farmers? – PLNT6530 - Winter 2026</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,62 +22,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<link href="../outline/outline.html" rel="next">
-<link href="../coding/fair_care/fair_care.html" rel="prev">
-<script src="../site_libs/quarto-html/quarto.js"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-f2a1071e85750ec973bbb8a8f120da0f.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-f2a1071e85750ec973bbb8a8f120da0f.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-336ca817ef159df84c7e018e0d356059.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-5ccce6f18d703cb4568c738a25a74289.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-f2a1071e85750ec973bbb8a8f120da0f.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-f2a1071e85750ec973bbb8a8f120da0f.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-336ca817ef159df84c7e018e0d356059.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-5ccce6f18d703cb4568c738a25a74289.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -104,15 +69,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<style>html{ scroll-behavior: smooth; }</style>
 
 
-<link rel="stylesheet" href="../styles.css">
-<meta property="og:title" content="PLNT6530|01 - Calendar – PLNT6530 - Winter 2026">
-<meta property="og:description" content="Winter 2026">
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="What Does a p-value Really Mean? And Is It Useful for Farmers? – PLNT6530 - Winter 2026">
+<meta property="og:description" content="Reproducible Data Science for Agriculture">
 <meta property="og:site_name" content="PLNT6530 - Winter 2026">
-<meta name="twitter:title" content="PLNT6530|01 - Calendar – PLNT6530 - Winter 2026">
-<meta name="twitter:description" content="Winter 2026">
+<meta name="twitter:title" content="What Does a p-value Really Mean? And Is It Useful for Farmers? – PLNT6530 - Winter 2026">
+<meta name="twitter:description" content="Reproducible Data Science for Agriculture">
 <meta name="twitter:creator" content="@aacorrendo">
 <meta name="twitter:card" content="summary">
 </head>
@@ -124,7 +88,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">PLNT6530 - Winter 2026</span>
     </a>
   </div>
@@ -166,7 +130,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../outline/calendar.html">Calendar</a></li><li class="breadcrumb-item"><a href="../outline/calendar.html">Schedule</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">What Does a p-value Really Mean? And Is It Useful for Farmers?</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -180,8 +144,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-center sidebar-header">
-      <a href="../index.html" class="sidebar-logo-link">
-      <img src="../images/2026_logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      <a href="../../index.html" class="sidebar-logo-link">
+      <img src="../../images/2026_logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
       </a>
       <div class="sidebar-tools-main">
     <a href="https://github.com/adriancorrendo/" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
@@ -196,7 +160,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
   </div>
 </li>
@@ -211,7 +175,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../slides/day1.html" class="sidebar-item-text sidebar-link">
+  <a href="../../slides/day1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Reproducibility</span></a>
   </div>
 </li>
@@ -228,7 +192,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../software/software.html" class="sidebar-item-text sidebar-link">
+  <a href="../../software/software.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Instructions</span></a>
   </div>
 </li>
@@ -245,31 +209,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../coding/week_01/essentials_01.html" class="sidebar-item-text sidebar-link">
+  <a href="../../coding/week_01/essentials_01.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">01-Essentials of R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../coding/week_02/02_fundamentals_rpackages.html" class="sidebar-item-text sidebar-link">
+  <a href="../../coding/week_02/02_fundamentals_rpackages.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">02-Fundamentals of packages</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../coding/week_02/03_versioncontrol.html" class="sidebar-item-text sidebar-link">
+  <a href="../../coding/week_02/03_versioncontrol.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">03-Git &amp; GitHub</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../coding/week_03/04_datawrangling_01.html" class="sidebar-item-text sidebar-link">
+  <a href="../../coding/week_03/04_datawrangling_01.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">04-Data Wrangling I</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../coding/week_03/05_datawrangling_02.html" class="sidebar-item-text sidebar-link">
+  <a href="../../coding/week_03/05_datawrangling_02.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">05-Data Wrangling II</span></a>
   </div>
 </li>
@@ -286,7 +250,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../coding/quarto/quarto.html" class="sidebar-item-text sidebar-link">
+  <a href="../../coding/quarto/quarto.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Quarto Basics</span></a>
   </div>
 </li>
@@ -303,7 +267,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../coding/fair_care/fair_care.html" class="sidebar-item-text sidebar-link">
+  <a href="../../coding/fair_care/fair_care.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Fair &amp; Care</span></a>
   </div>
 </li>
@@ -311,16 +275,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
  <span class="menu-text">Calendar</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../outline/calendar.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../outline/calendar.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Schedule</span></a>
   </div>
 </li>
@@ -337,7 +301,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../outline/outline.html" class="sidebar-item-text sidebar-link">
+  <a href="../../outline/outline.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Outline</span></a>
   </div>
 </li>
@@ -345,27 +309,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
     </ul>
     </div>
-    <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Contents</h2>
-   
-  <ul>
-  <li><a href="#lecture-schedule" id="toc-lecture-schedule" class="nav-link active" data-scroll-target="#lecture-schedule">Lecture Schedule</a></li>
-  <li><a href="#calendar" id="toc-calendar" class="nav-link" data-scroll-target="#calendar">Calendar</a></li>
-  </ul>
-</nav>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Content</h2>
+   
+  <ul class="collapse">
+  <li><a href="#why-talk-about-p-values-on-the-farm" id="toc-why-talk-about-p-values-on-the-farm" class="nav-link active" data-scroll-target="#why-talk-about-p-values-on-the-farm">🌾 Why talk about p-values on the farm?</a></li>
+  <li><a href="#what-is-a-p-value-probabilistically" id="toc-what-is-a-p-value-probabilistically" class="nav-link" data-scroll-target="#what-is-a-p-value-probabilistically">🎲 What is a p-value, probabilistically?</a></li>
+  <li><a href="#an-agronomy-example-nitrogen-rate-comparison" id="toc-an-agronomy-example-nitrogen-rate-comparison" class="nav-link" data-scroll-target="#an-agronomy-example-nitrogen-rate-comparison">🌱 An agronomy example: nitrogen rate comparison</a></li>
+  <li><a href="#limitations-of-p-values-for-farm-decisions" id="toc-limitations-of-p-values-for-farm-decisions" class="nav-link" data-scroll-target="#limitations-of-p-values-for-farm-decisions">⚠️ Limitations of p-values for farm decisions</a></li>
+  <li><a href="#a-bayesian-way-to-think-probability-of-benefit" id="toc-a-bayesian-way-to-think-probability-of-benefit" class="nav-link" data-scroll-target="#a-bayesian-way-to-think-probability-of-benefit">🎯 A Bayesian way to think: probability of benefit</a></li>
+  <li><a href="#what-farmers-actually-hear-and-what-they-need" id="toc-what-farmers-actually-hear-and-what-they-need" class="nav-link" data-scroll-target="#what-farmers-actually-hear-and-what-they-need">👂 What farmers actually hear (and what they need)</a></li>
+  <li><a href="#practical-implications-for-agronomy-and-on-farm-research" id="toc-practical-implications-for-agronomy-and-on-farm-research" class="nav-link" data-scroll-target="#practical-implications-for-agronomy-and-on-farm-research">🧪 Practical implications for agronomy and on-farm research</a></li>
+  <li><a href="#take-home-messages" id="toc-take-home-messages" class="nav-link" data-scroll-target="#take-home-messages">✅ Take-home messages</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../outline/calendar.html">Calendar</a></li><li class="breadcrumb-item"><a href="../outline/calendar.html">Schedule</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">PLNT6530|01 - Calendar</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
-<p class="subtitle lead">Winter 2026</p>
-</div>
+<h1 class="title">What Does a p-value Really Mean? And Is It Useful for Farmers?</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Agronomy</div>
+    <div class="quarto-category">Statistics</div>
+    <div class="quarto-category">Decision Making</div>
+  </div>
+  </div>
 
 
 
@@ -378,6 +352,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           </div>
   </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 16, 2026</p>
+    </div>
+  </div>
   
     
   </div>
@@ -387,215 +367,219 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="lecture-schedule" class="level3">
-<h3 class="anchored" data-anchor-id="lecture-schedule">Lecture Schedule</h3>
+<section id="why-talk-about-p-values-on-the-farm" class="level2">
+<h2 class="anchored" data-anchor-id="why-talk-about-p-values-on-the-farm">🌾 Why talk about p-values on the farm?</h2>
+<p>Modern agriculture is full of experiments:</p>
 <ul>
-<li><strong>Days:</strong> Wednesdays and Fridays</li>
-<li><strong>Time:</strong> 11:30 am - 12:50 pm</li>
-<li><strong>Location:</strong> CRSC 121B</li>
+<li>🚜 Does this new fungicide really pay?</li>
+<li>🌱 Should I push nitrogen from 150 to 200 kg N/ha?</li>
+<li>🧪 Is this biological product doing anything, or is it just marketing?</li>
 </ul>
+<p>When agronomists and researchers answer these questions, they often report <strong>p-values</strong>:<br>
+“Yield increase was significant at <em>p</em> &lt; 0.05.”</p>
+<p>But what does that actually mean, probabilistically?<br>
+And more importantly: <strong>does it answer the questions farmers care about?</strong></p>
+<p>This short article unpacks the meaning of a p-value and contrasts it with a more intuitive, Bayesian way to talk about probability for farm decisions.</p>
+<hr>
 </section>
-<section id="calendar" class="level2">
-<h2 class="anchored" data-anchor-id="calendar">Calendar</h2>
-<p>The course runs on Wednesdays and Fridays from 1:00 PM to 2:20 PM. Below is the <em>tentative</em> schedule. Please, note the schedule may vary depending on the progress of the class.</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th><strong>Week</strong></th>
-<th><strong>Date</strong></th>
-<th><strong>Topic</strong></th>
-<th><strong>Material</strong></th>
-<th><strong>Lesson</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td>Jan 7</td>
-<td>Introductions, Reproducibility</td>
-<td><a href="https://adriancorrendo.github.io/plnt6530/slides/day1.html">🌐</a></td>
-<td><a href="https://zoom.us/rec/share/Dy07MqKf8Lx3VLxAACAzqIXpyB7X4XbhmvZm5tDB9P9quDB4TVwkoMeH2wbAEmqD.kEaLkBlHprEaHDje?startTime=1767803962000">🎥</a></td>
-</tr>
-<tr class="even">
-<td></td>
-<td>Jan 09</td>
-<td>Essentials of Quarto and R</td>
-<td><a href="https://adriancorrendo.github.io/plnt6530/coding/week_01/essentials_01.html">🌐</a></td>
-<td><a href="https://zoom.us/rec/share/9pvpNY1H692JIBCaNP6V2O0X_FT7Wk-NNt-XI--9YBxxPRcLq38Uzj0klFyIuCoa.dH46A2XtLbzb1QSN">🎥</a></td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>Jan 14</td>
-<td>Fundamentals of R packages</td>
-<td><a href="http://adriancorrendo.github.io/plnt6530/coding/week_02/02_fundamentals_rpackages.html">🌐</a></td>
-<td><a href="https://zoom.us/rec/share/ZTz6M5yfomA_H39p4RxZQpWMEfTj3OHqbXGY3Daw7MW6NIIBr7VkMax8VUaPLqSy.bzuwDd7Ci29MpLB2?startTime=1768408473000">🎥</a></td>
-</tr>
-<tr class="even">
-<td></td>
-<td>Jan 16</td>
-<td>Basics of version control &amp; GitHub</td>
-<td><a href="https://adriancorrendo.github.io/plnt6530/coding/week_02/03_versioncontrol.html">🌐</a></td>
-<td><a href="https://zoom.us/rec/share/BWba1XKsMaqqqQ5WdM8CVYpCo7wE-nF78oYsHI5VLbjPxxciuu0LdphpU-M6F3ry.IL4B83T_ZqKyA3gQ?startTime=1768581227000">🎥</a></td>
-</tr>
-<tr class="odd">
-<td>3</td>
-<td>Jan 21</td>
-<td>Data Wrangling I</td>
-<td>🌐</td>
-<td>🎥</td>
-</tr>
-<tr class="even">
-<td></td>
-<td>Jan 23</td>
-<td>Data Wrangling II</td>
-<td>🌐</td>
-<td>🎥</td>
-</tr>
-<tr class="odd">
-<td>4</td>
-<td>Jan 28</td>
-<td>Data Wrangling III</td>
-<td>🌐</td>
-<td>🎥</td>
-</tr>
-<tr class="even">
-<td></td>
-<td>Jan 30</td>
-<td>Data Viz I: ggplot2 basics</td>
-<td>🌐</td>
-<td>🎥</td>
-</tr>
-<tr class="odd">
-<td>5</td>
-<td>Feb 04</td>
-<td>Data Viz II: Multiple plots</td>
-<td>🌐</td>
-<td>🎥</td>
-</tr>
-<tr class="even">
-<td></td>
-<td>Feb 06</td>
-<td>Data Viz III: Advanced plots, maps</td>
-<td>🌐</td>
-<td>🎥</td>
-</tr>
-<tr class="odd">
-<td>6</td>
-<td>Feb 11</td>
-<td>Iteration: Loops &amp; Mapping</td>
-<td>🌐</td>
-<td>🎥</td>
-</tr>
-<tr class="even">
-<td></td>
-<td>Feb 13</td>
-<td>Weather Data: Retrieving &amp; Processing</td>
-<td>🌐</td>
-<td>🎥</td>
-</tr>
-<tr class="odd">
-<td></td>
-<td></td>
-<td><em>Winter Break begins after the end of class</em></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>7</td>
-<td>Feb 25</td>
-<td>Models I: TBD</td>
-<td>🌐</td>
-<td>🎥</td>
-</tr>
-<tr class="odd">
-<td></td>
-<td>Feb 27</td>
-<td>Models II: TBD</td>
-<td>🌐</td>
-<td>🎥</td>
-</tr>
-<tr class="even">
-<td>8</td>
-<td>Mar 04</td>
-<td>Models III: TBD</td>
-<td>🌐</td>
-<td>🎥</td>
-</tr>
-<tr class="odd">
-<td></td>
-<td>Mar 06</td>
-<td>Models IV: TBD</td>
-<td>🌐</td>
-<td>🎥</td>
-</tr>
-<tr class="even">
-<td>9</td>
-<td>Mar 11</td>
-<td>Models V: TBD</td>
-<td>🌐</td>
-<td>🎥</td>
-</tr>
-<tr class="odd">
-<td></td>
-<td>Mar 13</td>
-<td>Models VI: TBD</td>
-<td>🌐</td>
-<td>🎥</td>
-</tr>
-<tr class="even">
-<td>10</td>
-<td>Mar 18</td>
-<td>Models VII: TBD</td>
-<td>🌐</td>
-<td>🎥</td>
-</tr>
-<tr class="odd">
-<td></td>
-<td>Mar 20</td>
-<td>Models VIII: TBD</td>
-<td>🌐</td>
-<td>🎥</td>
-</tr>
-<tr class="even">
-<td>11</td>
-<td>Mar 25</td>
-<td>Advanced Quarto tricks</td>
-<td>🌐</td>
-<td>🎥</td>
-</tr>
-<tr class="odd">
-<td></td>
-<td>Mar 27</td>
-<td>General Review class</td>
-<td>🌐</td>
-<td>🎥</td>
-</tr>
-<tr class="even">
-<td>12</td>
-<td>Apr 01</td>
-<td>Semester Projects Presentations I</td>
-<td>🌐</td>
-<td></td>
-</tr>
-<tr class="odd">
-<td></td>
-<td>Apr 03</td>
-<td>Semester Projects Presentations II</td>
-<td>🌐</td>
-<td></td>
-</tr>
-<tr class="even">
-<td>13</td>
-<td>Apr 10</td>
-<td>Final Exam Due (11.59 pm)</td>
-<td>🌐</td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<section id="what-is-a-p-value-probabilistically" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-a-p-value-probabilistically">🎲 What is a p-value, probabilistically?</h2>
+<p>Suppose we are testing:</p>
+<ul>
+<li><strong>H₀ (null hypothesis):</strong> there is <em>no true difference</em> between two treatments<br>
+</li>
+<li><strong>H₁ (alternative):</strong> there <em>is</em> a true difference</li>
+</ul>
+<p>We run an experiment, calculate a test statistic (like a <em>t</em>-statistic), and obtain a p-value.</p>
+<p><strong>Probabilistic definition:</strong></p>
+<blockquote class="blockquote">
+<p>The p-value is the probability of observing data <em>at least as extreme as what we observed</em>, <strong>if the null hypothesis were true</strong>.</p>
+</blockquote>
+<p>In mathematical notation:</p>
+<p>[ p = P( H_0 ) ]</p>
+<p>So if <em>p</em> = 0.03, it means:</p>
+<blockquote class="blockquote">
+<p>If there were truly <strong>no effect</strong>, then in repeated experiments you would see a result this extreme (or more extreme) only <strong>3% of the time</strong>, just by random chance.</p>
+</blockquote>
+<p>It does <strong>not</strong> mean:</p>
+<ul>
+<li>❌ “There is a 3% chance the null is true.”<br>
+</li>
+<li>❌ “There is a 97% chance the treatment works.”<br>
+</li>
+<li>❌ “There is a 3% chance this result is due to chance.”</li>
+</ul>
+<p>The key is the <strong>direction of the conditioning</strong>:</p>
+<ul>
+<li>p-value: probability of the <strong>data</strong>, given H₀<br>
+</li>
+<li>What farmers want: probability of <strong>H₀ or H₁</strong>, given the data</li>
+</ul>
+<p>These are not the same thing.</p>
+<hr>
+</section>
+<section id="an-agronomy-example-nitrogen-rate-comparison" class="level2">
+<h2 class="anchored" data-anchor-id="an-agronomy-example-nitrogen-rate-comparison">🌱 An agronomy example: nitrogen rate comparison</h2>
+<p>Imagine a trial comparing <strong>150 vs 200 kg N/ha</strong> in corn across several fields.</p>
+<p>You find:</p>
+<ul>
+<li>🌽 Mean yield difference: +0.6 t/ha (200 &gt; 150)<br>
+</li>
+<li>📉 p-value: 0.04</li>
+</ul>
+<p>The strict interpretation is:</p>
+<blockquote class="blockquote">
+<p>If there were really <strong>no yield difference</strong> between 150 and 200 kg N/ha, you would see a difference of 0.6 t/ha or larger (in either direction) only about <strong>4 times in 100</strong> experiments like this.</p>
+</blockquote>
+<p>Statistically, we might say this result is “significant at the 5% level.”</p>
+<p>But the <strong>farmer’s questions</strong> are different:</p>
+<ul>
+<li>💭 “What is the chance that 200 kg N/ha will actually give me more yield this year?”<br>
+</li>
+<li>💰 “What is the chance it will give me <strong>more profit</strong>, considering N price and grain price?”<br>
+</li>
+<li>⚖️ “How big is the upside, and how big is the downside risk?”</li>
+</ul>
+<p>The p-value does not directly answer any of those.</p>
+<hr>
+</section>
+<section id="limitations-of-p-values-for-farm-decisions" class="level2">
+<h2 class="anchored" data-anchor-id="limitations-of-p-values-for-farm-decisions">⚠️ Limitations of p-values for farm decisions</h2>
+<p>P-values are useful for researchers, but they are awkward for decision-makers. Some key limitations:</p>
+<section id="they-answer-a-different-question" class="level3">
+<h3 class="anchored" data-anchor-id="they-answer-a-different-question">1️⃣ They answer a different question</h3>
+<ul>
+<li><strong>Statistics question:</strong><br>
+&gt; If the treatment does nothing, how surprising are my data?<br>
+</li>
+<li><strong>Farmer question:</strong><br>
+&gt; Given my data (plus what we knew before), how likely is it that the treatment helps?</li>
+</ul>
+<p>These are related but not the same.</p>
+</section>
+<section id="the-0.05-cutoff-is-arbitrary" class="level3">
+<h3 class="anchored" data-anchor-id="the-0.05-cutoff-is-arbitrary">2️⃣ The 0.05 cutoff is arbitrary</h3>
+<p>A result with <em>p</em> = 0.049 is “significant”; <em>p</em> = 0.051 is “non-significant.”<br>
+In practice, these two situations often provide <strong>very similar evidence</strong>, yet the label changes.</p>
+<p>For communication and decision-making, this can be misleading.</p>
+</section>
+<section id="magnitude-and-economics-can-be-ignored" class="level3">
+<h3 class="anchored" data-anchor-id="magnitude-and-economics-can-be-ignored">3️⃣ Magnitude and economics can be ignored</h3>
+<p>It’s possible to have:</p>
+<ul>
+<li>📌 A <strong>tiny</strong> yield gain with very small p-value (statistically significant but not profitable), or<br>
+</li>
+<li>📌 A <strong>large</strong> yield gain with <em>p</em> = 0.10 (not “significant” at 0.05), which might still be attractive if the downside risk is small.</li>
+</ul>
+<p>Farmers (and advisors) care about <strong>effect size and profit</strong>, not just whether <em>p</em> &lt; 0.05.</p>
+</section>
+<section id="intuition-is-backwards" class="level3">
+<h3 class="anchored" data-anchor-id="intuition-is-backwards">4️⃣ Intuition is backwards</h3>
+<p>The p-value starts from “assume no effect” and asks about the probability of the data.<br>
+But most people naturally think in the Bayesian direction:</p>
+<blockquote class="blockquote">
+<p>Given what I’ve seen, how likely is it that there’s a real effect?</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="a-bayesian-way-to-think-probability-of-benefit" class="level2">
+<h2 class="anchored" data-anchor-id="a-bayesian-way-to-think-probability-of-benefit">🎯 A Bayesian way to think: probability of benefit</h2>
+<p>Bayesian thinking flips the conditioning:</p>
+<blockquote class="blockquote">
+<p>Start with what we already know (prior), then update with new data to get a <strong>posterior</strong>: a direct probability statement about the effect.</p>
+</blockquote>
+<p>Instead of talking about <em>p</em>-values, we talk about <strong>distributions</strong> and <strong>probabilities of benefit</strong>.</p>
+<p>Imagine we combine:</p>
+<ul>
+<li>📚 Prior knowledge (multi-location trials, previous years, expert opinion)<br>
+</li>
+<li>🧪 New data from this year’s on-farm trial</li>
+</ul>
+<p>We might end up with statements like:</p>
+<ul>
+<li>“Given everything we know, there is a <strong>75% chance</strong> that 200 kg N/ha yields at least <strong>0.4 t/ha more</strong> than 150 kg N/ha.”<br>
+</li>
+<li>“There is a <strong>60% chance</strong> that 200 kg N/ha increases <strong>profit</strong> at current prices, and a <strong>20% chance</strong> that it reduces profit by more than $20/ha.”</li>
+</ul>
+<p>This maps much more directly onto real decisions:</p>
+<ul>
+<li>If you are <strong>risk-neutral</strong>, you might choose the treatment with higher expected profit.<br>
+</li>
+<li>If you are <strong>risk-averse</strong>, you might prioritize avoiding the downside and accept a lower expected profit.</li>
+</ul>
+<p>The key point: Bayesian outputs describe <strong>how likely different outcomes are</strong>, which is exactly what farmers care about.</p>
+<hr>
+</section>
+<section id="what-farmers-actually-hear-and-what-they-need" class="level2">
+<h2 class="anchored" data-anchor-id="what-farmers-actually-hear-and-what-they-need">👂 What farmers actually hear (and what they need)</h2>
+<p>In extension work and on-farm research networks, results are often summarized as:</p>
+<ul>
+<li>“The fungicide treatment was not statistically significant.”<br>
+</li>
+<li>“The new practice was significantly better than the control at p &lt; 0.01.”</li>
+</ul>
+<p>From a farmer’s perspective, more helpful summaries would be:</p>
+<ul>
+<li>“Across 10 trials, the fungicide increased yield in <strong>7 out of 10</strong> site-years.”<br>
+</li>
+<li>“Given this data and previous research, there is about a <strong>70% chance</strong> the fungicide increases yield, and about a <strong>50% chance</strong> it increases profit at current prices.”<br>
+</li>
+<li>“The risk of losing more than $20/ha with this fungicide appears <strong>low</strong>.”</li>
+</ul>
+<p>You can deliver this kind of language using fully Bayesian models, or by combining frequentist estimates with simple probability approximations. The important shift is conceptual:</p>
+<blockquote class="blockquote">
+<p>Move from “Is it significant?” to “What is the probability and size of benefit, and what is the risk?”</p>
+</blockquote>
+<hr>
+</section>
+<section id="practical-implications-for-agronomy-and-on-farm-research" class="level2">
+<h2 class="anchored" data-anchor-id="practical-implications-for-agronomy-and-on-farm-research">🧪 Practical implications for agronomy and on-farm research</h2>
+<p>For <strong>researchers and students</strong>:</p>
+<ul>
+<li>🧠 Understanding p-values is still essential because they dominate the scientific literature.</li>
+<li>Always pair p-values with:
+<ul>
+<li>📏 Estimated effect size (e.g., t/ha difference)<br>
+</li>
+<li>📊 Confidence intervals<br>
+</li>
+<li>💸 Economic interpretation</li>
+</ul></li>
+</ul>
+<p>For <strong>farmers and advisors</strong>:</p>
+<ul>
+<li>Emphasize:
+<ul>
+<li>📈 Probability the practice increases yield<br>
+</li>
+<li>💰 Probability it increases profit<br>
+</li>
+<li>⚖️ Distribution of possible outcomes (risk vs reward)</li>
+</ul></li>
+</ul>
+<p>This mindset naturally leads toward a Bayesian way of thinking, even if you don’t explicitly present the statistics as “Bayesian.”</p>
+<hr>
+</section>
+<section id="take-home-messages" class="level2">
+<h2 class="anchored" data-anchor-id="take-home-messages">✅ Take-home messages</h2>
+<ul>
+<li><p><strong>Probabilistic meaning of a p-value:</strong><br>
+[ p = P( H_0&nbsp;) ]<br>
+It is a probability about the <strong>data</strong>, <strong>given</strong> the assumption of no true effect.</p></li>
+<li><p><strong>Farmer relevance:</strong><br>
+P-values help researchers avoid being fooled by noise, but they do <strong>not</strong> directly answer<br>
+&gt; “What are my chances that this will help me?”<br>
+or<br>
+&gt; “Will it pay?”</p></li>
+<li><p><strong>Bayesian perspective:</strong><br>
+Focuses on (P( )): probabilities of <strong>benefit and profit</strong>, which align much better with real decision-making on the farm.</p></li>
+</ul>
+<p>In other words:</p>
+<blockquote class="blockquote">
+<p>🧰 Keep p-values in the statistical toolbox, but speak to farmers in terms of <strong>probabilities of benefit, risk, and profit</strong>—which is, in spirit, a Bayesian way of thinking.</p>
+</blockquote>
 
-
-<!-- -->
 
 </section>
 
@@ -831,57 +815,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       container: window.document.getElementById('quarto-embedded-source-code-modal')
     });
     clipboardModal.on('success', onCopySuccess);
-  }
-  const viewSource = window.document.getElementById('quarto-view-source') ||
-                     window.document.getElementById('quarto-code-tools-source');
-  if (viewSource) {
-    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
-    viewSource.addEventListener("click", function(e) {
-      if (sourceUrl) {
-        // rstudio viewer pane
-        if (/\bcapabilities=\b/.test(window.location)) {
-          window.open(sourceUrl);
-        } else {
-          window.location.href = sourceUrl;
-        }
-      } else {
-        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
-        modal.show();
-      }
-      return false;
-    });
-  }
-  function toggleCodeHandler(show) {
-    return function(e) {
-      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
-      for (let i=0; i<detailsSrc.length; i++) {
-        const details = detailsSrc[i].parentElement;
-        if (show) {
-          details.open = true;
-        } else {
-          details.removeAttribute("open");
-        }
-      }
-      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
-      const fromCls = show ? "hidden" : "unhidden";
-      const toCls = show ? "unhidden" : "hidden";
-      for (let i=0; i<cellCodeDivs.length; i++) {
-        const codeDiv = cellCodeDivs[i];
-        if (codeDiv.classList.contains(fromCls)) {
-          codeDiv.classList.remove(fromCls);
-          codeDiv.classList.add(toCls);
-        } 
-      }
-      return false;
-    }
-  }
-  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
-  if (hideAllCode) {
-    hideAllCode.addEventListener("click", toggleCodeHandler(false));
-  }
-  const showAllCode = window.document.getElementById("quarto-show-all-code");
-  if (showAllCode) {
-    showAllCode.addEventListener("click", toggleCodeHandler(true));
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
@@ -1212,76 +1145,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="../coding/fair_care/fair_care.html" class="pagination-link" aria-label="Fair &amp; Care">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Fair &amp; Care</span>
-      </a>          
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="../outline/outline.html" class="pagination-link" aria-label="Outline">
-        <span class="nav-page-text">Outline</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> PLNT6530|01 - Calendar</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Winter 2026"</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Dr. Adrian Correndo"</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> </span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-title: 'Contents'</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-location: left</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 4</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: false</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">    code-summary: 'Show code'</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">    code-link: true</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="an">highlight-style:</span><span class="co"> pygments</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="an">smooth-scroll:</span><span class="co"> true</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">### Lecture Schedule</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Days:** Wednesdays and Fridays</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Time:** 11:30 am - 12:50 pm</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Location:** CRSC 121B</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">## Calendar</span></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>The course runs on Wednesdays and Fridays from 1:00 PM to 2:20 PM. Below is the *tentative* schedule. Please, note the schedule may vary depending on the progress of the class.</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>| **Week** | **Date** | **Topic** | **Material** | **Lesson** |</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>|----|----|----|----|----|</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>| 1 | Jan 7 | Introductions, Reproducibility | <span class="co">[</span><span class="ot">🌐</span><span class="co">](https://adriancorrendo.github.io/plnt6530/slides/day1.html)</span> | <span class="co">[</span><span class="ot">🎥</span><span class="co">](https://zoom.us/rec/share/Dy07MqKf8Lx3VLxAACAzqIXpyB7X4XbhmvZm5tDB9P9quDB4TVwkoMeH2wbAEmqD.kEaLkBlHprEaHDje?startTime=1767803962000)</span> |</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>|  | Jan 09 | Essentials of Quarto and R | <span class="co">[</span><span class="ot">🌐</span><span class="co">](https://adriancorrendo.github.io/plnt6530/coding/week_01/essentials_01.html)</span> | <span class="co">[</span><span class="ot">🎥</span><span class="co">](https://zoom.us/rec/share/9pvpNY1H692JIBCaNP6V2O0X_FT7Wk-NNt-XI--9YBxxPRcLq38Uzj0klFyIuCoa.dH46A2XtLbzb1QSN)</span> |</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>| 2 | Jan 14 | Fundamentals of R packages | <span class="co">[</span><span class="ot">🌐</span><span class="co">](http://adriancorrendo.github.io/plnt6530/coding/week_02/02_fundamentals_rpackages.html)</span> | <span class="co">[</span><span class="ot">🎥</span><span class="co">](https://zoom.us/rec/share/ZTz6M5yfomA_H39p4RxZQpWMEfTj3OHqbXGY3Daw7MW6NIIBr7VkMax8VUaPLqSy.bzuwDd7Ci29MpLB2?startTime=1768408473000)</span> |</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>|  | Jan 16 | Basics of version control &amp; GitHub | <span class="co">[</span><span class="ot">🌐</span><span class="co">](https://adriancorrendo.github.io/plnt6530/coding/week_02/03_versioncontrol.html)</span> | <span class="co">[</span><span class="ot">🎥</span><span class="co">](https://zoom.us/rec/share/BWba1XKsMaqqqQ5WdM8CVYpCo7wE-nF78oYsHI5VLbjPxxciuu0LdphpU-M6F3ry.IL4B83T_ZqKyA3gQ?startTime=1768581227000)</span> |</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>| 3 | Jan 21 | Data Wrangling I | 🌐 | 🎥 |</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>|  | Jan 23 | Data Wrangling II | 🌐 | 🎥 |</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>| 4 | Jan 28 | Data Wrangling III | 🌐 | 🎥 |</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>|  | Jan 30 | Data Viz I: ggplot2 basics | 🌐 | 🎥 |</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>| 5 | Feb 04 | Data Viz II: Multiple plots | 🌐 | 🎥 |</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>|  | Feb 06 | Data Viz III: Advanced plots, maps | 🌐 | 🎥 |</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>| 6 | Feb 11 | Iteration: Loops &amp; Mapping | 🌐 | 🎥 |</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>|  | Feb 13 | Weather Data: Retrieving &amp; Processing | 🌐 | 🎥 |</span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>|  |  | *Winter Break begins after the end of class* |  |  |</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>| 7 | Feb 25 | Models I: TBD | 🌐 | 🎥 |</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>|  | Feb 27 | Models II: TBD | 🌐 | 🎥 |</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>| 8 | Mar 04 | Models III: TBD | 🌐 | 🎥 |</span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>|  | Mar 06 | Models IV: TBD | 🌐 | 🎥 |</span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>| 9 | Mar 11 | Models V: TBD | 🌐 | 🎥 |</span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>|  | Mar 13 | Models VI: TBD | 🌐 | 🎥 |</span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>| 10 | Mar 18 | Models VII: TBD | 🌐 | 🎥 |</span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>|  | Mar 20 | Models VIII: TBD | 🌐 | 🎥 |</span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>| 11 | Mar 25 | Advanced Quarto tricks | 🌐 | 🎥 |</span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>|  | Mar 27 | General Review class | 🌐 | 🎥 |</span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>| 12 | Apr 01 | Semester Projects Presentations I | 🌐 |  |</span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>|  | Apr 03 | Semester Projects Presentations II | 🌐 |  |</span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>| 13 | Apr 10 | Final Exam Due (11.59 pm) | 🌐 |  |</span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
-</div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
@@ -1300,5 +1163,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

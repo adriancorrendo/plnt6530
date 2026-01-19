@@ -32,7 +32,7 @@ The course runs on Wednesdays and Fridays from 1:00 PM to 2:20 PM. Below is the 
 | 1 | Jan 7 | Introductions, Reproducibility | [🌐](https://adriancorrendo.github.io/plnt6530/slides/day1.html) | [🎥](https://zoom.us/rec/share/Dy07MqKf8Lx3VLxAACAzqIXpyB7X4XbhmvZm5tDB9P9quDB4TVwkoMeH2wbAEmqD.kEaLkBlHprEaHDje?startTime=1767803962000) |
 |  | Jan 09 | Essentials of Quarto and R | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_01/essentials_01.html) | [🎥](https://zoom.us/rec/share/9pvpNY1H692JIBCaNP6V2O0X_FT7Wk-NNt-XI--9YBxxPRcLq38Uzj0klFyIuCoa.dH46A2XtLbzb1QSN) |
 | 2 | Jan 14 | Fundamentals of R packages | [🌐](http://adriancorrendo.github.io/plnt6530/coding/week_02/02_fundamentals_rpackages.html) | [🎥](https://zoom.us/rec/share/ZTz6M5yfomA_H39p4RxZQpWMEfTj3OHqbXGY3Daw7MW6NIIBr7VkMax8VUaPLqSy.bzuwDd7Ci29MpLB2?startTime=1768408473000) |
-|  | Jan 16 | Basics of version control & GitHub | 🌐 | 🎥 |
+|  | Jan 16 | Basics of version control & GitHub | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_02/03_versioncontrol.html) | [🎥](https://zoom.us/rec/share/BWba1XKsMaqqqQ5WdM8CVYpCo7wE-nF78oYsHI5VLbjPxxciuu0LdphpU-M6F3ry.IL4B83T_ZqKyA3gQ?startTime=1768581227000) |
 | 3 | Jan 21 | Data Wrangling I | 🌐 | 🎥 |
 |  | Jan 23 | Data Wrangling II | 🌐 | 🎥 |
 | 4 | Jan 28 | Data Wrangling III | 🌐 | 🎥 |
