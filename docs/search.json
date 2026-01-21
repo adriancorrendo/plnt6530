@@ -1,0 +1,1716 @@
+[
+  {
+    "objectID": "coding/extras/p_value.html",
+    "href": "coding/extras/p_value.html",
+    "title": "What Does a p-value Really Mean?",
+    "section": "",
+    "text": "Modern agriculture is full of experiments:\n\n🚜 Does this new fungicide really pay?\n🌱 Should I push nitrogen from 150 to 200 kg N/ha?\n🧪 Is this biological product doing anything, or is it just marketing?\n\nWhen agronomists and researchers answer these questions, they often report p-values:\n“Yield increase was significant at p &lt; 0.05.”\nBut what does that actually mean, probabilistically?\nAnd more importantly: does it answer the questions farmers care about?\nThis short article unpacks the meaning of a p-value and contrasts it with a more intuitive, Bayesian way to talk about probability for farm decisions.",
+    "crumbs": [
+      "Extras",
+      "p-value"
+    ]
+  },
+  {
+    "objectID": "coding/extras/p_value.html#why-talk-about-p-values-on-the-farm",
+    "href": "coding/extras/p_value.html#why-talk-about-p-values-on-the-farm",
+    "title": "What Does a p-value Really Mean?",
+    "section": "",
+    "text": "Modern agriculture is full of experiments:\n\n🚜 Does this new fungicide really pay?\n🌱 Should I push nitrogen from 150 to 200 kg N/ha?\n🧪 Is this biological product doing anything, or is it just marketing?\n\nWhen agronomists and researchers answer these questions, they often report p-values:\n“Yield increase was significant at p &lt; 0.05.”\nBut what does that actually mean, probabilistically?\nAnd more importantly: does it answer the questions farmers care about?\nThis short article unpacks the meaning of a p-value and contrasts it with a more intuitive, Bayesian way to talk about probability for farm decisions.",
+    "crumbs": [
+      "Extras",
+      "p-value"
+    ]
+  },
+  {
+    "objectID": "coding/extras/p_value.html#what-is-a-p-value-probabilistically",
+    "href": "coding/extras/p_value.html#what-is-a-p-value-probabilistically",
+    "title": "What Does a p-value Really Mean?",
+    "section": "🎲 What is a p-value, probabilistically?",
+    "text": "🎲 What is a p-value, probabilistically?\nSuppose we are testing:\n\nH₀ (null hypothesis): there is no true difference between two treatments\n\nH₁ (alternative): there is a true difference\n\nWe run an experiment, calculate a test statistic (like a t-statistic), and obtain a p-value.\nProbabilistic definition:\n\nThe p-value is the probability of observing data at least as extreme as what we observed, if the null hypothesis were true.\n\nIn mathematical notation:\n[ p = P( H_0 ) ]\nSo if p = 0.03, it means:\n\nIf there were truly no effect, then in repeated experiments you would see a result this extreme (or more extreme) only 3% of the time, just by random chance.\n\nIt does not mean:\n\n❌ “There is a 3% chance the null is true.”\n\n❌ “There is a 97% chance the treatment works.”\n\n❌ “There is a 3% chance this result is due to chance.”\n\nThe key is the direction of the conditioning:\n\np-value: probability of the data, given H₀\n\nWhat farmers want: probability of H₀ or H₁, given the data\n\nThese are not the same thing.",
+    "crumbs": [
+      "Extras",
+      "p-value"
+    ]
+  },
+  {
+    "objectID": "coding/extras/p_value.html#an-agronomy-example-nitrogen-rate-comparison",
+    "href": "coding/extras/p_value.html#an-agronomy-example-nitrogen-rate-comparison",
+    "title": "What Does a p-value Really Mean?",
+    "section": "🌱 An agronomy example: nitrogen rate comparison",
+    "text": "🌱 An agronomy example: nitrogen rate comparison\nImagine a trial comparing 150 vs 200 kg N/ha in corn across several fields.\nYou find:\n\n🌽 Mean yield difference: +0.6 t/ha (200 &gt; 150)\n\n📉 p-value: 0.04\n\nThe strict interpretation is:\n\nIf there were really no yield difference between 150 and 200 kg N/ha, you would see a difference of 0.6 t/ha or larger (in either direction) only about 4 times in 100 experiments like this.\n\nStatistically, we might say this result is “significant at the 5% level.”\nBut the farmer’s questions are different:\n\n💭 “What is the chance that 200 kg N/ha will actually give me more yield this year?”\n\n💰 “What is the chance it will give me more profit, considering N price and grain price?”\n\n⚖️ “How big is the upside, and how big is the downside risk?”\n\nThe p-value does not directly answer any of those.",
+    "crumbs": [
+      "Extras",
+      "p-value"
+    ]
+  },
+  {
+    "objectID": "coding/extras/p_value.html#limitations-of-p-values-for-farm-decisions",
+    "href": "coding/extras/p_value.html#limitations-of-p-values-for-farm-decisions",
+    "title": "What Does a p-value Really Mean?",
+    "section": "⚠️ Limitations of p-values for farm decisions",
+    "text": "⚠️ Limitations of p-values for farm decisions\nP-values are useful for researchers, but they are awkward for decision-makers. Some key limitations:\n\n1️⃣ They answer a different question\n\nStatistics question:\n&gt; If the treatment does nothing, how surprising is my data?\n\nFarmer question:\n&gt; Given my data (plus what we knew before), how likely is it that the treatment helps?\n\nThese are related but not the same.\n\n\n2️⃣ The 0.05 cutoff is arbitrary\nA result with p = 0.049 is “significant”; p = 0.051 is “non-significant.”\nIn practice, these two situations often provide very similar evidence, yet the label changes.\nFor communication and decision-making, this can be misleading.\n\n\n3️⃣ Magnitude and economics can be ignored\nIt’s possible to have:\n\n📌 A tiny yield gain with very small p-value (statistically significant but not profitable), or\n\n📌 A large yield gain with p = 0.10 (not “significant” at 0.05), which might still be attractive if the downside risk is small.\n\nFarmers (and advisors) care about effect size and profit, not just whether p &lt; 0.05.\n\n\n4️⃣ Intuition is backwards\nThe p-value starts from assumming “no-effect” and asks about the probability of the data.\nBut most people naturally think in the Bayesian direction:\n\nGiven what I’ve seen, how likely is it that there’s a real effect?",
+    "crumbs": [
+      "Extras",
+      "p-value"
+    ]
+  },
+  {
+    "objectID": "coding/extras/p_value.html#a-bayesian-way-to-think-probability-of-benefit",
+    "href": "coding/extras/p_value.html#a-bayesian-way-to-think-probability-of-benefit",
+    "title": "What Does a p-value Really Mean?",
+    "section": "🎯 A Bayesian way to think: probability of benefit",
+    "text": "🎯 A Bayesian way to think: probability of benefit\nBayesian thinking flips the conditioning:\n\nStart with what we already know (prior), then update with new data to get a posterior: a direct probability statement about the effect.\n\nInstead of talking about p-values, we talk about distributions and probabilities of benefit.\nImagine we combine:\n\n📚 Prior knowledge (multi-location trials, previous years, expert opinion)\n\n🧪 New data from this year’s on-farm trial\n\nWe might end up with statements like:\n\n“Given everything we know, there is a 75% chance that 200 kg N/ha yields at least 0.4 t/ha more than 150 kg N/ha.”\n\n“There is a 60% chance that 200 kg N/ha increases profit at current prices, and a 20% chance that it reduces profit by more than $20/ha.”\n\nThis maps much more directly onto real decisions:\n\nIf you are risk-neutral, you might choose the treatment with higher expected profit.\n\nIf you are risk-averse, you might prioritize avoiding the downside and accept a lower expected profit.\n\nThe key point: Bayesian outputs describe how likely different outcomes are, which is exactly what farmers care about.",
+    "crumbs": [
+      "Extras",
+      "p-value"
+    ]
+  },
+  {
+    "objectID": "coding/extras/p_value.html#what-farmers-actually-hear-and-what-they-need",
+    "href": "coding/extras/p_value.html#what-farmers-actually-hear-and-what-they-need",
+    "title": "What Does a p-value Really Mean?",
+    "section": "👂 What farmers actually hear (and what they need)",
+    "text": "👂 What farmers actually hear (and what they need)\nIn extension work and on-farm research networks, results are often summarized as:\n\n“The fungicide treatment was not statistically significant.”\n\n“The new practice was significantly better than the control at p &lt; 0.01.”\n\nFrom a farmer’s perspective, more helpful summaries would be:\n\n“Across 10 trials, the fungicide increased yield in 7 out of 10 site-years.”\n\n“Given this data and previous research, there is about a 70% chance the fungicide increases yield, and about a 50% chance it increases profit at current prices.”\n\n“The risk of losing more than $20/ha with this fungicide appears low.”\n\nYou can deliver this kind of language using fully Bayesian models, or by combining frequentist estimates with simple probability approximations. The important shift is conceptual:\n\nMove from “Is it significant?” to “What is the probability and size of benefit, and what is the risk?”",
+    "crumbs": [
+      "Extras",
+      "p-value"
+    ]
+  },
+  {
+    "objectID": "coding/extras/p_value.html#practical-implications-for-agronomy-and-on-farm-research",
+    "href": "coding/extras/p_value.html#practical-implications-for-agronomy-and-on-farm-research",
+    "title": "What Does a p-value Really Mean?",
+    "section": "🧪 Practical implications for agronomy and on-farm research",
+    "text": "🧪 Practical implications for agronomy and on-farm research\nFor researchers and students:\n\n🧠 Understanding p-values is still essential because they dominate the scientific literature.\nAlways pair p-values with:\n\n📏 Estimated effect size (e.g., t/ha difference)\n\n📊 Confidence (or credibility) intervals\n\n💸 Economic interpretation\n\n\nFor farmers and advisors:\n\nEmphasize:\n\n📈 Probability the practice increases yield\n\n💰 Probability it increases profit\n\n⚖️ Distribution of possible outcomes (risk vs reward)\n\n\nThis mindset naturally leads toward a Bayesian way of thinking, even if you don’t explicitly present the statistics as “Bayesian.”",
+    "crumbs": [
+      "Extras",
+      "p-value"
+    ]
+  },
+  {
+    "objectID": "coding/extras/p_value.html#take-home-messages",
+    "href": "coding/extras/p_value.html#take-home-messages",
+    "title": "What Does a p-value Really Mean?",
+    "section": "✅ Take-home messages",
+    "text": "✅ Take-home messages\n\nProbabilistic meaning of a p-value:\n[ p = P( H_0 ) ]\nIt is a probability about the data, given the assumption of no true effect.\nFarmer relevance:\nP-values help researchers avoid being fooled by noise, but they do not directly answer\n&gt; “What are my chances that this will help me?”\nor\n&gt; “Will it pay?”\nBayesian perspective:\nFocuses on (P( )): probabilities of benefit and profit, which align much better with real decision-making on the farm.\n\nIn other words:\n\n🧰 Keep p-values in the statistical toolbox, but speak to farmers in terms of probabilities of benefit, risk, and profit—which is, in spirit, a Bayesian way of thinking.",
+    "crumbs": [
+      "Extras",
+      "p-value"
+    ]
+  },
+  {
+    "objectID": "coding/extras/fair_care.html",
+    "href": "coding/extras/fair_care.html",
+    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
+    "section": "",
+    "text": "When we learn coding, we often focus on how to analyze data. But in real projects, the hardest (and most important) questions are often:\n\nShould we collect/share this data at all?\nWho could be harmed if it’s misused?\nHow do we make data useful without losing trust or violating rights?\n\nGood data management protects three things:\n\nPrivacy 🔒 — preventing inappropriate exposure of personal or sensitive information\n\nIntegrity ✅ — ensuring data aren’t altered, corrupted, or misrepresented\n\nValue 💡 — making data understandable and reusable so it can support learning, decisions, and research",
+    "crumbs": [
+      "Extras",
+      "Fair & Care"
+    ]
+  },
+  {
+    "objectID": "coding/extras/fair_care.html#why-talk-about-data-protection-in-a-coding-class",
+    "href": "coding/extras/fair_care.html#why-talk-about-data-protection-in-a-coding-class",
+    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
+    "section": "",
+    "text": "When we learn coding, we often focus on how to analyze data. But in real projects, the hardest (and most important) questions are often:\n\nShould we collect/share this data at all?\nWho could be harmed if it’s misused?\nHow do we make data useful without losing trust or violating rights?\n\nGood data management protects three things:\n\nPrivacy 🔒 — preventing inappropriate exposure of personal or sensitive information\n\nIntegrity ✅ — ensuring data aren’t altered, corrupted, or misrepresented\n\nValue 💡 — making data understandable and reusable so it can support learning, decisions, and research",
+    "crumbs": [
+      "Extras",
+      "Fair & Care"
+    ]
+  },
+  {
+    "objectID": "coding/extras/fair_care.html#fair-principles",
+    "href": "coding/extras/fair_care.html#fair-principles",
+    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
+    "section": "2 ✨ FAIR principles",
+    "text": "2 ✨ FAIR principles\nFAIR is about making data (and metadata) easy to discover and reuse—by both people and computers.\n\nFindable: others can locate the dataset (titles, keywords, metadata, persistent links)\nAccessible: it can be retrieved in a controlled way (open when possible, restricted when needed)\nInteroperable: it uses standard formats and vocabularies so tools can combine it with other data\nReusable: it includes enough context (methods, units, codes, license) to be reused correctly\n\n\n\n\n\n\n\n✅ Key idea\n\n\n\nFAIR does not mean “open.”\nData can be restricted and still be FAIR if it is well-described and the access conditions are clear.",
+    "crumbs": [
+      "Extras",
+      "Fair & Care"
+    ]
+  },
+  {
+    "objectID": "coding/extras/fair_care.html#care-principles",
+    "href": "coding/extras/fair_care.html#care-principles",
+    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
+    "section": "3 🌿 CARE principles",
+    "text": "3 🌿 CARE principles\nCARE focuses on the people and communities behind data, especially when data relate to Indigenous Peoples and Indigenous Knowledge.\n\nCollective benefit: data use should support community wellbeing (not just outside interests)\nAuthority to control: communities have rights and interests in how data are collected, accessed, and used\nResponsibility: users of data must be accountable and support respectful relationships\nEthics: data use should minimize harm and align with community values and consent\n\n\n\n\n\n\n\n🧭 Key idea\n\n\n\nCARE emphasizes rights, power, relationships, and purpose—not just technical usability.",
+    "crumbs": [
+      "Extras",
+      "Fair & Care"
+    ]
+  },
+  {
+    "objectID": "coding/extras/fair_care.html#fair-care-together",
+    "href": "coding/extras/fair_care.html#fair-care-together",
+    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
+    "section": "4 🧩 FAIR + CARE together",
+    "text": "4 🧩 FAIR + CARE together\nFAIR and CARE answer different questions:\n\nFAIR asks: Can this dataset be found and reused properly?\nCARE asks: Should it be used this way, and who benefits or could be harmed?\n\nThey complement each other:\n\nYou can make data technically reusable (FAIR) while still respecting rights, consent, and community governance (CARE).\nA dataset can be well-organized but still inappropriate to share if it ignores authority, consent, or potential harm.\n\n\n\n\n\n\n\n⭐ Takeaway\n\n\n\nFAIR improves reusability. CARE protects people and communities.\nStrong data practice needs both.",
+    "crumbs": [
+      "Extras",
+      "Fair & Care"
+    ]
+  },
+  {
+    "objectID": "coding/extras/fair_care.html#practical-checklist-for-student-projects",
+    "href": "coding/extras/fair_care.html#practical-checklist-for-student-projects",
+    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
+    "section": "5 ✅ Practical checklist for student projects",
+    "text": "5 ✅ Practical checklist for student projects\nUse this before sharing data, code, or a repository.\n\n5.1 🔒 1) Privacy & sensitivity\n\nDoes the dataset include personal, confidential, location-based, or culturally sensitive information?\nHave you removed identifiers (when appropriate) and documented what was removed?\nAre access rules clear (open vs restricted)?\n\n\n\n\n\n\n\n⚠️ Caution\n\n\n\nEven if you remove names, small datasets + detailed locations + rare characteristics can still identify people or communities.\n\n\n\n\n5.2 ✅ 2) Integrity & trust\n\nDo you track versions of files (e.g., Git commits, file naming, or release tags)?\nCan someone reproduce your results from your code + data description?\nDid you document cleaning steps and assumptions?\n\n\n\n5.3 ✨ 3) FAIR basics\n\nIs there a clear README describing what the dataset is and how to use it?\nAre variables explained (a data dictionary)?\nAre formats standard (e.g., .csv, consistent units, consistent column names)?\nIs there a license or clear re-use statement?\n\n\n\n5.4 🌿 4) CARE basics\n\nWho does the data describe, and who should have a say in how it is used?\nDoes the project involve Indigenous data or knowledge?\nDo you have permission/consent and the right governance process for use and sharing?\nCan you explain who benefits from this work and how potential harms are reduced?",
+    "crumbs": [
+      "Extras",
+      "Fair & Care"
+    ]
+  },
+  {
+    "objectID": "coding/extras/fair_care.html#in-a-nutshell",
+    "href": "coding/extras/fair_care.html#in-a-nutshell",
+    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
+    "section": "6 🏁 In a nutshell",
+    "text": "6 🏁 In a nutshell\n\nFAIR helps others use data well. \nCARE helps ensure data use is right and respectful. \nTogether, they help protect privacy, integrity, and the value of data. 🛡️",
+    "crumbs": [
+      "Extras",
+      "Fair & Care"
+    ]
+  },
+  {
+    "objectID": "coding/extras/fair_care.html#to-think-about",
+    "href": "coding/extras/fair_care.html#to-think-about",
+    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
+    "section": "7 🗣️To think about…",
+    "text": "7 🗣️To think about…\nPick one scenario:\n\nA dataset contains farm trial results with GPS coordinates\n\nA dataset includes survey responses from a small community\n\nA dataset includes information related to Indigenous lands, communities, or knowledge\n\nConsider the following questions: - What could go wrong if the data are shared publicly? - What would you do to make the project more FAIR? - What CARE questions should be asked before publishing?\n\n\n\n\n\n\n🧠 Optional prompt\n\n\n\nWrite a 3–4 sentence “sharing decision” for your scenario:  - What will be shared?  - What will be restricted (and why)?  - How will you document access conditions and responsibilities?",
+    "crumbs": [
+      "Extras",
+      "Fair & Care"
+    ]
+  },
+  {
+    "objectID": "coding/extras/fair_care.html#suggested-reading",
+    "href": "coding/extras/fair_care.html#suggested-reading",
+    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
+    "section": "8 📚 Suggested reading",
+    "text": "8 📚 Suggested reading\n\n8.1 ✨ FAIR\n\nFAIR Guiding Principles (Wilkinson et al., 2016)\n\nGO FAIR overview\n\nThe Turing Way Book\n\n\n\n8.2 🌿 CARE + Indigenous Data Governance\n\nGlobal Indigenous Data Alliance (CARE): https://www.gida-global.org/care\n\nCARE principles paper (Carroll et al., 2020)\n\n\n\n8.3 🧩 FAIR + CARE together\n\nOperationalizing FAIR + CARE (Carroll et al., 2021)",
+    "crumbs": [
+      "Extras",
+      "Fair & Care"
+    ]
+  },
+  {
+    "objectID": "coding/week_01/essentials_01.html",
+    "href": "coding/week_01/essentials_01.html",
+    "title": "Essentials of R coding I",
+    "section": "",
+    "text": "This page provides an overview of the essential types of elements in R, including examples and explanations for each. Use this as a quick reference to understand the basics of data types and operations.",
+    "crumbs": [
+      "Lessons",
+      "01-Essentials of R"
+    ]
+  },
+  {
+    "objectID": "coding/week_01/essentials_01.html#numbers",
+    "href": "coding/week_01/essentials_01.html#numbers",
+    "title": "Essentials of R coding I",
+    "section": "01. Numbers",
+    "text": "01. Numbers\n\n20\n\n[1] 20",
+    "crumbs": [
+      "Lessons",
+      "01-Essentials of R"
+    ]
+  },
+  {
+    "objectID": "coding/week_01/essentials_01.html#math-operations",
+    "href": "coding/week_01/essentials_01.html#math-operations",
+    "title": "Essentials of R coding I",
+    "section": "02. Math Operations",
+    "text": "02. Math Operations\n\n20+1 # addition\n\n[1] 21\n\n20-4 # subtraction\n\n[1] 16\n\n20*5 # multiplication\n\n[1] 100\n\n20/5 # division\n\n[1] 4\n\n2^2 # exponentials\n\n[1] 4\n\nsqrt(9) # square root\n\n[1] 3\n\n# Greater exponents for roots\n# notation is: x^(1/n)\n\n# Cubic root of 27\n27^(1/3)  # Result: 3\n\n[1] 3\n\n# 4th root of 16\n16^(1/4)  # Result: 2\n\n[1] 2\n\n# 5th root of 32\n32^(1/5)  # Result: 2\n\n[1] 2",
+    "crumbs": [
+      "Lessons",
+      "01-Essentials of R"
+    ]
+  },
+  {
+    "objectID": "coding/week_01/essentials_01.html#text-or-characters-also-called-strings",
+    "href": "coding/week_01/essentials_01.html#text-or-characters-also-called-strings",
+    "title": "Essentials of R coding I",
+    "section": "03. Text or characters (also called strings)",
+    "text": "03. Text or characters (also called strings)\n\n\"coding is fun\"\n\n[1] \"coding is fun\"\n\n\nBut these elements are not stored as objects yet:",
+    "crumbs": [
+      "Lessons",
+      "01-Essentials of R"
+    ]
+  },
+  {
+    "objectID": "coding/week_01/essentials_01.html#define-objects",
+    "href": "coding/week_01/essentials_01.html#define-objects",
+    "title": "Essentials of R coding I",
+    "section": "04. Define objects",
+    "text": "04. Define objects\n\na &lt;- 20\n10 -&gt; b\n# We can also use equal:\nc = 15\n# But using \"&lt;-\", and leave = only for operations (so you can notice the difference) is considered a better coding practice.",
+    "crumbs": [
+      "Lessons",
+      "01-Essentials of R"
+    ]
+  },
+  {
+    "objectID": "coding/week_01/essentials_01.html#print-objects",
+    "href": "coding/week_01/essentials_01.html#print-objects",
+    "title": "Essentials of R coding I",
+    "section": "05. Print objects",
+    "text": "05. Print objects\n\na\n\n[1] 20\n\nprint(a)\n\n[1] 20\n\nb\n\n[1] 10\n\nc\n\n[1] 15",
+    "crumbs": [
+      "Lessons",
+      "01-Essentials of R"
+    ]
+  },
+  {
+    "objectID": "coding/week_01/essentials_01.html#vectors",
+    "href": "coding/week_01/essentials_01.html#vectors",
+    "title": "Essentials of R coding I",
+    "section": "06. Vectors",
+    "text": "06. Vectors\nA vector is one of the most basic data structures. It is a sequence of elements of the same type, such as numbers, characters, or logical values. Vectors are used to store and manipulate collections of data efficiently. \n\na. Creating a vector\nVectors can be created using the c() function (combine function):\n\n# Numeric vector\nnumeric_vector &lt;- c(1, 2, 3, 4.5)\nnumeric_vector\n\n[1] 1.0 2.0 3.0 4.5\n\n# Character vector\ncharacter_vector &lt;- c(\"corn\", \"wheat\", \"soybean\")\ncharacter_vector\n\n[1] \"corn\"    \"wheat\"   \"soybean\"\n\n# Logical vector\nlogical_vector &lt;- c(TRUE, FALSE, TRUE)\nlogical_vector\n\n[1]  TRUE FALSE  TRUE\n\n\n\n\nb. Accessing Elements\nYou can access elements of a vector using square brackets []:\n\n# Access the first element\nnumeric_vector[1]\n\n[1] 1\n\n# Access multiple elements\nnumeric_vector[c(1, 3)]\n\n[1] 1 3\n\n\n\n\nc. Vectorized Operations\nIn R, vector-operations are applied to each element automatically:\n\n# Adding a scalar to a vector\nnumeric_vector + 2\n\n[1] 3.0 4.0 5.0 6.5\n\n# Element-wise addition\nnumeric_vector + c(10, 20, 30, 40)\n\n[1] 11.0 22.0 33.0 44.5\n\n\n\n\nd. Common Functions with Vectors\n\n‘length()’: Get the number of elements in a vector.\n‘typeof()’ or ‘class()’: Determine the type of elements in a vector.\n‘seq()’: Generate a sequence of numbers.\n‘rep()’: Repeat elements to create a vector.",
+    "crumbs": [
+      "Lessons",
+      "01-Essentials of R"
+    ]
+  },
+  {
+    "objectID": "coding/week_01/essentials_01.html#lists",
+    "href": "coding/week_01/essentials_01.html#lists",
+    "title": "Essentials of R coding I",
+    "section": "07. Lists",
+    "text": "07. Lists\nIn R, a list is a versatile data structure that can contain elements of different types, including vectors, matrices, data frames, and even other lists. Unlike vectors, which are homogeneous, lists are heterogeneous, meaning their elements can be of different data types and lengths. \nKey Characteristics of Lists: \n\nHeterogeneous: Lists can store elements of varying types (numeric, character, logical, etc.) and structures (vectors, data frames, functions, etc.). \nIndexed: Elements in a list are accessed using double square brackets [[ ]] or named elements using $.\n\nWhy Use Lists? \n\nFlexibility: Lists can store complex and nested data structures. \nData Wrangling: Useful for handling results from models, nested data, or any mixed-type collections. \nFunctions: Functions in R often return their output as lists (e.g., lm()). \n\n\na. Creating a list\nLists are created using the list() function:\n\n# Create a list with different types of elements\nmy_list &lt;- list(\n  \"numeric_v\" = numeric_vector,\n  \"character_v\" = character_vector,\n  \"single_number\" = 42,\n  \"logical_value\" = TRUE\n)\n\n\n\nb. Accessing Elements in a List\nYou can access elements in a list by their position or name:\nBy Position:\n\n# Access the first element\nmy_list[[1]]\n\n[1] 1.0 2.0 3.0 4.5\n\n# Access the second element\nmy_list[[2]]\n\n[1] \"corn\"    \"wheat\"   \"soybean\"\n\n\nBy name:\n\n# Access by name\nmy_list$numeric_v\n\n[1] 1.0 2.0 3.0 4.5\n\nmy_list$character_v\n\n[1] \"corn\"    \"wheat\"   \"soybean\"\n\n\nSubelements:\n\n# Access the first value in the numeric vector\nmy_list$numeric_vector[1]\n\nNULL\n\n\n\n\nc. Some functions for lists\n\n# Number of elements in the list\nlength(my_list)\n\n[1] 4\n\n# Names of the elements\nnames(my_list)\n\n[1] \"numeric_v\"     \"character_v\"   \"single_number\" \"logical_value\"\n\n# Structure of the list\nstr(my_list)\n\nList of 4\n $ numeric_v    : num [1:4] 1 2 3 4.5\n $ character_v  : chr [1:3] \"corn\" \"wheat\" \"soybean\"\n $ single_number: num 42\n $ logical_value: logi TRUE",
+    "crumbs": [
+      "Lessons",
+      "01-Essentials of R"
+    ]
+  },
+  {
+    "objectID": "coding/week_01/essentials_01.html#data-frame",
+    "href": "coding/week_01/essentials_01.html#data-frame",
+    "title": "Essentials of R coding I",
+    "section": "08. Data frame",
+    "text": "08. Data frame\nIn R, a data frame is a two-dimensional data structure used for storing tabular data. It is one of the most commonly used data structures in R for data analysis and manipulation. \nKey Characteristics of a Data Frame \n\nTabular Structure: Data is organized in rows and columns. \nHeterogeneous Columns: Each column can contain different data types (e.g., numeric, character, logical), but all elements in a column must be of the same type. \nRow and Column Names: Rows and columns can have names for easier identification. \n\nWhy Use a Data Frame? \n\nData Analysis: It is ideal for representing structured data like spreadsheets or databases. \nFlexible Operations: Columns can be easily added, removed, or modified. \nIntegration with R Functions: Many R functions for statistical modeling and analysis expect data frames as input. \n\n\na. Creating a Data Frame\nA data frame can be created using the data.frame() function:\n\n# Create a data frame\nmy_data &lt;- data.frame(\n  Crop = c(\"Corn\", \"Wheat\", \"Soybean\"), # Character column\n  Yield = c(180, 90, 50), # Numeric column\n  Legume = c(FALSE, FALSE, TRUE) # Logical column\n)\n\nprint(my_data)\n\n     Crop Yield Legume\n1    Corn   180  FALSE\n2   Wheat    90  FALSE\n3 Soybean    50   TRUE\n\n\n\n\nb. Accessing data in a data frame\nAccessing columns:\n\n# Access a column by name\nmy_data$Crop\n\n[1] \"Corn\"    \"Wheat\"   \"Soybean\"\n\n# Access a column by index\nmy_data[, 2]\n\n[1] 180  90  50\n\n\nAccessing rows:\n\n# Access the first row\nmy_data[1, ]\n\n  Crop Yield Legume\n1 Corn   180  FALSE\n\n# Access specific rows\nmy_data[c(1, 3), ]\n\n     Crop Yield Legume\n1    Corn   180  FALSE\n3 Soybean    50   TRUE\n\n\nAccessing specific elements\n\n# Access the element in the 2nd row, 3rd column\nmy_data[2, 3]\n\n[1] FALSE\n\n# Access specific cells by column name\nmy_data[2, \"Crop\"]\n\n[1] \"Wheat\"\n\n\n\n\nc. Adding a new column\n\nmy_data$Season &lt;- c(\"Summer\", \"Winter\", \"Summer\")\n\n\n\nd. Modify a column\n\nmy_data$Yield &lt;- my_data$Yield + 5\n\n\n\ne. Adding a new row\nIn base R, we can use rbind() to add rows:\n\nnew_row &lt;- data.frame(Crop = \"Barley\", Yield = 80, Legume = FALSE, Season = \"Winter\")\nmy_data &lt;- rbind(my_data, new_row)\n\n\n\nf. Filtering (rows)\nIn base R, we can use subset() to filter rows:\n\nsubset(my_data, Yield &gt; 150)\n\n  Crop Yield Legume Season\n1 Corn   185  FALSE Summer\n\n\nWe can also use logical conditions:\n\nmy_data[my_data$Legume == TRUE, ]\n\n     Crop Yield Legume Season\n3 Soybean    55   TRUE Summer\n\n\n\n\ng. Selecting (columns)\nIn base R, there is no function to select columns. We need to use brackets [] and vectors c():\n\nmy_data[c(\"Crop\", \"Yield\")]\n\n     Crop Yield\n1    Corn   185\n2   Wheat    95\n3 Soybean    55\n4  Barley    80\n\n\n\n\nh. Some functions for data frames\n\nnrow(my_data)        # Number of rows\n\n[1] 4\n\nncol(my_data)        # Number of columns\n\n[1] 4\n\ncolnames(my_data)    # Column names\n\n[1] \"Crop\"   \"Yield\"  \"Legume\" \"Season\"\n\nsummary(my_data)     # Summary statistics\n\n     Crop               Yield          Legume           Season         \n Length:4           Min.   : 55.00   Mode :logical   Length:4          \n Class :character   1st Qu.: 73.75   FALSE:3         Class :character  \n Mode  :character   Median : 87.50   TRUE :1         Mode  :character  \n                    Mean   :103.75                                     \n                    3rd Qu.:117.50                                     \n                    Max.   :185.00",
+    "crumbs": [
+      "Lessons",
+      "01-Essentials of R"
+    ]
+  },
+  {
+    "objectID": "coding/week_01/essentials_01.html#matrix",
+    "href": "coding/week_01/essentials_01.html#matrix",
+    "title": "Essentials of R coding I",
+    "section": "09. Matrix",
+    "text": "09. Matrix\nIn R, a matrix is a two-dimensional, rectangular data structure that stores elements of the same type. It is similar to a data frame in structure but less flexible, as all elements in a matrix must be of a single data type (e.g., numeric, character, or logical). \nKey Characteristics of a Matrix \n\nHomogeneous: All elements in a matrix must be of the same type. \n2D Structure: A matrix has rows and columns, forming a table-like structure. \nDimensions: Defined by the number of rows and columns. \n\nWhy Use a Matrix? \n\nMathematical Operations: Ideal for linear algebra and mathematical modeling. \nEfficient Storage: Matrices use less memory compared to more complex structures like data frames. \nSimpler Operations: Homogeneous data ensures consistent behavior across elements. \n\n\na. Creating a Matrix\nYou can create a matrix using the matrix() function:\n\n# Create a numeric matrix\nmy_matrix &lt;- matrix(\n  data = 1:9,     # Data values\n  nrow = 3,       # Number of rows\n  ncol = 3,       # Number of columns\n)\n\nprint(my_matrix)\n\n     [,1] [,2] [,3]\n[1,]    1    4    7\n[2,]    2    5    8\n[3,]    3    6    9\n\n\n\n\nb. Accessing elements in a matrix\nAccessing rows:\n\n# Access the first row\nmy_matrix[1, ]\n\n[1] 1 4 7\n\n\nAccessing columns:\n\n# Access the second column\nmy_matrix[, 2]\n\n[1] 4 5 6\n\n\nAccessing specific elements:\n\n# Access the element in the 2nd row, 3rd column\nmy_matrix[2, 3]\n\n[1] 8\n\n\n\n\nc. Adding a new column\n\nnew_col &lt;- c(10, 11, 12) # Create the column\nmy_matrix &lt;- cbind(my_matrix, new_col) # Paste it to the existing\n\n\n\nd. Adding a new row\n\nnew_row &lt;- c(13, 14, 15, 16)\nmy_matrix &lt;- rbind(my_matrix, new_row)",
+    "crumbs": [
+      "Lessons",
+      "01-Essentials of R"
+    ]
+  },
+  {
+    "objectID": "coding/week_01/essentials_01.html#functions",
+    "href": "coding/week_01/essentials_01.html#functions",
+    "title": "Essentials of R coding I",
+    "section": "10. Functions",
+    "text": "10. Functions\n\na. Create a function\nWe need to use the syntax function(x) { x as object of a task }. ‘x’ is considered an “argument”, and the function itself is inside the {}. For example:\n\nmy_function &lt;- function(x) { x + 1 }\n\n\n\nb. Check the function\n\nmy_function(9)\n\n[1] 10\n\n\n\n\nc. Write a function with 3 arguments\n\nmy_xyz_function &lt;- function(x, y, z) { x + y - z }\n\n\n\nd. Order of arguments\nNote: R is order sensitive (if you don’t explicitly specify the argument)\n\nmy_xyz_function(12, 3, 4)\n\n[1] 11\n\nmy_xyz_function(12, 4, 3)\n\n[1] 13\n\n\n\n\ne. Specifying arguments with names\nIf you specify the argument name as = to, the order doesn’t matter:\n\nmy_xyz_function(z = 4, x = 12, y = 3)\n\n[1] 11\n\n\n\n\nf. A more complex function\n\nfx &lt;- function(x, y, remove_na = NULL) {\n        # First operation is a sum, removing NAs\n        first &lt;- sum(c(x, y), na.rm = remove_na)\n        # Add a text message\n        second &lt;- \"This function is so cool\"\n        # Store result\n        result &lt;- first + x\n        # Print output\n        print(list(\"Message\" = second,\n                   \"1st\" = first,\n                   \"end\" = result))\n                   }\n\nRun the function with alternative arguments:\n\nfx(x = a, y = b, remove_na = FALSE)\n\n$Message\n[1] \"This function is so cool\"\n\n$`1st`\n[1] 30\n\n$end\n[1] 50\n\nfx(x = a, y = b, remove_na = TRUE)\n\n$Message\n[1] \"This function is so cool\"\n\n$`1st`\n[1] 30\n\n$end\n[1] 50\n\n\nStore the output in an object:\n\nfoo &lt;- fx(x=b, y=a)\n\n$Message\n[1] \"This function is so cool\"\n\n$`1st`\n[1] 30\n\n$end\n[1] 40",
+    "crumbs": [
+      "Lessons",
+      "01-Essentials of R"
+    ]
+  },
+  {
+    "objectID": "coding/week_02/02_fundamentals_rpackages.html",
+    "href": "coding/week_02/02_fundamentals_rpackages.html",
+    "title": "Fundamentals of R Packages",
+    "section": "",
+    "text": "i. What Are R Packages?\nR packages are collections of functions, data, and documentation that extend the capabilities of R. They are designed to solve specific problems or add functionalities, such as data visualization, statistical modeling, or handling specific types of data.\nAnalogy: Think of R as a toolbox 🧰 and packages as individual tools 🔧 you can add to enhance its utility.\n\n\n\n\n\n\nImportant\n\n\n\nCore Components:\n\nFunctions: Ready-made commands to perform tasks.\nData: Preloaded datasets for analysis or examples.\nDocumentation: Manuals explaining how to use the package.\n\n\n\nii. Why Are R Packages Important?\n\nThey extend functionality beyond base features.\nEnable efficient workflows by using pre-written and optimized code.\nProvide community-contributed solutions for a wide variety of domains (e.g., agriculture, bioinformatics, machine learning).\n\niii. Where to Find R Packages?\n\nCRAN (Comprehensive R Archive Network): The primary repository for R packages. Well-maintained and includes thousands of packages.\nBioconductor: Specialized in bioinformatics and genomics.\nGitHub: A platform where developers host and share experimental or in-development packages.",
+    "crumbs": [
+      "Lessons",
+      "02-Fundamentals of packages"
+    ]
+  },
+  {
+    "objectID": "coding/week_02/02_fundamentals_rpackages.html#a.-installing-packages",
+    "href": "coding/week_02/02_fundamentals_rpackages.html#a.-installing-packages",
+    "title": "Fundamentals of R Packages",
+    "section": "a. Installing packages",
+    "text": "a. Installing packages\nTo install a package from CRAN, use:\n\ninstall.packages(\"dplyr\")\n\nTo install a development version of a package from GitHub, use:\n\ndevtools::install_github(\"rstudio/ggplot2\")\n\nChecking installed packages\n\ninstalled.packages()",
+    "crumbs": [
+      "Lessons",
+      "02-Fundamentals of packages"
+    ]
+  },
+  {
+    "objectID": "coding/week_02/02_fundamentals_rpackages.html#b.-loading-packages",
+    "href": "coding/week_02/02_fundamentals_rpackages.html#b.-loading-packages",
+    "title": "Fundamentals of R Packages",
+    "section": "b. Loading Packages",
+    "text": "b. Loading Packages\nOnce installed, load a package using:\n\nlibrary(dplyr)\n\nOr alternatively, you may use packages like pacman:\n\nlibrary(pacman)\npacman::p_load(dplyr, ggplot2)\n\nOr easypackages:\n\nlibrary(easypackages)\neasypackages::libraries(dplyr, ggplot2)",
+    "crumbs": [
+      "Lessons",
+      "02-Fundamentals of packages"
+    ]
+  },
+  {
+    "objectID": "coding/week_02/02_fundamentals_rpackages.html#c.-updating-packages",
+    "href": "coding/week_02/02_fundamentals_rpackages.html#c.-updating-packages",
+    "title": "Fundamentals of R Packages",
+    "section": "c. Updating packages",
+    "text": "c. Updating packages\n\nupdate.packages()",
+    "crumbs": [
+      "Lessons",
+      "02-Fundamentals of packages"
+    ]
+  },
+  {
+    "objectID": "coding/week_02/02_fundamentals_rpackages.html#d.-unload-packages",
+    "href": "coding/week_02/02_fundamentals_rpackages.html#d.-unload-packages",
+    "title": "Fundamentals of R Packages",
+    "section": "d. Unload packages",
+    "text": "d. Unload packages\n\ndetach(\"package:ggplot2\", unload = TRUE)",
+    "crumbs": [
+      "Lessons",
+      "02-Fundamentals of packages"
+    ]
+  },
+  {
+    "objectID": "coding/week_02/02_fundamentals_rpackages.html#e.-uninstall-packages",
+    "href": "coding/week_02/02_fundamentals_rpackages.html#e.-uninstall-packages",
+    "title": "Fundamentals of R Packages",
+    "section": "e. Uninstall packages",
+    "text": "e. Uninstall packages\n\nremove.packages(\"ggplot2\")",
+    "crumbs": [
+      "Lessons",
+      "02-Fundamentals of packages"
+    ]
+  },
+  {
+    "objectID": "coding/week_02/02_fundamentals_rpackages.html#a.-start-with-the-right-packages",
+    "href": "coding/week_02/02_fundamentals_rpackages.html#a.-start-with-the-right-packages",
+    "title": "Fundamentals of R Packages",
+    "section": "a. Start with the Right Packages:",
+    "text": "a. Start with the Right Packages:\nUse foundational and well supported packages (e.g. tidyverse, data.table).",
+    "crumbs": [
+      "Lessons",
+      "02-Fundamentals of packages"
+    ]
+  },
+  {
+    "objectID": "coding/week_02/02_fundamentals_rpackages.html#b.-stay-curious",
+    "href": "coding/week_02/02_fundamentals_rpackages.html#b.-stay-curious",
+    "title": "Fundamentals of R Packages",
+    "section": "b. Stay Curious:",
+    "text": "b. Stay Curious:\nExplore new packages via CRAN Task Views (e.g., Agriculture Task View).",
+    "crumbs": [
+      "Lessons",
+      "02-Fundamentals of packages"
+    ]
+  },
+  {
+    "objectID": "coding/week_02/02_fundamentals_rpackages.html#c.-version-control",
+    "href": "coding/week_02/02_fundamentals_rpackages.html#c.-version-control",
+    "title": "Fundamentals of R Packages",
+    "section": "c. Version Control:",
+    "text": "c. Version Control:\nWhen becoming an advanced user, you could implement renv or packrat to manage package versions for reproducible analysis.",
+    "crumbs": [
+      "Lessons",
+      "02-Fundamentals of packages"
+    ]
+  },
+  {
+    "objectID": "coding/week_02/02_fundamentals_rpackages.html#a.-agridat",
+    "href": "coding/week_02/02_fundamentals_rpackages.html#a.-agridat",
+    "title": "Fundamentals of R Packages",
+    "section": "a. agridat",
+    "text": "a. agridat\nThe agridat package contains datasets related to agriculture, such as crop yields, experimental designs, and climate data. Let’s use an example from this package:\n\n# Load the package\nlibrary(agridat)\n# Load an example dataset\ndata(rothamsted.oats, package = 'agridat')\nhead(rothamsted.oats)\n\n  block trt  grain straw row col\n1     x  oa 61.375  83.0  12   1\n2     x 2me 68.750 130.0  12   2\n3     x 2sl 64.250 100.0  12   3\n4     x  ob 65.500  96.0  12   4\n5     w 2sl 79.625 130.5  12   5\n6     w  oa 79.250 122.0  12   6\n\n# view(rothamsted.oats)",
+    "crumbs": [
+      "Lessons",
+      "02-Fundamentals of packages"
+    ]
+  },
+  {
+    "objectID": "coding/week_02/02_fundamentals_rpackages.html#b.-ggplot2-for-data-visualization",
+    "href": "coding/week_02/02_fundamentals_rpackages.html#b.-ggplot2-for-data-visualization",
+    "title": "Fundamentals of R Packages",
+    "section": "b. ggplot2 for data visualization:",
+    "text": "b. ggplot2 for data visualization:\n\nlibrary(ggplot2)\nggplot(rothamsted.oats, aes(x = trt, y = grain)) +\n  geom_point(aes(color = trt))\n\n\n\n\n\n\n\nggplot(rothamsted.oats, aes(x = trt, y = grain)) +\n  geom_boxplot(aes(color = trt))\n\n\n\n\n\n\n\nggplot(data = rothamsted.oats, \n       aes(x = trt, y = grain, fill = trt)) +\n  geom_bar(stat = \"identity\")+\n  facet_wrap(~block)",
+    "crumbs": [
+      "Lessons",
+      "02-Fundamentals of packages"
+    ]
+  },
+  {
+    "objectID": "coding/week_02/02_fundamentals_rpackages.html#c.-dplyr-for-data-manipulation",
+    "href": "coding/week_02/02_fundamentals_rpackages.html#c.-dplyr-for-data-manipulation",
+    "title": "Fundamentals of R Packages",
+    "section": "c. dplyr for data manipulation:",
+    "text": "c. dplyr for data manipulation:\n\nlibrary(dplyr)\n\n# Basic dplyr operations\nfilter(.data = rothamsted.oats, straw &gt; 150)\n\n   block trt  grain straw row col\n1      w 1se 80.750 160.5  12   8\n2      w 2me 88.500 159.0  11   5\n3      w 1me 89.125 165.0  11   7\n4      x 2se 83.000 161.0  10   4\n5      w 1sl 93.125 191.0  10   6\n6      w  od 84.875 166.5  10   7\n7      w 2se 86.625 185.0  10   8\n8      z 2se 64.500 161.5   9   6\n9      z 2sl 88.750 180.5   9   7\n10     z 2ml 91.250 165.5   9   8\n11     z  oc 88.750 155.0   8   7\n12     z 1sl 88.875 158.0   8   8\n13     z 2me 84.125 170.0   7   5\n14     z 1me 86.000 190.5   7   7\n15     z 1se 80.500 158.5   7   8\n16     k 2me 83.875 181.0   6   4\n17     j 2se 82.875 196.5   6   6\n18     j 2me 78.250 200.0   6   7\n19     j 1ml 87.125 154.5   5   8\n20     j 1se 76.875 165.5   4   7\n21     l 2sl 87.125 153.0   3   4\n22     m 1sl 80.750 154.5   3   8\n23     m 2se 85.375 181.5   2   6\n24     m 2ml 93.375 164.0   2   7\n25     m  oc 89.625 157.0   2   8\n26     l 2se 82.125 175.5   1   3\n27     m 2me 83.875 192.5   1   6\n28     m 2sl 89.000 188.0   1   7\n29     m 1ml 93.250 162.0   1   8\n\n# Get mean grain yield\nsummarize(.data = rothamsted.oats, mean_hp = mean(grain))\n\n   mean_hp\n1 81.17448\n\n\n\n\n\n\n\n\nNote\n\n\n\nWhat if we’d like to run several commands in a row? There are three main options: 1. overwrite an object at each step, 2. create intermediate objects and pass them along, or… 3. use pipe operators to chain commands",
+    "crumbs": [
+      "Lessons",
+      "02-Fundamentals of packages"
+    ]
+  },
+  {
+    "objectID": "coding/week_02/02_fundamentals_rpackages.html#d.-pipe-operator",
+    "href": "coding/week_02/02_fundamentals_rpackages.html#d.-pipe-operator",
+    "title": "Fundamentals of R Packages",
+    "section": "d. Pipe operator ‘%>%’:",
+    "text": "d. Pipe operator ‘%&gt;%’:\nThe ‘dplyr’ package heavily utilizes the pipe operator %&gt;% from the ‘magrittr’ package to streamline data manipulation workflows. This operator allows you to pass the output of one function directly into the next function, making your code more readable and easier to follow.\n\n# Group by treatment and summarize\n# Using the pipe operator for chaining commands\nrothamsted.oats %&gt;%\n  group_by(trt) %&gt;%\n  summarize(mean_grain = mean(grain))\n\n# A tibble: 12 × 2\n   trt   mean_grain\n   &lt;fct&gt;      &lt;dbl&gt;\n 1 1me         82.8\n 2 1ml         86.5\n 3 1se         81.1\n 4 1sl         80.8\n 5 2me         81.5\n 6 2ml         82.3\n 7 2se         81.2\n 8 2sl         81.2\n 9 oa          77.6\n10 ob          79.2\n11 oc          78.4\n12 od          81.4\n\n# The best practice is to specify the data using the .data argument\nrothamsted.oats %&gt;%\n  group_by(trt) %&gt;%\n  summarize(.data = ., mean_grain = mean(grain))\n\n# A tibble: 12 × 2\n   trt   mean_grain\n   &lt;fct&gt;      &lt;dbl&gt;\n 1 1me         82.8\n 2 1ml         86.5\n 3 1se         81.1\n 4 1sl         80.8\n 5 2me         81.5\n 6 2ml         82.3\n 7 2se         81.2\n 8 2sl         81.2\n 9 oa          77.6\n10 ob          79.2\n11 oc          78.4\n12 od          81.4",
+    "crumbs": [
+      "Lessons",
+      "02-Fundamentals of packages"
+    ]
+  },
+  {
+    "objectID": "coding/week_02/02_fundamentals_rpackages.html#e.-native-pipe-operator",
+    "href": "coding/week_02/02_fundamentals_rpackages.html#e.-native-pipe-operator",
+    "title": "Fundamentals of R Packages",
+    "section": "e. Native pipe operator ‘|>’:",
+    "text": "e. Native pipe operator ‘|&gt;’:\nWith the introduction of R 4.1.0, base R now includes its own native pipe operator |&gt;, which serves a similar purpose to the %&gt;% operator from the ‘magrittr’ package. This operator allows you to pass the result of one expression as the first argument to the next expression, enhancing code readability without the need for additional packages.\n\n# Using the native pipe operator\nrothamsted.oats |&gt;\n  group_by(trt) |&gt;\n  summarize(.data = _, mean_grain = mean(grain))\n\n# A tibble: 12 × 2\n   trt   mean_grain\n   &lt;fct&gt;      &lt;dbl&gt;\n 1 1me         82.8\n 2 1ml         86.5\n 3 1se         81.1\n 4 1sl         80.8\n 5 2me         81.5\n 6 2ml         82.3\n 7 2se         81.2\n 8 2sl         81.2\n 9 oa          77.6\n10 ob          79.2\n11 oc          78.4\n12 od          81.4\n\n\n\n\n\n\n\n\nWarning\n\n\n\nNotice when using the %&gt;% the placeholder . is used to indicate where the piped value should be inserted if it’s not the first argument. Similarly, with the native pipe |&gt;, the placeholder _ can be used to indicate where the piped value should be inserted if it’s not the first argument.\n\n\n\n\n\n\n\n\nDoes any work “better” than the other?\n\n\n\n\nWhere |&gt; tends to be better\n\nNo package needed (it’s base R syntax), so it works everywhere without loading magrittr.\nUsually less overhead than %&gt;% because %&gt;% is a function-based pipe, while |&gt; is language syntax.\nIn practice, the difference is rarely noticeable compared to the cost of dplyr verbs, but it can matter in tight loops.\nPlays nicely with modern R style and is increasingly common in new code.\n\n\n\nWhere %&gt;% is more flexible\n\nPlaceholder power: %&gt;% uses . to place the LHS wherever you want. Base |&gt; uses _ but it’s more restricted (notably, it’s tied to named arguments).\n%&gt;% can do extras like creating functions from a pipeline (and other magrittr variants like %T&gt;%, %&lt;&gt;%, etc.). Base |&gt; doesn’t include those.\n%&gt;% lets you pipe into a bare function name (x %&gt;% sqrt).\nBase |&gt; generally requires a call: x |&gt; sqrt()",
+    "crumbs": [
+      "Lessons",
+      "02-Fundamentals of packages"
+    ]
+  },
+  {
+    "objectID": "coding/week_02/02_fundamentals_rpackages.html#f.-agricolae",
+    "href": "coding/week_02/02_fundamentals_rpackages.html#f.-agricolae",
+    "title": "Fundamentals of R Packages",
+    "section": "f. agricolae",
+    "text": "f. agricolae\nThe agricolae package in R is a comprehensive toolset designed for statistical analysis and visualization of agricultural experiments. It is particularly useful for researchers and practitioners working in crop science, agronomy, and other fields of agricultural research.\nIt provides methods for designing experiments, analyzing experimental data, and visualizing results, particularly for data collected in agricultural and biological research.\n\n\n\n\n\n\nNote\n\n\n\nIt supports:\n\nExperimental Designs: Generate designs for field experiments like randomized complete block design (RCBD), Latin square, factorial experiments, and others.\nStatistical Analysis: Analyze variance (ANOVA), perform post-hoc tests (e.g., LSD, Tukey HSD), and assess experimental data.\nVisualization: Create plots for results, including mean comparisons, dendrograms, and histograms.\nAgronomic Tools: Calculate indices like stability for crop yields or pest/disease control measures.\n\n\n\n\ni. Data analysis\n\n# Load agricolae package\nlibrary(agricolae)\n\n# Simulate agricultural data\ndata &lt;- data.frame(\n  treatment = rep(c(\"A\", \"B\", \"C\"), each = 5),\n  yield = c(50, 55, 52, 51, 54,   # Yields for Treatment A\n            60, 62, 59, 61, 63,   # Yields for Treatment B\n            48, 46, 50, 49, 47)   # Yields for Treatment C\n)\n\n# Display the dataset\nprint(data)\n\n   treatment yield\n1          A    50\n2          A    55\n3          A    52\n4          A    51\n5          A    54\n6          B    60\n7          B    62\n8          B    59\n9          B    61\n10         B    63\n11         C    48\n12         C    46\n13         C    50\n14         C    49\n15         C    47\n\n# Perform ANOVA\nanova_result &lt;- aov(yield ~ treatment, data = data)\nsummary(anova_result)\n\n            Df Sum Sq Mean Sq F value   Pr(&gt;F)    \ntreatment    2  437.2   218.6   70.52 2.32e-07 ***\nResiduals   12   37.2     3.1                     \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\n# Perform LSD test for pairwise comparison\nlsd_result &lt;- LSD.test(anova_result, \"treatment\", console = TRUE)\n\n\nStudy: anova_result ~ \"treatment\"\n\nLSD t Test for yield \n\nMean Square Error:  3.1 \n\ntreatment,  means and individual ( 95 %) CI\n\n  yield      std r        se     LCL     UCL Min Max Q25 Q50 Q75\nA  52.4 2.073644 5 0.7874008 50.6844 54.1156  50  55  51  52  54\nB  61.0 1.581139 5 0.7874008 59.2844 62.7156  59  63  60  61  62\nC  48.0 1.581139 5 0.7874008 46.2844 49.7156  46  50  47  48  49\n\nAlpha: 0.05 ; DF Error: 12\nCritical Value of t: 2.178813 \n\nleast Significant Difference: 2.426223 \n\nTreatments with the same letter are not significantly different.\n\n  yield groups\nB  61.0      a\nA  52.4      b\nC  48.0      c\n\n# Could also run Tukey HSD, & Duncan's Test\n\n# Plot LSD results\nplot(lsd_result, main = \"LSD Test Results for Treatment Yields\")\n\n\n\n\n\n\n\n\n\n\nii. Experimental Design\nYou can generate layouts for randomized complete block designs (RCBD), Latin squares, Graeco-Latin squares, factorial experiments, and split-plot designs\n\ndesign &lt;- design.rcbd(trt = c(\"A\", \"B\", \"C\"), r = 3)\nprint(design)\n\n$parameters\n$parameters$design\n[1] \"rcbd\"\n\n$parameters$trt\n[1] \"A\" \"B\" \"C\"\n\n$parameters$r\n[1] 3\n\n$parameters$serie\n[1] 2\n\n$parameters$seed\n[1] 838442263\n\n$parameters$kinds\n[1] \"Super-Duper\"\n\n$parameters[[7]]\n[1] TRUE\n\n\n$sketch\n     [,1] [,2] [,3]\n[1,] \"B\"  \"C\"  \"A\" \n[2,] \"A\"  \"B\"  \"C\" \n[3,] \"B\"  \"C\"  \"A\" \n\n$book\n  plots block c(\"A\", \"B\", \"C\")\n1   101     1                B\n2   102     1                C\n3   103     1                A\n4   201     2                A\n5   202     2                B\n6   203     2                C\n7   301     3                B\n8   302     3                C\n9   303     3                A",
+    "crumbs": [
+      "Lessons",
+      "02-Fundamentals of packages"
+    ]
+  },
+  {
+    "objectID": "coding/week_02/02_fundamentals_rpackages.html#g.-soiltestcorr",
+    "href": "coding/week_02/02_fundamentals_rpackages.html#g.-soiltestcorr",
+    "title": "Fundamentals of R Packages",
+    "section": "g. soiltestcorr",
+    "text": "g. soiltestcorr\nThis package assists users on reproducible regression analysis of relationships between crop relative yield (ry) and soil test values (stv) under different approaches.\nFor example, we can fit a linear-plateu model the a dataset with:\n\nlibrary(soiltestcorr)\n\ndata_freitas &lt;- soiltestcorr::freitas1966\n\nplot_lp &lt;- linear_plateau(data = data_freitas,\n                          stv = STK, ry = RY, plot = TRUE)\n\nplot_lp\n\n\n\n\n\n\n\nplot_qp &lt;- quadratic_plateau(data = data_freitas,\n                          stv = STK, ry = RY, plot = TRUE)\n\nplot_qp\n\n\n\n\n\n\n\n# cate-nelson\nplot_cn &lt;- cate_nelson_1965(data = data_freitas,\n                            stv = STK, ry = RY, \n                            target = 90,\n                            plot = TRUE)\n\nplot_cn",
+    "crumbs": [
+      "Lessons",
+      "02-Fundamentals of packages"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/04_datawrangling_01.html",
+    "href": "coding/week_03/04_datawrangling_01.html",
+    "title": "Transforming Ag data with dplyr",
+    "section": "",
+    "text": "This lesson introduces the concept of tidy data, and a few basic data wrangling techniques using dplyr package. Today, we are using dplyr and datasets from the agridat package. If you don’t have them installed, you can do so by running:\n\n\n\nlibrary(pacman)\np_load(agridat) # Agridat datasets\np_load(dplyr) # dplyr for data wrangling\np_load(skimr) # skimr for quick exploration of the data",
+    "crumbs": [
+      "Lessons",
+      "04-Data Wrangling I"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/04_datawrangling_01.html#required-packages-for-today",
+    "href": "coding/week_03/04_datawrangling_01.html#required-packages-for-today",
+    "title": "Transforming Ag data with dplyr",
+    "section": "",
+    "text": "library(pacman)\np_load(agridat) # Agridat datasets\np_load(dplyr) # dplyr for data wrangling\np_load(skimr) # skimr for quick exploration of the data",
+    "crumbs": [
+      "Lessons",
+      "04-Data Wrangling I"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/04_datawrangling_01.html#what-is-a-data-frame",
+    "href": "coding/week_03/04_datawrangling_01.html#what-is-a-data-frame",
+    "title": "Transforming Ag data with dplyr",
+    "section": "2.1 What is a Data Frame?",
+    "text": "2.1 What is a Data Frame?\nA data frame is a two-dimensional table-like structure in R, where columns can contain different types of data (e.g., numeric, character). It is the default structure for datasets loaded from CSV files or data packages.\n\n2.1.1 open a data frame\n\n# Load the wheat dataset from agricolae (which is a data frame)\nwheat_data &lt;- agridat::payne.wheat\n\n# Check the structure of the data frame\nstr(wheat_data)\n\n'data.frame':   480 obs. of  4 variables:\n $ rotation: Factor w/ 6 levels \"AB\",\"AF\",\"Lc3\",..: 1 1 1 1 2 2 2 2 5 5 ...\n $ nitro   : int  0 70 140 210 0 70 140 210 0 70 ...\n $ year    : int  1981 1981 1981 1981 1981 1981 1981 1981 1981 1981 ...\n $ yield   : num  3.84 6.59 7.49 7.39 3.06 6.32 7.61 7.78 5.82 7.52 ...",
+    "crumbs": [
+      "Lessons",
+      "04-Data Wrangling I"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/04_datawrangling_01.html#what-is-a-tibble",
+    "href": "coding/week_03/04_datawrangling_01.html#what-is-a-tibble",
+    "title": "Transforming Ag data with dplyr",
+    "section": "2.2 What is a Tibble?",
+    "text": "2.2 What is a Tibble?\nA tibble is a modern version of a data frame, introduced by the tibble package. It offers several improvements:\n•   Tibbles don’t convert characters to factors by default.\n•   Printing is more concise and doesn’t overwhelm you with too much data.\n•   Tibbles are more explicit with column types when printed.\n\n2.2.1 create a tibble\n\n# Convert the wheat data frame to a tibble\nwheat_tibble &lt;- as_tibble(wheat_data)\n\n# Check the structure of the tibble\nwheat_tibble\n\n# A tibble: 480 × 4\n   rotation nitro  year yield\n   &lt;fct&gt;    &lt;int&gt; &lt;int&gt; &lt;dbl&gt;\n 1 AB           0  1981  3.84\n 2 AB          70  1981  6.59\n 3 AB         140  1981  7.49\n 4 AB         210  1981  7.39\n 5 AF           0  1981  3.06\n 6 AF          70  1981  6.32\n 7 AF         140  1981  7.61\n 8 AF         210  1981  7.78\n 9 Ln3          0  1981  5.82\n10 Ln3         70  1981  7.52\n# ℹ 470 more rows",
+    "crumbs": [
+      "Lessons",
+      "04-Data Wrangling I"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/04_datawrangling_01.html#iii.-key-differences-between-data-frames-and-tibbles",
+    "href": "coding/week_03/04_datawrangling_01.html#iii.-key-differences-between-data-frames-and-tibbles",
+    "title": "Transforming Ag data with dplyr",
+    "section": "2.3 iii. Key Differences between Data Frames and Tibbles",
+    "text": "2.3 iii. Key Differences between Data Frames and Tibbles\n1.  **Printing**:\n• Data Frames print the entire dataset unless you limit the number of rows. No information about column types is displayed. • Tibbles print only the first 10 rows and automatically show column types.\n\n2.3.1 Example:\n\n# Print the entire data frame\nprint(wheat_data)\n\n    rotation nitro year yield\n1         AB     0 1981  3.84\n2         AB    70 1981  6.59\n3         AB   140 1981  7.49\n4         AB   210 1981  7.39\n5         AF     0 1981  3.06\n6         AF    70 1981  6.32\n7         AF   140 1981  7.61\n8         AF   210 1981  7.78\n9        Ln3     0 1981  5.82\n10       Ln3    70 1981  7.52\n11       Ln3   140 1981  8.12\n12       Ln3   210 1981  7.40\n13       Ln8     0 1981  4.71\n14       Ln8    70 1981  6.52\n15       Ln8   140 1981  8.03\n16       Ln8   210 1981  7.83\n17       Lc3     0 1981  5.35\n18       Lc3    70 1981  6.70\n19       Lc3   140 1981  7.69\n20       Lc3   210 1981  7.53\n21       Lc8     0 1981  6.47\n22       Lc8    70 1981  7.84\n23       Lc8   140 1981  7.98\n24       Lc8   210 1981  7.68\n25        AB     0 1982  4.47\n26        AB    70 1982  6.38\n27        AB   140 1982  7.82\n28        AB   210 1982  8.13\n29        AF     0 1982  4.30\n30        AF    70 1982  6.82\n31        AF   140 1982  8.16\n32        AF   210 1982  8.52\n33       Ln3     0 1982  5.37\n34       Ln3    70 1982  7.91\n35       Ln3   140 1982  7.53\n36       Ln3   210 1982  8.46\n37       Ln8     0 1982  5.55\n38       Ln8    70 1982  8.04\n39       Ln8   140 1982  8.27\n40       Ln8   210 1982  7.31\n41       Lc3     0 1982  5.16\n42       Lc3    70 1982  7.81\n43       Lc3   140 1982  8.38\n44       Lc3   210 1982  7.40\n45       Lc8     0 1982  6.56\n46       Lc8    70 1982  8.36\n47       Lc8   140 1982  8.60\n48       Lc8   210 1982  8.41\n49        AB     0 1983  4.11\n50        AB    70 1983  6.28\n51        AB   140 1983  8.70\n52        AB   210 1983  8.17\n53        AF     0 1983  3.76\n54        AF    70 1983  6.79\n55        AF   140 1983  8.50\n56        AF   210 1983  9.43\n57       Ln3     0 1983  3.86\n58       Ln3    70 1983  7.05\n59       Ln3   140 1983  8.06\n60       Ln3   210 1983  8.28\n61       Ln8     0 1983  4.45\n62       Ln8    70 1983  7.23\n63       Ln8   140 1983  7.48\n64       Ln8   210 1983  6.93\n65       Lc3     0 1983  6.36\n66       Lc3    70 1983  9.67\n67       Lc3   140 1983  9.34\n68       Lc3   210 1983  8.40\n69       Lc8     0 1983  7.39\n70       Lc8    70 1983  9.64\n71       Lc8   140 1983  8.80\n72       Lc8   210 1983  8.66\n73        AB     0 1984  3.66\n74        AB    70 1984  6.56\n75        AB   140 1984  7.74\n76        AB   210 1984  9.41\n77        AF     0 1984  4.28\n78        AF    70 1984  8.94\n79        AF   140 1984  9.12\n80        AF   210 1984  9.35\n81       Ln3     0 1984  4.92\n82       Ln3    70 1984  7.66\n83       Ln3   140 1984  9.75\n84       Ln3   210 1984 10.35\n85       Ln8     0 1984  5.46\n86       Ln8    70 1984  8.68\n87       Ln8   140 1984  9.20\n88       Ln8   210 1984 10.33\n89       Lc3     0 1984  7.18\n90       Lc3    70 1984 11.06\n91       Lc3   140 1984 10.52\n92       Lc3   210 1984  9.88\n93       Lc8     0 1984  7.51\n94       Lc8    70 1984  9.66\n95       Lc8   140 1984 11.04\n96       Lc8   210 1984  9.36\n97        AB     0 1985  2.39\n98        AB    70 1985  5.90\n99        AB   140 1985  7.76\n100       AB   210 1985  8.62\n101       AF     0 1985  2.03\n102       AF    70 1985  5.46\n103       AF   140 1985  7.72\n104       AF   210 1985  9.20\n105      Ln3     0 1985  4.24\n106      Ln3    70 1985  7.26\n107      Ln3   140 1985  8.26\n108      Ln3   210 1985  9.69\n109      Ln8     0 1985  4.07\n110      Ln8    70 1985  6.98\n111      Ln8   140 1985  8.39\n112      Ln8   210 1985  8.55\n113      Lc3     0 1985  4.97\n114      Lc3    70 1985  7.64\n115      Lc3   140 1985  9.57\n116      Lc3   210 1985  8.84\n117      Lc8     0 1985  4.44\n118      Lc8    70 1985  8.08\n119      Lc8   140 1985  8.76\n120      Lc8   210 1985 10.19\n121       AB     0 1986  4.17\n122       AB    70 1986  6.91\n123       AB   140 1986  7.21\n124       AB   210 1986  8.53\n125       AF     0 1986  4.08\n126       AF    70 1986  5.08\n127       AF   140 1986  6.32\n128       AF   210 1986  7.88\n129      Ln3     0 1986  3.36\n130      Ln3    70 1986  5.65\n131      Ln3   140 1986  6.62\n132      Ln3   210 1986  6.05\n133      Ln8     0 1986  4.68\n134      Ln8    70 1986  6.55\n135      Ln8   140 1986  7.20\n136      Ln8   210 1986  6.84\n137      Lc3     0 1986  6.14\n138      Lc3    70 1986  7.15\n139      Lc3   140 1986  6.89\n140      Lc3   210 1986  6.20\n141      Lc8     0 1986  6.09\n142      Lc8    70 1986  7.31\n143      Lc8   140 1986  6.85\n144      Lc8   210 1986  6.75\n145       AB     0 1987  4.39\n146       AB    70 1987  6.18\n147       AB   140 1987  6.75\n148       AB   210 1987  7.84\n149       AF     0 1987  3.02\n150       AF    70 1987  5.56\n151       AF   140 1987  6.60\n152       AF   210 1987  6.43\n153      Ln3     0 1987  4.41\n154      Ln3    70 1987  6.55\n155      Ln3   140 1987  7.59\n156      Ln3   210 1987  7.13\n157      Ln8     0 1987  4.80\n158      Ln8    70 1987  6.74\n159      Ln8   140 1987  7.86\n160      Ln8   210 1987  7.00\n161      Lc3     0 1987  5.51\n162      Lc3    70 1987  7.24\n163      Lc3   140 1987  7.74\n164      Lc3   210 1987  7.61\n165      Lc8     0 1987  5.26\n166      Lc8    70 1987  7.48\n167      Lc8   140 1987  8.31\n168      Lc8   210 1987  8.13\n169       AB     0 1988  2.98\n170       AB    70 1988  6.28\n171       AB   140 1988  6.77\n172       AB   210 1988  6.20\n173       AF     0 1988  3.09\n174       AF    70 1988  6.60\n175       AF   140 1988  6.63\n176       AF   210 1988  6.61\n177      Ln3     0 1988  4.01\n178      Ln3    70 1988  6.77\n179      Ln3   140 1988  7.12\n180      Ln3   210 1988  6.14\n181      Ln8     0 1988  4.34\n182      Ln8    70 1988  6.73\n183      Ln8   140 1988  7.46\n184      Ln8   210 1988  7.23\n185      Lc3     0 1988  5.68\n186      Lc3    70 1988  7.39\n187      Lc3   140 1988  7.54\n188      Lc3   210 1988  7.51\n189      Lc8     0 1988  5.26\n190      Lc8    70 1988  7.87\n191      Lc8   140 1988  6.94\n192      Lc8   210 1988  7.06\n193       AB     0 1989  1.16\n194       AB    70 1989  3.94\n195       AB   140 1989  4.58\n196       AB   210 1989  4.74\n197       AF     0 1989  2.80\n198       AF    70 1989  4.92\n199       AF   140 1989  5.17\n200       AF   210 1989  5.82\n201      Ln3     0 1989  4.04\n202      Ln3    70 1989  5.94\n203      Ln3   140 1989  6.10\n204      Ln3   210 1989  6.04\n205      Ln8     0 1989  3.77\n206      Ln8    70 1989  5.58\n207      Ln8   140 1989  5.56\n208      Ln8   210 1989  4.91\n209      Lc3     0 1989  5.45\n210      Lc3    70 1989  6.28\n211      Lc3   140 1989  6.12\n212      Lc3   210 1989  5.81\n213      Lc8     0 1989  4.91\n214      Lc8    70 1989  6.69\n215      Lc8   140 1989  6.39\n216      Lc8   210 1989  5.06\n217       AB     0 1990  1.47\n218       AB    70 1990  4.94\n219       AB   140 1990  5.83\n220       AB   210 1990  6.33\n221       AF     0 1990  1.38\n222       AF    70 1990  5.72\n223       AF   140 1990  6.30\n224       AF   210 1990  5.18\n225      Ln3     0 1990  1.73\n226      Ln3    70 1990  4.94\n227      Ln3   140 1990  5.43\n228      Ln3   210 1990  6.17\n229      Ln8     0 1990  2.62\n230      Ln8    70 1990  5.79\n231      Ln8   140 1990  5.08\n232      Ln8   210 1990  5.25\n233      Lc3     0 1990  3.59\n234      Lc3    70 1990  6.06\n235      Lc3   140 1990  7.20\n236      Lc3   210 1990  6.42\n237      Lc8     0 1990  3.31\n238      Lc8    70 1990  6.51\n239      Lc8   140 1990  6.65\n240      Lc8   210 1990  6.99\n241       AB     0 1991  4.48\n242       AB    70 1991  8.56\n243       AB   140 1991  9.94\n244       AB   210 1991 10.23\n245       AF     0 1991  3.46\n246       AF    70 1991  8.00\n247       AF   140 1991  9.75\n248       AF   210 1991 10.57\n249      Ln3     0 1991  6.75\n250      Ln3    70 1991  8.85\n251      Ln3   140 1991  9.96\n252      Ln3   210 1991 10.41\n253      Ln8     0 1991  5.94\n254      Ln8    70 1991  8.83\n255      Ln8   140 1991  9.64\n256      Ln8   210 1991  9.75\n257      Lc3     0 1991  6.47\n258      Lc3    70 1991  9.37\n259      Lc3   140 1991 10.46\n260      Lc3   210 1991 10.48\n261      Lc8     0 1991  6.08\n262      Lc8    70 1991  8.81\n263      Lc8   140 1991  9.63\n264      Lc8   210 1991 10.10\n265       AB     0 1992  6.31\n266       AB    70 1992  7.84\n267       AB   140 1992  7.21\n268       AB   210 1992  6.81\n269       AF     0 1992  3.82\n270       AF    70 1992  8.05\n271       AF   140 1992  8.21\n272       AF   210 1992  7.59\n273      Ln3     0 1992  2.73\n274      Ln3    70 1992  6.47\n275      Ln3   140 1992  7.49\n276      Ln3   210 1992  7.26\n277      Ln8     0 1992  4.19\n278      Ln8    70 1992  7.17\n279      Ln8   140 1992  7.54\n280      Ln8   210 1992  6.67\n281      Lc3     0 1992  6.33\n282      Lc3    70 1992  7.48\n283      Lc3   140 1992  6.13\n284      Lc3   210 1992  4.79\n285      Lc8     0 1992  7.11\n286      Lc8    70 1992  6.65\n287      Lc8   140 1992  6.45\n288      Lc8   210 1992  6.14\n289       AB     0 1993  3.11\n290       AB    70 1993  5.92\n291       AB   140 1993  5.89\n292       AB   210 1993  6.63\n293       AF     0 1993  2.86\n294       AF    70 1993  5.79\n295       AF   140 1993  6.72\n296       AF   210 1993  7.37\n297      Ln3     0 1993  3.13\n298      Ln3    70 1993  5.40\n299      Ln3   140 1993  6.60\n300      Ln3   210 1993  6.52\n301      Ln8     0 1993  3.42\n302      Ln8    70 1993  5.16\n303      Ln8   140 1993  6.47\n304      Ln8   210 1993  6.55\n305      Lc3     0 1993  5.58\n306      Lc3    70 1993  7.01\n307      Lc3   140 1993  7.69\n308      Lc3   210 1993  7.91\n309      Lc8     0 1993  6.08\n310      Lc8    70 1993  7.03\n311      Lc8   140 1993  7.20\n312      Lc8   210 1993  7.69\n313       AB     0 1994  0.93\n314       AB    70 1994  3.94\n315       AB   140 1994  4.04\n316       AB   210 1994  3.51\n317       AF     0 1994  1.80\n318       AF    70 1994  5.32\n319       AF   140 1994  8.08\n320       AF   210 1994  8.55\n321      Ln3     0 1994  4.76\n322      Ln3    70 1994  6.16\n323      Ln3   140 1994  7.35\n324      Ln3   210 1994  7.14\n325      Ln8     0 1994  3.64\n326      Ln8    70 1994  5.14\n327      Ln8   140 1994  7.00\n328      Ln8   210 1994  7.16\n329      Lc3     0 1994  5.06\n330      Lc3    70 1994  6.00\n331      Lc3   140 1994  6.28\n332      Lc3   210 1994  7.50\n333      Lc8     0 1994  3.46\n334      Lc8    70 1994  6.48\n335      Lc8   140 1994  6.07\n336      Lc8   210 1994  7.53\n337       AB     0 1995  1.30\n338       AB    70 1995  4.21\n339       AB   140 1995  4.35\n340       AB   210 1995  4.35\n341       AF     0 1995  1.27\n342       AF    70 1995  3.82\n343       AF   140 1995  4.60\n344       AF   210 1995  4.96\n345      Ln3     0 1995  2.17\n346      Ln3    70 1995  5.01\n347      Ln3   140 1995  5.39\n348      Ln3   210 1995  5.79\n349      Ln8     0 1995  2.52\n350      Ln8    70 1995  5.71\n351      Ln8   140 1995  5.36\n352      Ln8   210 1995  6.53\n353      Lc3     0 1995  2.57\n354      Lc3    70 1995  5.70\n355      Lc3   140 1995  6.46\n356      Lc3   210 1995  5.78\n357      Lc8     0 1995  3.52\n358      Lc8    70 1995  6.60\n359      Lc8   140 1995  6.36\n360      Lc8   210 1995  6.14\n361       AB     0 1996  1.19\n362       AB    70 1996  7.24\n363       AB   140 1996  7.80\n364       AB   210 1996  8.43\n365       AF     0 1996  0.65\n366       AF    70 1996  6.60\n367       AF   140 1996  7.69\n368       AF   210 1996  7.79\n369      Ln3     0 1996  3.82\n370      Ln3    70 1996  7.19\n371      Ln3   140 1996  7.15\n372      Ln3   210 1996  8.41\n373      Ln8     0 1996  6.37\n374      Ln8    70 1996  8.23\n375      Ln8   140 1996  8.77\n376      Ln8   210 1996  8.46\n377      Lc3     0 1996  5.23\n378      Lc3    70 1996  7.76\n379      Lc3   140 1996  8.19\n380      Lc3   210 1996  8.67\n381      Lc8     0 1996  5.73\n382      Lc8    70 1996  7.97\n383      Lc8   140 1996  8.48\n384      Lc8   210 1996  8.28\n385       AB     0 1997  1.58\n386       AB    70 1997  5.73\n387       AB   140 1997  7.37\n388       AB   210 1997  7.88\n389       AF     0 1997  2.40\n390       AF    70 1997  6.52\n391       AF   140 1997  9.25\n392       AF   210 1997  9.24\n393      Ln3     0 1997  1.74\n394      Ln3    70 1997  3.83\n395      Ln3   140 1997  5.15\n396      Ln3   210 1997  5.02\n397      Ln8     0 1997  2.53\n398      Ln8    70 1997  6.20\n399      Ln8   140 1997  6.93\n400      Ln8   210 1997  7.25\n401      Lc3     0 1997  4.40\n402      Lc3    70 1997  7.70\n403      Lc3   140 1997  8.01\n404      Lc3   210 1997  8.30\n405      Lc8     0 1997  4.10\n406      Lc8    70 1997  6.78\n407      Lc8   140 1997  7.36\n408      Lc8   210 1997  7.43\n409       AB     0 1998  3.21\n410       AB    70 1998  6.70\n411       AB   140 1998  9.35\n412       AB   210 1998 10.26\n413       AF     0 1998  2.52\n414       AF    70 1998  6.35\n415       AF   140 1998  8.80\n416       AF   210 1998  9.72\n417      Ln3     0 1998  3.77\n418      Ln3    70 1998  7.13\n419      Ln3   140 1998  8.67\n420      Ln3   210 1998  9.62\n421      Ln8     0 1998  4.97\n422      Ln8    70 1998  7.77\n423      Ln8   140 1998  9.21\n424      Ln8   210 1998  9.24\n425      Lc3     0 1998  4.78\n426      Lc3    70 1998  7.48\n427      Lc3   140 1998  8.50\n428      Lc3   210 1998  8.75\n429      Lc8     0 1998  4.11\n430      Lc8    70 1998  7.55\n431      Lc8   140 1998  9.01\n432      Lc8   210 1998  8.98\n433       AB     0 1999  0.00\n434       AB    70 1999  1.97\n435       AB   140 1999  3.44\n436       AB   210 1999  2.28\n437       AF     0 1999  0.52\n438       AF    70 1999  6.55\n439       AF   140 1999  7.53\n440       AF   210 1999  8.48\n441      Ln3     0 1999  1.69\n442      Ln3    70 1999  6.58\n443      Ln3   140 1999  7.58\n444      Ln3   210 1999  7.83\n445      Ln8     0 1999  3.42\n446      Ln8    70 1999  6.59\n447      Ln8   140 1999  8.26\n448      Ln8   210 1999  6.51\n449      Lc3     0 1999  4.42\n450      Lc3    70 1999  7.27\n451      Lc3   140 1999  8.65\n452      Lc3   210 1999  9.54\n453      Lc8     0 1999  1.79\n454      Lc8    70 1999  4.65\n455      Lc8   140 1999  5.54\n456      Lc8   210 1999  4.95\n457       AB     0 2000  1.45\n458       AB    70 2000  4.54\n459       AB   140 2000  4.52\n460       AB   210 2000  5.53\n461       AF     0 2000  0.96\n462       AF    70 2000  4.87\n463       AF   140 2000  6.28\n464       AF   210 2000  7.39\n465      Ln3     0 2000  3.40\n466      Ln3    70 2000  7.06\n467      Ln3   140 2000  8.64\n468      Ln3   210 2000  8.71\n469      Ln8     0 2000  3.42\n470      Ln8    70 2000  6.58\n471      Ln8   140 2000  7.22\n472      Ln8   210 2000  7.49\n473      Lc3     0 2000  5.05\n474      Lc3    70 2000  8.24\n475      Lc3   140 2000  8.96\n476      Lc3   210 2000 10.33\n477      Lc8     0 2000  4.31\n478      Lc8    70 2000  7.47\n479      Lc8   140 2000  8.95\n480      Lc8   210 2000  9.65\n\n# Print the tibble (shows only first 10 rows and column types)\nprint(wheat_tibble)\n\n# A tibble: 480 × 4\n   rotation nitro  year yield\n   &lt;fct&gt;    &lt;int&gt; &lt;int&gt; &lt;dbl&gt;\n 1 AB           0  1981  3.84\n 2 AB          70  1981  6.59\n 3 AB         140  1981  7.49\n 4 AB         210  1981  7.39\n 5 AF           0  1981  3.06\n 6 AF          70  1981  6.32\n 7 AF         140  1981  7.61\n 8 AF         210  1981  7.78\n 9 Ln3          0  1981  5.82\n10 Ln3         70  1981  7.52\n# ℹ 470 more rows",
+    "crumbs": [
+      "Lessons",
+      "04-Data Wrangling I"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/04_datawrangling_01.html#why-using-r-packages",
+    "href": "coding/week_03/04_datawrangling_01.html#why-using-r-packages",
+    "title": "Transforming Ag data with dplyr",
+    "section": "3.1 Why using R Packages? 💡",
+    "text": "3.1 Why using R Packages? 💡\n\nEfficiency: Avoid rewriting code for common tasks.\nConsistency: Standardized code structure and naming conventions.\nReproducibility: Ensures that your work is easier to share and reproduce.\nIntuitive: R packages use functions with intuitive names of functions, so you can spend less time learning the code & more time learning to solve practical problems.",
+    "crumbs": [
+      "Lessons",
+      "04-Data Wrangling I"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/04_datawrangling_01.html#example-1-mutate",
+    "href": "coding/week_03/04_datawrangling_01.html#example-1-mutate",
+    "title": "Transforming Ag data with dplyr",
+    "section": "3.2 Example 1: mutate()",
+    "text": "3.2 Example 1: mutate()\n\nPackages like dplyr simplify tasks by providing clean, concise code for data manipulation.\n\n\n\n1. Create a new column: total, which is the sum of two existing columns (var1 and var2).\n\n\n\n3.2.0.1 Base R version\n\n\n# Sample data\ndf &lt;- data.frame(var1 = c(1, 2, 3), var2 = c(4, 5, 6))\n\n# Adding a new column using base R\ndf$total &lt;- df$var1 + df$var2\n\n\n\n\n\n3.2.0.2 dplyr package (Tidyverse)\nlibrary(dplyr)\n\n# Using mutate to add a new column\ndf &lt;- df %&gt;%\n  mutate(total = var1 + var2)",
+    "crumbs": [
+      "Lessons",
+      "04-Data Wrangling I"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/04_datawrangling_01.html#example-2-filter",
+    "href": "coding/week_03/04_datawrangling_01.html#example-2-filter",
+    "title": "Transforming Ag data with dplyr",
+    "section": "3.3 Example 2: filter()",
+    "text": "3.3 Example 2: filter()\n\n2. Filtering: get values of var1 greater than 2.\n\n\n\n3.3.0.1 Base R version\n\n# Filter rows using base R\nfiltered_df &lt;- df[df$var1 &gt; 2, ]\n\n\n\n\n\n3.3.0.2 dplyr package (Tidyverse)\n# Filter rows using dplyr\nfiltered_df &lt;- filter(data = df, var1 &gt; 2)",
+    "crumbs": [
+      "Lessons",
+      "04-Data Wrangling I"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/04_datawrangling_01.html#example-3-select",
+    "href": "coding/week_03/04_datawrangling_01.html#example-3-select",
+    "title": "Transforming Ag data with dplyr",
+    "section": "3.4 Example 3: select()",
+    "text": "3.4 Example 3: select()\n\n3. Select specific variables: get var1 and var3.\n\n\n\n\n3.4.0.1 Base R version\n# Select columns using base R\nselected_df &lt;- df[ , c(\"var1\",\"var3\")]\n\n\n\n\n\n3.4.0.2 dplyr package (Tidyverse)\n# Filter rows using dplyr\nfiltered_df &lt;- select(data = df, var1, var3)",
+    "crumbs": [
+      "Lessons",
+      "04-Data Wrangling I"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/04_datawrangling_01.html#inspect-data",
+    "href": "coding/week_03/04_datawrangling_01.html#inspect-data",
+    "title": "Transforming Ag data with dplyr",
+    "section": "4.1 Inspect data",
+    "text": "4.1 Inspect data\n\n4.1.1 glimpse\nThe glimpse() function provides an overview of the dataset, including variable names and data types.\n\n# Inspect the dataset\nglimpse(corn_data)\n\nRows: 3,443\nColumns: 9\n$ year  &lt;int&gt; 1999, 1999, 1999, 1999, 1999, 1999, 1999, 1999, 1999, 1999, 1999…\n$ lat   &lt;dbl&gt; -33.05113, -33.05115, -33.05116, -33.05117, -33.05118, -33.05120…\n$ long  &lt;dbl&gt; -63.84886, -63.84879, -63.84872, -63.84865, -63.84858, -63.84851…\n$ yield &lt;dbl&gt; 72.14, 73.79, 77.25, 76.35, 75.55, 70.24, 76.17, 69.17, 69.77, 6…\n$ nitro &lt;dbl&gt; 131.5, 131.5, 131.5, 131.5, 131.5, 131.5, 131.5, 131.5, 131.5, 1…\n$ topo  &lt;fct&gt; W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W…\n$ bv    &lt;dbl&gt; 162.60, 170.49, 168.39, 176.68, 171.46, 170.56, 172.94, 171.86, …\n$ rep   &lt;fct&gt; R1, R1, R1, R1, R1, R1, R1, R1, R1, R1, R1, R1, R1, R1, R1, R1, …\n$ nf    &lt;fct&gt; N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, …\n\n\n\n\n4.1.2 skim\nThe skim() function from the ‘skimr’ allows to take a deeper look to all the variables (columns), creating a quick summary that reports the presence of missing values, etc., etc.\n\nskimr::skim(corn_data)\n\n\nData summary\n\n\nName\ncorn_data\n\n\nNumber of rows\n3443\n\n\nNumber of columns\n9\n\n\n_______________________\n\n\n\nColumn type frequency:\n\n\n\nfactor\n3\n\n\nnumeric\n6\n\n\n________________________\n\n\n\nGroup variables\nNone\n\n\n\nVariable type: factor\n\n\n\n\n\n\n\n\n\n\n\nskim_variable\nn_missing\ncomplete_rate\nordered\nn_unique\ntop_counts\n\n\n\n\ntopo\n0\n1\nFALSE\n4\nW: 1043, LO: 885, HT: 785, E: 730\n\n\nrep\n0\n1\nFALSE\n3\nR3: 1149, R1: 1147, R2: 1147\n\n\nnf\n0\n1\nFALSE\n6\nN1: 577, N3: 575, N5: 575, N0: 573\n\n\n\nVariable type: numeric\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nskim_variable\nn_missing\ncomplete_rate\nmean\nsd\np0\np25\np50\np75\np100\nhist\n\n\n\n\nyear\n0\n1\n1999.99\n1.00\n1999.00\n1999.00\n1999.00\n2001.00\n2001.00\n▇▁▁▁▇\n\n\nlat\n0\n1\n-33.05\n0.00\n-33.05\n-33.05\n-33.05\n-33.05\n-33.05\n▃▇▆▃▁\n\n\nlong\n0\n1\n-63.85\n0.00\n-63.85\n-63.85\n-63.85\n-63.84\n-63.84\n▇▇▇▇▇\n\n\nyield\n0\n1\n69.83\n19.83\n12.66\n54.54\n66.63\n84.68\n117.90\n▁▅▇▃▃\n\n\nnitro\n0\n1\n64.57\n42.60\n0.00\n29.00\n66.00\n106.00\n131.50\n▅▇▇▂▇\n\n\nbv\n0\n1\n174.42\n9.68\n91.74\n168.48\n173.08\n179.39\n213.82\n▁▁▁▇▁",
+    "crumbs": [
+      "Lessons",
+      "04-Data Wrangling I"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/04_datawrangling_01.html#adding-new-variables-with-mutate",
+    "href": "coding/week_03/04_datawrangling_01.html#adding-new-variables-with-mutate",
+    "title": "Transforming Ag data with dplyr",
+    "section": "4.2 Adding New Variables with mutate()",
+    "text": "4.2 Adding New Variables with mutate()\nYou can add new columns to your dataset with mutate(). Let’s calculate the yield in tons per hectare (assuming the current yield is in kilograms):\n\n# Add a column for yield in tons\ncorn_data &lt;- corn_data %&gt;% \n  # New column, `yield_tons`, with the transformed yield values.\n  mutate(yield_tons = yield / 1000)\n\nhead(corn_data)\n\n  year       lat      long yield nitro topo     bv rep nf yield_tons\n1 1999 -33.05113 -63.84886 72.14 131.5    W 162.60  R1 N5    0.07214\n2 1999 -33.05115 -63.84879 73.79 131.5    W 170.49  R1 N5    0.07379\n3 1999 -33.05116 -63.84872 77.25 131.5    W 168.39  R1 N5    0.07725\n4 1999 -33.05117 -63.84865 76.35 131.5    W 176.68  R1 N5    0.07635\n5 1999 -33.05118 -63.84858 75.55 131.5    W 171.46  R1 N5    0.07555\n6 1999 -33.05120 -63.84851 70.24 131.5    W 170.56  R1 N5    0.07024",
+    "crumbs": [
+      "Lessons",
+      "04-Data Wrangling I"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/04_datawrangling_01.html#filtering-data",
+    "href": "coding/week_03/04_datawrangling_01.html#filtering-data",
+    "title": "Transforming Ag data with dplyr",
+    "section": "4.3 Filtering Data",
+    "text": "4.3 Filtering Data\nTo focus on specific data, we can use filter(). For example, let’s filter the data to include only rows where the nitrogen applied (nitro) is greater than 100:\n\n# Filter rows with nitro &gt; 100\nhigh_nitro &lt;- corn_data %&gt;%\n  # only rows where the `nitro` column has values greater than 100.\n  filter(nitro &gt; 100)\n\nhead(high_nitro)\n\n  year       lat      long yield nitro topo     bv rep nf yield_tons\n1 1999 -33.05113 -63.84886 72.14 131.5    W 162.60  R1 N5    0.07214\n2 1999 -33.05115 -63.84879 73.79 131.5    W 170.49  R1 N5    0.07379\n3 1999 -33.05116 -63.84872 77.25 131.5    W 168.39  R1 N5    0.07725\n4 1999 -33.05117 -63.84865 76.35 131.5    W 176.68  R1 N5    0.07635\n5 1999 -33.05118 -63.84858 75.55 131.5    W 171.46  R1 N5    0.07555\n6 1999 -33.05120 -63.84851 70.24 131.5    W 170.56  R1 N5    0.07024",
+    "crumbs": [
+      "Lessons",
+      "04-Data Wrangling I"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/04_datawrangling_01.html#selecting-columns",
+    "href": "coding/week_03/04_datawrangling_01.html#selecting-columns",
+    "title": "Transforming Ag data with dplyr",
+    "section": "4.4 Selecting columns",
+    "text": "4.4 Selecting columns\nTo select specific variables, we use select(), which selects specific columns from the dataset.\n\n# Select specific columns\nselected_data &lt;- corn_data %&gt;% select(yield, nitro, topo)\nhead(selected_data)\n\n  yield nitro topo\n1 72.14 131.5    W\n2 73.79 131.5    W\n3 77.25 131.5    W\n4 76.35 131.5    W\n5 75.55 131.5    W\n6 70.24 131.5    W",
+    "crumbs": [
+      "Lessons",
+      "04-Data Wrangling I"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/04_datawrangling_01.html#renaming-columns",
+    "href": "coding/week_03/04_datawrangling_01.html#renaming-columns",
+    "title": "Transforming Ag data with dplyr",
+    "section": "4.5 Renaming columns",
+    "text": "4.5 Renaming columns\nWhen we need to change names of columns, we can use rename():\n\n# Rename a column\nrenamed_data &lt;- corn_data %&gt;% rename(Nitrogen = nitro)\nhead(renamed_data)\n\n  year       lat      long yield Nitrogen topo     bv rep nf yield_tons\n1 1999 -33.05113 -63.84886 72.14    131.5    W 162.60  R1 N5    0.07214\n2 1999 -33.05115 -63.84879 73.79    131.5    W 170.49  R1 N5    0.07379\n3 1999 -33.05116 -63.84872 77.25    131.5    W 168.39  R1 N5    0.07725\n4 1999 -33.05117 -63.84865 76.35    131.5    W 176.68  R1 N5    0.07635\n5 1999 -33.05118 -63.84858 75.55    131.5    W 171.46  R1 N5    0.07555\n6 1999 -33.05120 -63.84851 70.24    131.5    W 170.56  R1 N5    0.07024",
+    "crumbs": [
+      "Lessons",
+      "04-Data Wrangling I"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/04_datawrangling_01.html#arranging-data",
+    "href": "coding/week_03/04_datawrangling_01.html#arranging-data",
+    "title": "Transforming Ag data with dplyr",
+    "section": "4.6 Arranging data",
+    "text": "4.6 Arranging data\nTo reorder the data based on specific criteria, we can use arrange(), which will arrange rows by a variable in ascending or descending order.\n\n# Arrange data by yield in descending order\narranged_data &lt;- corn_data %&gt;% arrange(desc(yield))\nhead(arranged_data)\n\n  year       lat      long  yield nitro topo     bv rep nf yield_tons\n1 2001 -33.05086 -63.84317 117.90  99.8   LO 162.17  R3 N4    0.11790\n2 2001 -33.05125 -63.84245 117.19 124.6   LO 165.81  R3 N5    0.11719\n3 2001 -33.05181 -63.84323 116.64 124.6   LO 159.75  R1 N5    0.11664\n4 2001 -33.05084 -63.84324 114.94  99.8   LO 166.27  R3 N4    0.11494\n5 2001 -33.05134 -63.84299 114.46  99.8   LO 164.58  R2 N4    0.11446\n6 2001 -33.05127 -63.84238 114.08 124.6   LO 170.94  R3 N5    0.11408",
+    "crumbs": [
+      "Lessons",
+      "04-Data Wrangling I"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/04_datawrangling_01.html#finding-unique-values",
+    "href": "coding/week_03/04_datawrangling_01.html#finding-unique-values",
+    "title": "Transforming Ag data with dplyr",
+    "section": "4.7 Finding unique values",
+    "text": "4.7 Finding unique values\nTo find out what are the unique values of a variable, we can use distinct(), which will return the unique values within a column.\n\n# Unique values in topo\nunique_topo &lt;- corn_data %&gt;% distinct(topo)\nunique_topo\n\n  topo\n1    W\n2   HT\n3    E\n4   LO",
+    "crumbs": [
+      "Lessons",
+      "04-Data Wrangling I"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/04_datawrangling_01.html#counting",
+    "href": "coding/week_03/04_datawrangling_01.html#counting",
+    "title": "Transforming Ag data with dplyr",
+    "section": "4.8 Counting",
+    "text": "4.8 Counting\nThe function count() counts the number of observations within a group.\n\n# Count observations by topo\ntopo_count &lt;- corn_data %&gt;% count(topo)\ntopo_count\n\n  topo    n\n1    E  730\n2   HT  785\n3   LO  885\n4    W 1043",
+    "crumbs": [
+      "Lessons",
+      "04-Data Wrangling I"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/04_datawrangling_01.html#summarizing-data",
+    "href": "coding/week_03/04_datawrangling_01.html#summarizing-data",
+    "title": "Transforming Ag data with dplyr",
+    "section": "4.9 Summarizing Data",
+    "text": "4.9 Summarizing Data\nTo get a quick overview of your data, you can use summarize() in combination with group_by(). For example, let’s calculate the average yield for each topographical category (topo):\n\n# Average yield by topography\naverage_yield_topo &lt;- corn_data %&gt;%\n  group_by(topo) %&gt;%\n  summarize(avg_yield = mean(yield, na.rm = TRUE))\naverage_yield_topo\n\n# A tibble: 4 × 2\n  topo  avg_yield\n  &lt;fct&gt;     &lt;dbl&gt;\n1 E          78.7\n2 HT         48.6\n3 LO         84.9\n4 W          66.8\n\n# Average yield by year and topography\naverage_yield_topoyear &lt;- corn_data %&gt;%\n  group_by(year, topo) %&gt;%\n  summarize(avg_yield = mean(yield, na.rm = TRUE))\n\n`summarise()` has grouped output by 'year'. You can override using the\n`.groups` argument.\n\naverage_yield_topoyear\n\n# A tibble: 8 × 3\n# Groups:   year [2]\n   year topo  avg_yield\n  &lt;int&gt; &lt;fct&gt;     &lt;dbl&gt;\n1  1999 E          64.8\n2  1999 HT         53.4\n3  1999 LO         71.2\n4  1999 W          66.0\n5  2001 E          92.7\n6  2001 HT         44.7\n7  2001 LO         99.9\n8  2001 W          67.7\n\n\nThis groups the data by topo and calculates the mean yield for each group.",
+    "crumbs": [
+      "Lessons",
+      "04-Data Wrangling I"
+    ]
+  },
+  {
+    "objectID": "outline/calendar.html",
+    "href": "outline/calendar.html",
+    "title": "PLNT6530|01 - Calendar",
+    "section": "",
+    "text": "Days: Wednesdays and Fridays\nTime: 11:30 am - 12:50 pm\nLocation: CRSC 121B",
+    "crumbs": [
+      "Calendar",
+      "Schedule"
+    ]
+  },
+  {
+    "objectID": "outline/calendar.html#calendar",
+    "href": "outline/calendar.html#calendar",
+    "title": "PLNT6530|01 - Calendar",
+    "section": "Calendar",
+    "text": "Calendar\nThe course runs on Wednesdays and Fridays from 1:00 PM to 2:20 PM. Below is the tentative schedule. Please, note the schedule may vary depending on the progress of the class.\n\n\n\nWeek\nDate\nTopic\nMaterial\nLesson\n\n\n\n\n1\nJan 7\nIntroductions, Reproducibility\n🌐\n🎥\n\n\n\nJan 09\nEssentials of Quarto and R\n🌐\n🎥\n\n\n2\nJan 14\nFundamentals of R packages\n🌐\n🎥\n\n\n\nJan 16\nBasics of version control & GitHub\n🌐\n🎥\n\n\n3\nJan 21\nData Wrangling I\n(🌐)[https://adriancorrendo.github.io/plnt6530/coding/week_03/04_datawrangling_01.html]\n🎥\n\n\n\nJan 23\nData Wrangling II\n(🌐)[https://adriancorrendo.github.io/plnt6530/coding/week_03/05_datawrangling_02.html]\n🎥\n\n\n4\nJan 28\nData Wrangling III\n🌐\n🎥\n\n\n\nJan 30\nData Viz I: ggplot2 basics\n🌐\n🎥\n\n\n5\nFeb 04\nData Viz II: Multiple plots\n🌐\n🎥\n\n\n\nFeb 06\nData Viz III: Advanced plots, maps\n🌐\n🎥\n\n\n6\nFeb 11\nIteration: Loops & Mapping\n🌐\n🎥\n\n\n\nFeb 13\nWeather Data: Retrieving & Processing\n🌐\n🎥\n\n\n\n\nWinter Break begins after the end of class\n\n\n\n\n7\nFeb 25\nModels I: TBD\n🌐\n🎥\n\n\n\nFeb 27\nModels II: TBD\n🌐\n🎥\n\n\n8\nMar 04\nModels III: TBD\n🌐\n🎥\n\n\n\nMar 06\nModels IV: TBD\n🌐\n🎥\n\n\n9\nMar 11\nModels V: TBD\n🌐\n🎥\n\n\n\nMar 13\nModels VI: TBD\n🌐\n🎥\n\n\n10\nMar 18\nModels VII: TBD\n🌐\n🎥\n\n\n\nMar 20\nModels VIII: TBD\n🌐\n🎥\n\n\n11\nMar 25\nModels IX: TBD\n🌐\n🎥\n\n\n\nMar 27\nGeneral Review class\n🌐\n🎥\n\n\n12\nApr 01\nSemester Projects Presentations I\n🌐\n\n\n\n\nApr 03\nSemester Projects Presentations II\n🌐\n\n\n\n13\nApr 10\nFinal Exam Due (11.59 pm)\n🌐",
+    "crumbs": [
+      "Calendar",
+      "Schedule"
+    ]
+  },
+  {
+    "objectID": "slides/day1.html#introductions",
+    "href": "slides/day1.html#introductions",
+    "title": "ReproducibleData Science for Ag",
+    "section": "Introductions 💬",
+    "text": "Introductions 💬\n\n\ni. Who are you and why enrolling on this course?\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nResearch project, career goals…",
+    "crumbs": [
+      "Slides",
+      "Reproducibility"
+    ]
+  },
+  {
+    "objectID": "slides/day1.html#learning-goals",
+    "href": "slides/day1.html#learning-goals",
+    "title": "ReproducibleData Science for Ag",
+    "section": "Learning Goals 📌",
+    "text": "Learning Goals 📌\n\nReproducibility: understand the principles and importance of reproducible data analysis.\nData manipulation: develop proficiency in R, including key data structures, packages, and functions to read, clean, transform, and organize datasets.\nData visualization: create informative and aesthetically pleasing visualizations of data.\nModelling and iteration: apply various algorithms and statistical models common to plant agriculture, and implement techniques to handle multiple datasets simultaneously.\nProfessional reporting: produce professional reports for sharing results.\nVersion control: manage the basics of Git and Github for collaborative projects.",
+    "crumbs": [
+      "Slides",
+      "Reproducibility"
+    ]
+  },
+  {
+    "objectID": "slides/day1.html#a-hands-on-learning-model",
+    "href": "slides/day1.html#a-hands-on-learning-model",
+    "title": "ReproducibleData Science for Ag",
+    "section": "A hands-on learning model",
+    "text": "A hands-on learning model\n\nLive coding sessions (you code along with me)\nFocus on doing, not just reading about tools\nClass time is for:\n\nbuilding workflows\ntroubleshooting together\npracticing reproducible habits",
+    "crumbs": [
+      "Slides",
+      "Reproducibility"
+    ]
+  },
+  {
+    "objectID": "slides/day1.html#what-youll-leave-with",
+    "href": "slides/day1.html#what-youll-leave-with",
+    "title": "ReproducibleData Science for Ag",
+    "section": "What you’ll leave with",
+    "text": "What you’ll leave with\n\nThe ability to complete a reproducible analysis workflow\nAn understanding of main models used in agriculture data science\nConfidence reading/writing Quarto (.qmd) documents\nA lot of templates to re-use in the future\nA portfolio-ready project",
+    "crumbs": [
+      "Slides",
+      "Reproducibility"
+    ]
+  },
+  {
+    "objectID": "slides/day1.html#course-assessment",
+    "href": "slides/day1.html#course-assessment",
+    "title": "ReproducibleData Science for Ag",
+    "section": "Course-Assessment",
+    "text": "Course-Assessment\nThree main components\n\nQuizzes / short coding assignments — 30%\n\n5 total (asynchronous)\nlowest 2 dropped\n\nSemester project — 50%\n\ngroups of 2\nAnalysis of your own dataset (or provided if you don’t have one)\n\nFinal exam — 20%\n\nOn-line, asynchronous, open-book",
+    "crumbs": [
+      "Slides",
+      "Reproducibility"
+    ]
+  },
+  {
+    "objectID": "slides/day1.html#semester-project-50",
+    "href": "slides/day1.html#semester-project-50",
+    "title": "ReproducibleData Science for Ag",
+    "section": "Semester project (50%)",
+    "text": "Semester project (50%)\n\n\n\n\n\n\nNote\n\n\nExpectations  - Use reproducible practices throughout (files, code, and narrative)  - Clear questions, clean data, and transparent methods  - Professional communication (figures, tables, interpretation) \n\n\n\n\nMilestones\n\nProposal (10%)\nInitial report (20%)\nPresentation (20%)\nFinal report (50%)",
+    "crumbs": [
+      "Slides",
+      "Reproducibility"
+    ]
+  },
+  {
+    "objectID": "slides/day1.html#key-definitions",
+    "href": "slides/day1.html#key-definitions",
+    "title": "ReproducibleData Science for Ag",
+    "section": "Key Definitions 📖",
+    "text": "Key Definitions 📖\n\n\n\nData Science: Extracting insights from data using algorithms and statistical methods. \nData Literacy: Skills to read, interpret, and analyze data. \nReproducibility: Ensuring analyses can be recreated by others.\n\n\n\n\n\n\n\n\n\nNote\n\n\nWhy does reproducibility matter?\n\nTrustworthy results,\ntransparency, &\ncollaboration in research.",
+    "crumbs": [
+      "Slides",
+      "Reproducibility"
+    ]
+  },
+  {
+    "objectID": "slides/day1.html#challenges-in-data-literacy",
+    "href": "slides/day1.html#challenges-in-data-literacy",
+    "title": "ReproducibleData Science for Ag",
+    "section": "Challenges in Data Literacy 🌐",
+    "text": "Challenges in Data Literacy 🌐\n\nDiverse data sources (weather, soil, crop data)\nStandardization issues across datasets\nData skills gap among ag professionals",
+    "crumbs": [
+      "Slides",
+      "Reproducibility"
+    ]
+  },
+  {
+    "objectID": "slides/day1.html#why-does-it-matter",
+    "href": "slides/day1.html#why-does-it-matter",
+    "title": "ReproducibleData Science for Ag",
+    "section": "Why does it matter?",
+    "text": "Why does it matter?\n\n\nIt is the #1 skill-gap in the job market: \n\nAcademia,\nIndustry,\nGovernment, NGOs, etc.\n\n\n\n\n\nIs there a REPRODUCIBILITY CRISIS in science?\nYES\nA Nature survey with ~1,600 researchers found that\n\n+70% failure rate to reproduce another scientist’s experiments\n+50% have failed to reproduce their own experiments\nMain causes: selective reporting, weak stats, code/data unavailability, etc.",
+    "crumbs": [
+      "Slides",
+      "Reproducibility"
+    ]
+  },
+  {
+    "objectID": "slides/day1.html#why-reproducibility-in-agriculture",
+    "href": "slides/day1.html#why-reproducibility-in-agriculture",
+    "title": "ReproducibleData Science for Ag",
+    "section": "Why Reproducibility in Agriculture?",
+    "text": "Why Reproducibility in Agriculture?\n\nAgriculture research relies heavily on environmental data, often variable and complex.\nWe have complex challenges 🗒️\n\nVariability due to environmental factors, soil types, and weather patterns.\nComplex datasets involving long-term studies, geographical variability.\n\nOpportunities ✅\n\nReproducibility helps stakeholders make reliable, data-driven decisions.\nEnsures scientific findings are reliable and valid.\nFacilitates collaboration, accountability, and efficiency among researchers and practitioners.",
+    "crumbs": [
+      "Slides",
+      "Reproducibility"
+    ]
+  },
+  {
+    "objectID": "slides/day1.html#challenges-in-ag-research",
+    "href": "slides/day1.html#challenges-in-ag-research",
+    "title": "ReproducibleData Science for Ag",
+    "section": "Challenges in Ag-research",
+    "text": "Challenges in Ag-research\n\nREPRODUCIBILITY 💻\n\nLimited capability to reproduce analyses & results\nDATA are rarely shared, CODES even less\n\n\n\nACCESSIBILITY 📲\n\nYet we are not translating enough science into flexible, and transparent decision tools.\n\n\n\n“But it all starts with …”\n\n\nEDUCATION 🎓\n\nLimited curriculum in applied data science",
+    "crumbs": [
+      "Slides",
+      "Reproducibility"
+    ]
+  },
+  {
+    "objectID": "slides/day1.html#what-is-r-1",
+    "href": "slides/day1.html#what-is-r-1",
+    "title": "ReproducibleData Science for Ag",
+    "section": "What is R? 🧮",
+    "text": "What is R? 🧮\n\n\nR is a programming language and environment primarily for statistical analysis, data visualization, and data science.\nKnown for its extensive statistical libraries, data manipulation capabilities, and graphics.\nWidely used in fields like data science, bioinformatics, agriculture, and social sciences.",
+    "crumbs": [
+      "Slides",
+      "Reproducibility"
+    ]
+  },
+  {
+    "objectID": "slides/day1.html#brief-history-of-r",
+    "href": "slides/day1.html#brief-history-of-r",
+    "title": "ReproducibleData Science for Ag",
+    "section": "Brief History of R 📜",
+    "text": "Brief History of R 📜\n\n\n\nOrigin: Developed in the early 1990s by Ross Ihaka and Robert Gentleman at the University of Auckland, New Zealand.\nInspiration: R is an implementation of the S language, designed at Bell Laboratories for data analysis.\nOpen Source: Released as free, open-source software, leading to a large community of users and contributors.\nPopularity: Today, R is one of the top programming languages for statistical analysis and data science.\nCRAN: the Comprehensive R Archive Network, which hosts thousands of packages was developed in 1997 by Kurt Hornik & Fritz Leisch.\n\n\n  Ihaka, Gentleman",
+    "crumbs": [
+      "Slides",
+      "Reproducibility"
+    ]
+  },
+  {
+    "objectID": "slides/day1.html#packages",
+    "href": "slides/day1.html#packages",
+    "title": "ReproducibleData Science for Ag",
+    "section": "Packages",
+    "text": "Packages\nThere are currently 23,052 of packages (on CRAN only).",
+    "crumbs": [
+      "Slides",
+      "Reproducibility"
+    ]
+  },
+  {
+    "objectID": "slides/day1.html#r-vs.-excel-for-data-wrangling",
+    "href": "slides/day1.html#r-vs.-excel-for-data-wrangling",
+    "title": "ReproducibleData Science for Ag",
+    "section": "R vs. Excel for Data Wrangling 📊",
+    "text": "R vs. Excel for Data Wrangling 📊\n\n\n\nExcel: Known for ease of use, popular among business and finance professionals.\n\nPros: Intuitive, good for small datasets and quick analysis.\nCons: Limited in handling large datasets, lacks reproducibility.\n\nR: Provides powerful data manipulation packages (e.g., dplyr, tidyr).\n\nPros: Handles large datasets efficiently, supports complex transformations, fully reproducible.\nCons: Requires programming knowledge, steeper learning curve than Excel.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nTip: R is highly scalable and is ideal for projects requiring automation, reproducibility, and handling large datasets.",
+    "crumbs": [
+      "Slides",
+      "Reproducibility"
+    ]
+  },
+  {
+    "objectID": "slides/day1.html#r-vs.-sas-for-statistical-analysis",
+    "href": "slides/day1.html#r-vs.-sas-for-statistical-analysis",
+    "title": "ReproducibleData Science for Ag",
+    "section": "R vs. SAS for Statistical Analysis 📉",
+    "text": "R vs. SAS for Statistical Analysis 📉\n\n\n\nSAS: A powerful statistical software suite used widely in industries such as healthcare and finance.\n\nPros: Robust for regulatory environments, highly standardized.\nCons: Proprietary and costly, limited community contributions.\n\nR: Offers a vast array of statistical packages and flexibility in method implementation.\n\nPros: Free and open-source, customizable, strong community support.\nCons: Requires more coding and configuration for regulatory standards.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nComparison: R is often chosen for research and academia due to its flexibility and customization, while SAS remains strong in industries needing strict compliance and control.",
+    "crumbs": [
+      "Slides",
+      "Reproducibility"
+    ]
+  },
+  {
+    "objectID": "slides/day1.html#r-vs-python",
+    "href": "slides/day1.html#r-vs-python",
+    "title": "ReproducibleData Science for Ag",
+    "section": "R vs Python 🔍",
+    "text": "R vs Python 🔍\n\nR, & Python are popular languages in data science and research.\nEach language has unique strengths, ideal use cases, and licensing considerations.",
+    "crumbs": [
+      "Slides",
+      "Reproducibility"
+    ]
+  },
+  {
+    "objectID": "slides/day1.html#r-strengths-and-use-cases",
+    "href": "slides/day1.html#r-strengths-and-use-cases",
+    "title": "ReproducibleData Science for Ag",
+    "section": "R: Strengths and Use Cases 🧮",
+    "text": "R: Strengths and Use Cases 🧮\n\n\n\nDesigned for Statistics: R is optimized for statistical analysis, making it ideal for research and academia.\nVisualization: Excellent data visualization libraries like ggplot2.\nLicensing: Licensed under GPL; many packages are also GPL, with some using MIT or BSD.\n\n\nIdeal Use Cases:\n\nData analysis, visualization, and complex statistical modeling.\nResearch and academia where open-source, reproducible code is needed.\nLicensing in Production: GPL may restrict proprietary use; check package licenses carefully.",
+    "crumbs": [
+      "Slides",
+      "Reproducibility"
+    ]
+  },
+  {
+    "objectID": "slides/day1.html#python-strengths-and-use-cases",
+    "href": "slides/day1.html#python-strengths-and-use-cases",
+    "title": "ReproducibleData Science for Ag",
+    "section": "Python: Strengths and Use Cases 🐍",
+    "text": "Python: Strengths and Use Cases 🐍\n\n\n\nGeneral-Purpose Language: Python is popular for both data science and software development.\nMachine Learning & AI: Extensive libraries for ML and AI, such as scikit-learn, TensorFlow.\nLicensing: PSFL (Python Software Foundation License), highly permissive for proprietary use.\n\n\nIdeal Use Cases:\n\nEnd-to-end development, from data wrangling to ML and web development.\nProduction-ready ML and AI applications.\nLicensing in Production: Permissive licenses allow closed-source use, making Python production-friendly.",
+    "crumbs": [
+      "Slides",
+      "Reproducibility"
+    ]
+  },
+  {
+    "objectID": "slides/day1.html#comparison-summary",
+    "href": "slides/day1.html#comparison-summary",
+    "title": "ReproducibleData Science for Ag",
+    "section": "Comparison Summary 📊",
+    "text": "Comparison Summary 📊\n\n\n\n\n\n\n\nNote\n\n\n\nExcel: User-friendly, ideal for simple tasks, but limited for complex data wrangling.\nSAS: Industry-standard for statistical analysis with regulatory requirements, but costly and less flexible than R.\nR: Best for statistical analysis and visualization, but GPL license may restrict use in proprietary products.\nPython: Strong in ML and AI with highly permissive licensing, making it ideal for production.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFeature\nR\nPython\n\n\n\n\nPrimary Strength\nStatistics & Visualization\nGeneral-purpose, ML, AI\n\n\nPerformance\nModerate\nModerate\n\n\nLicensing\nGPL (core), MIT, BSD (some)\nPSFL, highly permissive\n\n\nProduction Use\nLimited by GPL\nVery friendly for proprietary",
+    "crumbs": [
+      "Slides",
+      "Reproducibility"
+    ]
+  },
+  {
+    "objectID": "slides/day1.html#comparison-summary-ii",
+    "href": "slides/day1.html#comparison-summary-ii",
+    "title": "ReproducibleData Science for Ag",
+    "section": "Comparison Summary II 📊",
+    "text": "Comparison Summary II 📊\nChoosing the right tool depends on:\n\nyour project’s requirements, \nteam structure & skills, and \nlicensing needs for research vs. production.\n\n\n\n\n\n\n\n\nTip\n\n\n\nR: Best for statistical analysis and visualization, but GPL license may restrict use in proprietary products.\nPython: Strong in ML and AI with highly permissive licensing, making it ideal for production.",
+    "crumbs": [
+      "Slides",
+      "Reproducibility"
+    ]
+  },
+  {
+    "objectID": "slides/day1.html#why-r",
+    "href": "slides/day1.html#why-r",
+    "title": "ReproducibleData Science for Ag",
+    "section": "Why R?",
+    "text": "Why R?\n\n\n\n1. Open-Source\n\nFree to use and modify, with contributions from a large community.\n\n2. Multi-Platform\n\nRuns on Windows, macOS, and Linux, making it versatile for collaboration.\n\n3. Community Support\n\nStrong online help through forums, tutorials, and dedicated resources.\n\n4. Continuous Development\n\nRegular updates keep R on the leading edge of data science.\n\n5. Reproducible Workflows\n\nTools like Rmarkdown and Quarto facilitates the job.",
+    "crumbs": [
+      "Slides",
+      "Reproducibility"
+    ]
+  },
+  {
+    "objectID": "slides/day1.html#why-rstudio",
+    "href": "slides/day1.html#why-rstudio",
+    "title": "ReproducibleData Science for Ag",
+    "section": "Why RStudio?",
+    "text": "Why RStudio?\n\n\n\n1. An interface to R\n\nProvides a user-friendly environment to work with R.\n\n2. Integrates various components of an analysis\n\nCombines data, code, and output in one place, simplifying the workflow.\n\n3. Colored syntax\n\nHighlights code with colors, making it easier to read and spot errors, improving code clarity.\n\n4. Syntax suggestions\n\nOffers autocomplete suggestions, which speeds up coding and reduces mistakes.\n\n5. RStudio panels\n\nPanels for console, scripts, files, and plots, giving quick access to all elements.",
+    "crumbs": [
+      "Slides",
+      "Reproducibility"
+    ]
+  },
+  {
+    "objectID": "slides/day1.html#rstudio-panels",
+    "href": "slides/day1.html#rstudio-panels",
+    "title": "ReproducibleData Science for Ag",
+    "section": "Rstudio panels",
+    "text": "Rstudio panels",
+    "crumbs": [
+      "Slides",
+      "Reproducibility"
+    ]
+  },
+  {
+    "objectID": "slides/day1.html#why-posit-cloud",
+    "href": "slides/day1.html#why-posit-cloud",
+    "title": "ReproducibleData Science for Ag",
+    "section": "Why posit cloud?",
+    "text": "Why posit cloud?\n\n\n\n\n1. Learn how to use a cloud service\n\nGain experience with cloud-based tools, increasingly important in data science.\n\n2. Access from anywhere\n\nAccess R and RStudio directly from your web browser without any setup.\n\n3. Collaboration\n\nShare projects easily with others, facilitating teamwork and joint analysis.\n\n4. It’s free for you\n\nYou’ll have free access to Posit Cloud through this course (this semester).",
+    "crumbs": [
+      "Slides",
+      "Reproducibility"
+    ]
+  },
+  {
+    "objectID": "slides/day1.html#why-version-control",
+    "href": "slides/day1.html#why-version-control",
+    "title": "ReproducibleData Science for Ag",
+    "section": "Why version control? 🔄",
+    "text": "Why version control? 🔄\n\n\n\n\n1. Track Changes\n\nMaintain a complete history of edits, making it easy to identify when and why changes were made.\n\n2. Collaborate Seamlessly\n\nMultiple users can work together without overwriting each other’s work, enhancing teamwork.\n\n3. Ensure Data Integrity\n\nProtect primary data by using branches for experimentation, avoiding accidental overwrites.\n\n4. Boost Reproducibility\n\nAccess exact versions of code and data, enabling others to reproduce your work reliably.\n\n5. Provide Built-in Documentation\n\nChanges can be documented, helping to understand workflow.",
+    "crumbs": [
+      "Slides",
+      "Reproducibility"
+    ]
+  },
+  {
+    "objectID": "slides/day1.html#what-are-git-and-github",
+    "href": "slides/day1.html#what-are-git-and-github",
+    "title": "ReproducibleData Science for Ag",
+    "section": "What are Git and GitHub?",
+    "text": "What are Git and GitHub?\n\n\n\nGit\n\nA version control system that tracks changes in files on your local computer, allowing you to manage versions and revert to previous work.\n\nGitHub\n\nAn online platform for hosting Git repositories, enabling easy collaboration, project sharing, and cloud storage.",
+    "crumbs": [
+      "Slides",
+      "Reproducibility"
+    ]
+  },
+  {
+    "objectID": "slides/day1.html#thank-you",
+    "href": "slides/day1.html#thank-you",
+    "title": "ReproducibleData Science for Ag",
+    "section": "THANK YOU!",
+    "text": "THANK YOU!\n_\n\n\nAdrian A. Correndo\n📬 acorrend@uoguelph.ca\n\nAssistant Professor\nPick Family Chair, Sustainable Cropping Systems\nRm 226, Crop Science Building\n\n\n\n\n\n\n\n\n\nContact me",
+    "crumbs": [
+      "Slides",
+      "Reproducibility"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "PLNT6530|01 - Reproducible Data Sci for Ag",
+    "section": "",
+    "text": "Reproducible Data Science for Ag is offered at Department of Plant Agriculture (University of Guelph) by Dr. Adrian Correndo. It is designed for graduate students in crop and soil sciences to develop key skills in data science using R. This course emphasizes reproducibility in data analysis, ensuring that results can be consistently replicated. Students will learn essential data science concepts, and how to use functions, packages, and version control to effectively manage their data and collaborate with peers. Following tidy principles, the course promotes best coding practices for data wrangling, effective visualization, and clean deployment of statistical models common in agriculture. By the end of the course, students will be equipped to handle a variety of agricultural datasets and produce reliable, reproducible research outcomes.\n\n\n\nBy the end of this course, students will be able to:\n\nReproducibility: understand the principles and importance of reproducible data analysis.\nData manipulation: develop proficiency in R, including key data structures, packages, and functions to read, clean, transform, and organize datasets.\nData visualization: create informative and aesthetically pleasing visualizations of data.\nModelling and iteration: apply various algorithms and statistical models common to plant agriculture, and implement techniques to handle multiple datasets simultaneously.\nProfessional reporting: produce professional reports for sharing results.\nVersion control: manage the basics of Git and Github for collaborative projects.\n\n\n\n\nThis course will use a variety of technologies and resources. To successfully participate in and complete this course, students will need access to the following\n\n\nCourseLink. This platform will be used as the main Course-Home Page. If you need any assistance with the software tools or the CourseLink website, contact CourseLink Support. Email: courselink@uoguelph.ca Tel: 519-824-4120 ext. 56939 Toll-Free (CAN/USA): 1-866- 275-1478. Support Hours (Eastern Time): Monday thru Friday: 8:30 am–8:30 pm; Saturday: 10:00 am–4:00 pm; Sunday: 12:00 pm–6:00 pm\nZoom. This course will use Zoom for lectures when in-person class is not possible. Check your system requirements to ensure you will be able to participate (https://opened.uoguelph.ca/student-resources/system-and-software-requirements/). A Zoom link for the class will be provided before the first day of class. Please, check Home-Page and announcements on CourseLink, and emails from the instructor (acorrend@uoguelph.ca).\n\n\n\n\nR (latest stable version, available at CRAN).\nRStudio/Posit IDE (desktop or cloud-based version for writing and running R code).\nCourse-Specific Libraries and Packages: Students will be required to install R packages. Detailed instructions will be provided in class.\nVersion Control and Collaboration Tools: Git (for version control) and a free GitHub account for collaborative project work and sharing code.\n\n\n\n\nA laptop or desktop computer capable of running R and RStudio (Windows, MacOS, or Linux). Minimum specifications include:\n\nProcessor: At least a dual-core processor.\nRAM: 8 GB or more (16 GB recommended for handling larger datasets).\nStorage: 10 GB of free space for software installation, course files, and datasets.\n\n\n\n\nReliable high-speed internet for accessing online sessions, resources, downloading software, and using cloud-based platforms (e.g., Posit Cloud, GitHub).",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#dpag-oac-uog",
+    "href": "index.html#dpag-oac-uog",
+    "title": "PLNT6530|01 - Reproducible Data Sci for Ag",
+    "section": "",
+    "text": "Reproducible Data Science for Ag is offered at Department of Plant Agriculture (University of Guelph) by Dr. Adrian Correndo. It is designed for graduate students in crop and soil sciences to develop key skills in data science using R. This course emphasizes reproducibility in data analysis, ensuring that results can be consistently replicated. Students will learn essential data science concepts, and how to use functions, packages, and version control to effectively manage their data and collaborate with peers. Following tidy principles, the course promotes best coding practices for data wrangling, effective visualization, and clean deployment of statistical models common in agriculture. By the end of the course, students will be equipped to handle a variety of agricultural datasets and produce reliable, reproducible research outcomes.\n\n\n\nBy the end of this course, students will be able to:\n\nReproducibility: understand the principles and importance of reproducible data analysis.\nData manipulation: develop proficiency in R, including key data structures, packages, and functions to read, clean, transform, and organize datasets.\nData visualization: create informative and aesthetically pleasing visualizations of data.\nModelling and iteration: apply various algorithms and statistical models common to plant agriculture, and implement techniques to handle multiple datasets simultaneously.\nProfessional reporting: produce professional reports for sharing results.\nVersion control: manage the basics of Git and Github for collaborative projects.\n\n\n\n\nThis course will use a variety of technologies and resources. To successfully participate in and complete this course, students will need access to the following\n\n\nCourseLink. This platform will be used as the main Course-Home Page. If you need any assistance with the software tools or the CourseLink website, contact CourseLink Support. Email: courselink@uoguelph.ca Tel: 519-824-4120 ext. 56939 Toll-Free (CAN/USA): 1-866- 275-1478. Support Hours (Eastern Time): Monday thru Friday: 8:30 am–8:30 pm; Saturday: 10:00 am–4:00 pm; Sunday: 12:00 pm–6:00 pm\nZoom. This course will use Zoom for lectures when in-person class is not possible. Check your system requirements to ensure you will be able to participate (https://opened.uoguelph.ca/student-resources/system-and-software-requirements/). A Zoom link for the class will be provided before the first day of class. Please, check Home-Page and announcements on CourseLink, and emails from the instructor (acorrend@uoguelph.ca).\n\n\n\n\nR (latest stable version, available at CRAN).\nRStudio/Posit IDE (desktop or cloud-based version for writing and running R code).\nCourse-Specific Libraries and Packages: Students will be required to install R packages. Detailed instructions will be provided in class.\nVersion Control and Collaboration Tools: Git (for version control) and a free GitHub account for collaborative project work and sharing code.\n\n\n\n\nA laptop or desktop computer capable of running R and RStudio (Windows, MacOS, or Linux). Minimum specifications include:\n\nProcessor: At least a dual-core processor.\nRAM: 8 GB or more (16 GB recommended for handling larger datasets).\nStorage: 10 GB of free space for software installation, course files, and datasets.\n\n\n\n\nReliable high-speed internet for accessing online sessions, resources, downloading software, and using cloud-based platforms (e.g., Posit Cloud, GitHub).",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "software/software.html",
+    "href": "software/software.html",
+    "title": "Required Software & Accounts",
+    "section": "",
+    "text": "R & RStudio IDEGitGitHubGitHub DesktopPosit Cloud\n\n\nBefore starting with the course, it is important that you install R and R Studio in your computer. Please, follow these simple steps:\nDownload the latest version of R from CRAN, here Download the latest version of RStudio from posit, here Run and install in the downloaded files in the same order. There are plenty of useful tutorials on the internet such as:\n\nhttps://rstudio-education.github.io/hopr/starting.html\nhttps://www.youtube.com/watch?v=Tb3R4GLJ45U\n\n\n\nWhat is Git?\nGit is a powerful version control system that helps you track changes in your code, collaborate with others, and manage your projects effectively.\nHow to Install Git:\nFollow these steps to install Git on your computer:\n\nVisit the official Git website (https://git-scm.com/);to download the installer for your operating system.\nFor detailed guidance, read the official tutorial to install git (https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).\nYou may use these step-by-step videos for installation:\n\n• Installing Git on Windows (https://www.youtube.com/watch?v=iYkLrXobBbA)\n• Installing Git on Mac (https://www.youtube.com/watch?v=B4qsvQ5IqWk)\nOnce installed, verify by typing git –version in your terminal to ensure Git is ready to use!\n\n\nWhat is GitHub?\nGitHub is a web-based interface (nowadays own by Microsoft) that facilitates the use of Git, an open source version control software. This lets multiple people make separate changes to projects and have control over them. GitHub is to Git the equivalent of what RStudio is to R.\nFor this course, it is required that you create your GitHub account. Preferably, using your University email (##@uoguelph.ca). Please, follow the steps detailed on this official link from GitHub:\nhttps://docs.github.com/en/get-started/start-your-journey/creating-an-account-on-github\nYou may also find multiple useful YouTube tutorials like this one:\nhttps://www.youtube.com/watch?v=h5cKAd94QNo\n\n\nWhat is GitHub Desktop?\nGitHub Desktop is a user-friendly application that helps you interact with Git and GitHub through a simple graphical interface, making it easier to manage your repositories.\nHow to Install GitHub Desktop:\nFollow these steps to install GitHub Desktop on your computer:\n\nVisit the GitHub Desktop website (https://desktop.github.com); and download the application for your operating system.\nRun the installer and follow the on-screen instructions to complete the installation.\nAfter installation, sign in to your GitHub account or create one if you don’t have it.\n\nFor additional help, check out these videos:\n• Installing GitHub Desktop on Windows (https://www.youtube.com/watch?v=3JdDAJ2YPeU)\n• Installing GitHub Desktop on Mac (https://www.youtube.com/watch?v=C0n6O4d0ccw)\nOnce installed, you can easily clone repositories, commit changes, and sync your work with GitHub!\n\n\nWhat is Posit Cloud?\nPosit Cloud is an online platform that allows you to run RStudio “online”. It helps to write and execute R code directly in your browser, making it easy to learn and work on data science projects without installing software locally.\nHow to Create a Free Posit Cloud Account:\nFollow these steps to set up your free account:\n\nVisit Posit Cloud website at https://posit.cloud.\nClick on Sign Up and choose to create an account using your UoG email. THIS IS IMPORTANT, USE YOUR UOG EMAIL!\nComplete the registration form and verify your email if required.\nOnce registered, log in to your Posit Cloud account and start exploring R projects directly in your browser.\nMore instructions about our course workspace will be provided during the semester.\n\nFor a hint of what PositCloud does, you may watch with this video:\nhttps://www.youtube.com/watch?v=-fzwm4ZhVQQ With Posit Cloud, you’ll have a convenient environment to learn and work on your R programming assignments!",
+    "crumbs": [
+      "Software",
+      "Instructions"
+    ]
+  },
+  {
+    "objectID": "outline/outline.html",
+    "href": "outline/outline.html",
+    "title": "PLNT6530|01 - Course Outline",
+    "section": "",
+    "text": "Course Code: PLNT6530\nCourse Title: Reproducible Data Sci for Ag\nTerm: Winter\nCredits: 0.50\n\n\n\n\nDays: Wednesdays and Fridays\nTime: 11:30 am - 12:50 pm\nLocation: CRSC 202\n\n\n\n\n\nDr. Adrian Correndo\nEmail: acorrend@uoguelph.ca",
+    "crumbs": [
+      "Course Outline",
+      "Outline"
+    ]
+  },
+  {
+    "objectID": "outline/outline.html#course-information",
+    "href": "outline/outline.html#course-information",
+    "title": "PLNT6530|01 - Course Outline",
+    "section": "",
+    "text": "Course Code: PLNT6530\nCourse Title: Reproducible Data Sci for Ag\nTerm: Winter\nCredits: 0.50\n\n\n\n\nDays: Wednesdays and Fridays\nTime: 11:30 am - 12:50 pm\nLocation: CRSC 202\n\n\n\n\n\nDr. Adrian Correndo\nEmail: acorrend@uoguelph.ca",
+    "crumbs": [
+      "Course Outline",
+      "Outline"
+    ]
+  },
+  {
+    "objectID": "outline/outline.html#course-description",
+    "href": "outline/outline.html#course-description",
+    "title": "PLNT6530|01 - Course Outline",
+    "section": "2. Course Description",
+    "text": "2. Course Description\nThis course is designed for graduate students in crop and soil sciences to develop key skills in data science using R. It emphasizes reproducibility in data analysis, ensuring that results can be consistently replicated. Students will learn essential data science concepts, and how to use functions, packages, and version control to effectively manage their data and collaborate with peers. Following tidy principles, the course promotes best coding practices for data wrangling, effective visualization, and clean deployment of statistical models common in agriculture. By the end of the course, students will be equipped to handle a variety of agricultural datasets and produce reliable, reproducible research outcomes.\n\nPrerequisite(s)\nA basic understanding of R or any programming language is recommended but not required. Basic statistical theory is also recommended.\n\n\nTextbooks and Resources\nRecommended:\n\nR for Data Science by Hadley Wickham & Garrett Grolemund.\nOnline resources and package documentation will be provided throughout the course.",
+    "crumbs": [
+      "Course Outline",
+      "Outline"
+    ]
+  },
+  {
+    "objectID": "outline/outline.html#course-learning-outcomes",
+    "href": "outline/outline.html#course-learning-outcomes",
+    "title": "PLNT6530|01 - Course Outline",
+    "section": "3. Course Learning Outcomes",
+    "text": "3. Course Learning Outcomes\nBy the end of this course, students will be able to:\n\nReproducibility: understand the principles and importance of reproducible data analysis.\nData manipulation: develop proficiency in R, including key data structures, packages, and functions to read, clean, transform, and organize datasets.\nData visualization: create informative and aesthetically pleasing visualizations of data.\nModelling and iteration: apply various algorithms and statistical models common to plant agriculture, and implement techniques to handle multiple datasets simultaneously.\nProfessional reporting: produce professional reports for sharing results.\nVersion control: manage the basics of Git and Github for collaborative projects.",
+    "crumbs": [
+      "Course Outline",
+      "Outline"
+    ]
+  },
+  {
+    "objectID": "outline/outline.html#calendar",
+    "href": "outline/outline.html#calendar",
+    "title": "PLNT6530|01 - Course Outline",
+    "section": "4. Calendar",
+    "text": "4. Calendar\nSee http://adriancorrendo.github.io/plnt6530/calendar.html\n\nLast Day to Drop Course\nTBD",
+    "crumbs": [
+      "Course Outline",
+      "Outline"
+    ]
+  },
+  {
+    "objectID": "outline/outline.html#assessment-breakdown",
+    "href": "outline/outline.html#assessment-breakdown",
+    "title": "PLNT6530|01 - Course Outline",
+    "section": "5. Assessment Breakdown",
+    "text": "5. Assessment Breakdown\n\n\n\n\n\n\n\n\nComponent\nWeight (%)\nDetails\n\n\n\n\nWeekly Exercises\n30%\nHands-on exercises to practice skills covered in each week’s topic.\n\n\nSemester Project\n50%\nComplete data analysis project, report, and presentation.\n\n\nFinal Exam\n20%\nCumulative assessment covering all topics from the course.\n\n\n\n\nFinal Exam\n\nDate: April 10th (asynchronous).",
+    "crumbs": [
+      "Course Outline",
+      "Outline"
+    ]
+  },
+  {
+    "objectID": "outline/outline.html#course-grading-policies",
+    "href": "outline/outline.html#course-grading-policies",
+    "title": "PLNT6530|01 - Course Outline",
+    "section": "6. Course Grading Policies",
+    "text": "6. Course Grading Policies\n\na. Late Submissions\nAssignments submitted late will be penalized 5% per day, up to six days. Extensions granted only for valid reasons.\n\n\nb. Use of Devices\nElectronic recording of classes is forbidden without prior permission from the instructor.\n\n\nc. Academic honesty\nPlease adhere to the following guidelines when working on assignments for this course:\n\nIndividual and Team Assignments: You are welcome to discuss individual homework and lab assignments with other students; however, direct sharing or copying of code or written work is not permitted. For team assignments, collaboration is allowed freely within your team. Sharing or copying code or written content between teams is prohibited. Any unauthorized sharing or copying will be treated as a violation for all parties involved.\nExams: Collaboration or discussion with others during exams is strictly prohibited. Unauthorized collaboration or use of unapproved materials will be considered a violation for all students involved.\nReusing Code: Unless specified otherwise, you may refer to online resources (e.g., StackOverflow) for coding examples in assignments. If you use code from an external source directly or take inspiration from it, you must clearly cite the source. The use of AI to complete tasks is not prohibited but it must be disclosed. Failure to cite reused code will be considered plagiarism.",
+    "crumbs": [
+      "Course Outline",
+      "Outline"
+    ]
+  },
+  {
+    "objectID": "outline/outline.html#course-statements",
+    "href": "outline/outline.html#course-statements",
+    "title": "PLNT6530|01 - Course Outline",
+    "section": "7. Course Statements",
+    "text": "7. Course Statements\n\nA. Communication with instructor\nDuring the course, your instructor will interact with you on various course matters on the course website using the following ways of communication:\n\nAnnouncements: The instructor will use Announcements on the Course Home page to provide you with course reminders and updates. Please, check this section frequently for course updates from your instructor.\nEmail: If you have a conflict that prevents you from completing course requirements, or have a question concerning a personal matter, you can send your instructor a private message by email. The instructor will attempt to respond to your email within 24 hours.\nVideo Call: If you have a complex question you would like to discuss with your instructor, you may book a video meeting on Zoom or Teams. Video meetings depend on the availability and are booked on a first come first served basis.\n\n\n\nB. Course Technology Requirements\nThis course will use a variety of technologies and resources. To successfully participate in and complete this course, students will need access to the following\n\n1. Communication tools:\nCourseLink. This platform will be used as the main Course-Home Page. If you need any assistance with the software tools or the CourseLink website, contact CourseLink Support. Email: courselink@uoguelph.ca Tel: 519-824-4120 ext. 56939 Toll-Free (CAN/USA): 1-866- 275-1478. Support Hours (Eastern Time): Monday thru Friday: 8:30 am–8:30 pm; Saturday: 10:00 am–4:00 pm; Sunday: 12:00 pm–6:00 pm\nZoom. This course will use Zoom for lectures when in-person class is not possible. Check your system requirements to ensure you will be able to participate (https://opened.uoguelph.ca/student-resources/system-and-software-requirements/). A Zoom link for the class will be provided before the first day of class. Please, check Home-Page and announcements on CourseLink, and emails from the instructor (acorrend@uoguelph.ca).\n\n\n2. Software & Tools:\n\nR (latest stable version, available at CRAN).\nRStudio/Posit IDE (desktop or cloud-based version for writing and running R code).\nCourse-Specific Libraries and Packages: Students will be required to install R packages. Detailed instructions will be provided in class.\nVersion Control and Collaboration Tools: Git (for version control) and a free GitHub account for collaborative project work and sharing code.\n\n\n\n3. Computing Requirements:\nA laptop or desktop computer capable of running R and RStudio (Windows, MacOS, or Linux). Minimum specifications include:\n\nProcessor: At least a dual-core processor.\nRAM: 8 GB or more (16 GB recommended for handling larger datasets).\nStorage: 10 GB of free space for software installation, course files, and datasets.\n\n\n\n4. Internet Access:\nReliable high-speed internet for accessing online sessions, resources, downloading software, and using cloud-based platforms (e.g., Posit Cloud, GitHub).\n\n\n\n\nC. Data Usage Policy for the Semester Project\nStudents are encouraged to use data from their own research projects for the semester project. However, it is essential to ensure the integrity and privacy of the data, as well as compliance with the policies of their research lab or institution. To safeguard data privacy and integrity: \n\nData Sharing Restrictions: Students are NOT allowed to upload raw research data directly to the instructor, peers, GitHub repositories, Posit Cloud, or any other external platform.\nDe-Identification and Transformation: Before using or sharing the data for the semester project, students must de-identify and transform the data as necessary. This process should ensure that sensitive information or identifying details are removed or anonymized. All data preparation must be performed locally on the student’s machine before incorporating it into the project. \nDocumentation Requirement: Students must include a clear description of the steps taken to de-identify and transform the data in their project report or presentation. This demonstrates adherence to ethical data handling practices.\n\nBy following these guidelines, students can apply their learning to real-world datasets while respecting ethical and institutional standards. The instructor is not responsible for students’ violations to the integrity and privacy of their research data. Non-compliance with this policy may result in disqualification of the project or additional academic consequences.",
+    "crumbs": [
+      "Course Outline",
+      "Outline"
+    ]
+  },
+  {
+    "objectID": "outline/outline.html#accessibility",
+    "href": "outline/outline.html#accessibility",
+    "title": "PLNT6530|01 - Course Outline",
+    "section": "8. Accessibility",
+    "text": "8. Accessibility\nStudents requiring accommodations must register with Student Accessibility Services. Contact the instructor early in the semester to arrange accommodations.",
+    "crumbs": [
+      "Course Outline",
+      "Outline"
+    ]
+  },
+  {
+    "objectID": "outline/outline.html#land-acknowledgement",
+    "href": "outline/outline.html#land-acknowledgement",
+    "title": "PLNT6530|01 - Course Outline",
+    "section": "9. Land Acknowledgement",
+    "text": "9. Land Acknowledgement\nThe University of Guelph resides on the ancestral lands of the Attawandaron people and the treaty lands and territory of the Mississaugas of the Credit. We recognize the significance of the Dish with One Spoon Covenant to this land and offer respect to our Anishinaabe, Haudenosaunee, and Métis neighbours. Today, this gathering place is home to many First Nations, Inuit, and Métis peoples, and acknowledging them reminds us of our important connection to this land where we work and learn.",
+    "crumbs": [
+      "Course Outline",
+      "Outline"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/05_datawrangling_02.html",
+    "href": "coding/week_03/05_datawrangling_02.html",
+    "title": "Transforming Ag data in R II",
+    "section": "",
+    "text": "This lesson builds on our previous session by introducing more advanced data wrangling techniques using tidyr, stringr, and forcats. We will explore how to manipulate and transform data for efficient analysis. Additionally, we introduce lubridate for handling dates effectively.\n\n\n\nlibrary(pacman)\np_load(agridat, dplyr, tidyr, stringr, forcats, skimr, lubridate)",
+    "crumbs": [
+      "Lessons",
+      "05-Data Wrangling II"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/05_datawrangling_02.html#required-packages-for-today",
+    "href": "coding/week_03/05_datawrangling_02.html#required-packages-for-today",
+    "title": "Transforming Ag data in R II",
+    "section": "",
+    "text": "library(pacman)\np_load(agridat, dplyr, tidyr, stringr, forcats, skimr, lubridate)",
+    "crumbs": [
+      "Lessons",
+      "05-Data Wrangling II"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/05_datawrangling_02.html#aggregation-with-group_by-and-summarize",
+    "href": "coding/week_03/05_datawrangling_02.html#aggregation-with-group_by-and-summarize",
+    "title": "Transforming Ag data in R II",
+    "section": "2.1 Aggregation with group_by() and summarize()",
+    "text": "2.1 Aggregation with group_by() and summarize()\n\ndata_corn &lt;- agridat::lasrosas.corn\nsummary_data &lt;- data_corn %&gt;% \n  group_by(topo, year) %&gt;% \n  summarize(mean_yield = mean(yield, na.rm = TRUE), .groups = \"drop\")\nsummary_data\n\n# A tibble: 8 × 3\n  topo   year mean_yield\n  &lt;fct&gt; &lt;int&gt;      &lt;dbl&gt;\n1 E      1999       64.8\n2 E      2001       92.7\n3 HT     1999       53.4\n4 HT     2001       44.7\n5 LO     1999       71.2\n6 LO     2001       99.9\n7 W      1999       66.0\n8 W      2001       67.7",
+    "crumbs": [
+      "Lessons",
+      "05-Data Wrangling II"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/05_datawrangling_02.html#applying-functions-to-multiple-columns-using-across",
+    "href": "coding/week_03/05_datawrangling_02.html#applying-functions-to-multiple-columns-using-across",
+    "title": "Transforming Ag data in R II",
+    "section": "2.2 Applying Functions to Multiple Columns using across()",
+    "text": "2.2 Applying Functions to Multiple Columns using across()\n\ndata_across &lt;- data_corn %&gt;% \n  mutate(across(c(lat, long), ~ round(.x, digits=1), .names = \"rounded_{.col}\")) # Rounding values to 1 decimal place for better readability\nhead(data_across)\n\n  year       lat      long yield nitro topo     bv rep nf rounded_lat\n1 1999 -33.05113 -63.84886 72.14 131.5    W 162.60  R1 N5       -33.1\n2 1999 -33.05115 -63.84879 73.79 131.5    W 170.49  R1 N5       -33.1\n3 1999 -33.05116 -63.84872 77.25 131.5    W 168.39  R1 N5       -33.1\n4 1999 -33.05117 -63.84865 76.35 131.5    W 176.68  R1 N5       -33.1\n5 1999 -33.05118 -63.84858 75.55 131.5    W 171.46  R1 N5       -33.1\n6 1999 -33.05120 -63.84851 70.24 131.5    W 170.56  R1 N5       -33.1\n  rounded_long\n1        -63.8\n2        -63.8\n3        -63.8\n4        -63.8\n5        -63.8\n6        -63.8",
+    "crumbs": [
+      "Lessons",
+      "05-Data Wrangling II"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/05_datawrangling_02.html#creating-conditional-columns-with-case_when",
+    "href": "coding/week_03/05_datawrangling_02.html#creating-conditional-columns-with-case_when",
+    "title": "Transforming Ag data in R II",
+    "section": "2.3 Creating Conditional Columns with case_when()",
+    "text": "2.3 Creating Conditional Columns with case_when()\n\ndata_casewhen &lt;- data_corn %&gt;% \n  mutate(yield_category = case_when(\n    yield &gt; 10 ~ \"High\",\n    yield &gt; 5 ~ \"Medium\",\n    TRUE ~ \"Low\"\n  ))\nhead(data_casewhen)\n\n  year       lat      long yield nitro topo     bv rep nf yield_category\n1 1999 -33.05113 -63.84886 72.14 131.5    W 162.60  R1 N5           High\n2 1999 -33.05115 -63.84879 73.79 131.5    W 170.49  R1 N5           High\n3 1999 -33.05116 -63.84872 77.25 131.5    W 168.39  R1 N5           High\n4 1999 -33.05117 -63.84865 76.35 131.5    W 176.68  R1 N5           High\n5 1999 -33.05118 -63.84858 75.55 131.5    W 171.46  R1 N5           High\n6 1999 -33.05120 -63.84851 70.24 131.5    W 170.56  R1 N5           High",
+    "crumbs": [
+      "Lessons",
+      "05-Data Wrangling II"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/05_datawrangling_02.html#slicing-data-with-slice",
+    "href": "coding/week_03/05_datawrangling_02.html#slicing-data-with-slice",
+    "title": "Transforming Ag data in R II",
+    "section": "2.4 Slicing data with slice():",
+    "text": "2.4 Slicing data with slice():\n\n# Selecting the first 3 rows\nfirst_rows &lt;- data_corn %&gt;% slice(1:3)\nhead(first_rows)\n\n  year       lat      long yield nitro topo     bv rep nf\n1 1999 -33.05113 -63.84886 72.14 131.5    W 162.60  R1 N5\n2 1999 -33.05115 -63.84879 73.79 131.5    W 170.49  R1 N5\n3 1999 -33.05116 -63.84872 77.25 131.5    W 168.39  R1 N5\n\n# Selecting the last 3 rows\nlast_rows &lt;- data_corn %&gt;% slice_tail(n = 3)\nhead(last_rows)\n\n  year       lat      long yield nitro topo     bv rep nf\n1 2001 -33.05110 -63.84189 92.33    39   LO 166.75  R3 N1\n2 2001 -33.05112 -63.84182 88.98    39   LO 163.59  R3 N1\n3 2001 -33.05115 -63.84175 85.74    39   LO 163.48  R3 N1\n\n# Selecting 3 random rows\nrandom_rows &lt;- data_corn %&gt;% slice_sample(n = 3)\nhead(random_rows)\n\n  year       lat      long yield nitro topo     bv rep nf\n1 1999 -33.05050 -63.84642 55.53    29   HT 166.30  R3 N1\n2 2001 -33.05039 -63.84672 43.69     0    W 179.72  R1 N0\n3 1999 -33.05219 -63.84233 74.68    66   LO 171.86  R1 N3\n\n# Selecting every 2nd row\nevery_second_row &lt;- data_corn %&gt;% slice(seq(1, n(), by = 2))\nhead(every_second_row)\n\n  year       lat      long yield nitro topo     bv rep nf\n1 1999 -33.05113 -63.84886 72.14 131.5    W 162.60  R1 N5\n2 1999 -33.05116 -63.84872 77.25 131.5    W 168.39  R1 N5\n3 1999 -33.05118 -63.84858 75.55 131.5    W 171.46  R1 N5\n4 1999 -33.05121 -63.84844 76.17 131.5    W 172.94  R1 N5\n5 1999 -33.05123 -63.84830 69.77 131.5    W 171.88  R1 N5\n6 1999 -33.05126 -63.84816 71.05 131.5    W 173.02  R1 N5",
+    "crumbs": [
+      "Lessons",
+      "05-Data Wrangling II"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/05_datawrangling_02.html#working-with-time-series-data-lead-and-lag",
+    "href": "coding/week_03/05_datawrangling_02.html#working-with-time-series-data-lead-and-lag",
+    "title": "Transforming Ag data in R II",
+    "section": "2.5 Working with Time-Series Data: lead() and lag()",
+    "text": "2.5 Working with Time-Series Data: lead() and lag()\n\ndata_lag &lt;- data_corn %&gt;% \n  arrange(year, topo) %&gt;% \n  mutate(yield_change = yield - lag(yield))\nhead(data_lag)\n\n  year       lat      long yield nitro topo     bv rep nf yield_change\n1 1999 -33.05174 -63.84532 59.94 131.5    E 182.12  R1 N5           NA\n2 1999 -33.05175 -63.84525 58.96 131.5    E 182.57  R1 N5        -0.98\n3 1999 -33.05176 -63.84518 61.77 131.5    E 178.07  R1 N5         2.81\n4 1999 -33.05178 -63.84511 66.41 131.5    E 177.83  R1 N5         4.64\n5 1999 -33.05179 -63.84504 66.06 131.5    E 176.17  R1 N5        -0.35\n6 1999 -33.05180 -63.84497 62.13 131.5    E 176.56  R1 N5        -3.93",
+    "crumbs": [
+      "Lessons",
+      "05-Data Wrangling II"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/05_datawrangling_02.html#gathering-and-spreading-data",
+    "href": "coding/week_03/05_datawrangling_02.html#gathering-and-spreading-data",
+    "title": "Transforming Ag data in R II",
+    "section": "3.1 Gathering and Spreading Data",
+    "text": "3.1 Gathering and Spreading Data\n\n# Convert from wide to long format using pivot_longer\nlong_data &lt;- data_corn %&gt;% \n  pivot_longer(cols = c(yield, nitro), \n               names_to = \"measurement\", # name of the column with description\n               values_to = \"value\") # name of the column with values\nhead(long_data)\n\n# A tibble: 6 × 9\n   year   lat  long topo     bv rep   nf    measurement value\n  &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt; &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt; &lt;chr&gt;       &lt;dbl&gt;\n1  1999 -33.1 -63.8 W      163. R1    N5    yield        72.1\n2  1999 -33.1 -63.8 W      163. R1    N5    nitro       132. \n3  1999 -33.1 -63.8 W      170. R1    N5    yield        73.8\n4  1999 -33.1 -63.8 W      170. R1    N5    nitro       132. \n5  1999 -33.1 -63.8 W      168. R1    N5    yield        77.2\n6  1999 -33.1 -63.8 W      168. R1    N5    nitro       132. \n\n# Convert back from long to wide format using pivot_wider\nwide_data &lt;- long_data %&gt;% \n  pivot_wider(names_from = measurement, \n              values_from = value)\nhead(wide_data)\n\n# A tibble: 6 × 9\n   year   lat  long topo     bv rep   nf    yield nitro\n  &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt; &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt;\n1  1999 -33.1 -63.8 W      163. R1    N5     72.1  132.\n2  1999 -33.1 -63.8 W      170. R1    N5     73.8  132.\n3  1999 -33.1 -63.8 W      168. R1    N5     77.2  132.\n4  1999 -33.1 -63.8 W      177. R1    N5     76.4  132.\n5  1999 -33.1 -63.8 W      171. R1    N5     75.6  132.\n6  1999 -33.1 -63.8 W      171. R1    N5     70.2  132.",
+    "crumbs": [
+      "Lessons",
+      "05-Data Wrangling II"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/05_datawrangling_02.html#separating-and-uniting-columns",
+    "href": "coding/week_03/05_datawrangling_02.html#separating-and-uniting-columns",
+    "title": "Transforming Ag data in R II",
+    "section": "3.2 Separating and Uniting Columns",
+    "text": "3.2 Separating and Uniting Columns\n\n# Example dataset with a combined column\nexample_data &lt;- data_corn %&gt;% \n  mutate(topo_year = paste(topo, year, sep = \"_\"))\n\n# Splitting 'topo_year' into two columns\nseparated_data &lt;- example_data %&gt;% \n  separate(topo_year, into = c(\"topo\", \"year\"), sep = \"_\")\nhead(separated_data)\n\n        lat      long yield nitro     bv rep nf topo year\n1 -33.05113 -63.84886 72.14 131.5 162.60  R1 N5    W 1999\n2 -33.05115 -63.84879 73.79 131.5 170.49  R1 N5    W 1999\n3 -33.05116 -63.84872 77.25 131.5 168.39  R1 N5    W 1999\n4 -33.05117 -63.84865 76.35 131.5 176.68  R1 N5    W 1999\n5 -33.05118 -63.84858 75.55 131.5 171.46  R1 N5    W 1999\n6 -33.05120 -63.84851 70.24 131.5 170.56  R1 N5    W 1999\n\n# Combining 'topo' and 'year' back into a single column\nunited_data &lt;- separated_data %&gt;% \n  unite(\"topo_year\", topo, year, sep = \"-\")\nhead(united_data)\n\n        lat      long yield nitro     bv rep nf topo_year\n1 -33.05113 -63.84886 72.14 131.5 162.60  R1 N5    W-1999\n2 -33.05115 -63.84879 73.79 131.5 170.49  R1 N5    W-1999\n3 -33.05116 -63.84872 77.25 131.5 168.39  R1 N5    W-1999\n4 -33.05117 -63.84865 76.35 131.5 176.68  R1 N5    W-1999\n5 -33.05118 -63.84858 75.55 131.5 171.46  R1 N5    W-1999\n6 -33.05120 -63.84851 70.24 131.5 170.56  R1 N5    W-1999",
+    "crumbs": [
+      "Lessons",
+      "05-Data Wrangling II"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/05_datawrangling_02.html#nesting-and-unnesting-data",
+    "href": "coding/week_03/05_datawrangling_02.html#nesting-and-unnesting-data",
+    "title": "Transforming Ag data in R II",
+    "section": "3.3 Nesting and Unnesting Data",
+    "text": "3.3 Nesting and Unnesting Data\n\nnested_data &lt;- data_corn %&gt;% \n  group_by(topo) %&gt;% \n  nest()\nhead(nested_data)\n\n# A tibble: 4 × 2\n# Groups:   topo [4]\n  topo  data                \n  &lt;fct&gt; &lt;list&gt;              \n1 W     &lt;tibble [1,043 × 8]&gt;\n2 HT    &lt;tibble [785 × 8]&gt;  \n3 E     &lt;tibble [730 × 8]&gt;  \n4 LO    &lt;tibble [885 × 8]&gt;  \n\nunnested_data &lt;- nested_data %&gt;% \n  unnest(cols = c(data))\nhead(unnested_data)\n\n# A tibble: 6 × 9\n# Groups:   topo [1]\n  topo   year   lat  long yield nitro    bv rep   nf   \n  &lt;fct&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;\n1 W      1999 -33.1 -63.8  72.1  132.  163. R1    N5   \n2 W      1999 -33.1 -63.8  73.8  132.  170. R1    N5   \n3 W      1999 -33.1 -63.8  77.2  132.  168. R1    N5   \n4 W      1999 -33.1 -63.8  76.4  132.  177. R1    N5   \n5 W      1999 -33.1 -63.8  75.6  132.  171. R1    N5   \n6 W      1999 -33.1 -63.8  70.2  132.  171. R1    N5",
+    "crumbs": [
+      "Lessons",
+      "05-Data Wrangling II"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/05_datawrangling_02.html#detecting-and-extracting-strings",
+    "href": "coding/week_03/05_datawrangling_02.html#detecting-and-extracting-strings",
+    "title": "Transforming Ag data in R II",
+    "section": "4.1 Detecting and Extracting Strings",
+    "text": "4.1 Detecting and Extracting Strings\n\nnames &lt;- c(\"Wheat Field\", \"Corn Field\", \"Soybean Farm\")\nstr_detect(names, \"Field\") # Check if 'Field' is present\n\n[1]  TRUE  TRUE FALSE\n\nstr_subset(names, \"Corn\") # Extract values containing 'Corn'\n\n[1] \"Corn Field\"",
+    "crumbs": [
+      "Lessons",
+      "05-Data Wrangling II"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/05_datawrangling_02.html#modifying-strings",
+    "href": "coding/week_03/05_datawrangling_02.html#modifying-strings",
+    "title": "Transforming Ag data in R II",
+    "section": "4.2 Modifying Strings",
+    "text": "4.2 Modifying Strings\n\nnames &lt;- str_replace(names, \"Field\", \"Plot\")\nnames\n\n[1] \"Wheat Plot\"   \"Corn Plot\"    \"Soybean Farm\"\n\ncapitalized_names &lt;- str_to_title(names)\nhead(capitalized_names)\n\n[1] \"Wheat Plot\"   \"Corn Plot\"    \"Soybean Farm\"\n\ndata_clean &lt;- data_corn %&gt;% \n  mutate(topo_clean = str_replace_all(topo, \"[^a-zA-Z0-9]\", \"_\"))\n\nhead(data_clean)\n\n  year       lat      long yield nitro topo     bv rep nf topo_clean\n1 1999 -33.05113 -63.84886 72.14 131.5    W 162.60  R1 N5          W\n2 1999 -33.05115 -63.84879 73.79 131.5    W 170.49  R1 N5          W\n3 1999 -33.05116 -63.84872 77.25 131.5    W 168.39  R1 N5          W\n4 1999 -33.05117 -63.84865 76.35 131.5    W 176.68  R1 N5          W\n5 1999 -33.05118 -63.84858 75.55 131.5    W 171.46  R1 N5          W\n6 1999 -33.05120 -63.84851 70.24 131.5    W 170.56  R1 N5          W",
+    "crumbs": [
+      "Lessons",
+      "05-Data Wrangling II"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/05_datawrangling_02.html#splitting-strings",
+    "href": "coding/week_03/05_datawrangling_02.html#splitting-strings",
+    "title": "Transforming Ag data in R II",
+    "section": "4.3 Splitting Strings",
+    "text": "4.3 Splitting Strings\n\nwords &lt;- \"Wheat,Corn,Soybean\"\nsplit_words &lt;- str_split(words, \",\")\nhead(split_words)\n\n[[1]]\n[1] \"Wheat\"   \"Corn\"    \"Soybean\"",
+    "crumbs": [
+      "Lessons",
+      "05-Data Wrangling II"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/05_datawrangling_02.html#reordering-factors",
+    "href": "coding/week_03/05_datawrangling_02.html#reordering-factors",
+    "title": "Transforming Ag data in R II",
+    "section": "5.1 Reordering Factors",
+    "text": "5.1 Reordering Factors\n\nlibrary(forcats)\ncrops &lt;- factor(c(\"soybean\", \"corn\", \"wheat\"), levels = c(\"wheat\", \"corn\", \"soybean\"))\ncrops &lt;- fct_relevel(crops, \"corn\") # Moves 'corn' to first position\nhead(crops)\n\n[1] soybean corn    wheat  \nLevels: corn wheat soybean",
+    "crumbs": [
+      "Lessons",
+      "05-Data Wrangling II"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/05_datawrangling_02.html#lump-rare-categories-together",
+    "href": "coding/week_03/05_datawrangling_02.html#lump-rare-categories-together",
+    "title": "Transforming Ag data in R II",
+    "section": "5.2 Lump Rare Categories Together",
+    "text": "5.2 Lump Rare Categories Together\n\nset.seed(123)\ndata &lt;- data.frame(crop = sample(c(\"corn\", \"soybean\", \"wheat\", \"barley\", \"oats\"), 20, replace = TRUE))\n\n# Using mutate() to lump rare categories together\nfactor_data &lt;- data %&gt;%\n  mutate(crop_lumped = fct_lump_n(crop, n = 3)) # Keep top 3 categories, lump others into 'Other'\nfactor_data\n\n      crop crop_lumped\n1    wheat       wheat\n2    wheat       wheat\n3  soybean     soybean\n4  soybean     soybean\n5    wheat       wheat\n6     oats       Other\n7   barley       Other\n8     corn        corn\n9  soybean     soybean\n10   wheat       wheat\n11    oats       Other\n12   wheat       wheat\n13   wheat       wheat\n14    corn        corn\n15  barley       Other\n16    corn        corn\n17    corn        corn\n18    oats       Other\n19   wheat       wheat\n20 soybean     soybean",
+    "crumbs": [
+      "Lessons",
+      "05-Data Wrangling II"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/05_datawrangling_02.html#extracting-date-components",
+    "href": "coding/week_03/05_datawrangling_02.html#extracting-date-components",
+    "title": "Transforming Ag data in R II",
+    "section": "6.1 Extracting Date Components",
+    "text": "6.1 Extracting Date Components\n\nyear(parsed_dates)\n\n[1] 2023 2024 2025\n\nmonth(parsed_dates)\n\n[1] 6 1 7\n\nday(parsed_dates)\n\n[1] 15 20  4",
+    "crumbs": [
+      "Lessons",
+      "05-Data Wrangling II"
+    ]
+  },
+  {
+    "objectID": "coding/week_03/05_datawrangling_02.html#parsing-and-extracting-date-components",
+    "href": "coding/week_03/05_datawrangling_02.html#parsing-and-extracting-date-components",
+    "title": "Transforming Ag data in R II",
+    "section": "6.2 Parsing and Extracting Date Components",
+    "text": "6.2 Parsing and Extracting Date Components\n\ndates_corn &lt;- data_corn %&gt;% \n  mutate(date = ymd(paste(year, \"01\", \"01\", sep = \"-\")))\nhead(dates_corn)\n\n  year       lat      long yield nitro topo     bv rep nf       date\n1 1999 -33.05113 -63.84886 72.14 131.5    W 162.60  R1 N5 1999-01-01\n2 1999 -33.05115 -63.84879 73.79 131.5    W 170.49  R1 N5 1999-01-01\n3 1999 -33.05116 -63.84872 77.25 131.5    W 168.39  R1 N5 1999-01-01\n4 1999 -33.05117 -63.84865 76.35 131.5    W 176.68  R1 N5 1999-01-01\n5 1999 -33.05118 -63.84858 75.55 131.5    W 171.46  R1 N5 1999-01-01\n6 1999 -33.05120 -63.84851 70.24 131.5    W 170.56  R1 N5 1999-01-01",
+    "crumbs": [
+      "Lessons",
+      "05-Data Wrangling II"
+    ]
+  },
+  {
+    "objectID": "coding/week_02/03_versioncontrol.html",
+    "href": "coding/week_02/03_versioncontrol.html",
+    "title": "Git and GitHub for Ag Data Science 🌱",
+    "section": "",
+    "text": "Have you ever struggled with:\n\nMessy file versions? 📂 Naming files like code.R, code_final.R, code_final_final.R, codefinal3.R, or code_seethis.R? 🤯\nLost in email threads? 📧 Collaborating with colleagues by sending multiple file versions via email, leading to confusion and mistakes?\nUntracked changes? 🔄 Making edits but forgetting what changed and why?\n\nIf so, you’re not alone! These are common challenges in agriculture data science and research projects. Fortunately, Git and GitHub provide an efficient way to manage and collaborate on code without the chaos.",
+    "crumbs": [
+      "Lessons",
+      "03-Git & GitHub"
+    ]
+  },
+  {
+    "objectID": "coding/week_02/03_versioncontrol.html#install-git",
+    "href": "coding/week_02/03_versioncontrol.html#install-git",
+    "title": "Git and GitHub for Ag Data Science 🌱",
+    "section": "5.1 1️⃣ Install Git",
+    "text": "5.1 1️⃣ Install Git\nGit is a version control system that runs locally on your computer. To install it:\n\n📥 Download Git from git-scm.com\nFollow the installation instructions for your OS (Windows, macOS, Linux)\nOpen RStudio, go to the “Terminal” tab,\nVerify the installation by running this line:\n\ngit --version",
+    "crumbs": [
+      "Lessons",
+      "03-Git & GitHub"
+    ]
+  },
+  {
+    "objectID": "coding/week_02/03_versioncontrol.html#create-a-github-account",
+    "href": "coding/week_02/03_versioncontrol.html#create-a-github-account",
+    "title": "Git and GitHub for Ag Data Science 🌱",
+    "section": "5.2 2️⃣ Create a GitHub Account",
+    "text": "5.2 2️⃣ Create a GitHub Account\nGitHub is a cloud-based platform that stores your Git repositories online.\n\n🌍 Go to GitHub and sign up.\nSet up your GitHub profile and SSH key (optional but recommended for authentication).",
+    "crumbs": [
+      "Lessons",
+      "03-Git & GitHub"
+    ]
+  },
+  {
+    "objectID": "coding/week_02/03_versioncontrol.html#creating-a-github-repository",
+    "href": "coding/week_02/03_versioncontrol.html#creating-a-github-repository",
+    "title": "Git and GitHub for Ag Data Science 🌱",
+    "section": "9.1 ✅ Creating a GitHub Repository",
+    "text": "9.1 ✅ Creating a GitHub Repository\n\nOpen GitHub and click New Repository ➕.\nName the repository (e.g., my-first-repo) and choose Public or Private.\nClick Create Repository 🚀.",
+    "crumbs": [
+      "Lessons",
+      "03-Git & GitHub"
+    ]
+  },
+  {
+    "objectID": "coding/week_02/03_versioncontrol.html#creating-an-r-script-and-committing-changes",
+    "href": "coding/week_02/03_versioncontrol.html#creating-an-r-script-and-committing-changes",
+    "title": "Git and GitHub for Ag Data Science 🌱",
+    "section": "9.2 📂 Creating an R Script and Committing Changes",
+    "text": "9.2 📂 Creating an R Script and Committing Changes\n\nOpen GitHub Desktop and click Clone a Repository.\nSelect your repository and choose a local directory.\nCreate a new Quarto file:\n\nGo to File → New File → Quarto Document…\nTitle: Hello Quarto\nFormat: HTML\nClick Create\n\nSave the file inside your repository folder as hello.qmd.\nAdd the following content to hello.qmd:\n\n---\ntitle: \"Hello Quarto\"\nformat: html\n---\n\n# My first Quarto file\nThis document includes text and an R code chunk.\n\nCreate your first code chunk\n\n\n## My first chunk:\n    print(\"Hello Quarto world!\")\n\n[1] \"Hello Quarto world!\"\n\n\n\nRender the document in RStudio:\n\nClick Render\nThis should create an output file like hello.html in the same folder.\n\nReturn to GitHub Desktop.\nYou should see changes listed (often hello.qmd and hello.html).\nWrite a commit message (e.g., “Added hello.qmd”) and click Commit to main.\nClick Push origin to upload the changes to GitHub.",
+    "crumbs": [
+      "Lessons",
+      "03-Git & GitHub"
+    ]
+  },
+  {
+    "objectID": "coding/week_02/03_versioncontrol.html#cloning-or-pulling-changes",
+    "href": "coding/week_02/03_versioncontrol.html#cloning-or-pulling-changes",
+    "title": "Git and GitHub for Ag Data Science 🌱",
+    "section": "9.3 🔄 Cloning or Pulling Changes",
+    "text": "9.3 🔄 Cloning or Pulling Changes\n\nIf you want to work on an existing repository, click Clone Repository in GitHub Desktop.\nSelect a repository and choose a local directory.\nIf changes have been made remotely, click Fetch Origin and then Pull Origin to update your local version.",
+    "crumbs": [
+      "Lessons",
+      "03-Git & GitHub"
+    ]
+  },
+  {
+    "objectID": "coding/quarto/quarto.html",
+    "href": "coding/quarto/quarto.html",
+    "title": "Quarto Tips & Tricks",
+    "section": "",
+    "text": "Quarto is a powerful tool for creating dynamic documents, and it supports multiple output formats, including HTML and PDF. This article presents essential tips and tricks to help you customize and optimize your Quarto documents effectively.",
+    "crumbs": [
+      "Extras",
+      "Quarto Basics"
+    ]
+  },
+  {
+    "objectID": "coding/quarto/quarto.html#rmarkdown-syntax",
+    "href": "coding/quarto/quarto.html#rmarkdown-syntax",
+    "title": "Quarto Tips & Tricks",
+    "section": "\n7.1 Rmarkdown syntax",
+    "text": "7.1 Rmarkdown syntax\n‘{r mtcars-plot1, fig.width=6, fig.height=4, warning=FALSE, message=FALSE}’\n\nShow codelibrary(ggplot2)\nggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point() +\n  geom_smooth(method = \"lm\") +\n  theme_minimal()",
+    "crumbs": [
+      "Extras",
+      "Quarto Basics"
+    ]
+  },
+  {
+    "objectID": "coding/quarto/quarto.html#new-quarto-syntax",
+    "href": "coding/quarto/quarto.html#new-quarto-syntax",
+    "title": "Quarto Tips & Tricks",
+    "section": "\n7.2 New quarto syntax",
+    "text": "7.2 New quarto syntax\nWithin the chunk after closing the braces ‘{}’\n\n#| echo: true\n#| warning: false\n#| message: false\n#| fig-width: 6\n#| fig-height: 4\n\n\nShow codeggplot(mtcars, aes(x = factor(cyl), y = mpg, fill = factor(cyl))) +\n  geom_boxplot() +\n  theme_classic()",
+    "crumbs": [
+      "Extras",
+      "Quarto Basics"
+    ]
+  },
+  {
+    "objectID": "coding/quarto/quarto.html#from-file",
+    "href": "coding/quarto/quarto.html#from-file",
+    "title": "Quarto Tips & Tricks",
+    "section": "\n11.1 From file",
+    "text": "11.1 From file",
+    "crumbs": [
+      "Extras",
+      "Quarto Basics"
+    ]
+  },
+  {
+    "objectID": "coding/quarto/quarto.html#from-url",
+    "href": "coding/quarto/quarto.html#from-url",
+    "title": "Quarto Tips & Tricks",
+    "section": "\n11.2 From URL",
+    "text": "11.2 From URL",
+    "crumbs": [
+      "Extras",
+      "Quarto Basics"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html",
+    "href": "coding/extras/read_tabular.html",
+    "title": "Reading tabular data in R",
+    "section": "",
+    "text": "In real projects, a big part of “data science” is simply getting data into R reliably and reproducibly. CSV (comma separated values) and Excel are the most common formats you’ll see in agriculture, industry, and research workflows.\nThis short note covers:  - 📄 how to read CSV (readr).  - 📊 how to read Excel (readxl, openxlsx).  - 🗂️ how to read many files in a folder.  - 🧾 how to read many sheets in an excel file.  - 🧹 common cleaning options like skipping rows, header rows, and missing values",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#quick-comparison-of-main-packages",
+    "href": "coding/extras/read_tabular.html#quick-comparison-of-main-packages",
+    "title": "Reading tabular data in R",
+    "section": "2.1 Quick comparison of main packages",
+    "text": "2.1 Quick comparison of main packages\n📄 CSV / delimited text\n- Package: readr\n- ✅ Strengths: fast, consistent parsing, clear messages, good type control (col_types)\n- ⚠️ Notes: great default for tidyverse-style workflows\n📊 Excel (.xlsx)\n- Package: readxl\n- ✅ Strengths: simple reading of Excel, minimal dependencies\n- ⚠️ Notes: read-only (does not write Excel)\n📊 Excel (.xlsx)\n- Package: openxlsx\n- ✅ Strengths: read + write, more control over excels/sheets\n- ⚠️ Notes: great when you must write .xlsx outputs\nRule of thumb: - 📄 CSV: start with readr::read_csv() - 📊 Excel reading: start with readxl::read_excel() - 📝 Excel reading + writing or more control: use openxlsx",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#basic-read",
+    "href": "coding/extras/read_tabular.html#basic-read",
+    "title": "Reading tabular data in R",
+    "section": "3.1 Basic read",
+    "text": "3.1 Basic read\n\ndf &lt;- readr::read_csv(\"data/my_file.csv\")\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\ndf\n\n# A tibble: 289 × 6\n   gen   trial env   yield  year loc  \n   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;\n 1 G16   T2    E01     590  2001 Mieso\n 2 G17   T2    E01     554  2001 Mieso\n 3 G18   T2    E01     586  2001 Mieso\n 4 G19   T2    E01     738  2001 Mieso\n 5 G20   T2    E01     489  2001 Mieso\n 6 G21   T2    E01     684  2001 Mieso\n 7 G22   T2    E01     555  2001 Mieso\n 8 G23   T2    E01    1025  2001 Mieso\n 9 G24   T2    E01     493  2001 Mieso\n10 G25   T2    E01     691  2001 Mieso\n# ℹ 279 more rows",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#common-options",
+    "href": "coding/extras/read_tabular.html#common-options",
+    "title": "Reading tabular data in R",
+    "section": "3.2 Common options",
+    "text": "3.2 Common options\nmissing values, quieter output\n\ndf &lt;- readr::read_csv(\n  file = \"data/my_file.csv\",\n  na = c(\"\", \"NA\", \"N/A\", \"na\", \".\")\n)\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#control-column-types",
+    "href": "coding/extras/read_tabular.html#control-column-types",
+    "title": "Reading tabular data in R",
+    "section": "3.3 Control column types 🎯",
+    "text": "3.3 Control column types 🎯\nRecommended for reproducibility.\n\ndf &lt;- readr::read_csv(file = \"data/my_file.csv\") |&gt; \n    mutate(loc  = as.character(loc),\n           year  = as.integer(year),\n           yield = as.numeric(yield))\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#skip-lines-at-the-top",
+    "href": "coding/extras/read_tabular.html#skip-lines-at-the-top",
+    "title": "Reading tabular data in R",
+    "section": "3.4 Skip lines at the top ⏭️",
+    "text": "3.4 Skip lines at the top ⏭️\nFor example for metadata, notes, extra header rows…\n\ndf &lt;- readr::read_csv(\n  file = \"data/my_file.csv\",\n  skip = 1\n)\n\nRows: 288 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): G16, T2, E01, Mieso\ndbl (2): 590, 2001\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#skip-blank-lines",
+    "href": "coding/extras/read_tabular.html#skip-blank-lines",
+    "title": "Reading tabular data in R",
+    "section": "3.5 Skip blank lines 🕳️",
+    "text": "3.5 Skip blank lines 🕳️\nOften helpful with messy CSV exports\n\ndf &lt;- readr::read_csv(\n  file = \"data/my_file.csv\",\n  skip_empty_rows = TRUE\n)\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#basic-read-first-sheet-by-default",
+    "href": "coding/extras/read_tabular.html#basic-read-first-sheet-by-default",
+    "title": "Reading tabular data in R",
+    "section": "4.1 Basic read (first sheet by default)",
+    "text": "4.1 Basic read (first sheet by default)\n\ndf &lt;- readxl::read_excel(path=\"data/my_excel.xlsx\")\nhead(df)\n\n# A tibble: 6 × 6\n  gen   trial env   yield  year loc  \n  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;\n1 G16   T2    E01     590  2001 Mieso\n2 G17   T2    E01     554  2001 Mieso\n3 G18   T2    E01     586  2001 Mieso\n4 G19   T2    E01     738  2001 Mieso\n5 G20   T2    E01     489  2001 Mieso\n6 G21   T2    E01     684  2001 Mieso",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#read-a-specific-sheet",
+    "href": "coding/extras/read_tabular.html#read-a-specific-sheet",
+    "title": "Reading tabular data in R",
+    "section": "4.2 Read a specific sheet",
+    "text": "4.2 Read a specific sheet\nby name or position\n\ndf1 &lt;- readxl::read_excel(path=\"data/my_excel.xlsx\", sheet = \"Sheet1\")\ndf2 &lt;- readxl::read_excel(path=\"data/my_excel.xlsx\", sheet = 2)",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#skip-rows",
+    "href": "coding/extras/read_tabular.html#skip-rows",
+    "title": "Reading tabular data in R",
+    "section": "4.3 Skip rows ⏭️",
+    "text": "4.3 Skip rows ⏭️\nFor example, title row + empty row\n\ndf &lt;- readxl::read_excel(\n  path = \"data/my_excel.xlsx\",\n  sheet = 1,\n  skip  = 2\n)",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#diagnose",
+    "href": "coding/extras/read_tabular.html#diagnose",
+    "title": "Reading tabular data in R",
+    "section": "4.4 Diagnose 🔎",
+    "text": "4.4 Diagnose 🔎\nFor example, “empty first row” or “headers” not where expected”\n\ndf_rows &lt;- readxl::read_excel(\n  path = \"data/my_excel.xlsx\",\n  sheet     = 1,\n  n_max     = 6, # number of rows of data\n  col_names = FALSE # remove headers row\n)\n\nNew names:\n• `` -&gt; `...1`\n• `` -&gt; `...2`\n• `` -&gt; `...3`\n• `` -&gt; `...4`\n• `` -&gt; `...5`\n• `` -&gt; `...6`\n\ndf_rows\n\n# A tibble: 6 × 6\n  ...1  ...2  ...3  ...4  ...5  ...6 \n  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;\n1 gen   trial env   yield year  loc  \n2 G16   T2    E01   590   2001  Mieso\n3 G17   T2    E01   554   2001  Mieso\n4 G18   T2    E01   586   2001  Mieso\n5 G19   T2    E01   738   2001  Mieso\n6 G20   T2    E01   489   2001  Mieso\n\n\nThen set skip based on what you see (commonly skip = 1 or skip = 2) and re-read.",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#reading-excel-with-openxlsx",
+    "href": "coding/extras/read_tabular.html#reading-excel-with-openxlsx",
+    "title": "Reading tabular data in R",
+    "section": "4.5 Reading Excel with openxlsx 🛠",
+    "text": "4.5 Reading Excel with openxlsx 🛠\nNice when you also write excel files later\n\ndf_sr1 &lt;- openxlsx::read.xlsx(\n  xlsxFile = \"data/my_excel.xlsx\",\n  sheet    = 1,\n  startRow = 1 # speficies where headers are located\n)\nhead(df_sr1)\n\n  gen trial env yield year   loc\n1 G16    T2 E01   590 2001 Mieso\n2 G17    T2 E01   554 2001 Mieso\n3 G18    T2 E01   586 2001 Mieso\n4 G19    T2 E01   738 2001 Mieso\n5 G20    T2 E01   489 2001 Mieso\n6 G21    T2 E01   684 2001 Mieso\n\n\n\n4.5.1 Skip rows by moving startRow ⏭️:\n\ndf_sr3 &lt;- openxlsx::read.xlsx(\n  xlsxFile = \"data/my_excel.xlsx\",\n  sheet    = 1,\n  startRow = 3\n)\nslice_head(df_sr3)\n\n  G17 T2 E01 554 2001 Mieso\n1 G18 T2 E01 586 2001 Mieso",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#read-stack",
+    "href": "coding/extras/read_tabular.html#read-stack",
+    "title": "Reading tabular data in R",
+    "section": "5.1 Read + stack 🧱",
+    "text": "5.1 Read + stack 🧱\nThis is call row-bind\n\nfolder &lt;- \"data\"\n\nfiles &lt;- list.files(path = folder, pattern = \"\\\\.csv$\", full.names = TRUE)\n\nall_data &lt;- files |&gt;\n  setNames(basename(files)) |&gt; # here we name by file basename\n  # Here we read and stack using map_dfr\n  purrr::map_dfr(\n    \\(f) readr::read_csv(f), # here we read each file\n    .id = \"source_file\" # this creates a new column with the file name\n  )\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\nhead(all_data)\n\n# A tibble: 6 × 7\n  source_file    gen   trial env   yield  year loc  \n  &lt;chr&gt;          &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;\n1 my_file_02.csv G16   T2    E01     590  2001 Mieso\n2 my_file_02.csv G17   T2    E01     554  2001 Mieso\n3 my_file_02.csv G18   T2    E01     586  2001 Mieso\n4 my_file_02.csv G19   T2    E01     738  2001 Mieso\n5 my_file_02.csv G20   T2    E01     489  2001 Mieso\n6 my_file_02.csv G21   T2    E01     684  2001 Mieso",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#add-variables-from-filename",
+    "href": "coding/extras/read_tabular.html#add-variables-from-filename",
+    "title": "Reading tabular data in R",
+    "section": "5.2 Add variables from filename 🏷️",
+    "text": "5.2 Add variables from filename 🏷️\nFor example year, or site\n\nall_data &lt;- files |&gt;\n  purrr::map_dfr(\n    # here we read each file\n    \\(f) readr::read_csv(f) |&gt; \n      dplyr::mutate(source_file = basename(f))  ) |&gt; # add filename as column\n  dplyr::mutate(year = stringr::str_extract(source_file, \"\\\\d{4}\")) \n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n# here we extract a 4-digit year from the filename\n\nall_data %&gt;% \n  group_by(source_file) %&gt;%\n  slice_head()\n\n# A tibble: 2 × 7\n# Groups:   source_file [2]\n  gen   trial env   yield year  loc   source_file   \n  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;         \n1 G16   T2    E01     590 &lt;NA&gt;  Mieso my_file.csv   \n2 G16   T2    E01     590 &lt;NA&gt;  Mieso my_file_02.csv",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#keep-them-as-a-named-list",
+    "href": "coding/extras/read_tabular.html#keep-them-as-a-named-list",
+    "title": "Reading tabular data in R",
+    "section": "5.3 Keep them as a named list 📚",
+    "text": "5.3 Keep them as a named list 📚\n\ncsv_list &lt;- files |&gt;\n  setNames(basename(files)) |&gt;\n  purrr::map(\\(f) readr::read_csv(f))\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\nnames(csv_list)\n\n[1] \"my_file_02.csv\" \"my_file.csv\"",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#with-readxl",
+    "href": "coding/extras/read_tabular.html#with-readxl",
+    "title": "Reading tabular data in R",
+    "section": "7.1 With readxl",
+    "text": "7.1 With readxl\n\npath &lt;- \"data/my_excel.xlsx\"\n\nsheets &lt;- readxl::excel_sheets(path)\n\nall_sheets &lt;- sheets |&gt;\n  setNames(sheets) |&gt;\n  purrr::map_dfr(\n    \\(sh) readxl::read_excel(path, sheet = sh) |&gt;\n      dplyr::mutate(sheet = sh)\n  )\n\nall_sheets  %&gt;% \n  group_by(sheet) %&gt;%\n  slice_head()\n\n# A tibble: 2 × 7\n# Groups:   sheet [2]\n  gen   trial env   yield  year loc   sheet \n  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; \n1 G16   T2    E01     590  2001 Mieso Sheet1\n2 G16   T2    E01     590  2001 Mieso Sheet2",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#with-openxlsx",
+    "href": "coding/extras/read_tabular.html#with-openxlsx",
+    "title": "Reading tabular data in R",
+    "section": "7.2 With openxlsx 🛠️",
+    "text": "7.2 With openxlsx 🛠️\n\npath &lt;- \"data/my_excel.xlsx\"\n\nsheets &lt;- openxlsx::getSheetNames(path)\n\nall_sheets &lt;- sheets |&gt;\n  setNames(sheets) |&gt;\n  purrr::map_dfr(\n    \\(sh) openxlsx::read.xlsx(path, sheet = sh) |&gt;\n      dplyr::mutate(sheet = sh)\n  )\n\nall_sheets %&gt;% \n  group_by(sheet) %&gt;%\n  slice_head()\n\n# A tibble: 2 × 7\n# Groups:   sheet [2]\n  gen   trial env   yield  year loc   sheet \n  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; \n1 G16   T2    E01     590  2001 Mieso Sheet1\n2 G16   T2    E01     590  2001 Mieso Sheet2",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#footnotes-in-excel",
+    "href": "coding/extras/read_tabular.html#footnotes-in-excel",
+    "title": "Reading tabular data in R",
+    "section": "7.3 Footnotes in Excel 📝",
+    "text": "7.3 Footnotes in Excel 📝\nIf a sheet has footnotes at the bottom, you can often remove them after import by filtering rows:\n\ndf &lt;- readxl::read_excel(path=\"data/my_excel.xlsx\") |&gt;\n  dplyr::filter(!is.na(yield))   # example: keep rows that have yield",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/pipe_operator.html",
+    "href": "coding/extras/pipe_operator.html",
+    "title": "The pipe operator",
+    "section": "",
+    "text": "Most data analysis in R is a sequence of small steps: start with a dataset, then filter, transform, summarize, and visualize. You can write this as nested function calls or by creating many intermediate objects (df1, df2, df3), but both approaches can get messy: nested calls are hard to read from the inside out, and lots of intermediate objects add clutter.\nA pipe operator lets you write code in the same order you think about the workflow: top-to-bottom, step-by-step. The output of one step becomes the input of the next. In practice, pipelines tend to be easier to read, easier to modify, and easier to debug because each step is explicit and you can inspect results at any point.\nIn the R ecosystem, there are two common pipes:\n\n%&gt;% from magrittr (widely used in tidyverse workflows)\n|&gt; the native (base R) pipe (built into R 4.1.0 and later)\n\nThis short note shows both and highlights a few practical differences. Let’s navigate an example:\n\n\n\nlibrary(pacman)\npacman::p_load(dplyr, ggplot2)\n\n\n\n\n\n# Load the package\nlibrary(agridat)\n# Load an example dataset\ndata(rothamsted.oats, package = 'agridat')\n# Alternatively, you can load the dataset directly (cleaner)\nrothamsted.oats &lt;- agridat::rothamsted.oats\nhead(rothamsted.oats)\n\n  block trt  grain straw row col\n1     x  oa 61.375  83.0  12   1\n2     x 2me 68.750 130.0  12   2\n3     x 2sl 64.250 100.0  12   3\n4     x  ob 65.500  96.0  12   4\n5     w 2sl 79.625 130.5  12   5\n6     w  oa 79.250 122.0  12   6\n\n\n\n\n\n\n\nThe ‘dplyr’ package heavily utilizes the pipe operator %&gt;% from the ‘magrittr’ package to streamline data manipulation workflows. This operator allows you to pass the output of one function directly into the next function, making your code more readable and easier to follow.\n\n# Group by treatment and summarize\n# Using the pipe operator for chaining commands\nrothamsted.oats %&gt;%\n  group_by(trt) %&gt;%\n  summarize(mean_grain = mean(grain))\n\n# A tibble: 12 × 2\n   trt   mean_grain\n   &lt;fct&gt;      &lt;dbl&gt;\n 1 1me         82.8\n 2 1ml         86.5\n 3 1se         81.1\n 4 1sl         80.8\n 5 2me         81.5\n 6 2ml         82.3\n 7 2se         81.2\n 8 2sl         81.2\n 9 oa          77.6\n10 ob          79.2\n11 oc          78.4\n12 od          81.4\n\n# The best practice is to specify the data using the .data argument\nrothamsted.oats %&gt;%\n  group_by(trt) %&gt;%\n  summarize(.data = ., mean_grain = mean(grain))\n\n# A tibble: 12 × 2\n   trt   mean_grain\n   &lt;fct&gt;      &lt;dbl&gt;\n 1 1me         82.8\n 2 1ml         86.5\n 3 1se         81.1\n 4 1sl         80.8\n 5 2me         81.5\n 6 2ml         82.3\n 7 2se         81.2\n 8 2sl         81.2\n 9 oa          77.6\n10 ob          79.2\n11 oc          78.4\n12 od          81.4\n\n# Let's make a plot\nrothamsted.oats %&gt;%\n  ggplot(aes(x = trt, y = grain)) +\n  geom_boxplot(aes(fill=trt)) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\n\nWith the introduction of R 4.1.0, base R now includes its own native pipe operator |&gt;, which serves a similar purpose to the %&gt;% operator from the ‘magrittr’ package. This operator allows you to pass the result of one expression as the first argument to the next expression, enhancing code readability without the need for additional packages.\n\n# Using the native pipe operator\nrothamsted.oats |&gt;\n  group_by(trt) |&gt;\n  summarize(.data = _, mean_grain = mean(grain))\n\n# A tibble: 12 × 2\n   trt   mean_grain\n   &lt;fct&gt;      &lt;dbl&gt;\n 1 1me         82.8\n 2 1ml         86.5\n 3 1se         81.1\n 4 1sl         80.8\n 5 2me         81.5\n 6 2ml         82.3\n 7 2se         81.2\n 8 2sl         81.2\n 9 oa          77.6\n10 ob          79.2\n11 oc          78.4\n12 od          81.4\n\n# Let's make a plot again\nrothamsted.oats |&gt;\n  ggplot(aes(x = trt, y = grain)) +\n  geom_boxplot(aes(fill=trt)) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\nNotice when using the %&gt;% the placeholder . is used to indicate where the piped value should be inserted if it’s not the first argument. Similarly, with the native pipe |&gt;, the placeholder _ can be used to indicate where the piped value should be inserted if it’s not the first argument.\n\n\n\n\n\n\n\n\nDoes any work “better” than the other?\n\n\n\n\n\n\nNo package needed (it’s base R syntax), so it works everywhere without loading magrittr.\nUsually less overhead than %&gt;% because %&gt;% is a function-based pipe, while |&gt; is language syntax.\nIn practice, the difference is rarely noticeable compared to the cost of dplyr verbs, but it can matter in tight loops.\nPlays nicely with modern R style and is increasingly common in new code.\n\n\n\n\n\nPlaceholder power: %&gt;% uses . to place the LHS wherever you want. Base |&gt; uses _ but it’s more restricted (notably, it’s tied to named arguments).\n%&gt;% can do extras like creating functions from a pipeline (and other magrittr variants like %T&gt;%, %&lt;&gt;%, etc.). Base |&gt; doesn’t include those.\n%&gt;% lets you pipe into a bare function name (x %&gt;% sqrt).\nBase |&gt; generally requires a call: x |&gt; sqrt()",
+    "crumbs": [
+      "Extras",
+      "Pipe Ops"
+    ]
+  },
+  {
+    "objectID": "coding/extras/pipe_operator.html#libraries",
+    "href": "coding/extras/pipe_operator.html#libraries",
+    "title": "The pipe operator",
+    "section": "",
+    "text": "library(pacman)\npacman::p_load(dplyr, ggplot2)",
+    "crumbs": [
+      "Extras",
+      "Pipe Ops"
+    ]
+  },
+  {
+    "objectID": "coding/extras/pipe_operator.html#data",
+    "href": "coding/extras/pipe_operator.html#data",
+    "title": "The pipe operator",
+    "section": "",
+    "text": "# Load the package\nlibrary(agridat)\n# Load an example dataset\ndata(rothamsted.oats, package = 'agridat')\n# Alternatively, you can load the dataset directly (cleaner)\nrothamsted.oats &lt;- agridat::rothamsted.oats\nhead(rothamsted.oats)\n\n  block trt  grain straw row col\n1     x  oa 61.375  83.0  12   1\n2     x 2me 68.750 130.0  12   2\n3     x 2sl 64.250 100.0  12   3\n4     x  ob 65.500  96.0  12   4\n5     w 2sl 79.625 130.5  12   5\n6     w  oa 79.250 122.0  12   6",
+    "crumbs": [
+      "Extras",
+      "Pipe Ops"
+    ]
+  },
+  {
+    "objectID": "coding/extras/pipe_operator.html#the-pipe-operators",
+    "href": "coding/extras/pipe_operator.html#the-pipe-operators",
+    "title": "The pipe operator",
+    "section": "",
+    "text": "The ‘dplyr’ package heavily utilizes the pipe operator %&gt;% from the ‘magrittr’ package to streamline data manipulation workflows. This operator allows you to pass the output of one function directly into the next function, making your code more readable and easier to follow.\n\n# Group by treatment and summarize\n# Using the pipe operator for chaining commands\nrothamsted.oats %&gt;%\n  group_by(trt) %&gt;%\n  summarize(mean_grain = mean(grain))\n\n# A tibble: 12 × 2\n   trt   mean_grain\n   &lt;fct&gt;      &lt;dbl&gt;\n 1 1me         82.8\n 2 1ml         86.5\n 3 1se         81.1\n 4 1sl         80.8\n 5 2me         81.5\n 6 2ml         82.3\n 7 2se         81.2\n 8 2sl         81.2\n 9 oa          77.6\n10 ob          79.2\n11 oc          78.4\n12 od          81.4\n\n# The best practice is to specify the data using the .data argument\nrothamsted.oats %&gt;%\n  group_by(trt) %&gt;%\n  summarize(.data = ., mean_grain = mean(grain))\n\n# A tibble: 12 × 2\n   trt   mean_grain\n   &lt;fct&gt;      &lt;dbl&gt;\n 1 1me         82.8\n 2 1ml         86.5\n 3 1se         81.1\n 4 1sl         80.8\n 5 2me         81.5\n 6 2ml         82.3\n 7 2se         81.2\n 8 2sl         81.2\n 9 oa          77.6\n10 ob          79.2\n11 oc          78.4\n12 od          81.4\n\n# Let's make a plot\nrothamsted.oats %&gt;%\n  ggplot(aes(x = trt, y = grain)) +\n  geom_boxplot(aes(fill=trt)) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\n\nWith the introduction of R 4.1.0, base R now includes its own native pipe operator |&gt;, which serves a similar purpose to the %&gt;% operator from the ‘magrittr’ package. This operator allows you to pass the result of one expression as the first argument to the next expression, enhancing code readability without the need for additional packages.\n\n# Using the native pipe operator\nrothamsted.oats |&gt;\n  group_by(trt) |&gt;\n  summarize(.data = _, mean_grain = mean(grain))\n\n# A tibble: 12 × 2\n   trt   mean_grain\n   &lt;fct&gt;      &lt;dbl&gt;\n 1 1me         82.8\n 2 1ml         86.5\n 3 1se         81.1\n 4 1sl         80.8\n 5 2me         81.5\n 6 2ml         82.3\n 7 2se         81.2\n 8 2sl         81.2\n 9 oa          77.6\n10 ob          79.2\n11 oc          78.4\n12 od          81.4\n\n# Let's make a plot again\nrothamsted.oats |&gt;\n  ggplot(aes(x = trt, y = grain)) +\n  geom_boxplot(aes(fill=trt)) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\nNotice when using the %&gt;% the placeholder . is used to indicate where the piped value should be inserted if it’s not the first argument. Similarly, with the native pipe |&gt;, the placeholder _ can be used to indicate where the piped value should be inserted if it’s not the first argument.\n\n\n\n\n\n\n\n\nDoes any work “better” than the other?\n\n\n\n\n\n\nNo package needed (it’s base R syntax), so it works everywhere without loading magrittr.\nUsually less overhead than %&gt;% because %&gt;% is a function-based pipe, while |&gt; is language syntax.\nIn practice, the difference is rarely noticeable compared to the cost of dplyr verbs, but it can matter in tight loops.\nPlays nicely with modern R style and is increasingly common in new code.\n\n\n\n\n\nPlaceholder power: %&gt;% uses . to place the LHS wherever you want. Base |&gt; uses _ but it’s more restricted (notably, it’s tied to named arguments).\n%&gt;% can do extras like creating functions from a pipeline (and other magrittr variants like %T&gt;%, %&lt;&gt;%, etc.). Base |&gt; doesn’t include those.\n%&gt;% lets you pipe into a bare function name (x %&gt;% sqrt).\nBase |&gt; generally requires a call: x |&gt; sqrt()",
+    "crumbs": [
+      "Extras",
+      "Pipe Ops"
+    ]
+  }
+]
