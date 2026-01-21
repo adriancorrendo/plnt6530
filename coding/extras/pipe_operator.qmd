@@ -1,0 +1,103 @@
+---
+title: "The pipe operator"
+author: "Dr. Adrian Correndo"
+date: "2026-01-21"
+format:
+  html:
+    toc: true
+    toc-depth: 4
+    toc-location: left
+    code-tools: true
+editor: source
+---
+# Introduction
+
+Most data analysis in R is a sequence of small steps: start with a dataset, then filter, transform, summarize, and visualize. You can write this as nested function calls or by creating many intermediate objects (df1, df2, df3), but both approaches can get messy: nested calls are hard to read from the inside out, and lots of intermediate objects add clutter.
+
+A pipe operator lets you write code in the same order you think about the workflow: top-to-bottom, step-by-step. The output of one step becomes the input of the next. In practice, pipelines tend to be easier to read, easier to modify, and easier to debug because each step is explicit and you can inspect results at any point.
+
+In the R ecosystem, there are two common pipes:
+
+- `%>%` from **magrittr** (widely used in tidyverse workflows)
+- `|>` the **native (base R) pipe** (built into R 4.1.0 and later)
+
+This short note shows both and highlights a few practical differences. 
+Let's navigate an example:
+
+
+## 00. libraries
+```{r eval=TRUE}
+library(pacman)
+pacman::p_load(dplyr, ggplot2)
+```
+
+## 01. data
+```{r}
+# Load the package
+library(agridat)
+# Load an example dataset
+data(rothamsted.oats, package = 'agridat')
+# Alternatively, you can load the dataset directly (cleaner)
+rothamsted.oats <- agridat::rothamsted.oats
+head(rothamsted.oats)
+
+```
+## The pipe operators
+### a. Pipe operator '%>%':
+The 'dplyr' package heavily utilizes the pipe operator `%>%` from the 'magrittr' package to streamline data manipulation workflows. This operator allows you to pass the output of one function directly into the next function, making your code more readable and easier to follow.
+```{r}
+# Group by treatment and summarize
+# Using the pipe operator for chaining commands
+rothamsted.oats %>%
+  group_by(trt) %>%
+  summarize(mean_grain = mean(grain))
+
+# The best practice is to specify the data using the .data argument
+rothamsted.oats %>%
+  group_by(trt) %>%
+  summarize(.data = ., mean_grain = mean(grain))
+
+# Let's make a plot
+rothamsted.oats %>%
+  ggplot(aes(x = trt, y = grain)) +
+  geom_boxplot(aes(fill=trt)) +
+  theme_minimal()
+
+```
+
+### b. Native pipe operator '|>':
+With the introduction of R 4.1.0, base R now includes its own native pipe operator `|>`, which serves a similar purpose to the `%>%` operator from the 'magrittr' package. This operator allows you to pass the result of one expression as the first argument to the next expression, enhancing code readability without the need for additional packages.
+
+```{r}
+# Using the native pipe operator
+rothamsted.oats |>
+  group_by(trt) |>
+  summarize(.data = _, mean_grain = mean(grain))
+
+# Let's make a plot again
+rothamsted.oats |>
+  ggplot(aes(x = trt, y = grain)) +
+  geom_boxplot(aes(fill=trt)) +
+  theme_minimal()
+
+```
+::: callout-warning
+Notice when using the `%>%` the placeholder `.` is used to indicate where the piped value should be inserted if it's not the first argument. Similarly, with the native pipe `|>`, the placeholder `_` can be used to indicate where the piped value should be inserted if it's not the first argument.
+:::
+
+::: callout-tip
+### Does any work “better” than the other?
+
+#### Where `|>` tends to be better
+- No package needed (it’s base R syntax), so it works everywhere without loading magrittr.
+- Usually less overhead than %>% because %>% is a function-based pipe, while |> is language syntax.
+- In practice, the difference is rarely noticeable compared to the cost of dplyr verbs, but it can matter in tight loops.
+-	Plays nicely with modern R style and is increasingly common in new code.
+
+#### Where `%>%` is more flexible
+- Placeholder power: %>% uses . to place the LHS wherever you want. Base |> uses _ but it’s more restricted (notably, it’s tied to named arguments).
+- `%>%` can do extras like creating functions from a pipeline (and other magrittr variants like `%T>%`, `%<>%`, etc.). Base `|>` doesn’t include those.
+- `%>%` lets you pipe into a bare function name (x %>% sqrt). 
+- Base `|>` generally requires a call: x |> sqrt()
+
+:::

@@ -1,0 +1,295 @@
+---
+title: "Reading tabular data in R"
+author: "Dr. Adrian Correndo"
+date: "2026-01-21"
+format:
+  html:
+    toc: true
+    toc-depth: 4
+    number-sections: true
+    toc-location: left
+    code-tools: true
+categories: files, csv, excel, spreadsheet, readr, readxl, openxlsx
+execute:
+  echo: true
+  eval: true
+editor: source
+---
+
+# Introduction 📌
+
+In real projects, a big part of “data science" is simply getting data into R reliably and reproducibly. CSV (comma separated values) and Excel are the most common formats you’ll see in agriculture, industry, and research workflows.
+
+This short note covers:  <br/>
+- 📄 how to read CSV (readr). <br/>
+- 📊 how to read Excel (readxl, openxlsx).  <br/>
+- 🗂️ how to read many files in a folder. <br/>
+- 🧾 how to read many sheets in an excel file.  <br/>
+- 🧹 common cleaning options like skipping rows, header rows, and missing values  <br/>
+
+# Libraries 📦
+
+```{r}
+library(pacman)
+p_load(dplyr, purrr, stringr, tibble) # data wrangling
+p_load(readr, readxl, openxlsx) # to read files
+```
+
+## Quick comparison of main packages
+
+📄 CSV / delimited text  
+- Package: readr  
+- ✅ Strengths: fast, consistent parsing, clear messages, good type control (col_types)  
+- ⚠️ Notes: great default for tidyverse-style workflows  
+
+📊 Excel (.xlsx)  
+- Package: readxl  
+- ✅ Strengths: simple reading of Excel, minimal dependencies  
+- ⚠️ Notes: read-only (does not write Excel)  
+
+📊 Excel (.xlsx)  
+- Package: openxlsx  
+- ✅ Strengths: read + write, more control over excels/sheets  
+- ⚠️ Notes: great when you must write .xlsx outputs  
+
+Rule of thumb:
+- 📄 CSV: start with readr::read_csv()
+- 📊 Excel reading: start with readxl::read_excel()
+- 📝 Excel reading + writing or more control: use openxlsx
+
+# Reading CSV files 📄
+
+## Basic read
+
+```{r}
+df <- readr::read_csv("data/my_file.csv")
+df
+```
+
+## Common options
+missing values, quieter output
+
+```{r}
+df <- readr::read_csv(
+  file = "data/my_file.csv",
+  na = c("", "NA", "N/A", "na", ".")
+)
+```
+
+## Control column types 🎯
+Recommended for reproducibility.
+```{r}
+df <- readr::read_csv(file = "data/my_file.csv") |> 
+    mutate(loc  = as.character(loc),
+           year  = as.integer(year),
+           yield = as.numeric(yield))
+
+```
+
+## Skip lines at the top  ⏭️
+For example for metadata, notes, extra header rows...
+
+```{r}
+df <- readr::read_csv(
+  file = "data/my_file.csv",
+  skip = 1
+)
+```
+
+## Skip blank lines 🕳️
+Often helpful with messy CSV exports
+
+```{r}
+df <- readr::read_csv(
+  file = "data/my_file.csv",
+  skip_empty_rows = TRUE
+)
+```
+
+# Reading Excel files (.xlsx) 📊
+
+## Basic read (first sheet by default)
+
+```{r}
+df <- readxl::read_excel(path="data/my_excel.xlsx")
+head(df)
+```
+
+## Read a specific sheet
+by name or position
+
+```{r}
+df1 <- readxl::read_excel(path="data/my_excel.xlsx", sheet = "Sheet1")
+df2 <- readxl::read_excel(path="data/my_excel.xlsx", sheet = 2)
+```
+
+## Skip rows ⏭️
+For example, title row + empty row
+
+```{r}
+df <- readxl::read_excel(
+  path = "data/my_excel.xlsx",
+  sheet = 1,
+  skip  = 2
+)
+```
+
+## Diagnose 🔎
+For example, "empty first row" or "headers" not where expected"
+
+```{r}
+df_rows <- readxl::read_excel(
+  path = "data/my_excel.xlsx",
+  sheet     = 1,
+  n_max     = 6, # number of rows of data
+  col_names = FALSE # remove headers row
+)
+df_rows
+```
+
+Then set skip based on what you see (commonly skip = 1 or skip = 2) and re-read.
+
+## Reading Excel with openxlsx 🛠
+Nice when you also write excel files later
+
+```{r}
+df_sr1 <- openxlsx::read.xlsx(
+  xlsxFile = "data/my_excel.xlsx",
+  sheet    = 1,
+  startRow = 1 # speficies where headers are located
+)
+head(df_sr1)
+```
+
+### Skip rows by moving startRow ⏭️:
+
+```{r}
+df_sr3 <- openxlsx::read.xlsx(
+  xlsxFile = "data/my_excel.xlsx",
+  sheet    = 1,
+  startRow = 3
+)
+slice_head(df_sr3)
+```
+
+# Reading multiple CSV files 🗂️
+
+This is extremely common when we have one file per site, year, trial, etc.
+
+## Read + stack 🧱
+This is call row-bind
+
+```{r}
+folder <- "data"
+
+files <- list.files(path = folder, pattern = "\\.csv$", full.names = TRUE)
+
+all_data <- files |>
+  setNames(basename(files)) |> # here we name by file basename
+  # Here we read and stack using map_dfr
+  purrr::map_dfr(
+    \(f) readr::read_csv(f), # here we read each file
+    .id = "source_file" # this creates a new column with the file name
+  )
+
+head(all_data)
+```
+
+## Add variables from filename  🏷️
+For example year, or site
+
+```{r}
+all_data <- files |>
+  purrr::map_dfr(
+    # here we read each file
+    \(f) readr::read_csv(f) |> 
+      dplyr::mutate(source_file = basename(f))  ) |> # add filename as column
+  dplyr::mutate(year = stringr::str_extract(source_file, "\\d{4}")) 
+# here we extract a 4-digit year from the filename
+
+all_data %>% 
+  group_by(source_file) %>%
+  slice_head()
+```
+
+## Keep them as a named list 📚
+
+```{r}
+csv_list <- files |>
+  setNames(basename(files)) |>
+  purrr::map(\(f) readr::read_csv(f))
+
+names(csv_list)
+```
+
+# Reading multiple Excel files 🗂️📊
+
+```{r}
+folder <- "data"
+files  <- list.files(path = folder, pattern = "\\.xlsx$", full.names = TRUE)
+
+all_xlsx <- files |>
+  purrr::map_dfr(
+    \(f) readxl::read_excel(f, sheet = 1) |> # read first sheet from each
+      dplyr::mutate(source_file = basename(f)) # add filename as column
+  )
+
+all_xlsx %>% 
+  group_by(source_file) %>%
+  slice_head()
+```
+
+# Reading multiple sheets 🧾🧾🧾
+
+## With readxl
+
+```{r}
+path <- "data/my_excel.xlsx"
+
+sheets <- readxl::excel_sheets(path)
+
+all_sheets <- sheets |>
+  setNames(sheets) |>
+  purrr::map_dfr(
+    \(sh) readxl::read_excel(path, sheet = sh) |>
+      dplyr::mutate(sheet = sh)
+  )
+
+all_sheets  %>% 
+  group_by(sheet) %>%
+  slice_head()
+```
+
+## With openxlsx 🛠️
+
+```{r}
+path <- "data/my_excel.xlsx"
+
+sheets <- openxlsx::getSheetNames(path)
+
+all_sheets <- sheets |>
+  setNames(sheets) |>
+  purrr::map_dfr(
+    \(sh) openxlsx::read.xlsx(path, sheet = sh) |>
+      dplyr::mutate(sheet = sh)
+  )
+
+all_sheets %>% 
+  group_by(sheet) %>%
+  slice_head()
+```
+
+## Footnotes in Excel 📝
+If a sheet has footnotes at the bottom, you can often remove them after import by filtering rows:
+
+```{r}
+df <- readxl::read_excel(path="data/my_excel.xlsx") |>
+  dplyr::filter(!is.na(yield))   # example: keep rows that have yield
+```
+
+# Summary
+
+- Use readr::read_csv() for most CSV workflows (fast + consistent).
+- Use readxl::read_excel() for quick Excel imports.
+- Use openxlsx when you need more Excel control or want to write .xlsx outputs.
+- For multiple files or sheets, combine list.files()/excel_sheets() with purrr::map_dfr() to create one clean dataset.

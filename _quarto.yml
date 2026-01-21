@@ -63,14 +63,18 @@ website:
             text: "04-Data Wrangling I"
           - href: coding/week_03/05_datawrangling_02.qmd
             text: "05-Data Wrangling II"
-      - section: "Quarto"
+      - section: "Extras"
         contents:
           - href: coding/quarto/quarto.qmd
             text: "Quarto Basics"
-      - section: "FAIR Data"
-        contents:
-          - href: coding/fair_care/fair_care.qmd
+          - href: coding/extras/pipe_operator.qmd
+            text: "Pipe Ops"
+          - href: coding/extras/read_tabular.qmd
+            text: "Read Tabular Data"
+          - href: coding/extras/fair_care.qmd
             text: "Fair & Care"
+          - href: coding/extras/p_value.qmd
+            text: "p-value"
       - section: "Calendar"
         contents:
           - href: outline/calendar.qmd

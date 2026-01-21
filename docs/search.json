@@ -1,5 +1,203 @@
 [
   {
+    "objectID": "coding/extras/p_value.html",
+    "href": "coding/extras/p_value.html",
+    "title": "What Does a p-value Really Mean?",
+    "section": "",
+    "text": "Modern agriculture is full of experiments:\n\n🚜 Does this new fungicide really pay?\n🌱 Should I push nitrogen from 150 to 200 kg N/ha?\n🧪 Is this biological product doing anything, or is it just marketing?\n\nWhen agronomists and researchers answer these questions, they often report p-values:\n“Yield increase was significant at p &lt; 0.05.”\nBut what does that actually mean, probabilistically?\nAnd more importantly: does it answer the questions farmers care about?\nThis short article unpacks the meaning of a p-value and contrasts it with a more intuitive, Bayesian way to talk about probability for farm decisions.",
+    "crumbs": [
+      "Extras",
+      "p-value"
+    ]
+  },
+  {
+    "objectID": "coding/extras/p_value.html#why-talk-about-p-values-on-the-farm",
+    "href": "coding/extras/p_value.html#why-talk-about-p-values-on-the-farm",
+    "title": "What Does a p-value Really Mean?",
+    "section": "",
+    "text": "Modern agriculture is full of experiments:\n\n🚜 Does this new fungicide really pay?\n🌱 Should I push nitrogen from 150 to 200 kg N/ha?\n🧪 Is this biological product doing anything, or is it just marketing?\n\nWhen agronomists and researchers answer these questions, they often report p-values:\n“Yield increase was significant at p &lt; 0.05.”\nBut what does that actually mean, probabilistically?\nAnd more importantly: does it answer the questions farmers care about?\nThis short article unpacks the meaning of a p-value and contrasts it with a more intuitive, Bayesian way to talk about probability for farm decisions.",
+    "crumbs": [
+      "Extras",
+      "p-value"
+    ]
+  },
+  {
+    "objectID": "coding/extras/p_value.html#what-is-a-p-value-probabilistically",
+    "href": "coding/extras/p_value.html#what-is-a-p-value-probabilistically",
+    "title": "What Does a p-value Really Mean?",
+    "section": "🎲 What is a p-value, probabilistically?",
+    "text": "🎲 What is a p-value, probabilistically?\nSuppose we are testing:\n\nH₀ (null hypothesis): there is no true difference between two treatments\n\nH₁ (alternative): there is a true difference\n\nWe run an experiment, calculate a test statistic (like a t-statistic), and obtain a p-value.\nProbabilistic definition:\n\nThe p-value is the probability of observing data at least as extreme as what we observed, if the null hypothesis were true.\n\nIn mathematical notation:\n[ p = P( H_0 ) ]\nSo if p = 0.03, it means:\n\nIf there were truly no effect, then in repeated experiments you would see a result this extreme (or more extreme) only 3% of the time, just by random chance.\n\nIt does not mean:\n\n❌ “There is a 3% chance the null is true.”\n\n❌ “There is a 97% chance the treatment works.”\n\n❌ “There is a 3% chance this result is due to chance.”\n\nThe key is the direction of the conditioning:\n\np-value: probability of the data, given H₀\n\nWhat farmers want: probability of H₀ or H₁, given the data\n\nThese are not the same thing.",
+    "crumbs": [
+      "Extras",
+      "p-value"
+    ]
+  },
+  {
+    "objectID": "coding/extras/p_value.html#an-agronomy-example-nitrogen-rate-comparison",
+    "href": "coding/extras/p_value.html#an-agronomy-example-nitrogen-rate-comparison",
+    "title": "What Does a p-value Really Mean?",
+    "section": "🌱 An agronomy example: nitrogen rate comparison",
+    "text": "🌱 An agronomy example: nitrogen rate comparison\nImagine a trial comparing 150 vs 200 kg N/ha in corn across several fields.\nYou find:\n\n🌽 Mean yield difference: +0.6 t/ha (200 &gt; 150)\n\n📉 p-value: 0.04\n\nThe strict interpretation is:\n\nIf there were really no yield difference between 150 and 200 kg N/ha, you would see a difference of 0.6 t/ha or larger (in either direction) only about 4 times in 100 experiments like this.\n\nStatistically, we might say this result is “significant at the 5% level.”\nBut the farmer’s questions are different:\n\n💭 “What is the chance that 200 kg N/ha will actually give me more yield this year?”\n\n💰 “What is the chance it will give me more profit, considering N price and grain price?”\n\n⚖️ “How big is the upside, and how big is the downside risk?”\n\nThe p-value does not directly answer any of those.",
+    "crumbs": [
+      "Extras",
+      "p-value"
+    ]
+  },
+  {
+    "objectID": "coding/extras/p_value.html#limitations-of-p-values-for-farm-decisions",
+    "href": "coding/extras/p_value.html#limitations-of-p-values-for-farm-decisions",
+    "title": "What Does a p-value Really Mean?",
+    "section": "⚠️ Limitations of p-values for farm decisions",
+    "text": "⚠️ Limitations of p-values for farm decisions\nP-values are useful for researchers, but they are awkward for decision-makers. Some key limitations:\n\n1️⃣ They answer a different question\n\nStatistics question:\n&gt; If the treatment does nothing, how surprising is my data?\n\nFarmer question:\n&gt; Given my data (plus what we knew before), how likely is it that the treatment helps?\n\nThese are related but not the same.\n\n\n2️⃣ The 0.05 cutoff is arbitrary\nA result with p = 0.049 is “significant”; p = 0.051 is “non-significant.”\nIn practice, these two situations often provide very similar evidence, yet the label changes.\nFor communication and decision-making, this can be misleading.\n\n\n3️⃣ Magnitude and economics can be ignored\nIt’s possible to have:\n\n📌 A tiny yield gain with very small p-value (statistically significant but not profitable), or\n\n📌 A large yield gain with p = 0.10 (not “significant” at 0.05), which might still be attractive if the downside risk is small.\n\nFarmers (and advisors) care about effect size and profit, not just whether p &lt; 0.05.\n\n\n4️⃣ Intuition is backwards\nThe p-value starts from assumming “no-effect” and asks about the probability of the data.\nBut most people naturally think in the Bayesian direction:\n\nGiven what I’ve seen, how likely is it that there’s a real effect?",
+    "crumbs": [
+      "Extras",
+      "p-value"
+    ]
+  },
+  {
+    "objectID": "coding/extras/p_value.html#a-bayesian-way-to-think-probability-of-benefit",
+    "href": "coding/extras/p_value.html#a-bayesian-way-to-think-probability-of-benefit",
+    "title": "What Does a p-value Really Mean?",
+    "section": "🎯 A Bayesian way to think: probability of benefit",
+    "text": "🎯 A Bayesian way to think: probability of benefit\nBayesian thinking flips the conditioning:\n\nStart with what we already know (prior), then update with new data to get a posterior: a direct probability statement about the effect.\n\nInstead of talking about p-values, we talk about distributions and probabilities of benefit.\nImagine we combine:\n\n📚 Prior knowledge (multi-location trials, previous years, expert opinion)\n\n🧪 New data from this year’s on-farm trial\n\nWe might end up with statements like:\n\n“Given everything we know, there is a 75% chance that 200 kg N/ha yields at least 0.4 t/ha more than 150 kg N/ha.”\n\n“There is a 60% chance that 200 kg N/ha increases profit at current prices, and a 20% chance that it reduces profit by more than $20/ha.”\n\nThis maps much more directly onto real decisions:\n\nIf you are risk-neutral, you might choose the treatment with higher expected profit.\n\nIf you are risk-averse, you might prioritize avoiding the downside and accept a lower expected profit.\n\nThe key point: Bayesian outputs describe how likely different outcomes are, which is exactly what farmers care about.",
+    "crumbs": [
+      "Extras",
+      "p-value"
+    ]
+  },
+  {
+    "objectID": "coding/extras/p_value.html#what-farmers-actually-hear-and-what-they-need",
+    "href": "coding/extras/p_value.html#what-farmers-actually-hear-and-what-they-need",
+    "title": "What Does a p-value Really Mean?",
+    "section": "👂 What farmers actually hear (and what they need)",
+    "text": "👂 What farmers actually hear (and what they need)\nIn extension work and on-farm research networks, results are often summarized as:\n\n“The fungicide treatment was not statistically significant.”\n\n“The new practice was significantly better than the control at p &lt; 0.01.”\n\nFrom a farmer’s perspective, more helpful summaries would be:\n\n“Across 10 trials, the fungicide increased yield in 7 out of 10 site-years.”\n\n“Given this data and previous research, there is about a 70% chance the fungicide increases yield, and about a 50% chance it increases profit at current prices.”\n\n“The risk of losing more than $20/ha with this fungicide appears low.”\n\nYou can deliver this kind of language using fully Bayesian models, or by combining frequentist estimates with simple probability approximations. The important shift is conceptual:\n\nMove from “Is it significant?” to “What is the probability and size of benefit, and what is the risk?”",
+    "crumbs": [
+      "Extras",
+      "p-value"
+    ]
+  },
+  {
+    "objectID": "coding/extras/p_value.html#practical-implications-for-agronomy-and-on-farm-research",
+    "href": "coding/extras/p_value.html#practical-implications-for-agronomy-and-on-farm-research",
+    "title": "What Does a p-value Really Mean?",
+    "section": "🧪 Practical implications for agronomy and on-farm research",
+    "text": "🧪 Practical implications for agronomy and on-farm research\nFor researchers and students:\n\n🧠 Understanding p-values is still essential because they dominate the scientific literature.\nAlways pair p-values with:\n\n📏 Estimated effect size (e.g., t/ha difference)\n\n📊 Confidence (or credibility) intervals\n\n💸 Economic interpretation\n\n\nFor farmers and advisors:\n\nEmphasize:\n\n📈 Probability the practice increases yield\n\n💰 Probability it increases profit\n\n⚖️ Distribution of possible outcomes (risk vs reward)\n\n\nThis mindset naturally leads toward a Bayesian way of thinking, even if you don’t explicitly present the statistics as “Bayesian.”",
+    "crumbs": [
+      "Extras",
+      "p-value"
+    ]
+  },
+  {
+    "objectID": "coding/extras/p_value.html#take-home-messages",
+    "href": "coding/extras/p_value.html#take-home-messages",
+    "title": "What Does a p-value Really Mean?",
+    "section": "✅ Take-home messages",
+    "text": "✅ Take-home messages\n\nProbabilistic meaning of a p-value:\n[ p = P( H_0 ) ]\nIt is a probability about the data, given the assumption of no true effect.\nFarmer relevance:\nP-values help researchers avoid being fooled by noise, but they do not directly answer\n&gt; “What are my chances that this will help me?”\nor\n&gt; “Will it pay?”\nBayesian perspective:\nFocuses on (P( )): probabilities of benefit and profit, which align much better with real decision-making on the farm.\n\nIn other words:\n\n🧰 Keep p-values in the statistical toolbox, but speak to farmers in terms of probabilities of benefit, risk, and profit—which is, in spirit, a Bayesian way of thinking.",
+    "crumbs": [
+      "Extras",
+      "p-value"
+    ]
+  },
+  {
+    "objectID": "coding/extras/fair_care.html",
+    "href": "coding/extras/fair_care.html",
+    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
+    "section": "",
+    "text": "When we learn coding, we often focus on how to analyze data. But in real projects, the hardest (and most important) questions are often:\n\nShould we collect/share this data at all?\nWho could be harmed if it’s misused?\nHow do we make data useful without losing trust or violating rights?\n\nGood data management protects three things:\n\nPrivacy 🔒 — preventing inappropriate exposure of personal or sensitive information\n\nIntegrity ✅ — ensuring data aren’t altered, corrupted, or misrepresented\n\nValue 💡 — making data understandable and reusable so it can support learning, decisions, and research",
+    "crumbs": [
+      "Extras",
+      "Fair & Care"
+    ]
+  },
+  {
+    "objectID": "coding/extras/fair_care.html#why-talk-about-data-protection-in-a-coding-class",
+    "href": "coding/extras/fair_care.html#why-talk-about-data-protection-in-a-coding-class",
+    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
+    "section": "",
+    "text": "When we learn coding, we often focus on how to analyze data. But in real projects, the hardest (and most important) questions are often:\n\nShould we collect/share this data at all?\nWho could be harmed if it’s misused?\nHow do we make data useful without losing trust or violating rights?\n\nGood data management protects three things:\n\nPrivacy 🔒 — preventing inappropriate exposure of personal or sensitive information\n\nIntegrity ✅ — ensuring data aren’t altered, corrupted, or misrepresented\n\nValue 💡 — making data understandable and reusable so it can support learning, decisions, and research",
+    "crumbs": [
+      "Extras",
+      "Fair & Care"
+    ]
+  },
+  {
+    "objectID": "coding/extras/fair_care.html#fair-principles",
+    "href": "coding/extras/fair_care.html#fair-principles",
+    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
+    "section": "2 ✨ FAIR principles",
+    "text": "2 ✨ FAIR principles\nFAIR is about making data (and metadata) easy to discover and reuse—by both people and computers.\n\nFindable: others can locate the dataset (titles, keywords, metadata, persistent links)\nAccessible: it can be retrieved in a controlled way (open when possible, restricted when needed)\nInteroperable: it uses standard formats and vocabularies so tools can combine it with other data\nReusable: it includes enough context (methods, units, codes, license) to be reused correctly\n\n\n\n\n\n\n\n✅ Key idea\n\n\n\nFAIR does not mean “open.”\nData can be restricted and still be FAIR if it is well-described and the access conditions are clear.",
+    "crumbs": [
+      "Extras",
+      "Fair & Care"
+    ]
+  },
+  {
+    "objectID": "coding/extras/fair_care.html#care-principles",
+    "href": "coding/extras/fair_care.html#care-principles",
+    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
+    "section": "3 🌿 CARE principles",
+    "text": "3 🌿 CARE principles\nCARE focuses on the people and communities behind data, especially when data relate to Indigenous Peoples and Indigenous Knowledge.\n\nCollective benefit: data use should support community wellbeing (not just outside interests)\nAuthority to control: communities have rights and interests in how data are collected, accessed, and used\nResponsibility: users of data must be accountable and support respectful relationships\nEthics: data use should minimize harm and align with community values and consent\n\n\n\n\n\n\n\n🧭 Key idea\n\n\n\nCARE emphasizes rights, power, relationships, and purpose—not just technical usability.",
+    "crumbs": [
+      "Extras",
+      "Fair & Care"
+    ]
+  },
+  {
+    "objectID": "coding/extras/fair_care.html#fair-care-together",
+    "href": "coding/extras/fair_care.html#fair-care-together",
+    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
+    "section": "4 🧩 FAIR + CARE together",
+    "text": "4 🧩 FAIR + CARE together\nFAIR and CARE answer different questions:\n\nFAIR asks: Can this dataset be found and reused properly?\nCARE asks: Should it be used this way, and who benefits or could be harmed?\n\nThey complement each other:\n\nYou can make data technically reusable (FAIR) while still respecting rights, consent, and community governance (CARE).\nA dataset can be well-organized but still inappropriate to share if it ignores authority, consent, or potential harm.\n\n\n\n\n\n\n\n⭐ Takeaway\n\n\n\nFAIR improves reusability. CARE protects people and communities.\nStrong data practice needs both.",
+    "crumbs": [
+      "Extras",
+      "Fair & Care"
+    ]
+  },
+  {
+    "objectID": "coding/extras/fair_care.html#practical-checklist-for-student-projects",
+    "href": "coding/extras/fair_care.html#practical-checklist-for-student-projects",
+    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
+    "section": "5 ✅ Practical checklist for student projects",
+    "text": "5 ✅ Practical checklist for student projects\nUse this before sharing data, code, or a repository.\n\n5.1 🔒 1) Privacy & sensitivity\n\nDoes the dataset include personal, confidential, location-based, or culturally sensitive information?\nHave you removed identifiers (when appropriate) and documented what was removed?\nAre access rules clear (open vs restricted)?\n\n\n\n\n\n\n\n⚠️ Caution\n\n\n\nEven if you remove names, small datasets + detailed locations + rare characteristics can still identify people or communities.\n\n\n\n\n5.2 ✅ 2) Integrity & trust\n\nDo you track versions of files (e.g., Git commits, file naming, or release tags)?\nCan someone reproduce your results from your code + data description?\nDid you document cleaning steps and assumptions?\n\n\n\n5.3 ✨ 3) FAIR basics\n\nIs there a clear README describing what the dataset is and how to use it?\nAre variables explained (a data dictionary)?\nAre formats standard (e.g., .csv, consistent units, consistent column names)?\nIs there a license or clear re-use statement?\n\n\n\n5.4 🌿 4) CARE basics\n\nWho does the data describe, and who should have a say in how it is used?\nDoes the project involve Indigenous data or knowledge?\nDo you have permission/consent and the right governance process for use and sharing?\nCan you explain who benefits from this work and how potential harms are reduced?",
+    "crumbs": [
+      "Extras",
+      "Fair & Care"
+    ]
+  },
+  {
+    "objectID": "coding/extras/fair_care.html#in-a-nutshell",
+    "href": "coding/extras/fair_care.html#in-a-nutshell",
+    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
+    "section": "6 🏁 In a nutshell",
+    "text": "6 🏁 In a nutshell\n\nFAIR helps others use data well. \nCARE helps ensure data use is right and respectful. \nTogether, they help protect privacy, integrity, and the value of data. 🛡️",
+    "crumbs": [
+      "Extras",
+      "Fair & Care"
+    ]
+  },
+  {
+    "objectID": "coding/extras/fair_care.html#to-think-about",
+    "href": "coding/extras/fair_care.html#to-think-about",
+    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
+    "section": "7 🗣️To think about…",
+    "text": "7 🗣️To think about…\nPick one scenario:\n\nA dataset contains farm trial results with GPS coordinates\n\nA dataset includes survey responses from a small community\n\nA dataset includes information related to Indigenous lands, communities, or knowledge\n\nConsider the following questions: - What could go wrong if the data are shared publicly? - What would you do to make the project more FAIR? - What CARE questions should be asked before publishing?\n\n\n\n\n\n\n🧠 Optional prompt\n\n\n\nWrite a 3–4 sentence “sharing decision” for your scenario:  - What will be shared?  - What will be restricted (and why)?  - How will you document access conditions and responsibilities?",
+    "crumbs": [
+      "Extras",
+      "Fair & Care"
+    ]
+  },
+  {
+    "objectID": "coding/extras/fair_care.html#suggested-reading",
+    "href": "coding/extras/fair_care.html#suggested-reading",
+    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
+    "section": "8 📚 Suggested reading",
+    "text": "8 📚 Suggested reading\n\n8.1 ✨ FAIR\n\nFAIR Guiding Principles (Wilkinson et al., 2016)\n\nGO FAIR overview\n\nThe Turing Way Book\n\n\n\n8.2 🌿 CARE + Indigenous Data Governance\n\nGlobal Indigenous Data Alliance (CARE): https://www.gida-global.org/care\n\nCARE principles paper (Carroll et al., 2020)\n\n\n\n8.3 🧩 FAIR + CARE together\n\nOperationalizing FAIR + CARE (Carroll et al., 2021)",
+    "crumbs": [
+      "Extras",
+      "Fair & Care"
+    ]
+  },
+  {
     "objectID": "coding/week_01/essentials_01.html",
     "href": "coding/week_01/essentials_01.html",
     "title": "Essentials of R coding I",
@@ -495,243 +693,25 @@
     ]
   },
   {
-    "objectID": "coding/fair_care/fair_care.html",
-    "href": "coding/fair_care/fair_care.html",
-    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
+    "objectID": "outline/calendar.html",
+    "href": "outline/calendar.html",
+    "title": "PLNT6530|01 - Calendar",
     "section": "",
-    "text": "When we learn coding, we often focus on how to analyze data. But in real projects, the hardest (and most important) questions are often:\n\nShould we collect/share this data at all?\nWho could be harmed if it’s misused?\nHow do we make data useful without losing trust or violating rights?\n\nGood data management protects three things:\n\nPrivacy 🔒 — preventing inappropriate exposure of personal or sensitive information\n\nIntegrity ✅ — ensuring data aren’t altered, corrupted, or misrepresented\n\nValue 💡 — making data understandable and reusable so it can support learning, decisions, and research",
+    "text": "Days: Wednesdays and Fridays\nTime: 11:30 am - 12:50 pm\nLocation: CRSC 121B",
     "crumbs": [
-      "FAIR Data",
-      "Fair & Care"
+      "Calendar",
+      "Schedule"
     ]
   },
   {
-    "objectID": "coding/fair_care/fair_care.html#why-talk-about-data-protection-in-a-coding-class",
-    "href": "coding/fair_care/fair_care.html#why-talk-about-data-protection-in-a-coding-class",
-    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
-    "section": "",
-    "text": "When we learn coding, we often focus on how to analyze data. But in real projects, the hardest (and most important) questions are often:\n\nShould we collect/share this data at all?\nWho could be harmed if it’s misused?\nHow do we make data useful without losing trust or violating rights?\n\nGood data management protects three things:\n\nPrivacy 🔒 — preventing inappropriate exposure of personal or sensitive information\n\nIntegrity ✅ — ensuring data aren’t altered, corrupted, or misrepresented\n\nValue 💡 — making data understandable and reusable so it can support learning, decisions, and research",
+    "objectID": "outline/calendar.html#calendar",
+    "href": "outline/calendar.html#calendar",
+    "title": "PLNT6530|01 - Calendar",
+    "section": "Calendar",
+    "text": "Calendar\nThe course runs on Wednesdays and Fridays from 1:00 PM to 2:20 PM. Below is the tentative schedule. Please, note the schedule may vary depending on the progress of the class.\n\n\n\nWeek\nDate\nTopic\nMaterial\nLesson\n\n\n\n\n1\nJan 7\nIntroductions, Reproducibility\n🌐\n🎥\n\n\n\nJan 09\nEssentials of Quarto and R\n🌐\n🎥\n\n\n2\nJan 14\nFundamentals of R packages\n🌐\n🎥\n\n\n\nJan 16\nBasics of version control & GitHub\n🌐\n🎥\n\n\n3\nJan 21\nData Wrangling I\n🌐\n🎥\n\n\n\nJan 23\nData Wrangling II\n🌐\n🎥\n\n\n4\nJan 28\nData Wrangling III\n🌐\n🎥\n\n\n\nJan 30\nData Viz I: ggplot2 basics\n🌐\n🎥\n\n\n5\nFeb 04\nData Viz II: Multiple plots\n🌐\n🎥\n\n\n\nFeb 06\nData Viz III: Advanced plots, maps\n🌐\n🎥\n\n\n6\nFeb 11\nIteration: Loops & Mapping\n🌐\n🎥\n\n\n\nFeb 13\nWeather Data: Retrieving & Processing\n🌐\n🎥\n\n\n\n\nWinter Break begins after the end of class\n\n\n\n\n7\nFeb 25\nModels I: TBD\n🌐\n🎥\n\n\n\nFeb 27\nModels II: TBD\n🌐\n🎥\n\n\n8\nMar 04\nModels III: TBD\n🌐\n🎥\n\n\n\nMar 06\nModels IV: TBD\n🌐\n🎥\n\n\n9\nMar 11\nModels V: TBD\n🌐\n🎥\n\n\n\nMar 13\nModels VI: TBD\n🌐\n🎥\n\n\n10\nMar 18\nModels VII: TBD\n🌐\n🎥\n\n\n\nMar 20\nModels VIII: TBD\n🌐\n🎥\n\n\n11\nMar 25\nAdvanced Quarto tricks\n🌐\n🎥\n\n\n\nMar 27\nGeneral Review class\n🌐\n🎥\n\n\n12\nApr 01\nSemester Projects Presentations I\n🌐\n\n\n\n\nApr 03\nSemester Projects Presentations II\n🌐\n\n\n\n13\nApr 10\nFinal Exam Due (11.59 pm)\n🌐",
     "crumbs": [
-      "FAIR Data",
-      "Fair & Care"
-    ]
-  },
-  {
-    "objectID": "coding/fair_care/fair_care.html#fair-principles",
-    "href": "coding/fair_care/fair_care.html#fair-principles",
-    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
-    "section": "2 ✨ FAIR principles",
-    "text": "2 ✨ FAIR principles\nFAIR is about making data (and metadata) easy to discover and reuse—by both people and computers.\n\nFindable: others can locate the dataset (titles, keywords, metadata, persistent links)\nAccessible: it can be retrieved in a controlled way (open when possible, restricted when needed)\nInteroperable: it uses standard formats and vocabularies so tools can combine it with other data\nReusable: it includes enough context (methods, units, codes, license) to be reused correctly\n\n\n\n\n\n\n\n✅ Key idea\n\n\n\nFAIR does not mean “open.”\nData can be restricted and still be FAIR if it is well-described and the access conditions are clear.",
-    "crumbs": [
-      "FAIR Data",
-      "Fair & Care"
-    ]
-  },
-  {
-    "objectID": "coding/fair_care/fair_care.html#care-principles",
-    "href": "coding/fair_care/fair_care.html#care-principles",
-    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
-    "section": "3 🌿 CARE principles",
-    "text": "3 🌿 CARE principles\nCARE focuses on the people and communities behind data, especially when data relate to Indigenous Peoples and Indigenous Knowledge.\n\nCollective benefit: data use should support community wellbeing (not just outside interests)\nAuthority to control: communities have rights and interests in how data are collected, accessed, and used\nResponsibility: users of data must be accountable and support respectful relationships\nEthics: data use should minimize harm and align with community values and consent\n\n\n\n\n\n\n\n🧭 Key idea\n\n\n\nCARE emphasizes rights, power, relationships, and purpose—not just technical usability.",
-    "crumbs": [
-      "FAIR Data",
-      "Fair & Care"
-    ]
-  },
-  {
-    "objectID": "coding/fair_care/fair_care.html#fair-care-together",
-    "href": "coding/fair_care/fair_care.html#fair-care-together",
-    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
-    "section": "4 🧩 FAIR + CARE together",
-    "text": "4 🧩 FAIR + CARE together\nFAIR and CARE answer different questions:\n\nFAIR asks: Can this dataset be found and reused properly?\nCARE asks: Should it be used this way, and who benefits or could be harmed?\n\nThey complement each other:\n\nYou can make data technically reusable (FAIR) while still respecting rights, consent, and community governance (CARE).\nA dataset can be well-organized but still inappropriate to share if it ignores authority, consent, or potential harm.\n\n\n\n\n\n\n\n⭐ Takeaway\n\n\n\nFAIR improves reusability. CARE protects people and communities.\nStrong data practice needs both.",
-    "crumbs": [
-      "FAIR Data",
-      "Fair & Care"
-    ]
-  },
-  {
-    "objectID": "coding/fair_care/fair_care.html#practical-checklist-for-student-projects",
-    "href": "coding/fair_care/fair_care.html#practical-checklist-for-student-projects",
-    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
-    "section": "5 ✅ Practical checklist for student projects",
-    "text": "5 ✅ Practical checklist for student projects\nUse this before sharing data, code, or a repository.\n\n5.1 🔒 1) Privacy & sensitivity\n\nDoes the dataset include personal, confidential, location-based, or culturally sensitive information?\nHave you removed identifiers (when appropriate) and documented what was removed?\nAre access rules clear (open vs restricted)?\n\n\n\n\n\n\n\n⚠️ Caution\n\n\n\nEven if you remove names, small datasets + detailed locations + rare characteristics can still identify people or communities.\n\n\n\n\n5.2 ✅ 2) Integrity & trust\n\nDo you track versions of files (e.g., Git commits, file naming, or release tags)?\nCan someone reproduce your results from your code + data description?\nDid you document cleaning steps and assumptions?\n\n\n\n5.3 ✨ 3) FAIR basics\n\nIs there a clear README describing what the dataset is and how to use it?\nAre variables explained (a data dictionary)?\nAre formats standard (e.g., .csv, consistent units, consistent column names)?\nIs there a license or clear re-use statement?\n\n\n\n5.4 🌿 4) CARE basics\n\nWho does the data describe, and who should have a say in how it is used?\nDoes the project involve Indigenous data or knowledge?\nDo you have permission/consent and the right governance process for use and sharing?\nCan you explain who benefits from this work and how potential harms are reduced?",
-    "crumbs": [
-      "FAIR Data",
-      "Fair & Care"
-    ]
-  },
-  {
-    "objectID": "coding/fair_care/fair_care.html#in-a-nutshell",
-    "href": "coding/fair_care/fair_care.html#in-a-nutshell",
-    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
-    "section": "6 🏁 In a nutshell",
-    "text": "6 🏁 In a nutshell\n\nFAIR helps others use data well. \nCARE helps ensure data use is right and respectful. \nTogether, they help protect privacy, integrity, and the value of data. 🛡️",
-    "crumbs": [
-      "FAIR Data",
-      "Fair & Care"
-    ]
-  },
-  {
-    "objectID": "coding/fair_care/fair_care.html#to-think-about",
-    "href": "coding/fair_care/fair_care.html#to-think-about",
-    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
-    "section": "7 🗣️To think about…",
-    "text": "7 🗣️To think about…\nPick one scenario:\n\nA dataset contains farm trial results with GPS coordinates\n\nA dataset includes survey responses from a small community\n\nA dataset includes information related to Indigenous lands, communities, or knowledge\n\nConsider the following questions: - What could go wrong if the data are shared publicly? - What would you do to make the project more FAIR? - What CARE questions should be asked before publishing?\n\n\n\n\n\n\n🧠 Optional prompt\n\n\n\nWrite a 3–4 sentence “sharing decision” for your scenario:  - What will be shared?  - What will be restricted (and why)?  - How will you document access conditions and responsibilities?",
-    "crumbs": [
-      "FAIR Data",
-      "Fair & Care"
-    ]
-  },
-  {
-    "objectID": "coding/fair_care/fair_care.html#suggested-reading",
-    "href": "coding/fair_care/fair_care.html#suggested-reading",
-    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
-    "section": "8 📚 Suggested reading",
-    "text": "8 📚 Suggested reading\n\n8.1 ✨ FAIR\n\nFAIR Guiding Principles (Wilkinson et al., 2016)\n\nGO FAIR overview\n\nThe Turing Way Book\n\n\n\n8.2 🌿 CARE + Indigenous Data Governance\n\nGlobal Indigenous Data Alliance (CARE): https://www.gida-global.org/care\n\nCARE principles paper (Carroll et al., 2020)\n\n\n\n8.3 🧩 FAIR + CARE together\n\nOperationalizing FAIR + CARE (Carroll et al., 2021)",
-    "crumbs": [
-      "FAIR Data",
-      "Fair & Care"
-    ]
-  },
-  {
-    "objectID": "outline/outline.html",
-    "href": "outline/outline.html",
-    "title": "PLNT6530|01 - Course Outline",
-    "section": "",
-    "text": "Course Code: PLNT6530\nCourse Title: Reproducible Data Sci for Ag\nTerm: Winter\nCredits: 0.50\n\n\n\n\nDays: Wednesdays and Fridays\nTime: 11:30 am - 12:50 pm\nLocation: CRSC 202\n\n\n\n\n\nDr. Adrian Correndo\nEmail: acorrend@uoguelph.ca",
-    "crumbs": [
-      "Course Outline",
-      "Outline"
-    ]
-  },
-  {
-    "objectID": "outline/outline.html#course-information",
-    "href": "outline/outline.html#course-information",
-    "title": "PLNT6530|01 - Course Outline",
-    "section": "",
-    "text": "Course Code: PLNT6530\nCourse Title: Reproducible Data Sci for Ag\nTerm: Winter\nCredits: 0.50\n\n\n\n\nDays: Wednesdays and Fridays\nTime: 11:30 am - 12:50 pm\nLocation: CRSC 202\n\n\n\n\n\nDr. Adrian Correndo\nEmail: acorrend@uoguelph.ca",
-    "crumbs": [
-      "Course Outline",
-      "Outline"
-    ]
-  },
-  {
-    "objectID": "outline/outline.html#course-description",
-    "href": "outline/outline.html#course-description",
-    "title": "PLNT6530|01 - Course Outline",
-    "section": "2. Course Description",
-    "text": "2. Course Description\nThis course is designed for graduate students in crop and soil sciences to develop key skills in data science using R. It emphasizes reproducibility in data analysis, ensuring that results can be consistently replicated. Students will learn essential data science concepts, and how to use functions, packages, and version control to effectively manage their data and collaborate with peers. Following tidy principles, the course promotes best coding practices for data wrangling, effective visualization, and clean deployment of statistical models common in agriculture. By the end of the course, students will be equipped to handle a variety of agricultural datasets and produce reliable, reproducible research outcomes.\n\nPrerequisite(s)\nA basic understanding of R or any programming language is recommended but not required. Basic statistical theory is also recommended.\n\n\nTextbooks and Resources\nRecommended:\n\nR for Data Science by Hadley Wickham & Garrett Grolemund.\nOnline resources and package documentation will be provided throughout the course.",
-    "crumbs": [
-      "Course Outline",
-      "Outline"
-    ]
-  },
-  {
-    "objectID": "outline/outline.html#course-learning-outcomes",
-    "href": "outline/outline.html#course-learning-outcomes",
-    "title": "PLNT6530|01 - Course Outline",
-    "section": "3. Course Learning Outcomes",
-    "text": "3. Course Learning Outcomes\nBy the end of this course, students will be able to:\n\nReproducibility: understand the principles and importance of reproducible data analysis.\nData manipulation: develop proficiency in R, including key data structures, packages, and functions to read, clean, transform, and organize datasets.\nData visualization: create informative and aesthetically pleasing visualizations of data.\nModelling and iteration: apply various algorithms and statistical models common to plant agriculture, and implement techniques to handle multiple datasets simultaneously.\nProfessional reporting: produce professional reports for sharing results.\nVersion control: manage the basics of Git and Github for collaborative projects.",
-    "crumbs": [
-      "Course Outline",
-      "Outline"
-    ]
-  },
-  {
-    "objectID": "outline/outline.html#calendar",
-    "href": "outline/outline.html#calendar",
-    "title": "PLNT6530|01 - Course Outline",
-    "section": "4. Calendar",
-    "text": "4. Calendar\nSee http://adriancorrendo.github.io/plnt6530/calendar.html\n\nLast Day to Drop Course\nTBD",
-    "crumbs": [
-      "Course Outline",
-      "Outline"
-    ]
-  },
-  {
-    "objectID": "outline/outline.html#assessment-breakdown",
-    "href": "outline/outline.html#assessment-breakdown",
-    "title": "PLNT6530|01 - Course Outline",
-    "section": "5. Assessment Breakdown",
-    "text": "5. Assessment Breakdown\n\n\n\n\n\n\n\n\nComponent\nWeight (%)\nDetails\n\n\n\n\nWeekly Exercises\n30%\nHands-on exercises to practice skills covered in each week’s topic.\n\n\nSemester Project\n50%\nComplete data analysis project, report, and presentation.\n\n\nFinal Exam\n20%\nCumulative assessment covering all topics from the course.\n\n\n\n\nFinal Exam\n\nDate: April 10th (asynchronous).",
-    "crumbs": [
-      "Course Outline",
-      "Outline"
-    ]
-  },
-  {
-    "objectID": "outline/outline.html#course-grading-policies",
-    "href": "outline/outline.html#course-grading-policies",
-    "title": "PLNT6530|01 - Course Outline",
-    "section": "6. Course Grading Policies",
-    "text": "6. Course Grading Policies\n\na. Late Submissions\nAssignments submitted late will be penalized 5% per day, up to six days. Extensions granted only for valid reasons.\n\n\nb. Use of Devices\nElectronic recording of classes is forbidden without prior permission from the instructor.\n\n\nc. Academic honesty\nPlease adhere to the following guidelines when working on assignments for this course:\n\nIndividual and Team Assignments: You are welcome to discuss individual homework and lab assignments with other students; however, direct sharing or copying of code or written work is not permitted. For team assignments, collaboration is allowed freely within your team. Sharing or copying code or written content between teams is prohibited. Any unauthorized sharing or copying will be treated as a violation for all parties involved.\nExams: Collaboration or discussion with others during exams is strictly prohibited. Unauthorized collaboration or use of unapproved materials will be considered a violation for all students involved.\nReusing Code: Unless specified otherwise, you may refer to online resources (e.g., StackOverflow) for coding examples in assignments. If you use code from an external source directly or take inspiration from it, you must clearly cite the source. The use of AI to complete tasks is not prohibited but it must be disclosed. Failure to cite reused code will be considered plagiarism.",
-    "crumbs": [
-      "Course Outline",
-      "Outline"
-    ]
-  },
-  {
-    "objectID": "outline/outline.html#course-statements",
-    "href": "outline/outline.html#course-statements",
-    "title": "PLNT6530|01 - Course Outline",
-    "section": "7. Course Statements",
-    "text": "7. Course Statements\n\nA. Communication with instructor\nDuring the course, your instructor will interact with you on various course matters on the course website using the following ways of communication:\n\nAnnouncements: The instructor will use Announcements on the Course Home page to provide you with course reminders and updates. Please, check this section frequently for course updates from your instructor.\nEmail: If you have a conflict that prevents you from completing course requirements, or have a question concerning a personal matter, you can send your instructor a private message by email. The instructor will attempt to respond to your email within 24 hours.\nVideo Call: If you have a complex question you would like to discuss with your instructor, you may book a video meeting on Zoom or Teams. Video meetings depend on the availability and are booked on a first come first served basis.\n\n\n\nB. Course Technology Requirements\nThis course will use a variety of technologies and resources. To successfully participate in and complete this course, students will need access to the following\n\n1. Communication tools:\nCourseLink. This platform will be used as the main Course-Home Page. If you need any assistance with the software tools or the CourseLink website, contact CourseLink Support. Email: courselink@uoguelph.ca Tel: 519-824-4120 ext. 56939 Toll-Free (CAN/USA): 1-866- 275-1478. Support Hours (Eastern Time): Monday thru Friday: 8:30 am–8:30 pm; Saturday: 10:00 am–4:00 pm; Sunday: 12:00 pm–6:00 pm\nZoom. This course will use Zoom for lectures when in-person class is not possible. Check your system requirements to ensure you will be able to participate (https://opened.uoguelph.ca/student-resources/system-and-software-requirements/). A Zoom link for the class will be provided before the first day of class. Please, check Home-Page and announcements on CourseLink, and emails from the instructor (acorrend@uoguelph.ca).\n\n\n2. Software & Tools:\n\nR (latest stable version, available at CRAN).\nRStudio/Posit IDE (desktop or cloud-based version for writing and running R code).\nCourse-Specific Libraries and Packages: Students will be required to install R packages. Detailed instructions will be provided in class.\nVersion Control and Collaboration Tools: Git (for version control) and a free GitHub account for collaborative project work and sharing code.\n\n\n\n3. Computing Requirements:\nA laptop or desktop computer capable of running R and RStudio (Windows, MacOS, or Linux). Minimum specifications include:\n\nProcessor: At least a dual-core processor.\nRAM: 8 GB or more (16 GB recommended for handling larger datasets).\nStorage: 10 GB of free space for software installation, course files, and datasets.\n\n\n\n4. Internet Access:\nReliable high-speed internet for accessing online sessions, resources, downloading software, and using cloud-based platforms (e.g., Posit Cloud, GitHub).\n\n\n\n\nC. Data Usage Policy for the Semester Project\nStudents are encouraged to use data from their own research projects for the semester project. However, it is essential to ensure the integrity and privacy of the data, as well as compliance with the policies of their research lab or institution. To safeguard data privacy and integrity: \n\nData Sharing Restrictions: Students are NOT allowed to upload raw research data directly to the instructor, peers, GitHub repositories, Posit Cloud, or any other external platform.\nDe-Identification and Transformation: Before using or sharing the data for the semester project, students must de-identify and transform the data as necessary. This process should ensure that sensitive information or identifying details are removed or anonymized. All data preparation must be performed locally on the student’s machine before incorporating it into the project. \nDocumentation Requirement: Students must include a clear description of the steps taken to de-identify and transform the data in their project report or presentation. This demonstrates adherence to ethical data handling practices.\n\nBy following these guidelines, students can apply their learning to real-world datasets while respecting ethical and institutional standards. The instructor is not responsible for students’ violations to the integrity and privacy of their research data. Non-compliance with this policy may result in disqualification of the project or additional academic consequences.",
-    "crumbs": [
-      "Course Outline",
-      "Outline"
-    ]
-  },
-  {
-    "objectID": "outline/outline.html#accessibility",
-    "href": "outline/outline.html#accessibility",
-    "title": "PLNT6530|01 - Course Outline",
-    "section": "8. Accessibility",
-    "text": "8. Accessibility\nStudents requiring accommodations must register with Student Accessibility Services. Contact the instructor early in the semester to arrange accommodations.",
-    "crumbs": [
-      "Course Outline",
-      "Outline"
-    ]
-  },
-  {
-    "objectID": "outline/outline.html#land-acknowledgement",
-    "href": "outline/outline.html#land-acknowledgement",
-    "title": "PLNT6530|01 - Course Outline",
-    "section": "9. Land Acknowledgement",
-    "text": "9. Land Acknowledgement\nThe University of Guelph resides on the ancestral lands of the Attawandaron people and the treaty lands and territory of the Mississaugas of the Credit. We recognize the significance of the Dish with One Spoon Covenant to this land and offer respect to our Anishinaabe, Haudenosaunee, and Métis neighbours. Today, this gathering place is home to many First Nations, Inuit, and Métis peoples, and acknowledging them reminds us of our important connection to this land where we work and learn.",
-    "crumbs": [
-      "Course Outline",
-      "Outline"
-    ]
-  },
-  {
-    "objectID": "software/software.html",
-    "href": "software/software.html",
-    "title": "Required Software & Accounts",
-    "section": "",
-    "text": "R & RStudio IDEGitGitHubGitHub DesktopPosit Cloud\n\n\nBefore starting with the course, it is important that you install R and R Studio in your computer. Please, follow these simple steps:\nDownload the latest version of R from CRAN, here Download the latest version of RStudio from posit, here Run and install in the downloaded files in the same order. There are plenty of useful tutorials on the internet such as:\n\nhttps://rstudio-education.github.io/hopr/starting.html\nhttps://www.youtube.com/watch?v=Tb3R4GLJ45U\n\n\n\nWhat is Git?\nGit is a powerful version control system that helps you track changes in your code, collaborate with others, and manage your projects effectively.\nHow to Install Git:\nFollow these steps to install Git on your computer:\n\nVisit the official Git website (https://git-scm.com/);to download the installer for your operating system.\nFor detailed guidance, read the official tutorial to install git (https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).\nYou may use these step-by-step videos for installation:\n\n• Installing Git on Windows (https://www.youtube.com/watch?v=iYkLrXobBbA)\n• Installing Git on Mac (https://www.youtube.com/watch?v=B4qsvQ5IqWk)\nOnce installed, verify by typing git –version in your terminal to ensure Git is ready to use!\n\n\nWhat is GitHub?\nGitHub is a web-based interface (nowadays own by Microsoft) that facilitates the use of Git, an open source version control software. This lets multiple people make separate changes to projects and have control over them. GitHub is to Git the equivalent of what RStudio is to R.\nFor this course, it is required that you create your GitHub account. Preferably, using your University email (##@uoguelph.ca). Please, follow the steps detailed on this official link from GitHub:\nhttps://docs.github.com/en/get-started/start-your-journey/creating-an-account-on-github\nYou may also find multiple useful YouTube tutorials like this one:\nhttps://www.youtube.com/watch?v=h5cKAd94QNo\n\n\nWhat is GitHub Desktop?\nGitHub Desktop is a user-friendly application that helps you interact with Git and GitHub through a simple graphical interface, making it easier to manage your repositories.\nHow to Install GitHub Desktop:\nFollow these steps to install GitHub Desktop on your computer:\n\nVisit the GitHub Desktop website (https://desktop.github.com); and download the application for your operating system.\nRun the installer and follow the on-screen instructions to complete the installation.\nAfter installation, sign in to your GitHub account or create one if you don’t have it.\n\nFor additional help, check out these videos:\n• Installing GitHub Desktop on Windows (https://www.youtube.com/watch?v=3JdDAJ2YPeU)\n• Installing GitHub Desktop on Mac (https://www.youtube.com/watch?v=C0n6O4d0ccw)\nOnce installed, you can easily clone repositories, commit changes, and sync your work with GitHub!\n\n\nWhat is Posit Cloud?\nPosit Cloud is an online platform that allows you to run RStudio “online”. It helps to write and execute R code directly in your browser, making it easy to learn and work on data science projects without installing software locally.\nHow to Create a Free Posit Cloud Account:\nFollow these steps to set up your free account:\n\nVisit Posit Cloud website at https://posit.cloud.\nClick on Sign Up and choose to create an account using your UoG email. THIS IS IMPORTANT, USE YOUR UOG EMAIL!\nComplete the registration form and verify your email if required.\nOnce registered, log in to your Posit Cloud account and start exploring R projects directly in your browser.\nMore instructions about our course workspace will be provided during the semester.\n\nFor a hint of what PositCloud does, you may watch with this video:\nhttps://www.youtube.com/watch?v=-fzwm4ZhVQQ With Posit Cloud, you’ll have a convenient environment to learn and work on your R programming assignments!",
-    "crumbs": [
-      "Software",
-      "Instructions"
-    ]
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "PLNT6530|01 - Reproducible Data Sci for Ag",
-    "section": "",
-    "text": "Reproducible Data Science for Ag is offered at Department of Plant Agriculture (University of Guelph) by Dr. Adrian Correndo. It is designed for graduate students in crop and soil sciences to develop key skills in data science using R. This course emphasizes reproducibility in data analysis, ensuring that results can be consistently replicated. Students will learn essential data science concepts, and how to use functions, packages, and version control to effectively manage their data and collaborate with peers. Following tidy principles, the course promotes best coding practices for data wrangling, effective visualization, and clean deployment of statistical models common in agriculture. By the end of the course, students will be equipped to handle a variety of agricultural datasets and produce reliable, reproducible research outcomes.\n\n\n\nBy the end of this course, students will be able to:\n\nReproducibility: understand the principles and importance of reproducible data analysis.\nData manipulation: develop proficiency in R, including key data structures, packages, and functions to read, clean, transform, and organize datasets.\nData visualization: create informative and aesthetically pleasing visualizations of data.\nModelling and iteration: apply various algorithms and statistical models common to plant agriculture, and implement techniques to handle multiple datasets simultaneously.\nProfessional reporting: produce professional reports for sharing results.\nVersion control: manage the basics of Git and Github for collaborative projects.\n\n\n\n\nThis course will use a variety of technologies and resources. To successfully participate in and complete this course, students will need access to the following\n\n\nCourseLink. This platform will be used as the main Course-Home Page. If you need any assistance with the software tools or the CourseLink website, contact CourseLink Support. Email: courselink@uoguelph.ca Tel: 519-824-4120 ext. 56939 Toll-Free (CAN/USA): 1-866- 275-1478. Support Hours (Eastern Time): Monday thru Friday: 8:30 am–8:30 pm; Saturday: 10:00 am–4:00 pm; Sunday: 12:00 pm–6:00 pm\nZoom. This course will use Zoom for lectures when in-person class is not possible. Check your system requirements to ensure you will be able to participate (https://opened.uoguelph.ca/student-resources/system-and-software-requirements/). A Zoom link for the class will be provided before the first day of class. Please, check Home-Page and announcements on CourseLink, and emails from the instructor (acorrend@uoguelph.ca).\n\n\n\n\nR (latest stable version, available at CRAN).\nRStudio/Posit IDE (desktop or cloud-based version for writing and running R code).\nCourse-Specific Libraries and Packages: Students will be required to install R packages. Detailed instructions will be provided in class.\nVersion Control and Collaboration Tools: Git (for version control) and a free GitHub account for collaborative project work and sharing code.\n\n\n\n\nA laptop or desktop computer capable of running R and RStudio (Windows, MacOS, or Linux). Minimum specifications include:\n\nProcessor: At least a dual-core processor.\nRAM: 8 GB or more (16 GB recommended for handling larger datasets).\nStorage: 10 GB of free space for software installation, course files, and datasets.\n\n\n\n\nReliable high-speed internet for accessing online sessions, resources, downloading software, and using cloud-based platforms (e.g., Posit Cloud, GitHub).",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#dpag-oac-uog",
-    "href": "index.html#dpag-oac-uog",
-    "title": "PLNT6530|01 - Reproducible Data Sci for Ag",
-    "section": "",
-    "text": "Reproducible Data Science for Ag is offered at Department of Plant Agriculture (University of Guelph) by Dr. Adrian Correndo. It is designed for graduate students in crop and soil sciences to develop key skills in data science using R. This course emphasizes reproducibility in data analysis, ensuring that results can be consistently replicated. Students will learn essential data science concepts, and how to use functions, packages, and version control to effectively manage their data and collaborate with peers. Following tidy principles, the course promotes best coding practices for data wrangling, effective visualization, and clean deployment of statistical models common in agriculture. By the end of the course, students will be equipped to handle a variety of agricultural datasets and produce reliable, reproducible research outcomes.\n\n\n\nBy the end of this course, students will be able to:\n\nReproducibility: understand the principles and importance of reproducible data analysis.\nData manipulation: develop proficiency in R, including key data structures, packages, and functions to read, clean, transform, and organize datasets.\nData visualization: create informative and aesthetically pleasing visualizations of data.\nModelling and iteration: apply various algorithms and statistical models common to plant agriculture, and implement techniques to handle multiple datasets simultaneously.\nProfessional reporting: produce professional reports for sharing results.\nVersion control: manage the basics of Git and Github for collaborative projects.\n\n\n\n\nThis course will use a variety of technologies and resources. To successfully participate in and complete this course, students will need access to the following\n\n\nCourseLink. This platform will be used as the main Course-Home Page. If you need any assistance with the software tools or the CourseLink website, contact CourseLink Support. Email: courselink@uoguelph.ca Tel: 519-824-4120 ext. 56939 Toll-Free (CAN/USA): 1-866- 275-1478. Support Hours (Eastern Time): Monday thru Friday: 8:30 am–8:30 pm; Saturday: 10:00 am–4:00 pm; Sunday: 12:00 pm–6:00 pm\nZoom. This course will use Zoom for lectures when in-person class is not possible. Check your system requirements to ensure you will be able to participate (https://opened.uoguelph.ca/student-resources/system-and-software-requirements/). A Zoom link for the class will be provided before the first day of class. Please, check Home-Page and announcements on CourseLink, and emails from the instructor (acorrend@uoguelph.ca).\n\n\n\n\nR (latest stable version, available at CRAN).\nRStudio/Posit IDE (desktop or cloud-based version for writing and running R code).\nCourse-Specific Libraries and Packages: Students will be required to install R packages. Detailed instructions will be provided in class.\nVersion Control and Collaboration Tools: Git (for version control) and a free GitHub account for collaborative project work and sharing code.\n\n\n\n\nA laptop or desktop computer capable of running R and RStudio (Windows, MacOS, or Linux). Minimum specifications include:\n\nProcessor: At least a dual-core processor.\nRAM: 8 GB or more (16 GB recommended for handling larger datasets).\nStorage: 10 GB of free space for software installation, course files, and datasets.\n\n\n\n\nReliable high-speed internet for accessing online sessions, resources, downloading software, and using cloud-based platforms (e.g., Posit Cloud, GitHub).",
-    "crumbs": [
-      "Home"
+      "Calendar",
+      "Schedule"
     ]
   },
   {
@@ -1043,25 +1023,144 @@
     ]
   },
   {
-    "objectID": "outline/calendar.html",
-    "href": "outline/calendar.html",
-    "title": "PLNT6530|01 - Calendar",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "PLNT6530|01 - Reproducible Data Sci for Ag",
     "section": "",
-    "text": "Days: Wednesdays and Fridays\nTime: 11:30 am - 12:50 pm\nLocation: CRSC 121B",
+    "text": "Reproducible Data Science for Ag is offered at Department of Plant Agriculture (University of Guelph) by Dr. Adrian Correndo. It is designed for graduate students in crop and soil sciences to develop key skills in data science using R. This course emphasizes reproducibility in data analysis, ensuring that results can be consistently replicated. Students will learn essential data science concepts, and how to use functions, packages, and version control to effectively manage their data and collaborate with peers. Following tidy principles, the course promotes best coding practices for data wrangling, effective visualization, and clean deployment of statistical models common in agriculture. By the end of the course, students will be equipped to handle a variety of agricultural datasets and produce reliable, reproducible research outcomes.\n\n\n\nBy the end of this course, students will be able to:\n\nReproducibility: understand the principles and importance of reproducible data analysis.\nData manipulation: develop proficiency in R, including key data structures, packages, and functions to read, clean, transform, and organize datasets.\nData visualization: create informative and aesthetically pleasing visualizations of data.\nModelling and iteration: apply various algorithms and statistical models common to plant agriculture, and implement techniques to handle multiple datasets simultaneously.\nProfessional reporting: produce professional reports for sharing results.\nVersion control: manage the basics of Git and Github for collaborative projects.\n\n\n\n\nThis course will use a variety of technologies and resources. To successfully participate in and complete this course, students will need access to the following\n\n\nCourseLink. This platform will be used as the main Course-Home Page. If you need any assistance with the software tools or the CourseLink website, contact CourseLink Support. Email: courselink@uoguelph.ca Tel: 519-824-4120 ext. 56939 Toll-Free (CAN/USA): 1-866- 275-1478. Support Hours (Eastern Time): Monday thru Friday: 8:30 am–8:30 pm; Saturday: 10:00 am–4:00 pm; Sunday: 12:00 pm–6:00 pm\nZoom. This course will use Zoom for lectures when in-person class is not possible. Check your system requirements to ensure you will be able to participate (https://opened.uoguelph.ca/student-resources/system-and-software-requirements/). A Zoom link for the class will be provided before the first day of class. Please, check Home-Page and announcements on CourseLink, and emails from the instructor (acorrend@uoguelph.ca).\n\n\n\n\nR (latest stable version, available at CRAN).\nRStudio/Posit IDE (desktop or cloud-based version for writing and running R code).\nCourse-Specific Libraries and Packages: Students will be required to install R packages. Detailed instructions will be provided in class.\nVersion Control and Collaboration Tools: Git (for version control) and a free GitHub account for collaborative project work and sharing code.\n\n\n\n\nA laptop or desktop computer capable of running R and RStudio (Windows, MacOS, or Linux). Minimum specifications include:\n\nProcessor: At least a dual-core processor.\nRAM: 8 GB or more (16 GB recommended for handling larger datasets).\nStorage: 10 GB of free space for software installation, course files, and datasets.\n\n\n\n\nReliable high-speed internet for accessing online sessions, resources, downloading software, and using cloud-based platforms (e.g., Posit Cloud, GitHub).",
     "crumbs": [
-      "Calendar",
-      "Schedule"
+      "Home"
     ]
   },
   {
-    "objectID": "outline/calendar.html#calendar",
-    "href": "outline/calendar.html#calendar",
-    "title": "PLNT6530|01 - Calendar",
-    "section": "Calendar",
-    "text": "Calendar\nThe course runs on Wednesdays and Fridays from 1:00 PM to 2:20 PM. Below is the tentative schedule. Please, note the schedule may vary depending on the progress of the class.\n\n\n\nWeek\nDate\nTopic\nMaterial\nLesson\n\n\n\n\n1\nJan 7\nIntroductions, Reproducibility\n🌐\n🎥\n\n\n\nJan 09\nEssentials of Quarto and R\n🌐\n🎥\n\n\n2\nJan 14\nFundamentals of R packages\n🌐\n🎥\n\n\n\nJan 16\nBasics of version control & GitHub\n🌐\n🎥\n\n\n3\nJan 21\nData Wrangling I\n🌐\n🎥\n\n\n\nJan 23\nData Wrangling II\n🌐\n🎥\n\n\n4\nJan 28\nData Wrangling III\n🌐\n🎥\n\n\n\nJan 30\nData Viz I: ggplot2 basics\n🌐\n🎥\n\n\n5\nFeb 04\nData Viz II: Multiple plots\n🌐\n🎥\n\n\n\nFeb 06\nData Viz III: Advanced plots, maps\n🌐\n🎥\n\n\n6\nFeb 11\nIteration: Loops & Mapping\n🌐\n🎥\n\n\n\nFeb 13\nWeather Data: Retrieving & Processing\n🌐\n🎥\n\n\n\n\nWinter Break begins after the end of class\n\n\n\n\n7\nFeb 25\nModels I: TBD\n🌐\n🎥\n\n\n\nFeb 27\nModels II: TBD\n🌐\n🎥\n\n\n8\nMar 04\nModels III: TBD\n🌐\n🎥\n\n\n\nMar 06\nModels IV: TBD\n🌐\n🎥\n\n\n9\nMar 11\nModels V: TBD\n🌐\n🎥\n\n\n\nMar 13\nModels VI: TBD\n🌐\n🎥\n\n\n10\nMar 18\nModels VII: TBD\n🌐\n🎥\n\n\n\nMar 20\nModels VIII: TBD\n🌐\n🎥\n\n\n11\nMar 25\nAdvanced Quarto tricks\n🌐\n🎥\n\n\n\nMar 27\nGeneral Review class\n🌐\n🎥\n\n\n12\nApr 01\nSemester Projects Presentations I\n🌐\n\n\n\n\nApr 03\nSemester Projects Presentations II\n🌐\n\n\n\n13\nApr 10\nFinal Exam Due (11.59 pm)\n🌐",
+    "objectID": "index.html#dpag-oac-uog",
+    "href": "index.html#dpag-oac-uog",
+    "title": "PLNT6530|01 - Reproducible Data Sci for Ag",
+    "section": "",
+    "text": "Reproducible Data Science for Ag is offered at Department of Plant Agriculture (University of Guelph) by Dr. Adrian Correndo. It is designed for graduate students in crop and soil sciences to develop key skills in data science using R. This course emphasizes reproducibility in data analysis, ensuring that results can be consistently replicated. Students will learn essential data science concepts, and how to use functions, packages, and version control to effectively manage their data and collaborate with peers. Following tidy principles, the course promotes best coding practices for data wrangling, effective visualization, and clean deployment of statistical models common in agriculture. By the end of the course, students will be equipped to handle a variety of agricultural datasets and produce reliable, reproducible research outcomes.\n\n\n\nBy the end of this course, students will be able to:\n\nReproducibility: understand the principles and importance of reproducible data analysis.\nData manipulation: develop proficiency in R, including key data structures, packages, and functions to read, clean, transform, and organize datasets.\nData visualization: create informative and aesthetically pleasing visualizations of data.\nModelling and iteration: apply various algorithms and statistical models common to plant agriculture, and implement techniques to handle multiple datasets simultaneously.\nProfessional reporting: produce professional reports for sharing results.\nVersion control: manage the basics of Git and Github for collaborative projects.\n\n\n\n\nThis course will use a variety of technologies and resources. To successfully participate in and complete this course, students will need access to the following\n\n\nCourseLink. This platform will be used as the main Course-Home Page. If you need any assistance with the software tools or the CourseLink website, contact CourseLink Support. Email: courselink@uoguelph.ca Tel: 519-824-4120 ext. 56939 Toll-Free (CAN/USA): 1-866- 275-1478. Support Hours (Eastern Time): Monday thru Friday: 8:30 am–8:30 pm; Saturday: 10:00 am–4:00 pm; Sunday: 12:00 pm–6:00 pm\nZoom. This course will use Zoom for lectures when in-person class is not possible. Check your system requirements to ensure you will be able to participate (https://opened.uoguelph.ca/student-resources/system-and-software-requirements/). A Zoom link for the class will be provided before the first day of class. Please, check Home-Page and announcements on CourseLink, and emails from the instructor (acorrend@uoguelph.ca).\n\n\n\n\nR (latest stable version, available at CRAN).\nRStudio/Posit IDE (desktop or cloud-based version for writing and running R code).\nCourse-Specific Libraries and Packages: Students will be required to install R packages. Detailed instructions will be provided in class.\nVersion Control and Collaboration Tools: Git (for version control) and a free GitHub account for collaborative project work and sharing code.\n\n\n\n\nA laptop or desktop computer capable of running R and RStudio (Windows, MacOS, or Linux). Minimum specifications include:\n\nProcessor: At least a dual-core processor.\nRAM: 8 GB or more (16 GB recommended for handling larger datasets).\nStorage: 10 GB of free space for software installation, course files, and datasets.\n\n\n\n\nReliable high-speed internet for accessing online sessions, resources, downloading software, and using cloud-based platforms (e.g., Posit Cloud, GitHub).",
     "crumbs": [
-      "Calendar",
-      "Schedule"
+      "Home"
+    ]
+  },
+  {
+    "objectID": "software/software.html",
+    "href": "software/software.html",
+    "title": "Required Software & Accounts",
+    "section": "",
+    "text": "R & RStudio IDEGitGitHubGitHub DesktopPosit Cloud\n\n\nBefore starting with the course, it is important that you install R and R Studio in your computer. Please, follow these simple steps:\nDownload the latest version of R from CRAN, here Download the latest version of RStudio from posit, here Run and install in the downloaded files in the same order. There are plenty of useful tutorials on the internet such as:\n\nhttps://rstudio-education.github.io/hopr/starting.html\nhttps://www.youtube.com/watch?v=Tb3R4GLJ45U\n\n\n\nWhat is Git?\nGit is a powerful version control system that helps you track changes in your code, collaborate with others, and manage your projects effectively.\nHow to Install Git:\nFollow these steps to install Git on your computer:\n\nVisit the official Git website (https://git-scm.com/);to download the installer for your operating system.\nFor detailed guidance, read the official tutorial to install git (https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).\nYou may use these step-by-step videos for installation:\n\n• Installing Git on Windows (https://www.youtube.com/watch?v=iYkLrXobBbA)\n• Installing Git on Mac (https://www.youtube.com/watch?v=B4qsvQ5IqWk)\nOnce installed, verify by typing git –version in your terminal to ensure Git is ready to use!\n\n\nWhat is GitHub?\nGitHub is a web-based interface (nowadays own by Microsoft) that facilitates the use of Git, an open source version control software. This lets multiple people make separate changes to projects and have control over them. GitHub is to Git the equivalent of what RStudio is to R.\nFor this course, it is required that you create your GitHub account. Preferably, using your University email (##@uoguelph.ca). Please, follow the steps detailed on this official link from GitHub:\nhttps://docs.github.com/en/get-started/start-your-journey/creating-an-account-on-github\nYou may also find multiple useful YouTube tutorials like this one:\nhttps://www.youtube.com/watch?v=h5cKAd94QNo\n\n\nWhat is GitHub Desktop?\nGitHub Desktop is a user-friendly application that helps you interact with Git and GitHub through a simple graphical interface, making it easier to manage your repositories.\nHow to Install GitHub Desktop:\nFollow these steps to install GitHub Desktop on your computer:\n\nVisit the GitHub Desktop website (https://desktop.github.com); and download the application for your operating system.\nRun the installer and follow the on-screen instructions to complete the installation.\nAfter installation, sign in to your GitHub account or create one if you don’t have it.\n\nFor additional help, check out these videos:\n• Installing GitHub Desktop on Windows (https://www.youtube.com/watch?v=3JdDAJ2YPeU)\n• Installing GitHub Desktop on Mac (https://www.youtube.com/watch?v=C0n6O4d0ccw)\nOnce installed, you can easily clone repositories, commit changes, and sync your work with GitHub!\n\n\nWhat is Posit Cloud?\nPosit Cloud is an online platform that allows you to run RStudio “online”. It helps to write and execute R code directly in your browser, making it easy to learn and work on data science projects without installing software locally.\nHow to Create a Free Posit Cloud Account:\nFollow these steps to set up your free account:\n\nVisit Posit Cloud website at https://posit.cloud.\nClick on Sign Up and choose to create an account using your UoG email. THIS IS IMPORTANT, USE YOUR UOG EMAIL!\nComplete the registration form and verify your email if required.\nOnce registered, log in to your Posit Cloud account and start exploring R projects directly in your browser.\nMore instructions about our course workspace will be provided during the semester.\n\nFor a hint of what PositCloud does, you may watch with this video:\nhttps://www.youtube.com/watch?v=-fzwm4ZhVQQ With Posit Cloud, you’ll have a convenient environment to learn and work on your R programming assignments!",
+    "crumbs": [
+      "Software",
+      "Instructions"
+    ]
+  },
+  {
+    "objectID": "outline/outline.html",
+    "href": "outline/outline.html",
+    "title": "PLNT6530|01 - Course Outline",
+    "section": "",
+    "text": "Course Code: PLNT6530\nCourse Title: Reproducible Data Sci for Ag\nTerm: Winter\nCredits: 0.50\n\n\n\n\nDays: Wednesdays and Fridays\nTime: 11:30 am - 12:50 pm\nLocation: CRSC 202\n\n\n\n\n\nDr. Adrian Correndo\nEmail: acorrend@uoguelph.ca",
+    "crumbs": [
+      "Course Outline",
+      "Outline"
+    ]
+  },
+  {
+    "objectID": "outline/outline.html#course-information",
+    "href": "outline/outline.html#course-information",
+    "title": "PLNT6530|01 - Course Outline",
+    "section": "",
+    "text": "Course Code: PLNT6530\nCourse Title: Reproducible Data Sci for Ag\nTerm: Winter\nCredits: 0.50\n\n\n\n\nDays: Wednesdays and Fridays\nTime: 11:30 am - 12:50 pm\nLocation: CRSC 202\n\n\n\n\n\nDr. Adrian Correndo\nEmail: acorrend@uoguelph.ca",
+    "crumbs": [
+      "Course Outline",
+      "Outline"
+    ]
+  },
+  {
+    "objectID": "outline/outline.html#course-description",
+    "href": "outline/outline.html#course-description",
+    "title": "PLNT6530|01 - Course Outline",
+    "section": "2. Course Description",
+    "text": "2. Course Description\nThis course is designed for graduate students in crop and soil sciences to develop key skills in data science using R. It emphasizes reproducibility in data analysis, ensuring that results can be consistently replicated. Students will learn essential data science concepts, and how to use functions, packages, and version control to effectively manage their data and collaborate with peers. Following tidy principles, the course promotes best coding practices for data wrangling, effective visualization, and clean deployment of statistical models common in agriculture. By the end of the course, students will be equipped to handle a variety of agricultural datasets and produce reliable, reproducible research outcomes.\n\nPrerequisite(s)\nA basic understanding of R or any programming language is recommended but not required. Basic statistical theory is also recommended.\n\n\nTextbooks and Resources\nRecommended:\n\nR for Data Science by Hadley Wickham & Garrett Grolemund.\nOnline resources and package documentation will be provided throughout the course.",
+    "crumbs": [
+      "Course Outline",
+      "Outline"
+    ]
+  },
+  {
+    "objectID": "outline/outline.html#course-learning-outcomes",
+    "href": "outline/outline.html#course-learning-outcomes",
+    "title": "PLNT6530|01 - Course Outline",
+    "section": "3. Course Learning Outcomes",
+    "text": "3. Course Learning Outcomes\nBy the end of this course, students will be able to:\n\nReproducibility: understand the principles and importance of reproducible data analysis.\nData manipulation: develop proficiency in R, including key data structures, packages, and functions to read, clean, transform, and organize datasets.\nData visualization: create informative and aesthetically pleasing visualizations of data.\nModelling and iteration: apply various algorithms and statistical models common to plant agriculture, and implement techniques to handle multiple datasets simultaneously.\nProfessional reporting: produce professional reports for sharing results.\nVersion control: manage the basics of Git and Github for collaborative projects.",
+    "crumbs": [
+      "Course Outline",
+      "Outline"
+    ]
+  },
+  {
+    "objectID": "outline/outline.html#calendar",
+    "href": "outline/outline.html#calendar",
+    "title": "PLNT6530|01 - Course Outline",
+    "section": "4. Calendar",
+    "text": "4. Calendar\nSee http://adriancorrendo.github.io/plnt6530/calendar.html\n\nLast Day to Drop Course\nTBD",
+    "crumbs": [
+      "Course Outline",
+      "Outline"
+    ]
+  },
+  {
+    "objectID": "outline/outline.html#assessment-breakdown",
+    "href": "outline/outline.html#assessment-breakdown",
+    "title": "PLNT6530|01 - Course Outline",
+    "section": "5. Assessment Breakdown",
+    "text": "5. Assessment Breakdown\n\n\n\n\n\n\n\n\nComponent\nWeight (%)\nDetails\n\n\n\n\nWeekly Exercises\n30%\nHands-on exercises to practice skills covered in each week’s topic.\n\n\nSemester Project\n50%\nComplete data analysis project, report, and presentation.\n\n\nFinal Exam\n20%\nCumulative assessment covering all topics from the course.\n\n\n\n\nFinal Exam\n\nDate: April 10th (asynchronous).",
+    "crumbs": [
+      "Course Outline",
+      "Outline"
+    ]
+  },
+  {
+    "objectID": "outline/outline.html#course-grading-policies",
+    "href": "outline/outline.html#course-grading-policies",
+    "title": "PLNT6530|01 - Course Outline",
+    "section": "6. Course Grading Policies",
+    "text": "6. Course Grading Policies\n\na. Late Submissions\nAssignments submitted late will be penalized 5% per day, up to six days. Extensions granted only for valid reasons.\n\n\nb. Use of Devices\nElectronic recording of classes is forbidden without prior permission from the instructor.\n\n\nc. Academic honesty\nPlease adhere to the following guidelines when working on assignments for this course:\n\nIndividual and Team Assignments: You are welcome to discuss individual homework and lab assignments with other students; however, direct sharing or copying of code or written work is not permitted. For team assignments, collaboration is allowed freely within your team. Sharing or copying code or written content between teams is prohibited. Any unauthorized sharing or copying will be treated as a violation for all parties involved.\nExams: Collaboration or discussion with others during exams is strictly prohibited. Unauthorized collaboration or use of unapproved materials will be considered a violation for all students involved.\nReusing Code: Unless specified otherwise, you may refer to online resources (e.g., StackOverflow) for coding examples in assignments. If you use code from an external source directly or take inspiration from it, you must clearly cite the source. The use of AI to complete tasks is not prohibited but it must be disclosed. Failure to cite reused code will be considered plagiarism.",
+    "crumbs": [
+      "Course Outline",
+      "Outline"
+    ]
+  },
+  {
+    "objectID": "outline/outline.html#course-statements",
+    "href": "outline/outline.html#course-statements",
+    "title": "PLNT6530|01 - Course Outline",
+    "section": "7. Course Statements",
+    "text": "7. Course Statements\n\nA. Communication with instructor\nDuring the course, your instructor will interact with you on various course matters on the course website using the following ways of communication:\n\nAnnouncements: The instructor will use Announcements on the Course Home page to provide you with course reminders and updates. Please, check this section frequently for course updates from your instructor.\nEmail: If you have a conflict that prevents you from completing course requirements, or have a question concerning a personal matter, you can send your instructor a private message by email. The instructor will attempt to respond to your email within 24 hours.\nVideo Call: If you have a complex question you would like to discuss with your instructor, you may book a video meeting on Zoom or Teams. Video meetings depend on the availability and are booked on a first come first served basis.\n\n\n\nB. Course Technology Requirements\nThis course will use a variety of technologies and resources. To successfully participate in and complete this course, students will need access to the following\n\n1. Communication tools:\nCourseLink. This platform will be used as the main Course-Home Page. If you need any assistance with the software tools or the CourseLink website, contact CourseLink Support. Email: courselink@uoguelph.ca Tel: 519-824-4120 ext. 56939 Toll-Free (CAN/USA): 1-866- 275-1478. Support Hours (Eastern Time): Monday thru Friday: 8:30 am–8:30 pm; Saturday: 10:00 am–4:00 pm; Sunday: 12:00 pm–6:00 pm\nZoom. This course will use Zoom for lectures when in-person class is not possible. Check your system requirements to ensure you will be able to participate (https://opened.uoguelph.ca/student-resources/system-and-software-requirements/). A Zoom link for the class will be provided before the first day of class. Please, check Home-Page and announcements on CourseLink, and emails from the instructor (acorrend@uoguelph.ca).\n\n\n2. Software & Tools:\n\nR (latest stable version, available at CRAN).\nRStudio/Posit IDE (desktop or cloud-based version for writing and running R code).\nCourse-Specific Libraries and Packages: Students will be required to install R packages. Detailed instructions will be provided in class.\nVersion Control and Collaboration Tools: Git (for version control) and a free GitHub account for collaborative project work and sharing code.\n\n\n\n3. Computing Requirements:\nA laptop or desktop computer capable of running R and RStudio (Windows, MacOS, or Linux). Minimum specifications include:\n\nProcessor: At least a dual-core processor.\nRAM: 8 GB or more (16 GB recommended for handling larger datasets).\nStorage: 10 GB of free space for software installation, course files, and datasets.\n\n\n\n4. Internet Access:\nReliable high-speed internet for accessing online sessions, resources, downloading software, and using cloud-based platforms (e.g., Posit Cloud, GitHub).\n\n\n\n\nC. Data Usage Policy for the Semester Project\nStudents are encouraged to use data from their own research projects for the semester project. However, it is essential to ensure the integrity and privacy of the data, as well as compliance with the policies of their research lab or institution. To safeguard data privacy and integrity: \n\nData Sharing Restrictions: Students are NOT allowed to upload raw research data directly to the instructor, peers, GitHub repositories, Posit Cloud, or any other external platform.\nDe-Identification and Transformation: Before using or sharing the data for the semester project, students must de-identify and transform the data as necessary. This process should ensure that sensitive information or identifying details are removed or anonymized. All data preparation must be performed locally on the student’s machine before incorporating it into the project. \nDocumentation Requirement: Students must include a clear description of the steps taken to de-identify and transform the data in their project report or presentation. This demonstrates adherence to ethical data handling practices.\n\nBy following these guidelines, students can apply their learning to real-world datasets while respecting ethical and institutional standards. The instructor is not responsible for students’ violations to the integrity and privacy of their research data. Non-compliance with this policy may result in disqualification of the project or additional academic consequences.",
+    "crumbs": [
+      "Course Outline",
+      "Outline"
+    ]
+  },
+  {
+    "objectID": "outline/outline.html#accessibility",
+    "href": "outline/outline.html#accessibility",
+    "title": "PLNT6530|01 - Course Outline",
+    "section": "8. Accessibility",
+    "text": "8. Accessibility\nStudents requiring accommodations must register with Student Accessibility Services. Contact the instructor early in the semester to arrange accommodations.",
+    "crumbs": [
+      "Course Outline",
+      "Outline"
+    ]
+  },
+  {
+    "objectID": "outline/outline.html#land-acknowledgement",
+    "href": "outline/outline.html#land-acknowledgement",
+    "title": "PLNT6530|01 - Course Outline",
+    "section": "9. Land Acknowledgement",
+    "text": "9. Land Acknowledgement\nThe University of Guelph resides on the ancestral lands of the Attawandaron people and the treaty lands and territory of the Mississaugas of the Credit. We recognize the significance of the Dish with One Spoon Covenant to this land and offer respect to our Anishinaabe, Haudenosaunee, and Métis neighbours. Today, this gathering place is home to many First Nations, Inuit, and Métis peoples, and acknowledging them reminds us of our important connection to this land where we work and learn.",
+    "crumbs": [
+      "Course Outline",
+      "Outline"
     ]
   },
   {
@@ -1324,7 +1423,7 @@
     "section": "",
     "text": "Quarto is a powerful tool for creating dynamic documents, and it supports multiple output formats, including HTML and PDF. This article presents essential tips and tricks to help you customize and optimize your Quarto documents effectively.",
     "crumbs": [
-      "Quarto",
+      "Extras",
       "Quarto Basics"
     ]
   },
@@ -1335,7 +1434,7 @@
     "section": "\n7.1 Rmarkdown syntax",
     "text": "7.1 Rmarkdown syntax\n‘{r mtcars-plot1, fig.width=6, fig.height=4, warning=FALSE, message=FALSE}’\n\nShow codelibrary(ggplot2)\nggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point() +\n  geom_smooth(method = \"lm\") +\n  theme_minimal()",
     "crumbs": [
-      "Quarto",
+      "Extras",
       "Quarto Basics"
     ]
   },
@@ -1346,7 +1445,7 @@
     "section": "\n7.2 New quarto syntax",
     "text": "7.2 New quarto syntax\nWithin the chunk after closing the braces ‘{}’\n\n#| echo: true\n#| warning: false\n#| message: false\n#| fig-width: 6\n#| fig-height: 4\n\n\nShow codeggplot(mtcars, aes(x = factor(cyl), y = mpg, fill = factor(cyl))) +\n  geom_boxplot() +\n  theme_classic()",
     "crumbs": [
-      "Quarto",
+      "Extras",
       "Quarto Basics"
     ]
   },
@@ -1357,7 +1456,7 @@
     "section": "\n11.1 From file",
     "text": "11.1 From file",
     "crumbs": [
-      "Quarto",
+      "Extras",
       "Quarto Basics"
     ]
   },
@@ -1368,71 +1467,316 @@
     "section": "\n11.2 From URL",
     "text": "11.2 From URL",
     "crumbs": [
-      "Quarto",
+      "Extras",
       "Quarto Basics"
     ]
   },
   {
-    "objectID": "coding/p_value/p_value.html",
-    "href": "coding/p_value/p_value.html",
-    "title": "What Does a p-value Really Mean? And Is It Useful for Farmers?",
+    "objectID": "coding/extras/read_tabular.html",
+    "href": "coding/extras/read_tabular.html",
+    "title": "Reading tabular data in R",
     "section": "",
-    "text": "Modern agriculture is full of experiments:\n\n🚜 Does this new fungicide really pay?\n🌱 Should I push nitrogen from 150 to 200 kg N/ha?\n🧪 Is this biological product doing anything, or is it just marketing?\n\nWhen agronomists and researchers answer these questions, they often report p-values:\n“Yield increase was significant at p &lt; 0.05.”\nBut what does that actually mean, probabilistically?\nAnd more importantly: does it answer the questions farmers care about?\nThis short article unpacks the meaning of a p-value and contrasts it with a more intuitive, Bayesian way to talk about probability for farm decisions."
+    "text": "In real projects, a big part of “data science” is simply getting data into R reliably and reproducibly. CSV (comma separated values) and Excel are the most common formats you’ll see in agriculture, industry, and research workflows.\nThis short note covers:  - 📄 how to read CSV (readr).  - 📊 how to read Excel (readxl, openxlsx).  - 🗂️ how to read many files in a folder.  - 🧾 how to read many sheets in an excel file.  - 🧹 common cleaning options like skipping rows, header rows, and missing values",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
   },
   {
-    "objectID": "coding/p_value/p_value.html#why-talk-about-p-values-on-the-farm",
-    "href": "coding/p_value/p_value.html#why-talk-about-p-values-on-the-farm",
-    "title": "What Does a p-value Really Mean? And Is It Useful for Farmers?",
+    "objectID": "coding/extras/read_tabular.html#quick-comparison-of-main-packages",
+    "href": "coding/extras/read_tabular.html#quick-comparison-of-main-packages",
+    "title": "Reading tabular data in R",
+    "section": "2.1 Quick comparison of main packages",
+    "text": "2.1 Quick comparison of main packages\n📄 CSV / delimited text\n- Package: readr\n- ✅ Strengths: fast, consistent parsing, clear messages, good type control (col_types)\n- ⚠️ Notes: great default for tidyverse-style workflows\n📊 Excel (.xlsx)\n- Package: readxl\n- ✅ Strengths: simple reading of Excel, minimal dependencies\n- ⚠️ Notes: read-only (does not write Excel)\n📊 Excel (.xlsx)\n- Package: openxlsx\n- ✅ Strengths: read + write, more control over excels/sheets\n- ⚠️ Notes: great when you must write .xlsx outputs\nRule of thumb: - 📄 CSV: start with readr::read_csv() - 📊 Excel reading: start with readxl::read_excel() - 📝 Excel reading + writing or more control: use openxlsx",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#reading-csv-files",
+    "href": "coding/extras/read_tabular.html#reading-csv-files",
+    "title": "Reading tabular data in R",
+    "section": "2.2 Reading CSV files 📄",
+    "text": "2.2 Reading CSV files 📄\n\n2.2.1 Basic read\n\ndf &lt;- readr::read_csv(\"data/my_file.csv\")\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\ndf\n\n# A tibble: 289 × 6\n   gen   trial env   yield  year loc  \n   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;\n 1 G16   T2    E01     590  2001 Mieso\n 2 G17   T2    E01     554  2001 Mieso\n 3 G18   T2    E01     586  2001 Mieso\n 4 G19   T2    E01     738  2001 Mieso\n 5 G20   T2    E01     489  2001 Mieso\n 6 G21   T2    E01     684  2001 Mieso\n 7 G22   T2    E01     555  2001 Mieso\n 8 G23   T2    E01    1025  2001 Mieso\n 9 G24   T2    E01     493  2001 Mieso\n10 G25   T2    E01     691  2001 Mieso\n# ℹ 279 more rows\n\n\n\n\n2.2.2 Common options\nmissing values, quieter output\n\ndf &lt;- readr::read_csv(\n  file = \"data/my_file.csv\",\n  na = c(\"\", \"NA\", \"N/A\", \"na\", \".\")\n)\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n\n\n2.2.3 Control column types 🎯\nRecommended for reproducibility.\n\ndf &lt;- readr::read_csv(file = \"data/my_file.csv\") |&gt; \n    mutate(loc  = as.character(loc),\n           year  = as.integer(year),\n           yield = as.numeric(yield))\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n\n\n2.2.4 Skip lines at the top ⏭️\nFor example for metadata, notes, extra header rows…\n\ndf &lt;- readr::read_csv(\n  file = \"data/my_file.csv\",\n  skip = 1\n)\n\nRows: 288 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): G16, T2, E01, Mieso\ndbl (2): 590, 2001\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n\n\n2.2.5 Skip blank lines 🕳️\nOften helpful with messy CSV exports\n\ndf &lt;- readr::read_csv(\n  file = \"data/my_file.csv\",\n  skip_empty_rows = TRUE\n)\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#reading-excel-files-.xlsx",
+    "href": "coding/extras/read_tabular.html#reading-excel-files-.xlsx",
+    "title": "Reading tabular data in R",
+    "section": "2.3 Reading Excel files (.xlsx) 📊",
+    "text": "2.3 Reading Excel files (.xlsx) 📊\n\n2.3.1 Basic read (first sheet by default)\n\ndf &lt;- readxl::read_excel(path=\"data/my_excel.xlsx\")\nhead(df)\n\n# A tibble: 6 × 6\n  gen   trial env   yield  year loc  \n  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;\n1 G16   T2    E01     590  2001 Mieso\n2 G17   T2    E01     554  2001 Mieso\n3 G18   T2    E01     586  2001 Mieso\n4 G19   T2    E01     738  2001 Mieso\n5 G20   T2    E01     489  2001 Mieso\n6 G21   T2    E01     684  2001 Mieso\n\n\n\n\n2.3.2 Read a specific sheet\nby name or position\n\ndf1 &lt;- readxl::read_excel(path=\"data/my_excel.xlsx\", sheet = \"Sheet1\")\ndf2 &lt;- readxl::read_excel(path=\"data/my_excel.xlsx\", sheet = 2)\n\n\n\n2.3.3 Skip rows ⏭️\nFor example, title row + empty row\n\ndf &lt;- readxl::read_excel(\n  path = \"data/my_excel.xlsx\",\n  sheet = 1,\n  skip  = 2\n)\n\n\n\n2.3.4 Diagnose 🔎\nFor example, “empty first row” or “headers” not where expected”\n\npeek &lt;- readxl::read_excel(\n  path = \"data/my_excel.xlsx\",\n  sheet     = 1,\n  n_max     = 6, # number of rows of data\n  col_names = FALSE # remove headers row\n)\n\nNew names:\n• `` -&gt; `...1`\n• `` -&gt; `...2`\n• `` -&gt; `...3`\n• `` -&gt; `...4`\n• `` -&gt; `...5`\n• `` -&gt; `...6`\n\npeek\n\n# A tibble: 6 × 6\n  ...1  ...2  ...3  ...4  ...5  ...6 \n  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;\n1 gen   trial env   yield year  loc  \n2 G16   T2    E01   590   2001  Mieso\n3 G17   T2    E01   554   2001  Mieso\n4 G18   T2    E01   586   2001  Mieso\n5 G19   T2    E01   738   2001  Mieso\n6 G20   T2    E01   489   2001  Mieso\n\n\nThen set skip based on what you see (commonly skip = 1 or skip = 2) and re-read.\n\n\n2.3.5 Reading Excel with openxlsx 🛠\nNice when you also write excel files later\n\ndf_sr1 &lt;- openxlsx::read.xlsx(\n  xlsxFile = \"data/my_excel.xlsx\",\n  sheet    = 1,\n  startRow = 1 # speficies where headers are located\n)\nhead(df_sr1)\n\n  gen trial env yield year   loc\n1 G16    T2 E01   590 2001 Mieso\n2 G17    T2 E01   554 2001 Mieso\n3 G18    T2 E01   586 2001 Mieso\n4 G19    T2 E01   738 2001 Mieso\n5 G20    T2 E01   489 2001 Mieso\n6 G21    T2 E01   684 2001 Mieso\n\n\n\n2.3.5.1 Skip rows by moving startRow ⏭️:\n\ndf_sr3 &lt;- openxlsx::read.xlsx(\n  xlsxFile = \"data/my_excel.xlsx\",\n  sheet    = 1,\n  startRow = 3\n)\nslice_head(df_sr3)\n\n  G17 T2 E01 554 2001 Mieso\n1 G18 T2 E01 586 2001 Mieso",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#reading-multiple-csv-files",
+    "href": "coding/extras/read_tabular.html#reading-multiple-csv-files",
+    "title": "Reading tabular data in R",
+    "section": "2.4 Reading multiple CSV files 🗂️",
+    "text": "2.4 Reading multiple CSV files 🗂️\nThis is extremely common when we have one file per site, year, trial, etc.\n\n2.4.1 Read + stack 🧱\nThis is call row-bind\n\nfolder &lt;- \"data\"\n\nfiles &lt;- list.files(path = folder, pattern = \"\\\\.csv$\", full.names = TRUE)\n\nall_data &lt;- files |&gt;\n  setNames(basename(files)) |&gt; # here we name by file basename\n  # Here we read and stack using map_dfr\n  purrr::map_dfr(\n    \\(f) readr::read_csv(f), # here we read each file\n    .id = \"source_file\" # this creates a new column with the file name\n  )\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\nhead(all_data)\n\n# A tibble: 6 × 7\n  source_file    gen   trial env   yield  year loc  \n  &lt;chr&gt;          &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;\n1 my_file_02.csv G16   T2    E01     590  2001 Mieso\n2 my_file_02.csv G17   T2    E01     554  2001 Mieso\n3 my_file_02.csv G18   T2    E01     586  2001 Mieso\n4 my_file_02.csv G19   T2    E01     738  2001 Mieso\n5 my_file_02.csv G20   T2    E01     489  2001 Mieso\n6 my_file_02.csv G21   T2    E01     684  2001 Mieso\n\n\n\n\n2.4.2 Add variables from filename 🏷️\nFor example year, or site\n\nall_data &lt;- files |&gt;\n  purrr::map_dfr(\n    # here we read each file\n    \\(f) readr::read_csv(f) |&gt; \n      dplyr::mutate(source_file = basename(f))  ) |&gt; # add filename as column\n  dplyr::mutate(year = stringr::str_extract(source_file, \"\\\\d{4}\")) \n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n# here we extract a 4-digit year from the filename\n\nall_data %&gt;% \n  group_by(source_file) %&gt;%\n  slice_head()\n\n# A tibble: 2 × 7\n# Groups:   source_file [2]\n  gen   trial env   yield year  loc   source_file   \n  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;         \n1 G16   T2    E01     590 &lt;NA&gt;  Mieso my_file.csv   \n2 G16   T2    E01     590 &lt;NA&gt;  Mieso my_file_02.csv\n\n\n\n\n2.4.3 Keep them as a named list 📚\n\ncsv_list &lt;- files |&gt;\n  setNames(basename(files)) |&gt;\n  purrr::map(\\(f) readr::read_csv(f))\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\nnames(csv_list)\n\n[1] \"my_file_02.csv\" \"my_file.csv\"",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#reading-multiple-excel-files",
+    "href": "coding/extras/read_tabular.html#reading-multiple-excel-files",
+    "title": "Reading tabular data in R",
+    "section": "2.5 Reading multiple Excel files 🗂️📊",
+    "text": "2.5 Reading multiple Excel files 🗂️📊\n\nfolder &lt;- \"data\"\nfiles  &lt;- list.files(path = folder, pattern = \"\\\\.xlsx$\", full.names = TRUE)\n\nall_xlsx &lt;- files |&gt;\n  purrr::map_dfr(\n    \\(f) readxl::read_excel(f, sheet = 1) |&gt; # read first sheet from each\n      dplyr::mutate(source_file = basename(f)) # add filename as column\n  )\n\nall_xlsx %&gt;% \n  group_by(source_file) %&gt;%\n  slice_head()\n\n# A tibble: 2 × 7\n# Groups:   source_file [2]\n  gen   trial env   yield  year loc   source_file    \n  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;          \n1 G16   T2    E01     590  2001 Mieso my_excel.xlsx  \n2 G16   T2    E01     590  2001 Mieso my_file_02.xlsx",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#reading-multiple-sheets",
+    "href": "coding/extras/read_tabular.html#reading-multiple-sheets",
+    "title": "Reading tabular data in R",
+    "section": "2.6 Reading multiple sheets 🧾🧾🧾",
+    "text": "2.6 Reading multiple sheets 🧾🧾🧾\n\n2.6.1 With readxl\n\npath &lt;- \"data/my_excel.xlsx\"\n\nsheets &lt;- readxl::excel_sheets(path)\n\nall_sheets &lt;- sheets |&gt;\n  setNames(sheets) |&gt;\n  purrr::map_dfr(\n    \\(sh) readxl::read_excel(path, sheet = sh) |&gt;\n      dplyr::mutate(sheet = sh)\n  )\n\nall_sheets  %&gt;% \n  group_by(sheet) %&gt;%\n  slice_head()\n\n# A tibble: 2 × 7\n# Groups:   sheet [2]\n  gen   trial env   yield  year loc   sheet \n  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; \n1 G16   T2    E01     590  2001 Mieso Sheet1\n2 G16   T2    E01     590  2001 Mieso Sheet2\n\n\n\n\n2.6.2 With openxlsx 🛠️\n\npath &lt;- \"data/my_excel.xlsx\"\n\nsheets &lt;- openxlsx::getSheetNames(path)\n\nall_sheets &lt;- sheets |&gt;\n  setNames(sheets) |&gt;\n  purrr::map_dfr(\n    \\(sh) openxlsx::read.xlsx(path, sheet = sh) |&gt;\n      dplyr::mutate(sheet = sh)\n  )\n\nall_sheets %&gt;% \n  group_by(sheet) %&gt;%\n  slice_head()\n\n# A tibble: 2 × 7\n# Groups:   sheet [2]\n  gen   trial env   yield  year loc   sheet \n  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; \n1 G16   T2    E01     590  2001 Mieso Sheet1\n2 G16   T2    E01     590  2001 Mieso Sheet2\n\n\n\n\n2.6.3 Footnotes in Excel 📝\nIf a sheet has footnotes at the bottom, you can often remove them after import by filtering rows:\n\ndf &lt;- readxl::read_excel(path=\"data/my_excel.xlsx\") |&gt;\n  dplyr::filter(!is.na(yield))   # example: keep rows that have yield",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#summary",
+    "href": "coding/extras/read_tabular.html#summary",
+    "title": "Reading tabular data in R",
+    "section": "2.7 Summary",
+    "text": "2.7 Summary\n\nUse readr::read_csv() for most CSV workflows (fast + consistent).\nUse readxl::read_excel() for quick Excel imports.\nUse openxlsx when you need more Excel control or want to write .xlsx outputs.\nFor multiple files or sheets, combine list.files()/excel_sheets() with purrr::map_dfr() to create one clean dataset.",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/pipe_operator.html",
+    "href": "coding/extras/pipe_operator.html",
+    "title": "The pipe operator",
     "section": "",
-    "text": "Modern agriculture is full of experiments:\n\n🚜 Does this new fungicide really pay?\n🌱 Should I push nitrogen from 150 to 200 kg N/ha?\n🧪 Is this biological product doing anything, or is it just marketing?\n\nWhen agronomists and researchers answer these questions, they often report p-values:\n“Yield increase was significant at p &lt; 0.05.”\nBut what does that actually mean, probabilistically?\nAnd more importantly: does it answer the questions farmers care about?\nThis short article unpacks the meaning of a p-value and contrasts it with a more intuitive, Bayesian way to talk about probability for farm decisions."
+    "text": "Most data analysis in R is a sequence of small steps: start with a dataset, then filter, transform, summarize, and visualize. You can write this as nested function calls or by creating many intermediate objects (df1, df2, df3), but both approaches can get messy: nested calls are hard to read from the inside out, and lots of intermediate objects add clutter.\nA pipe operator lets you write code in the same order you think about the workflow: top-to-bottom, step-by-step. The output of one step becomes the input of the next. In practice, pipelines tend to be easier to read, easier to modify, and easier to debug because each step is explicit and you can inspect results at any point.\nIn the R ecosystem, there are two common pipes:\n\n%&gt;% from magrittr (widely used in tidyverse workflows)\n|&gt; the native (base R) pipe (built into R 4.1.0 and later)\n\nThis short note shows both and highlights a few practical differences. Let’s navigate an example:\n\n\n\nlibrary(pacman)\npacman::p_load(dplyr, ggplot2)\n\n\n\n\n\n# Load the package\nlibrary(agridat)\n# Load an example dataset\ndata(rothamsted.oats, package = 'agridat')\n# Alternatively, you can load the dataset directly (cleaner)\nrothamsted.oats &lt;- agridat::rothamsted.oats\nhead(rothamsted.oats)\n\n  block trt  grain straw row col\n1     x  oa 61.375  83.0  12   1\n2     x 2me 68.750 130.0  12   2\n3     x 2sl 64.250 100.0  12   3\n4     x  ob 65.500  96.0  12   4\n5     w 2sl 79.625 130.5  12   5\n6     w  oa 79.250 122.0  12   6\n\n\n\n\n\n\n\nThe ‘dplyr’ package heavily utilizes the pipe operator %&gt;% from the ‘magrittr’ package to streamline data manipulation workflows. This operator allows you to pass the output of one function directly into the next function, making your code more readable and easier to follow.\n\n# Group by treatment and summarize\n# Using the pipe operator for chaining commands\nrothamsted.oats %&gt;%\n  group_by(trt) %&gt;%\n  summarize(mean_grain = mean(grain))\n\n# A tibble: 12 × 2\n   trt   mean_grain\n   &lt;fct&gt;      &lt;dbl&gt;\n 1 1me         82.8\n 2 1ml         86.5\n 3 1se         81.1\n 4 1sl         80.8\n 5 2me         81.5\n 6 2ml         82.3\n 7 2se         81.2\n 8 2sl         81.2\n 9 oa          77.6\n10 ob          79.2\n11 oc          78.4\n12 od          81.4\n\n# The best practice is to specify the data using the .data argument\nrothamsted.oats %&gt;%\n  group_by(trt) %&gt;%\n  summarize(.data = ., mean_grain = mean(grain))\n\n# A tibble: 12 × 2\n   trt   mean_grain\n   &lt;fct&gt;      &lt;dbl&gt;\n 1 1me         82.8\n 2 1ml         86.5\n 3 1se         81.1\n 4 1sl         80.8\n 5 2me         81.5\n 6 2ml         82.3\n 7 2se         81.2\n 8 2sl         81.2\n 9 oa          77.6\n10 ob          79.2\n11 oc          78.4\n12 od          81.4\n\n# Let's make a plot\nrothamsted.oats %&gt;%\n  ggplot(aes(x = trt, y = grain)) +\n  geom_boxplot(aes(fill=trt)) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\n\nWith the introduction of R 4.1.0, base R now includes its own native pipe operator |&gt;, which serves a similar purpose to the %&gt;% operator from the ‘magrittr’ package. This operator allows you to pass the result of one expression as the first argument to the next expression, enhancing code readability without the need for additional packages.\n\n# Using the native pipe operator\nrothamsted.oats |&gt;\n  group_by(trt) |&gt;\n  summarize(.data = _, mean_grain = mean(grain))\n\n# A tibble: 12 × 2\n   trt   mean_grain\n   &lt;fct&gt;      &lt;dbl&gt;\n 1 1me         82.8\n 2 1ml         86.5\n 3 1se         81.1\n 4 1sl         80.8\n 5 2me         81.5\n 6 2ml         82.3\n 7 2se         81.2\n 8 2sl         81.2\n 9 oa          77.6\n10 ob          79.2\n11 oc          78.4\n12 od          81.4\n\n# Let's make a plot again\nrothamsted.oats |&gt;\n  ggplot(aes(x = trt, y = grain)) +\n  geom_boxplot(aes(fill=trt)) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\nNotice when using the %&gt;% the placeholder . is used to indicate where the piped value should be inserted if it’s not the first argument. Similarly, with the native pipe |&gt;, the placeholder _ can be used to indicate where the piped value should be inserted if it’s not the first argument.\n\n\n\n\n\n\n\n\nDoes any work “better” than the other?\n\n\n\n\n\n\nNo package needed (it’s base R syntax), so it works everywhere without loading magrittr.\nUsually less overhead than %&gt;% because %&gt;% is a function-based pipe, while |&gt; is language syntax.\nIn practice, the difference is rarely noticeable compared to the cost of dplyr verbs, but it can matter in tight loops.\nPlays nicely with modern R style and is increasingly common in new code.\n\n\n\n\n\nPlaceholder power: %&gt;% uses . to place the LHS wherever you want. Base |&gt; uses _ but it’s more restricted (notably, it’s tied to named arguments).\n%&gt;% can do extras like creating functions from a pipeline (and other magrittr variants like %T&gt;%, %&lt;&gt;%, etc.). Base |&gt; doesn’t include those.\n%&gt;% lets you pipe into a bare function name (x %&gt;% sqrt).\nBase |&gt; generally requires a call: x |&gt; sqrt()",
+    "crumbs": [
+      "Extras",
+      "Pipe Ops"
+    ]
   },
   {
-    "objectID": "coding/p_value/p_value.html#what-is-a-p-value-probabilistically",
-    "href": "coding/p_value/p_value.html#what-is-a-p-value-probabilistically",
-    "title": "What Does a p-value Really Mean? And Is It Useful for Farmers?",
-    "section": "🎲 What is a p-value, probabilistically?",
-    "text": "🎲 What is a p-value, probabilistically?\nSuppose we are testing:\n\nH₀ (null hypothesis): there is no true difference between two treatments\n\nH₁ (alternative): there is a true difference\n\nWe run an experiment, calculate a test statistic (like a t-statistic), and obtain a p-value.\nProbabilistic definition:\n\nThe p-value is the probability of observing data at least as extreme as what we observed, if the null hypothesis were true.\n\nIn mathematical notation:\n[ p = P( H_0 ) ]\nSo if p = 0.03, it means:\n\nIf there were truly no effect, then in repeated experiments you would see a result this extreme (or more extreme) only 3% of the time, just by random chance.\n\nIt does not mean:\n\n❌ “There is a 3% chance the null is true.”\n\n❌ “There is a 97% chance the treatment works.”\n\n❌ “There is a 3% chance this result is due to chance.”\n\nThe key is the direction of the conditioning:\n\np-value: probability of the data, given H₀\n\nWhat farmers want: probability of H₀ or H₁, given the data\n\nThese are not the same thing."
+    "objectID": "coding/extras/pipe_operator.html#libraries",
+    "href": "coding/extras/pipe_operator.html#libraries",
+    "title": "The pipe operator",
+    "section": "",
+    "text": "library(pacman)\npacman::p_load(dplyr, ggplot2)",
+    "crumbs": [
+      "Extras",
+      "Pipe Ops"
+    ]
   },
   {
-    "objectID": "coding/p_value/p_value.html#an-agronomy-example-nitrogen-rate-comparison",
-    "href": "coding/p_value/p_value.html#an-agronomy-example-nitrogen-rate-comparison",
-    "title": "What Does a p-value Really Mean? And Is It Useful for Farmers?",
-    "section": "🌱 An agronomy example: nitrogen rate comparison",
-    "text": "🌱 An agronomy example: nitrogen rate comparison\nImagine a trial comparing 150 vs 200 kg N/ha in corn across several fields.\nYou find:\n\n🌽 Mean yield difference: +0.6 t/ha (200 &gt; 150)\n\n📉 p-value: 0.04\n\nThe strict interpretation is:\n\nIf there were really no yield difference between 150 and 200 kg N/ha, you would see a difference of 0.6 t/ha or larger (in either direction) only about 4 times in 100 experiments like this.\n\nStatistically, we might say this result is “significant at the 5% level.”\nBut the farmer’s questions are different:\n\n💭 “What is the chance that 200 kg N/ha will actually give me more yield this year?”\n\n💰 “What is the chance it will give me more profit, considering N price and grain price?”\n\n⚖️ “How big is the upside, and how big is the downside risk?”\n\nThe p-value does not directly answer any of those."
+    "objectID": "coding/extras/pipe_operator.html#data",
+    "href": "coding/extras/pipe_operator.html#data",
+    "title": "The pipe operator",
+    "section": "",
+    "text": "# Load the package\nlibrary(agridat)\n# Load an example dataset\ndata(rothamsted.oats, package = 'agridat')\n# Alternatively, you can load the dataset directly (cleaner)\nrothamsted.oats &lt;- agridat::rothamsted.oats\nhead(rothamsted.oats)\n\n  block trt  grain straw row col\n1     x  oa 61.375  83.0  12   1\n2     x 2me 68.750 130.0  12   2\n3     x 2sl 64.250 100.0  12   3\n4     x  ob 65.500  96.0  12   4\n5     w 2sl 79.625 130.5  12   5\n6     w  oa 79.250 122.0  12   6",
+    "crumbs": [
+      "Extras",
+      "Pipe Ops"
+    ]
   },
   {
-    "objectID": "coding/p_value/p_value.html#limitations-of-p-values-for-farm-decisions",
-    "href": "coding/p_value/p_value.html#limitations-of-p-values-for-farm-decisions",
-    "title": "What Does a p-value Really Mean? And Is It Useful for Farmers?",
-    "section": "⚠️ Limitations of p-values for farm decisions",
-    "text": "⚠️ Limitations of p-values for farm decisions\nP-values are useful for researchers, but they are awkward for decision-makers. Some key limitations:\n\n1️⃣ They answer a different question\n\nStatistics question:\n&gt; If the treatment does nothing, how surprising are my data?\n\nFarmer question:\n&gt; Given my data (plus what we knew before), how likely is it that the treatment helps?\n\nThese are related but not the same.\n\n\n2️⃣ The 0.05 cutoff is arbitrary\nA result with p = 0.049 is “significant”; p = 0.051 is “non-significant.”\nIn practice, these two situations often provide very similar evidence, yet the label changes.\nFor communication and decision-making, this can be misleading.\n\n\n3️⃣ Magnitude and economics can be ignored\nIt’s possible to have:\n\n📌 A tiny yield gain with very small p-value (statistically significant but not profitable), or\n\n📌 A large yield gain with p = 0.10 (not “significant” at 0.05), which might still be attractive if the downside risk is small.\n\nFarmers (and advisors) care about effect size and profit, not just whether p &lt; 0.05.\n\n\n4️⃣ Intuition is backwards\nThe p-value starts from “assume no effect” and asks about the probability of the data.\nBut most people naturally think in the Bayesian direction:\n\nGiven what I’ve seen, how likely is it that there’s a real effect?"
+    "objectID": "coding/extras/pipe_operator.html#the-pipe-operators",
+    "href": "coding/extras/pipe_operator.html#the-pipe-operators",
+    "title": "The pipe operator",
+    "section": "",
+    "text": "The ‘dplyr’ package heavily utilizes the pipe operator %&gt;% from the ‘magrittr’ package to streamline data manipulation workflows. This operator allows you to pass the output of one function directly into the next function, making your code more readable and easier to follow.\n\n# Group by treatment and summarize\n# Using the pipe operator for chaining commands\nrothamsted.oats %&gt;%\n  group_by(trt) %&gt;%\n  summarize(mean_grain = mean(grain))\n\n# A tibble: 12 × 2\n   trt   mean_grain\n   &lt;fct&gt;      &lt;dbl&gt;\n 1 1me         82.8\n 2 1ml         86.5\n 3 1se         81.1\n 4 1sl         80.8\n 5 2me         81.5\n 6 2ml         82.3\n 7 2se         81.2\n 8 2sl         81.2\n 9 oa          77.6\n10 ob          79.2\n11 oc          78.4\n12 od          81.4\n\n# The best practice is to specify the data using the .data argument\nrothamsted.oats %&gt;%\n  group_by(trt) %&gt;%\n  summarize(.data = ., mean_grain = mean(grain))\n\n# A tibble: 12 × 2\n   trt   mean_grain\n   &lt;fct&gt;      &lt;dbl&gt;\n 1 1me         82.8\n 2 1ml         86.5\n 3 1se         81.1\n 4 1sl         80.8\n 5 2me         81.5\n 6 2ml         82.3\n 7 2se         81.2\n 8 2sl         81.2\n 9 oa          77.6\n10 ob          79.2\n11 oc          78.4\n12 od          81.4\n\n# Let's make a plot\nrothamsted.oats %&gt;%\n  ggplot(aes(x = trt, y = grain)) +\n  geom_boxplot(aes(fill=trt)) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\n\nWith the introduction of R 4.1.0, base R now includes its own native pipe operator |&gt;, which serves a similar purpose to the %&gt;% operator from the ‘magrittr’ package. This operator allows you to pass the result of one expression as the first argument to the next expression, enhancing code readability without the need for additional packages.\n\n# Using the native pipe operator\nrothamsted.oats |&gt;\n  group_by(trt) |&gt;\n  summarize(.data = _, mean_grain = mean(grain))\n\n# A tibble: 12 × 2\n   trt   mean_grain\n   &lt;fct&gt;      &lt;dbl&gt;\n 1 1me         82.8\n 2 1ml         86.5\n 3 1se         81.1\n 4 1sl         80.8\n 5 2me         81.5\n 6 2ml         82.3\n 7 2se         81.2\n 8 2sl         81.2\n 9 oa          77.6\n10 ob          79.2\n11 oc          78.4\n12 od          81.4\n\n# Let's make a plot again\nrothamsted.oats |&gt;\n  ggplot(aes(x = trt, y = grain)) +\n  geom_boxplot(aes(fill=trt)) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\nNotice when using the %&gt;% the placeholder . is used to indicate where the piped value should be inserted if it’s not the first argument. Similarly, with the native pipe |&gt;, the placeholder _ can be used to indicate where the piped value should be inserted if it’s not the first argument.\n\n\n\n\n\n\n\n\nDoes any work “better” than the other?\n\n\n\n\n\n\nNo package needed (it’s base R syntax), so it works everywhere without loading magrittr.\nUsually less overhead than %&gt;% because %&gt;% is a function-based pipe, while |&gt; is language syntax.\nIn practice, the difference is rarely noticeable compared to the cost of dplyr verbs, but it can matter in tight loops.\nPlays nicely with modern R style and is increasingly common in new code.\n\n\n\n\n\nPlaceholder power: %&gt;% uses . to place the LHS wherever you want. Base |&gt; uses _ but it’s more restricted (notably, it’s tied to named arguments).\n%&gt;% can do extras like creating functions from a pipeline (and other magrittr variants like %T&gt;%, %&lt;&gt;%, etc.). Base |&gt; doesn’t include those.\n%&gt;% lets you pipe into a bare function name (x %&gt;% sqrt).\nBase |&gt; generally requires a call: x |&gt; sqrt()",
+    "crumbs": [
+      "Extras",
+      "Pipe Ops"
+    ]
   },
   {
-    "objectID": "coding/p_value/p_value.html#a-bayesian-way-to-think-probability-of-benefit",
-    "href": "coding/p_value/p_value.html#a-bayesian-way-to-think-probability-of-benefit",
-    "title": "What Does a p-value Really Mean? And Is It Useful for Farmers?",
-    "section": "🎯 A Bayesian way to think: probability of benefit",
-    "text": "🎯 A Bayesian way to think: probability of benefit\nBayesian thinking flips the conditioning:\n\nStart with what we already know (prior), then update with new data to get a posterior: a direct probability statement about the effect.\n\nInstead of talking about p-values, we talk about distributions and probabilities of benefit.\nImagine we combine:\n\n📚 Prior knowledge (multi-location trials, previous years, expert opinion)\n\n🧪 New data from this year’s on-farm trial\n\nWe might end up with statements like:\n\n“Given everything we know, there is a 75% chance that 200 kg N/ha yields at least 0.4 t/ha more than 150 kg N/ha.”\n\n“There is a 60% chance that 200 kg N/ha increases profit at current prices, and a 20% chance that it reduces profit by more than $20/ha.”\n\nThis maps much more directly onto real decisions:\n\nIf you are risk-neutral, you might choose the treatment with higher expected profit.\n\nIf you are risk-averse, you might prioritize avoiding the downside and accept a lower expected profit.\n\nThe key point: Bayesian outputs describe how likely different outcomes are, which is exactly what farmers care about."
+    "objectID": "coding/extras/read_tabular.html#basic-read",
+    "href": "coding/extras/read_tabular.html#basic-read",
+    "title": "Reading tabular data in R",
+    "section": "3.1 Basic read",
+    "text": "3.1 Basic read\n\ndf &lt;- readr::read_csv(\"data/my_file.csv\")\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\ndf\n\n# A tibble: 289 × 6\n   gen   trial env   yield  year loc  \n   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;\n 1 G16   T2    E01     590  2001 Mieso\n 2 G17   T2    E01     554  2001 Mieso\n 3 G18   T2    E01     586  2001 Mieso\n 4 G19   T2    E01     738  2001 Mieso\n 5 G20   T2    E01     489  2001 Mieso\n 6 G21   T2    E01     684  2001 Mieso\n 7 G22   T2    E01     555  2001 Mieso\n 8 G23   T2    E01    1025  2001 Mieso\n 9 G24   T2    E01     493  2001 Mieso\n10 G25   T2    E01     691  2001 Mieso\n# ℹ 279 more rows",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
   },
   {
-    "objectID": "coding/p_value/p_value.html#what-farmers-actually-hear-and-what-they-need",
-    "href": "coding/p_value/p_value.html#what-farmers-actually-hear-and-what-they-need",
-    "title": "What Does a p-value Really Mean? And Is It Useful for Farmers?",
-    "section": "👂 What farmers actually hear (and what they need)",
-    "text": "👂 What farmers actually hear (and what they need)\nIn extension work and on-farm research networks, results are often summarized as:\n\n“The fungicide treatment was not statistically significant.”\n\n“The new practice was significantly better than the control at p &lt; 0.01.”\n\nFrom a farmer’s perspective, more helpful summaries would be:\n\n“Across 10 trials, the fungicide increased yield in 7 out of 10 site-years.”\n\n“Given this data and previous research, there is about a 70% chance the fungicide increases yield, and about a 50% chance it increases profit at current prices.”\n\n“The risk of losing more than $20/ha with this fungicide appears low.”\n\nYou can deliver this kind of language using fully Bayesian models, or by combining frequentist estimates with simple probability approximations. The important shift is conceptual:\n\nMove from “Is it significant?” to “What is the probability and size of benefit, and what is the risk?”"
+    "objectID": "coding/extras/read_tabular.html#common-options",
+    "href": "coding/extras/read_tabular.html#common-options",
+    "title": "Reading tabular data in R",
+    "section": "3.2 Common options",
+    "text": "3.2 Common options\nmissing values, quieter output\n\ndf &lt;- readr::read_csv(\n  file = \"data/my_file.csv\",\n  na = c(\"\", \"NA\", \"N/A\", \"na\", \".\")\n)\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
   },
   {
-    "objectID": "coding/p_value/p_value.html#practical-implications-for-agronomy-and-on-farm-research",
-    "href": "coding/p_value/p_value.html#practical-implications-for-agronomy-and-on-farm-research",
-    "title": "What Does a p-value Really Mean? And Is It Useful for Farmers?",
-    "section": "🧪 Practical implications for agronomy and on-farm research",
-    "text": "🧪 Practical implications for agronomy and on-farm research\nFor researchers and students:\n\n🧠 Understanding p-values is still essential because they dominate the scientific literature.\nAlways pair p-values with:\n\n📏 Estimated effect size (e.g., t/ha difference)\n\n📊 Confidence intervals\n\n💸 Economic interpretation\n\n\nFor farmers and advisors:\n\nEmphasize:\n\n📈 Probability the practice increases yield\n\n💰 Probability it increases profit\n\n⚖️ Distribution of possible outcomes (risk vs reward)\n\n\nThis mindset naturally leads toward a Bayesian way of thinking, even if you don’t explicitly present the statistics as “Bayesian.”"
+    "objectID": "coding/extras/read_tabular.html#control-column-types",
+    "href": "coding/extras/read_tabular.html#control-column-types",
+    "title": "Reading tabular data in R",
+    "section": "3.3 Control column types 🎯",
+    "text": "3.3 Control column types 🎯\nRecommended for reproducibility.\n\ndf &lt;- readr::read_csv(file = \"data/my_file.csv\") |&gt; \n    mutate(loc  = as.character(loc),\n           year  = as.integer(year),\n           yield = as.numeric(yield))\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
   },
   {
-    "objectID": "coding/p_value/p_value.html#take-home-messages",
-    "href": "coding/p_value/p_value.html#take-home-messages",
-    "title": "What Does a p-value Really Mean? And Is It Useful for Farmers?",
-    "section": "✅ Take-home messages",
-    "text": "✅ Take-home messages\n\nProbabilistic meaning of a p-value:\n[ p = P( H_0 ) ]\nIt is a probability about the data, given the assumption of no true effect.\nFarmer relevance:\nP-values help researchers avoid being fooled by noise, but they do not directly answer\n&gt; “What are my chances that this will help me?”\nor\n&gt; “Will it pay?”\nBayesian perspective:\nFocuses on (P( )): probabilities of benefit and profit, which align much better with real decision-making on the farm.\n\nIn other words:\n\n🧰 Keep p-values in the statistical toolbox, but speak to farmers in terms of probabilities of benefit, risk, and profit—which is, in spirit, a Bayesian way of thinking."
+    "objectID": "coding/extras/read_tabular.html#skip-lines-at-the-top",
+    "href": "coding/extras/read_tabular.html#skip-lines-at-the-top",
+    "title": "Reading tabular data in R",
+    "section": "3.4 Skip lines at the top ⏭️",
+    "text": "3.4 Skip lines at the top ⏭️\nFor example for metadata, notes, extra header rows…\n\ndf &lt;- readr::read_csv(\n  file = \"data/my_file.csv\",\n  skip = 1\n)\n\nRows: 288 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): G16, T2, E01, Mieso\ndbl (2): 590, 2001\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#skip-blank-lines",
+    "href": "coding/extras/read_tabular.html#skip-blank-lines",
+    "title": "Reading tabular data in R",
+    "section": "3.5 Skip blank lines 🕳️",
+    "text": "3.5 Skip blank lines 🕳️\nOften helpful with messy CSV exports\n\ndf &lt;- readr::read_csv(\n  file = \"data/my_file.csv\",\n  skip_empty_rows = TRUE\n)\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#basic-read-first-sheet-by-default",
+    "href": "coding/extras/read_tabular.html#basic-read-first-sheet-by-default",
+    "title": "Reading tabular data in R",
+    "section": "4.1 Basic read (first sheet by default)",
+    "text": "4.1 Basic read (first sheet by default)\n\ndf &lt;- readxl::read_excel(path=\"data/my_excel.xlsx\")\nhead(df)\n\n# A tibble: 6 × 6\n  gen   trial env   yield  year loc  \n  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;\n1 G16   T2    E01     590  2001 Mieso\n2 G17   T2    E01     554  2001 Mieso\n3 G18   T2    E01     586  2001 Mieso\n4 G19   T2    E01     738  2001 Mieso\n5 G20   T2    E01     489  2001 Mieso\n6 G21   T2    E01     684  2001 Mieso",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#read-a-specific-sheet",
+    "href": "coding/extras/read_tabular.html#read-a-specific-sheet",
+    "title": "Reading tabular data in R",
+    "section": "4.2 Read a specific sheet",
+    "text": "4.2 Read a specific sheet\nby name or position\n\ndf1 &lt;- readxl::read_excel(path=\"data/my_excel.xlsx\", sheet = \"Sheet1\")\ndf2 &lt;- readxl::read_excel(path=\"data/my_excel.xlsx\", sheet = 2)",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#skip-rows",
+    "href": "coding/extras/read_tabular.html#skip-rows",
+    "title": "Reading tabular data in R",
+    "section": "4.3 Skip rows ⏭️",
+    "text": "4.3 Skip rows ⏭️\nFor example, title row + empty row\n\ndf &lt;- readxl::read_excel(\n  path = \"data/my_excel.xlsx\",\n  sheet = 1,\n  skip  = 2\n)",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#diagnose",
+    "href": "coding/extras/read_tabular.html#diagnose",
+    "title": "Reading tabular data in R",
+    "section": "4.4 Diagnose 🔎",
+    "text": "4.4 Diagnose 🔎\nFor example, “empty first row” or “headers” not where expected”\n\ndf_rows &lt;- readxl::read_excel(\n  path = \"data/my_excel.xlsx\",\n  sheet     = 1,\n  n_max     = 6, # number of rows of data\n  col_names = FALSE # remove headers row\n)\n\nNew names:\n• `` -&gt; `...1`\n• `` -&gt; `...2`\n• `` -&gt; `...3`\n• `` -&gt; `...4`\n• `` -&gt; `...5`\n• `` -&gt; `...6`\n\ndf_rows\n\n# A tibble: 6 × 6\n  ...1  ...2  ...3  ...4  ...5  ...6 \n  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;\n1 gen   trial env   yield year  loc  \n2 G16   T2    E01   590   2001  Mieso\n3 G17   T2    E01   554   2001  Mieso\n4 G18   T2    E01   586   2001  Mieso\n5 G19   T2    E01   738   2001  Mieso\n6 G20   T2    E01   489   2001  Mieso\n\n\nThen set skip based on what you see (commonly skip = 1 or skip = 2) and re-read.",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#reading-excel-with-openxlsx",
+    "href": "coding/extras/read_tabular.html#reading-excel-with-openxlsx",
+    "title": "Reading tabular data in R",
+    "section": "4.5 Reading Excel with openxlsx 🛠",
+    "text": "4.5 Reading Excel with openxlsx 🛠\nNice when you also write excel files later\n\ndf_sr1 &lt;- openxlsx::read.xlsx(\n  xlsxFile = \"data/my_excel.xlsx\",\n  sheet    = 1,\n  startRow = 1 # speficies where headers are located\n)\nhead(df_sr1)\n\n  gen trial env yield year   loc\n1 G16    T2 E01   590 2001 Mieso\n2 G17    T2 E01   554 2001 Mieso\n3 G18    T2 E01   586 2001 Mieso\n4 G19    T2 E01   738 2001 Mieso\n5 G20    T2 E01   489 2001 Mieso\n6 G21    T2 E01   684 2001 Mieso\n\n\n\n4.5.1 Skip rows by moving startRow ⏭️:\n\ndf_sr3 &lt;- openxlsx::read.xlsx(\n  xlsxFile = \"data/my_excel.xlsx\",\n  sheet    = 1,\n  startRow = 3\n)\nslice_head(df_sr3)\n\n  G17 T2 E01 554 2001 Mieso\n1 G18 T2 E01 586 2001 Mieso",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#read-stack",
+    "href": "coding/extras/read_tabular.html#read-stack",
+    "title": "Reading tabular data in R",
+    "section": "5.1 Read + stack 🧱",
+    "text": "5.1 Read + stack 🧱\nThis is call row-bind\n\nfolder &lt;- \"data\"\n\nfiles &lt;- list.files(path = folder, pattern = \"\\\\.csv$\", full.names = TRUE)\n\nall_data &lt;- files |&gt;\n  setNames(basename(files)) |&gt; # here we name by file basename\n  # Here we read and stack using map_dfr\n  purrr::map_dfr(\n    \\(f) readr::read_csv(f), # here we read each file\n    .id = \"source_file\" # this creates a new column with the file name\n  )\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\nhead(all_data)\n\n# A tibble: 6 × 7\n  source_file    gen   trial env   yield  year loc  \n  &lt;chr&gt;          &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;\n1 my_file_02.csv G16   T2    E01     590  2001 Mieso\n2 my_file_02.csv G17   T2    E01     554  2001 Mieso\n3 my_file_02.csv G18   T2    E01     586  2001 Mieso\n4 my_file_02.csv G19   T2    E01     738  2001 Mieso\n5 my_file_02.csv G20   T2    E01     489  2001 Mieso\n6 my_file_02.csv G21   T2    E01     684  2001 Mieso",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#add-variables-from-filename",
+    "href": "coding/extras/read_tabular.html#add-variables-from-filename",
+    "title": "Reading tabular data in R",
+    "section": "5.2 Add variables from filename 🏷️",
+    "text": "5.2 Add variables from filename 🏷️\nFor example year, or site\n\nall_data &lt;- files |&gt;\n  purrr::map_dfr(\n    # here we read each file\n    \\(f) readr::read_csv(f) |&gt; \n      dplyr::mutate(source_file = basename(f))  ) |&gt; # add filename as column\n  dplyr::mutate(year = stringr::str_extract(source_file, \"\\\\d{4}\")) \n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n# here we extract a 4-digit year from the filename\n\nall_data %&gt;% \n  group_by(source_file) %&gt;%\n  slice_head()\n\n# A tibble: 2 × 7\n# Groups:   source_file [2]\n  gen   trial env   yield year  loc   source_file   \n  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;         \n1 G16   T2    E01     590 &lt;NA&gt;  Mieso my_file.csv   \n2 G16   T2    E01     590 &lt;NA&gt;  Mieso my_file_02.csv",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#keep-them-as-a-named-list",
+    "href": "coding/extras/read_tabular.html#keep-them-as-a-named-list",
+    "title": "Reading tabular data in R",
+    "section": "5.3 Keep them as a named list 📚",
+    "text": "5.3 Keep them as a named list 📚\n\ncsv_list &lt;- files |&gt;\n  setNames(basename(files)) |&gt;\n  purrr::map(\\(f) readr::read_csv(f))\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\nnames(csv_list)\n\n[1] \"my_file_02.csv\" \"my_file.csv\"",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#with-readxl",
+    "href": "coding/extras/read_tabular.html#with-readxl",
+    "title": "Reading tabular data in R",
+    "section": "7.1 With readxl",
+    "text": "7.1 With readxl\n\npath &lt;- \"data/my_excel.xlsx\"\n\nsheets &lt;- readxl::excel_sheets(path)\n\nall_sheets &lt;- sheets |&gt;\n  setNames(sheets) |&gt;\n  purrr::map_dfr(\n    \\(sh) readxl::read_excel(path, sheet = sh) |&gt;\n      dplyr::mutate(sheet = sh)\n  )\n\nall_sheets  %&gt;% \n  group_by(sheet) %&gt;%\n  slice_head()\n\n# A tibble: 2 × 7\n# Groups:   sheet [2]\n  gen   trial env   yield  year loc   sheet \n  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; \n1 G16   T2    E01     590  2001 Mieso Sheet1\n2 G16   T2    E01     590  2001 Mieso Sheet2",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#with-openxlsx",
+    "href": "coding/extras/read_tabular.html#with-openxlsx",
+    "title": "Reading tabular data in R",
+    "section": "7.2 With openxlsx 🛠️",
+    "text": "7.2 With openxlsx 🛠️\n\npath &lt;- \"data/my_excel.xlsx\"\n\nsheets &lt;- openxlsx::getSheetNames(path)\n\nall_sheets &lt;- sheets |&gt;\n  setNames(sheets) |&gt;\n  purrr::map_dfr(\n    \\(sh) openxlsx::read.xlsx(path, sheet = sh) |&gt;\n      dplyr::mutate(sheet = sh)\n  )\n\nall_sheets %&gt;% \n  group_by(sheet) %&gt;%\n  slice_head()\n\n# A tibble: 2 × 7\n# Groups:   sheet [2]\n  gen   trial env   yield  year loc   sheet \n  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; \n1 G16   T2    E01     590  2001 Mieso Sheet1\n2 G16   T2    E01     590  2001 Mieso Sheet2",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#footnotes-in-excel",
+    "href": "coding/extras/read_tabular.html#footnotes-in-excel",
+    "title": "Reading tabular data in R",
+    "section": "7.3 Footnotes in Excel 📝",
+    "text": "7.3 Footnotes in Excel 📝\nIf a sheet has footnotes at the bottom, you can often remove them after import by filtering rows:\n\ndf &lt;- readxl::read_excel(path=\"data/my_excel.xlsx\") |&gt;\n  dplyr::filter(!is.na(yield))   # example: keep rows that have yield",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
   }
 ]

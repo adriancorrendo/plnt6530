@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Dr.&nbsp;Adrian Correndo">
+<meta name="dcterms.date" content="2026-01-21">
 
-<title>PLNT6530|01 - Reproducible Data Sci for Ag – PLNT6530 - Winter 2026</title>
+<title>The pipe operator – PLNT6530 - Winter 2026</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -58,24 +59,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./slides/day1.html" rel="next">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-f2a1071e85750ec973bbb8a8f120da0f.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-f2a1071e85750ec973bbb8a8f120da0f.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-336ca817ef159df84c7e018e0d356059.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-5ccce6f18d703cb4568c738a25a74289.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../coding/extras/read_tabular.html" rel="next">
+<link href="../../coding/quarto/quarto.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-f2a1071e85750ec973bbb8a8f120da0f.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-f2a1071e85750ec973bbb8a8f120da0f.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-336ca817ef159df84c7e018e0d356059.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-5ccce6f18d703cb4568c738a25a74289.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -103,24 +105,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<style>html{ scroll-behavior: smooth; }</style>
 
 
-<link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="PLNT6530|01 - Reproducible Data Sci for Ag – PLNT6530 - Winter 2026">
-<meta property="og:description" content="Winter 2026">
-<meta property="og:image" content="https://adriancorrendo.github.io/images/uog.png">
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="The pipe operator – PLNT6530 - Winter 2026">
+<meta property="og:description" content="Reproducible Data Science for Agriculture">
+<meta property="og:image" content="https://adriancorrendo.github.io/coding/extras/pipe_operator_files/figure-html/unnamed-chunk-3-1.png">
 <meta property="og:site_name" content="PLNT6530 - Winter 2026">
-<meta property="og:image:alt" content="DPAG-OAC-UOG">
-<meta property="og:image:height" content="451">
-<meta property="og:image:width" content="1636">
-<meta name="twitter:title" content="PLNT6530|01 - Reproducible Data Sci for Ag – PLNT6530 - Winter 2026">
-<meta name="twitter:description" content="Winter 2026">
-<meta name="twitter:image" content="https://adriancorrendo.github.io/images/uog.png">
+<meta property="og:image:height" content="960">
+<meta property="og:image:width" content="1344">
+<meta name="twitter:title" content="The pipe operator – PLNT6530 - Winter 2026">
+<meta name="twitter:description" content="Reproducible Data Science for Agriculture">
+<meta name="twitter:image" content="https://adriancorrendo.github.io/coding/extras/pipe_operator_files/figure-html/unnamed-chunk-3-1.png">
 <meta name="twitter:creator" content="@aacorrendo">
-<meta name="twitter:image:alt" content="DPAG-OAC-UOG">
-<meta name="twitter:image-height" content="451">
-<meta name="twitter:image-width" content="1636">
+<meta name="twitter:image-height" content="960">
+<meta name="twitter:image-width" content="1344">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -131,7 +130,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">PLNT6530 - Winter 2026</span>
     </a>
   </div>
@@ -173,7 +172,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Home</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../coding/quarto/quarto.html">Extras</a></li><li class="breadcrumb-item"><a href="../../coding/extras/pipe_operator.html">Pipe Ops</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -187,8 +186,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-center sidebar-header">
-      <a href="./index.html" class="sidebar-logo-link">
-      <img src="./images/2026_logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      <a href="../../index.html" class="sidebar-logo-link">
+      <img src="../../images/2026_logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
       </a>
       <div class="sidebar-tools-main">
     <a href="https://github.com/adriancorrendo/" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
@@ -203,7 +202,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
   </div>
 </li>
@@ -218,7 +217,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slides/day1.html" class="sidebar-item-text sidebar-link">
+  <a href="../../slides/day1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Reproducibility</span></a>
   </div>
 </li>
@@ -235,7 +234,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./software/software.html" class="sidebar-item-text sidebar-link">
+  <a href="../../software/software.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Instructions</span></a>
   </div>
 </li>
@@ -252,31 +251,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./coding/week_01/essentials_01.html" class="sidebar-item-text sidebar-link">
+  <a href="../../coding/week_01/essentials_01.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">01-Essentials of R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./coding/week_02/02_fundamentals_rpackages.html" class="sidebar-item-text sidebar-link">
+  <a href="../../coding/week_02/02_fundamentals_rpackages.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">02-Fundamentals of packages</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./coding/week_02/03_versioncontrol.html" class="sidebar-item-text sidebar-link">
+  <a href="../../coding/week_02/03_versioncontrol.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">03-Git &amp; GitHub</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./coding/week_03/04_datawrangling_01.html" class="sidebar-item-text sidebar-link">
+  <a href="../../coding/week_03/04_datawrangling_01.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">04-Data Wrangling I</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./coding/week_03/05_datawrangling_02.html" class="sidebar-item-text sidebar-link">
+  <a href="../../coding/week_03/05_datawrangling_02.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">05-Data Wrangling II</span></a>
   </div>
 </li>
@@ -284,40 +283,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
  <span class="menu-text">Extras</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./coding/quarto/quarto.html" class="sidebar-item-text sidebar-link">
+  <a href="../../coding/quarto/quarto.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Quarto Basics</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./coding/extras/pipe_operator.html" class="sidebar-item-text sidebar-link">
+  <a href="../../coding/extras/pipe_operator.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Pipe Ops</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./coding/extras/read_tabular.html" class="sidebar-item-text sidebar-link">
+  <a href="../../coding/extras/read_tabular.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Read Tabular Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./coding/extras/fair_care.html" class="sidebar-item-text sidebar-link">
+  <a href="../../coding/extras/fair_care.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Fair &amp; Care</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./coding/extras/p_value.html" class="sidebar-item-text sidebar-link">
+  <a href="../../coding/extras/p_value.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">p-value</span></a>
   </div>
 </li>
@@ -334,7 +333,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./outline/calendar.html" class="sidebar-item-text sidebar-link">
+  <a href="../../outline/calendar.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Schedule</span></a>
   </div>
 </li>
@@ -351,7 +350,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./outline/outline.html" class="sidebar-item-text sidebar-link">
+  <a href="../../outline/outline.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Outline</span></a>
   </div>
 </li>
@@ -360,21 +359,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
     </div>
     <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Contents</h2>
+    <h2 id="toc-title">Content</h2>
    
   <ul>
-  <li><a href="#dpag-oac-uog" id="toc-dpag-oac-uog" class="nav-link active" data-scroll-target="#dpag-oac-uog"><img src="images/uog.png" class="img-fluid" width="600" alt="DPAG-OAC-UOG"> <br></a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
   <ul>
-  <li><a href="#welcome" id="toc-welcome" class="nav-link" data-scroll-target="#welcome">Welcome</a></li>
-  <li><a href="#course-learning-outcomes" id="toc-course-learning-outcomes" class="nav-link" data-scroll-target="#course-learning-outcomes">Course Learning Outcomes</a></li>
-  <li><a href="#course-technology-requirements" id="toc-course-technology-requirements" class="nav-link" data-scroll-target="#course-technology-requirements">Course Technology Requirements</a>
+  <li><a href="#libraries" id="toc-libraries" class="nav-link" data-scroll-target="#libraries">00. libraries</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">01. data</a></li>
+  <li><a href="#the-pipe-operators" id="toc-the-pipe-operators" class="nav-link" data-scroll-target="#the-pipe-operators">The pipe operators</a>
   <ul class="collapse">
-  <li><a href="#communication-tools" id="toc-communication-tools" class="nav-link" data-scroll-target="#communication-tools"><strong>1. Communication tools:</strong></a></li>
-  <li><a href="#software-tools" id="toc-software-tools" class="nav-link" data-scroll-target="#software-tools"><strong>2. Software &amp; Tools:</strong></a></li>
-  <li><a href="#computing-requirements" id="toc-computing-requirements" class="nav-link" data-scroll-target="#computing-requirements"><strong>3. Computing Requirements:</strong></a></li>
-  <li><a href="#internet-access" id="toc-internet-access" class="nav-link" data-scroll-target="#internet-access"><strong>4. Internet Access:</strong></a></li>
+  <li><a href="#a.-pipe-operator" id="toc-a.-pipe-operator" class="nav-link" data-scroll-target="#a.-pipe-operator">a. Pipe operator ‘%&gt;%’:</a></li>
+  <li><a href="#b.-native-pipe-operator" id="toc-b.-native-pipe-operator" class="nav-link" data-scroll-target="#b.-native-pipe-operator">b. Native pipe operator ‘|&gt;’:</a></li>
   </ul></li>
-  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a></li>
   </ul></li>
   </ul>
 </nav>
@@ -386,10 +382,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../coding/quarto/quarto.html">Extras</a></li><li class="breadcrumb-item"><a href="../../coding/extras/pipe_operator.html">Pipe Ops</a></li></ol></nav>
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">PLNT6530|01 - Reproducible Data Sci for Ag</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
-<p class="subtitle lead">Winter 2026</p>
+<div class="quarto-title-block"><div><h1 class="title">The pipe operator</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -403,6 +398,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           </div>
   </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 21, 2026</p>
+    </div>
+  </div>
   
     
   </div>
@@ -412,61 +413,193 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="dpag-oac-uog" class="level2">
-<h2 class="anchored" data-anchor-id="dpag-oac-uog"><img src="images/uog.png" class="img-fluid" width="600" alt="DPAG-OAC-UOG"> <br></h2>
-<section id="welcome" class="level3">
-<h3 class="anchored" data-anchor-id="welcome">Welcome</h3>
-<p>Reproducible Data Science for Ag is offered at Department of Plant Agriculture (University of Guelph) by Dr.&nbsp;Adrian Correndo. It is designed for graduate students in crop and soil sciences to develop key skills in data science using R. This course emphasizes reproducibility in data analysis, ensuring that results can be consistently replicated. Students will learn essential data science concepts, and how to use functions, packages, and version control to effectively manage their data and collaborate with peers. Following tidy principles, the course promotes best coding practices for data wrangling, effective visualization, and clean deployment of statistical models common in agriculture. By the end of the course, students will be equipped to handle a variety of agricultural datasets and produce reliable, reproducible research outcomes.</p>
-</section>
-<section id="course-learning-outcomes" class="level3">
-<h3 class="anchored" data-anchor-id="course-learning-outcomes">Course Learning Outcomes</h3>
-<p>By the end of this course, students will be able to:</p>
-<ol type="1">
-<li><p><strong>Reproducibility</strong>: understand the principles and importance of reproducible data analysis.</p></li>
-<li><p><strong>Data manipulation</strong>: develop proficiency in R, including key data structures, packages, and functions to read, clean, transform, and organize datasets.</p></li>
-<li><p><strong>Data visualization</strong>: create informative and aesthetically pleasing visualizations of data.</p></li>
-<li><p><strong>Modelling and iteration</strong>: apply various algorithms and statistical models common to plant agriculture, and implement techniques to handle multiple datasets simultaneously.</p></li>
-<li><p><strong>Professional reporting</strong>: produce professional reports for sharing results.</p></li>
-<li><p><strong>Version control</strong>: manage the basics of Git and Github for collaborative projects.</p></li>
-</ol>
-</section>
-<section id="course-technology-requirements" class="level3">
-<h3 class="anchored" data-anchor-id="course-technology-requirements">Course Technology Requirements</h3>
-<p>This course will use a variety of technologies and resources. To successfully participate in and complete this course, students will need access to the following</p>
-<section id="communication-tools" class="level4">
-<h4 class="anchored" data-anchor-id="communication-tools"><strong>1. Communication tools:</strong></h4>
-<p><strong>CourseLink</strong>. This platform will be used as the main Course-Home Page. If you need any assistance with the software tools or the CourseLink website, contact CourseLink Support. Email: courselink@uoguelph.ca Tel: 519-824-4120 ext. 56939 Toll-Free (CAN/USA): 1-866- 275-1478. Support Hours (Eastern Time): Monday thru Friday: 8:30 am–8:30 pm; Saturday: 10:00 am–4:00 pm; Sunday: 12:00 pm–6:00 pm</p>
-<p><strong>Zoom</strong>. This course will use Zoom for lectures when in-person class is not possible. Check your system requirements to ensure you will be able to participate (https://opened.uoguelph.ca/student-resources/system-and-software-requirements/). A Zoom link for the class will be provided before the first day of class. Please, check Home-Page and announcements on CourseLink, and emails from the instructor (acorrend@uoguelph.ca).</p>
-</section>
-<section id="software-tools" class="level4">
-<h4 class="anchored" data-anchor-id="software-tools"><strong>2. Software &amp; Tools:</strong></h4>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Most data analysis in R is a sequence of small steps: start with a dataset, then filter, transform, summarize, and visualize. You can write this as nested function calls or by creating many intermediate objects (df1, df2, df3), but both approaches can get messy: nested calls are hard to read from the inside out, and lots of intermediate objects add clutter.</p>
+<p>A pipe operator lets you write code in the same order you think about the workflow: top-to-bottom, step-by-step. The output of one step becomes the input of the next. In practice, pipelines tend to be easier to read, easier to modify, and easier to debug because each step is explicit and you can inspect results at any point.</p>
+<p>In the R ecosystem, there are two common pipes:</p>
 <ul>
-<li><p><strong>R</strong> (latest stable version, available at CRAN).</p></li>
-<li><p><strong>RStudio/Posit IDE</strong> (desktop or cloud-based version for writing and running R code).</p></li>
-<li><p><strong>Course-Specific Libraries and Packages</strong>: Students will be required to install R packages. Detailed instructions will be provided in class.</p></li>
-<li><p><strong>Version Control and Collaboration Tools</strong>: <strong>Git</strong> (for version control) and a free <strong>GitHub</strong> account for collaborative project work and sharing code.</p></li>
+<li><code>%&gt;%</code> from <strong>magrittr</strong> (widely used in tidyverse workflows)</li>
+<li><code>|&gt;</code> the <strong>native (base R) pipe</strong> (built into R 4.1.0 and later)</li>
+</ul>
+<p>This short note shows both and highlights a few practical differences. Let’s navigate an example:</p>
+<section id="libraries" class="level2">
+<h2 class="anchored" data-anchor-id="libraries">00. libraries</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pacman)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(dplyr, ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="data" class="level2">
+<h2 class="anchored" data-anchor-id="data">01. data</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the package</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(agridat)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load an example dataset</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(rothamsted.oats, <span class="at">package =</span> <span class="st">'agridat'</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternatively, you can load the dataset directly (cleaner)</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>rothamsted.oats <span class="ot">&lt;-</span> agridat<span class="sc">::</span>rothamsted.oats</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(rothamsted.oats)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  block trt  grain straw row col
+1     x  oa 61.375  83.0  12   1
+2     x 2me 68.750 130.0  12   2
+3     x 2sl 64.250 100.0  12   3
+4     x  ob 65.500  96.0  12   4
+5     w 2sl 79.625 130.5  12   5
+6     w  oa 79.250 122.0  12   6</code></pre>
+</div>
+</div>
+</section>
+<section id="the-pipe-operators" class="level2">
+<h2 class="anchored" data-anchor-id="the-pipe-operators">The pipe operators</h2>
+<section id="a.-pipe-operator" class="level3">
+<h3 class="anchored" data-anchor-id="a.-pipe-operator">a. Pipe operator ‘%&gt;%’:</h3>
+<p>The ‘dplyr’ package heavily utilizes the pipe operator <code>%&gt;%</code> from the ‘magrittr’ package to streamline data manipulation workflows. This operator allows you to pass the output of one function directly into the next function, making your code more readable and easier to follow.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by treatment and summarize</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Using the pipe operator for chaining commands</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>rothamsted.oats <span class="sc">%&gt;%</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(trt) <span class="sc">%&gt;%</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_grain =</span> <span class="fu">mean</span>(grain))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 2
+   trt   mean_grain
+   &lt;fct&gt;      &lt;dbl&gt;
+ 1 1me         82.8
+ 2 1ml         86.5
+ 3 1se         81.1
+ 4 1sl         80.8
+ 5 2me         81.5
+ 6 2ml         82.3
+ 7 2se         81.2
+ 8 2sl         81.2
+ 9 oa          77.6
+10 ob          79.2
+11 oc          78.4
+12 od          81.4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The best practice is to specify the data using the .data argument</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>rothamsted.oats <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(trt) <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">.data =</span> ., <span class="at">mean_grain =</span> <span class="fu">mean</span>(grain))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 2
+   trt   mean_grain
+   &lt;fct&gt;      &lt;dbl&gt;
+ 1 1me         82.8
+ 2 1ml         86.5
+ 3 1se         81.1
+ 4 1sl         80.8
+ 5 2me         81.5
+ 6 2ml         82.3
+ 7 2se         81.2
+ 8 2sl         81.2
+ 9 oa          77.6
+10 ob          79.2
+11 oc          78.4
+12 od          81.4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's make a plot</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>rothamsted.oats <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> grain)) <span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">fill=</span>trt)) <span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="pipe_operator_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="b.-native-pipe-operator" class="level3">
+<h3 class="anchored" data-anchor-id="b.-native-pipe-operator">b. Native pipe operator ‘|&gt;’:</h3>
+<p>With the introduction of R 4.1.0, base R now includes its own native pipe operator <code>|&gt;</code>, which serves a similar purpose to the <code>%&gt;%</code> operator from the ‘magrittr’ package. This operator allows you to pass the result of one expression as the first argument to the next expression, enhancing code readability without the need for additional packages.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Using the native pipe operator</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>rothamsted.oats <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(trt) <span class="sc">|&gt;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">.data =</span> _, <span class="at">mean_grain =</span> <span class="fu">mean</span>(grain))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 2
+   trt   mean_grain
+   &lt;fct&gt;      &lt;dbl&gt;
+ 1 1me         82.8
+ 2 1ml         86.5
+ 3 1se         81.1
+ 4 1sl         80.8
+ 5 2me         81.5
+ 6 2ml         82.3
+ 7 2se         81.2
+ 8 2sl         81.2
+ 9 oa          77.6
+10 ob          79.2
+11 oc          78.4
+12 od          81.4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's make a plot again</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>rothamsted.oats <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> grain)) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">fill=</span>trt)) <span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="pipe_operator_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Notice when using the <code>%&gt;%</code> the placeholder <code>.</code> is used to indicate where the piped value should be inserted if it’s not the first argument. Similarly, with the native pipe <code>|&gt;</code>, the placeholder <code>_</code> can be used to indicate where the piped value should be inserted if it’s not the first argument.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Does any work “better” than the other?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<section id="where-tends-to-be-better" class="level4">
+<h4 class="anchored" data-anchor-id="where-tends-to-be-better">Where <code>|&gt;</code> tends to be better</h4>
+<ul>
+<li>No package needed (it’s base R syntax), so it works everywhere without loading magrittr.</li>
+<li>Usually less overhead than %&gt;% because %&gt;% is a function-based pipe, while |&gt; is language syntax.</li>
+<li>In practice, the difference is rarely noticeable compared to the cost of dplyr verbs, but it can matter in tight loops.</li>
+<li>Plays nicely with modern R style and is increasingly common in new code.</li>
 </ul>
 </section>
-<section id="computing-requirements" class="level4">
-<h4 class="anchored" data-anchor-id="computing-requirements"><strong>3. Computing Requirements:</strong></h4>
-<p>A laptop or desktop computer capable of running R and RStudio (Windows, MacOS, or Linux). Minimum specifications include:</p>
+<section id="where-is-more-flexible" class="level4">
+<h4 class="anchored" data-anchor-id="where-is-more-flexible">Where <code>%&gt;%</code> is more flexible</h4>
 <ul>
-<li><p><strong>Processor</strong>: At least a dual-core processor.</p></li>
-<li><p><strong>RAM</strong>: 8 GB or more (16 GB recommended for handling larger datasets).</p></li>
-<li><p><strong>Storage</strong>: 10 GB of free space for software installation, course files, and datasets.</p></li>
+<li>Placeholder power: %&gt;% uses . to place the LHS wherever you want. Base |&gt; uses _ but it’s more restricted (notably, it’s tied to named arguments).</li>
+<li><code>%&gt;%</code> can do extras like creating functions from a pipeline (and other magrittr variants like <code>%T&gt;%</code>, <code>%&lt;&gt;%</code>, etc.). Base <code>|&gt;</code> doesn’t include those.</li>
+<li><code>%&gt;%</code> lets you pipe into a bare function name (x %&gt;% sqrt).</li>
+<li>Base <code>|&gt;</code> generally requires a call: x |&gt; sqrt()</li>
 </ul>
 </section>
-<section id="internet-access" class="level4">
-<h4 class="anchored" data-anchor-id="internet-access"><strong>4. Internet Access:</strong></h4>
-<p>Reliable high-speed internet for accessing online sessions, resources, downloading software, and using cloud-based platforms (e.g., Posit Cloud, GitHub).</p>
-</section>
-</section>
-<section id="section" class="level3">
-<h3 class="anchored" data-anchor-id="section"></h3>
+</div>
+</div>
 
 
 <!-- -->
 
+</section>
 </section>
 </section>
 
@@ -1085,89 +1218,120 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../../coding/quarto/quarto.html" class="pagination-link" aria-label="Quarto Basics">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Quarto Basics</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./slides/day1.html" class="pagination-link" aria-label="Reproducibility">
-        <span class="nav-page-text">Reproducibility</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../coding/extras/read_tabular.html" class="pagination-link" aria-label="Read Tabular Data">
+        <span class="nav-page-text">Read Tabular Data</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> PLNT6530|01 - Reproducible Data Sci for Ag</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Winter 2026"</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Dr. Adrian Correndo"</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> </span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-title: 'Contents'</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-location: left</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 4</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: false</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">    code-summary: 'Show code'</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">    code-link: true</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="an">highlight-style:</span><span class="co"> pygments</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="an">smooth-scroll:</span><span class="co"> true</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">## ![DPAG-OAC-UOG](images/uog.png){width="600"} &lt;br/&gt;</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">### Welcome</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>Reproducible Data Science for Ag is offered at Department of Plant Agriculture (University of Guelph) by Dr. Adrian Correndo. It is designed for graduate students in crop and soil sciences to develop key skills in data science using R. This course emphasizes reproducibility in data analysis, ensuring that results can be consistently replicated. Students will learn essential data science concepts, and how to use functions, packages, and version control to effectively manage their data and collaborate with peers. Following tidy principles, the course promotes best coding practices for data wrangling, effective visualization, and clean deployment of statistical models common in agriculture. By the end of the course, students will be equipped to handle a variety of agricultural datasets and produce reliable, reproducible research outcomes.</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">### Course Learning Outcomes</span></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>By the end of this course, students will be able to:</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>**Reproducibility**: understand the principles and importance of reproducible data analysis.</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>**Data manipulation**: develop proficiency in R, including key data structures, packages, and functions to read, clean, transform, and organize datasets.</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>**Data visualization**: create informative and aesthetically pleasing visualizations of data.</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>**Modelling and iteration**: apply various algorithms and statistical models common to plant agriculture, and implement techniques to handle multiple datasets simultaneously.</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="ss">5.  </span>**Professional reporting**: produce professional reports for sharing results.</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="ss">6.  </span>**Version control**: manage the basics of Git and Github for collaborative projects.</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="fu">### Course Technology Requirements</span></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>This course will use a variety of technologies and resources. To successfully participate in and complete this course, students will need access to the following</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="fu">#### **1. Communication tools:**</span></span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>**CourseLink**. This platform will be used as the main Course-Home Page. If you need any assistance with the software tools or the CourseLink website, contact CourseLink Support. Email: courselink\@uoguelph.ca Tel: 519-824-4120 ext. 56939 Toll-Free (CAN/USA): 1-866- 275-1478. Support Hours (Eastern Time): Monday thru Friday: 8:30 am–8:30 pm; Saturday: 10:00 am–4:00 pm; Sunday: 12:00 pm–6:00 pm</span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>**Zoom**. This course will use Zoom for lectures when in-person class is not possible. Check your system requirements to ensure you will be able to participate (https://opened.uoguelph.ca/student-resources/system-and-software-requirements/). A Zoom link for the class will be provided before the first day of class. Please, check Home-Page and announcements on CourseLink, and emails from the instructor (acorrend\@uoguelph.ca).</span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="fu">#### **2. Software &amp; Tools:**</span></span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**R** (latest stable version, available at CRAN).</span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**RStudio/Posit IDE** (desktop or cloud-based version for writing and running R code).</span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Course-Specific Libraries and Packages**: Students will be required to install R packages. Detailed instructions will be provided in class.</span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Version Control and Collaboration Tools**: **Git** (for version control) and a free **GitHub** account for collaborative project work and sharing code.</span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="fu">#### **3. Computing Requirements:**</span></span>
-<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>A laptop or desktop computer capable of running R and RStudio (Windows, MacOS, or Linux). Minimum specifications include:</span>
-<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Processor**: At least a dual-core processor.</span>
-<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**RAM**: 8 GB or more (16 GB recommended for handling larger datasets).</span>
-<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Storage**: 10 GB of free space for software installation, course files, and datasets.</span>
-<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="fu">#### **4. Internet Access:**</span></span>
-<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>Reliable high-speed internet for accessing online sessions, resources, downloading software, and using cloud-based platforms (e.g., Posit Cloud, GitHub).</span>
-<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a><span class="fu">### </span></span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "The pipe operator"</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Dr. Adrian Correndo"</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2026-01-21"</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 4</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-location: left</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="an">editor:</span><span class="co"> source</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="fu"># Introduction</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>Most data analysis in R is a sequence of small steps: start with a dataset, then filter, transform, summarize, and visualize. You can write this as nested function calls or by creating many intermediate objects (df1, df2, df3), but both approaches can get messy: nested calls are hard to read from the inside out, and lots of intermediate objects add clutter.</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>A pipe operator lets you write code in the same order you think about the workflow: top-to-bottom, step-by-step. The output of one step becomes the input of the next. In practice, pipelines tend to be easier to read, easier to modify, and easier to debug because each step is explicit and you can inspect results at any point.</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>In the R ecosystem, there are two common pipes:</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`%&gt;%`</span> from **magrittr** (widely used in tidyverse workflows)</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`|&gt;`</span> the **native (base R) pipe** (built into R 4.1.0 and later)</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>This short note shows both and highlights a few practical differences. </span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>Let's navigate an example:</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="fu">## 00. libraries</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a><span class="in">```{r eval=TRUE}</span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a><span class="in">library(pacman)</span></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a><span class="in">pacman::p_load(dplyr, ggplot2)</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a><span class="fu">## 01. data</span></span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the package</span></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(agridat)</span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Load an example dataset</span></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(rothamsted.oats, <span class="at">package =</span> <span class="st">'agridat'</span>)</span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternatively, you can load the dataset directly (cleaner)</span></span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>rothamsted.oats <span class="ot">&lt;-</span> agridat<span class="sc">::</span>rothamsted.oats</span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(rothamsted.oats)</span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a><span class="fu">## The pipe operators</span></span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a><span class="fu">### a. Pipe operator '%&gt;%':</span></span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>The 'dplyr' package heavily utilizes the pipe operator <span class="in">`%&gt;%`</span> from the 'magrittr' package to streamline data manipulation workflows. This operator allows you to pass the output of one function directly into the next function, making your code more readable and easier to follow.</span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by treatment and summarize</span></span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a><span class="co"># Using the pipe operator for chaining commands</span></span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>rothamsted.oats <span class="sc">%&gt;%</span></span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(trt) <span class="sc">%&gt;%</span></span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_grain =</span> <span class="fu">mean</span>(grain))</span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a><span class="co"># The best practice is to specify the data using the .data argument</span></span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>rothamsted.oats <span class="sc">%&gt;%</span></span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(trt) <span class="sc">%&gt;%</span></span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">.data =</span> ., <span class="at">mean_grain =</span> <span class="fu">mean</span>(grain))</span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's make a plot</span></span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a>rothamsted.oats <span class="sc">%&gt;%</span></span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> grain)) <span class="sc">+</span></span>
+<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">fill=</span>trt)) <span class="sc">+</span></span>
+<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a><span class="fu">### b. Native pipe operator '|&gt;':</span></span>
+<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a>With the introduction of R 4.1.0, base R now includes its own native pipe operator <span class="in">`|&gt;`</span>, which serves a similar purpose to the <span class="in">`%&gt;%`</span> operator from the 'magrittr' package. This operator allows you to pass the result of one expression as the first argument to the next expression, enhancing code readability without the need for additional packages.</span>
+<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a><span class="co"># Using the native pipe operator</span></span>
+<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a>rothamsted.oats <span class="sc">|&gt;</span></span>
+<span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(trt) <span class="sc">|&gt;</span></span>
+<span id="cb12-81"><a href="#cb12-81" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">.data =</span> _, <span class="at">mean_grain =</span> <span class="fu">mean</span>(grain))</span>
+<span id="cb12-82"><a href="#cb12-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-83"><a href="#cb12-83" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's make a plot again</span></span>
+<span id="cb12-84"><a href="#cb12-84" aria-hidden="true" tabindex="-1"></a>rothamsted.oats <span class="sc">|&gt;</span></span>
+<span id="cb12-85"><a href="#cb12-85" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> trt, <span class="at">y =</span> grain)) <span class="sc">+</span></span>
+<span id="cb12-86"><a href="#cb12-86" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">fill=</span>trt)) <span class="sc">+</span></span>
+<span id="cb12-87"><a href="#cb12-87" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb12-88"><a href="#cb12-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-89"><a href="#cb12-89" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-90"><a href="#cb12-90" aria-hidden="true" tabindex="-1"></a>::: callout-warning</span>
+<span id="cb12-91"><a href="#cb12-91" aria-hidden="true" tabindex="-1"></a>Notice when using the <span class="in">`%&gt;%`</span> the placeholder <span class="in">`.`</span> is used to indicate where the piped value should be inserted if it's not the first argument. Similarly, with the native pipe <span class="in">`|&gt;`</span>, the placeholder <span class="in">`_`</span> can be used to indicate where the piped value should be inserted if it's not the first argument.</span>
+<span id="cb12-92"><a href="#cb12-92" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb12-93"><a href="#cb12-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-94"><a href="#cb12-94" aria-hidden="true" tabindex="-1"></a>::: callout-tip</span>
+<span id="cb12-95"><a href="#cb12-95" aria-hidden="true" tabindex="-1"></a><span class="fu">### Does any work “better” than the other?</span></span>
+<span id="cb12-96"><a href="#cb12-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-97"><a href="#cb12-97" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Where `|&gt;` tends to be better</span></span>
+<span id="cb12-98"><a href="#cb12-98" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>No package needed (it’s base R syntax), so it works everywhere without loading magrittr.</span>
+<span id="cb12-99"><a href="#cb12-99" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Usually less overhead than %&gt;% because %&gt;% is a function-based pipe, while |&gt; is language syntax.</span>
+<span id="cb12-100"><a href="#cb12-100" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>In practice, the difference is rarely noticeable compared to the cost of dplyr verbs, but it can matter in tight loops.</span>
+<span id="cb12-101"><a href="#cb12-101" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Plays nicely with modern R style and is increasingly common in new code.</span>
+<span id="cb12-102"><a href="#cb12-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-103"><a href="#cb12-103" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Where `%&gt;%` is more flexible</span></span>
+<span id="cb12-104"><a href="#cb12-104" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Placeholder power: %&gt;% uses . to place the LHS wherever you want. Base |&gt; uses _ but it’s more restricted (notably, it’s tied to named arguments).</span>
+<span id="cb12-105"><a href="#cb12-105" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`%&gt;%`</span> can do extras like creating functions from a pipeline (and other magrittr variants like <span class="in">`%T&gt;%`</span>, <span class="in">`%&lt;&gt;%`</span>, etc.). Base <span class="in">`|&gt;`</span> doesn’t include those.</span>
+<span id="cb12-106"><a href="#cb12-106" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`%&gt;%`</span> lets you pipe into a bare function name (x %&gt;% sqrt). </span>
+<span id="cb12-107"><a href="#cb12-107" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Base <span class="in">`|&gt;`</span> generally requires a call: x |&gt; sqrt()</span>
+<span id="cb12-108"><a href="#cb12-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-109"><a href="#cb12-109" aria-hidden="true" tabindex="-1"></a>:::</span>
+</code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
@@ -1187,5 +1351,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<script src="site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

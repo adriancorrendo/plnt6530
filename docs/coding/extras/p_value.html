@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Dr.&nbsp;Adrian Correndo">
-<meta name="dcterms.date" content="2026-01-16">
+<meta name="dcterms.date" content="2026-01-21">
 
-<title>What Does a p-value Really Mean? And Is It Useful for Farmers? – PLNT6530 - Winter 2026</title>
+<title>What Does a p-value Really Mean? – PLNT6530 - Winter 2026</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,6 +31,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
+<link href="../../outline/calendar.html" rel="next">
+<link href="../../coding/extras/fair_care.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -72,10 +74,10 @@ ul.task-list li input[type="checkbox"] {
 
 
 <link rel="stylesheet" href="../../styles.css">
-<meta property="og:title" content="What Does a p-value Really Mean? And Is It Useful for Farmers? – PLNT6530 - Winter 2026">
+<meta property="og:title" content="What Does a p-value Really Mean? – PLNT6530 - Winter 2026">
 <meta property="og:description" content="Reproducible Data Science for Agriculture">
 <meta property="og:site_name" content="PLNT6530 - Winter 2026">
-<meta name="twitter:title" content="What Does a p-value Really Mean? And Is It Useful for Farmers? – PLNT6530 - Winter 2026">
+<meta name="twitter:title" content="What Does a p-value Really Mean? – PLNT6530 - Winter 2026">
 <meta name="twitter:description" content="Reproducible Data Science for Agriculture">
 <meta name="twitter:creator" content="@aacorrendo">
 <meta name="twitter:card" content="summary">
@@ -130,7 +132,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">What Does a p-value Really Mean? And Is It Useful for Farmers?</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../coding/quarto/quarto.html">Extras</a></li><li class="breadcrumb-item"><a href="../../coding/extras/p_value.html">p-value</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -241,17 +243,41 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
- <span class="menu-text">Quarto</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Extras</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../coding/quarto/quarto.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Quarto Basics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/pipe_operator.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pipe Ops</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/read_tabular.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Read Tabular Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/fair_care.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fair &amp; Care</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/p_value.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">p-value</span></a>
   </div>
 </li>
       </ul>
@@ -259,29 +285,12 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
- <span class="menu-text">FAIR Data</span></a>
+ <span class="menu-text">Calendar</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../coding/fair_care/fair_care.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Fair &amp; Care</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
- <span class="menu-text">Calendar</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../outline/calendar.html" class="sidebar-item-text sidebar-link">
@@ -292,13 +301,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
  <span class="menu-text">Course Outline</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../outline/outline.html" class="sidebar-item-text sidebar-link">
@@ -331,9 +340,9 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../coding/quarto/quarto.html">Extras</a></li><li class="breadcrumb-item"><a href="../../coding/extras/p_value.html">p-value</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">What Does a p-value Really Mean? And Is It Useful for Farmers?</h1>
+<h1 class="title">What Does a p-value Really Mean?</h1>
   <div class="quarto-categories">
     <div class="quarto-category">Agronomy</div>
     <div class="quarto-category">Statistics</div>
@@ -355,7 +364,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 16, 2026</p>
+      <p class="date">January 21, 2026</p>
     </div>
   </div>
   
@@ -450,7 +459,7 @@ And more importantly: <strong>does it answer the questions farmers care about?</
 <h3 class="anchored" data-anchor-id="they-answer-a-different-question">1️⃣ They answer a different question</h3>
 <ul>
 <li><strong>Statistics question:</strong><br>
-&gt; If the treatment does nothing, how surprising are my data?<br>
+&gt; If the treatment does nothing, how surprising is my data?<br>
 </li>
 <li><strong>Farmer question:</strong><br>
 &gt; Given my data (plus what we knew before), how likely is it that the treatment helps?</li>
@@ -458,7 +467,7 @@ And more importantly: <strong>does it answer the questions farmers care about?</
 <p>These are related but not the same.</p>
 </section>
 <section id="the-0.05-cutoff-is-arbitrary" class="level3">
-<h3 class="anchored" data-anchor-id="the-0.05-cutoff-is-arbitrary">2️⃣ The 0.05 cutoff is arbitrary</h3>
+<h3 class="anchored" data-anchor-id="the-0.05-cutoff-is-arbitrary">2️⃣ The 0.05 cutoff is <strong>arbitrary</strong></h3>
 <p>A result with <em>p</em> = 0.049 is “significant”; <em>p</em> = 0.051 is “non-significant.”<br>
 In practice, these two situations often provide <strong>very similar evidence</strong>, yet the label changes.</p>
 <p>For communication and decision-making, this can be misleading.</p>
@@ -475,7 +484,7 @@ In practice, these two situations often provide <strong>very similar evidence</s
 </section>
 <section id="intuition-is-backwards" class="level3">
 <h3 class="anchored" data-anchor-id="intuition-is-backwards">4️⃣ Intuition is backwards</h3>
-<p>The p-value starts from “assume no effect” and asks about the probability of the data.<br>
+<p>The p-value starts from assumming “no-effect” and asks about the probability of the data.<br>
 But most people naturally think in the Bayesian direction:</p>
 <blockquote class="blockquote">
 <p>Given what I’ve seen, how likely is it that there’s a real effect?</p>
@@ -542,7 +551,7 @@ But most people naturally think in the Bayesian direction:</p>
 <ul>
 <li>📏 Estimated effect size (e.g., t/ha difference)<br>
 </li>
-<li>📊 Confidence intervals<br>
+<li>📊 Confidence (or credibility) intervals<br>
 </li>
 <li>💸 Economic interpretation</li>
 </ul></li>
@@ -1145,6 +1154,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../coding/extras/fair_care.html" class="pagination-link" aria-label="Fair &amp; Care">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Fair &amp; Care</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../outline/calendar.html" class="pagination-link" aria-label="Schedule">
+        <span class="nav-page-text">Schedule</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
