@@ -33,8 +33,8 @@ The course runs on Wednesdays and Fridays from 1:00 PM to 2:20 PM. Below is the 
 |  | Jan 09 | Essentials of Quarto and R | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_01/essentials_01.html) | [🎥](https://zoom.us/rec/share/9pvpNY1H692JIBCaNP6V2O0X_FT7Wk-NNt-XI--9YBxxPRcLq38Uzj0klFyIuCoa.dH46A2XtLbzb1QSN) |
 | 2 | Jan 14 | Fundamentals of R packages | [🌐](http://adriancorrendo.github.io/plnt6530/coding/week_02/02_fundamentals_rpackages.html) | [🎥](https://zoom.us/rec/share/ZTz6M5yfomA_H39p4RxZQpWMEfTj3OHqbXGY3Daw7MW6NIIBr7VkMax8VUaPLqSy.bzuwDd7Ci29MpLB2?startTime=1768408473000) |
 |  | Jan 16 | Basics of version control & GitHub | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_02/03_versioncontrol.html) | [🎥](https://zoom.us/rec/share/BWba1XKsMaqqqQ5WdM8CVYpCo7wE-nF78oYsHI5VLbjPxxciuu0LdphpU-M6F3ry.IL4B83T_ZqKyA3gQ?startTime=1768581227000) |
-| 3 | Jan 21 | Data Wrangling I | (🌐)[https://adriancorrendo.github.io/plnt6530/coding/week_03/04_datawrangling_01.html] | [🎥](https://zoom.us/rec/share/ZFWzTgRa6e60VNzKXEI7Y8cGUNWtouSGXEcEbpPqVkHFBfr8rh8spcMUZjzyXeUp.YW2Fd8HvscBrhZwx?startTime=1769013287000) |
-|  | Jan 23 | Data Wrangling II | (🌐)[https://adriancorrendo.github.io/plnt6530/coding/week_03/05_datawrangling_02.html] | 🎥 |
+| 3 | Jan 21 | Data Wrangling I | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_03/04_datawrangling_01.html) | [🎥](https://zoom.us/rec/share/ZFWzTgRa6e60VNzKXEI7Y8cGUNWtouSGXEcEbpPqVkHFBfr8rh8spcMUZjzyXeUp.YW2Fd8HvscBrhZwx?startTime=1769013287000) |
+|  | Jan 23 | Data Wrangling II | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_03/05_datawrangling_02.html) | 🎥 |
 | 4 | Jan 28 | Data Wrangling III | 🌐 | 🎥 |
 |  | Jan 30 | Data Viz I: ggplot2 basics | 🌐 | 🎥 |
 | 5 | Feb 04 | Data Viz II: Multiple plots | 🌐 | 🎥 |
