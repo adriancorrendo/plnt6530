@@ -300,6 +300,18 @@ div.csl-indent {
  <span class="menu-text">05-Data Wrangling II</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_04/06_datawrangling_03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">06-Data Wrangling III</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_04/07_ggplot2_01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">07-Data Viz I</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -2296,340 +2308,355 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb44-22"><a href="#cb44-22" aria-hidden="true" tabindex="-1"></a>This lesson introduces the concept of tidy data, and a few basic data wrangling techniques using <span class="in">`dplyr`</span> package. Today, we are using <span class="in">`dplyr`</span> and datasets from the <span class="in">`agridat`</span> package. If you don't have them installed, you can do so by running:</span>
 <span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-24"><a href="#cb44-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## Required packages for today</span></span>
-<span id="cb44-25"><a href="#cb44-25" aria-hidden="true" tabindex="-1"></a><span class="in">```{r eval=FALSE}</span></span>
-<span id="cb44-26"><a href="#cb44-26" aria-hidden="true" tabindex="-1"></a><span class="in">library(pacman)</span></span>
-<span id="cb44-27"><a href="#cb44-27" aria-hidden="true" tabindex="-1"></a><span class="in">p_load(agridat) # Agridat datasets</span></span>
-<span id="cb44-28"><a href="#cb44-28" aria-hidden="true" tabindex="-1"></a><span class="in">p_load(dplyr) # dplyr for data wrangling</span></span>
-<span id="cb44-29"><a href="#cb44-29" aria-hidden="true" tabindex="-1"></a><span class="in">p_load(skimr) # skimr for quick exploration of the data</span></span>
-<span id="cb44-30"><a href="#cb44-30" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-31"><a href="#cb44-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-32"><a href="#cb44-32" aria-hidden="true" tabindex="-1"></a><span class="in">```{r eval=TRUE, include=FALSE}</span></span>
-<span id="cb44-33"><a href="#cb44-33" aria-hidden="true" tabindex="-1"></a><span class="in">library(pacman)</span></span>
-<span id="cb44-34"><a href="#cb44-34" aria-hidden="true" tabindex="-1"></a><span class="in">p_load(agridat) # Agridat datasets</span></span>
-<span id="cb44-35"><a href="#cb44-35" aria-hidden="true" tabindex="-1"></a><span class="in">p_load(dplyr) # dplyr for data wrangling</span></span>
-<span id="cb44-36"><a href="#cb44-36" aria-hidden="true" tabindex="-1"></a><span class="in">p_load(skimr) # skimr for quick exploration of the data</span></span>
-<span id="cb44-37"><a href="#cb44-37" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-38"><a href="#cb44-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-39"><a href="#cb44-39" aria-hidden="true" tabindex="-1"></a><span class="fu"># Why TIDY?</span></span>
-<span id="cb44-40"><a href="#cb44-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-41"><a href="#cb44-41" aria-hidden="true" tabindex="-1"></a>Well, from the hand of <span class="co">[</span><span class="ot">Tidyverse</span><span class="co">](https://www.tidyverse.org/)</span>, the "tidy data" framework changed the way we code and work in R for data science. Tidy datasets are easy to manipulate, model and visualize, and have a specific structure <span class="co">[</span><span class="ot">@wickham2014</span><span class="co">]</span>:</span>
-<span id="cb44-42"><a href="#cb44-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-43"><a href="#cb44-43" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Each variable is a column,</span>
-<span id="cb44-44"><a href="#cb44-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-45"><a href="#cb44-45" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Each observation is a row, and</span>
-<span id="cb44-46"><a href="#cb44-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-47"><a href="#cb44-47" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Each value have its own cell.</span>
-<span id="cb44-48"><a href="#cb44-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-49"><a href="#cb44-49" aria-hidden="true" tabindex="-1"></a><span class="al">![](images/tidy-1.png)</span> **Tidy-data structure**. Following three rules makes a dataset tidy: variables are in columns, observations are in rows, and values are in cells. Source: <span class="co">[</span><span class="ot">@Wickham2017R</span><span class="co">]</span>.</span>
-<span id="cb44-50"><a href="#cb44-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-51"><a href="#cb44-51" aria-hidden="true" tabindex="-1"></a>Example of tidy data:</span>
-<span id="cb44-54"><a href="#cb44-54" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-55"><a href="#cb44-55" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of tidy data</span></span>
-<span id="cb44-56"><a href="#cb44-56" aria-hidden="true" tabindex="-1"></a>tidy_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb44-57"><a href="#cb44-57" aria-hidden="true" tabindex="-1"></a>  <span class="at">subject =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>),</span>
-<span id="cb44-58"><a href="#cb44-58" aria-hidden="true" tabindex="-1"></a>  <span class="at">gender =</span> <span class="fu">c</span>(<span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"F"</span>),</span>
-<span id="cb44-59"><a href="#cb44-59" aria-hidden="true" tabindex="-1"></a>  <span class="at">score =</span> <span class="fu">c</span>(<span class="dv">90</span>, <span class="dv">95</span>, <span class="dv">88</span>)</span>
-<span id="cb44-60"><a href="#cb44-60" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb44-61"><a href="#cb44-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-62"><a href="#cb44-62" aria-hidden="true" tabindex="-1"></a>tidy_data</span>
-<span id="cb44-63"><a href="#cb44-63" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-64"><a href="#cb44-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-65"><a href="#cb44-65" aria-hidden="true" tabindex="-1"></a><span class="fu">### Free HTML books</span></span>
+<span id="cb44-25"><a href="#cb44-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-26"><a href="#cb44-26" aria-hidden="true" tabindex="-1"></a><span class="in">```{r eval=FALSE}</span></span>
+<span id="cb44-27"><a href="#cb44-27" aria-hidden="true" tabindex="-1"></a><span class="in">library(pacman)</span></span>
+<span id="cb44-28"><a href="#cb44-28" aria-hidden="true" tabindex="-1"></a><span class="in">p_load(agridat) # Agridat datasets</span></span>
+<span id="cb44-29"><a href="#cb44-29" aria-hidden="true" tabindex="-1"></a><span class="in">p_load(dplyr) # dplyr for data wrangling</span></span>
+<span id="cb44-30"><a href="#cb44-30" aria-hidden="true" tabindex="-1"></a><span class="in">p_load(skimr) # skimr for quick exploration of the data</span></span>
+<span id="cb44-31"><a href="#cb44-31" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-32"><a href="#cb44-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-33"><a href="#cb44-33" aria-hidden="true" tabindex="-1"></a><span class="in">```{r eval=TRUE, include=FALSE}</span></span>
+<span id="cb44-34"><a href="#cb44-34" aria-hidden="true" tabindex="-1"></a><span class="in">library(pacman)</span></span>
+<span id="cb44-35"><a href="#cb44-35" aria-hidden="true" tabindex="-1"></a><span class="in">p_load(agridat) # Agridat datasets</span></span>
+<span id="cb44-36"><a href="#cb44-36" aria-hidden="true" tabindex="-1"></a><span class="in">p_load(dplyr) # dplyr for data wrangling</span></span>
+<span id="cb44-37"><a href="#cb44-37" aria-hidden="true" tabindex="-1"></a><span class="in">p_load(skimr) # skimr for quick exploration of the data</span></span>
+<span id="cb44-38"><a href="#cb44-38" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-39"><a href="#cb44-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-40"><a href="#cb44-40" aria-hidden="true" tabindex="-1"></a><span class="fu"># Why TIDY?</span></span>
+<span id="cb44-41"><a href="#cb44-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-42"><a href="#cb44-42" aria-hidden="true" tabindex="-1"></a>Well, from the hand of <span class="co">[</span><span class="ot">Tidyverse</span><span class="co">](https://www.tidyverse.org/)</span>, the "tidy data" framework changed the way we code and work in R for data science. Tidy datasets are easy to manipulate, model and visualize, and have a specific structure <span class="co">[</span><span class="ot">@wickham2014</span><span class="co">]</span>:</span>
+<span id="cb44-43"><a href="#cb44-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-44"><a href="#cb44-44" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Each variable is a column,</span>
+<span id="cb44-45"><a href="#cb44-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-46"><a href="#cb44-46" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Each observation is a row, and</span>
+<span id="cb44-47"><a href="#cb44-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-48"><a href="#cb44-48" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Each value have its own cell.</span>
+<span id="cb44-49"><a href="#cb44-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-50"><a href="#cb44-50" aria-hidden="true" tabindex="-1"></a><span class="al">![](images/tidy-1.png)</span> **Tidy-data structure**. Following three rules makes a dataset tidy: variables are in columns, observations are in rows, and values are in cells. Source: <span class="co">[</span><span class="ot">@Wickham2017R</span><span class="co">]</span>.</span>
+<span id="cb44-51"><a href="#cb44-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-52"><a href="#cb44-52" aria-hidden="true" tabindex="-1"></a>Example of tidy data:</span>
+<span id="cb44-53"><a href="#cb44-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-56"><a href="#cb44-56" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-57"><a href="#cb44-57" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of tidy data</span></span>
+<span id="cb44-58"><a href="#cb44-58" aria-hidden="true" tabindex="-1"></a>tidy_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb44-59"><a href="#cb44-59" aria-hidden="true" tabindex="-1"></a>  <span class="at">subject =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>),</span>
+<span id="cb44-60"><a href="#cb44-60" aria-hidden="true" tabindex="-1"></a>  <span class="at">gender =</span> <span class="fu">c</span>(<span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"F"</span>),</span>
+<span id="cb44-61"><a href="#cb44-61" aria-hidden="true" tabindex="-1"></a>  <span class="at">score =</span> <span class="fu">c</span>(<span class="dv">90</span>, <span class="dv">95</span>, <span class="dv">88</span>)</span>
+<span id="cb44-62"><a href="#cb44-62" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb44-63"><a href="#cb44-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-64"><a href="#cb44-64" aria-hidden="true" tabindex="-1"></a>tidy_data</span>
+<span id="cb44-65"><a href="#cb44-65" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb44-66"><a href="#cb44-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-67"><a href="#cb44-67" aria-hidden="true" tabindex="-1"></a>::: {layout-ncol="2"}</span>
-<span id="cb44-68"><a href="#cb44-68" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![](images/cover.png)</span><span class="ot">{height="300"}</span><span class="co">](https://r4ds.had.co.nz/)</span></span>
-<span id="cb44-69"><a href="#cb44-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-70"><a href="#cb44-70" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![](images/cover-01.png)</span><span class="ot">{height="300"}</span><span class="co">](https://www.tmwr.org/)</span></span>
-<span id="cb44-71"><a href="#cb44-71" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-72"><a href="#cb44-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-73"><a href="#cb44-73" aria-hidden="true" tabindex="-1"></a><span class="fu">## What is a Data Frame?</span></span>
+<span id="cb44-67"><a href="#cb44-67" aria-hidden="true" tabindex="-1"></a><span class="fu">### Free HTML books</span></span>
+<span id="cb44-68"><a href="#cb44-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-69"><a href="#cb44-69" aria-hidden="true" tabindex="-1"></a>::: {layout-ncol="2"}</span>
+<span id="cb44-70"><a href="#cb44-70" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![](images/cover.png)</span><span class="ot">{height="300"}</span><span class="co">](https://r4ds.had.co.nz/)</span></span>
+<span id="cb44-71"><a href="#cb44-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-72"><a href="#cb44-72" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![](images/cover-01.png)</span><span class="ot">{height="300"}</span><span class="co">](https://www.tmwr.org/)</span></span>
+<span id="cb44-73"><a href="#cb44-73" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb44-74"><a href="#cb44-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-75"><a href="#cb44-75" aria-hidden="true" tabindex="-1"></a>A data frame is a two-dimensional table-like structure in R, where columns can contain different types of data (e.g., numeric, character). It is the default structure for datasets loaded from CSV files or data packages.</span>
+<span id="cb44-75"><a href="#cb44-75" aria-hidden="true" tabindex="-1"></a><span class="fu">## What is a Data Frame?</span></span>
 <span id="cb44-76"><a href="#cb44-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-77"><a href="#cb44-77" aria-hidden="true" tabindex="-1"></a><span class="fu">### open a data frame</span></span>
-<span id="cb44-80"><a href="#cb44-80" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-81"><a href="#cb44-81" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the wheat dataset from agricolae (which is a data frame)</span></span>
-<span id="cb44-82"><a href="#cb44-82" aria-hidden="true" tabindex="-1"></a>wheat_data <span class="ot">&lt;-</span> agridat<span class="sc">::</span>payne.wheat</span>
-<span id="cb44-83"><a href="#cb44-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-84"><a href="#cb44-84" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the structure of the data frame</span></span>
-<span id="cb44-85"><a href="#cb44-85" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(wheat_data)</span>
-<span id="cb44-86"><a href="#cb44-86" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-87"><a href="#cb44-87" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-88"><a href="#cb44-88" aria-hidden="true" tabindex="-1"></a><span class="fu">## What is a Tibble?</span></span>
-<span id="cb44-89"><a href="#cb44-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-90"><a href="#cb44-90" aria-hidden="true" tabindex="-1"></a>A tibble is a modern version of a data frame, introduced by the tibble package. It offers several improvements:</span>
-<span id="cb44-91"><a href="#cb44-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-92"><a href="#cb44-92" aria-hidden="true" tabindex="-1"></a><span class="in">    •   Tibbles don’t convert characters to factors by default.</span></span>
-<span id="cb44-93"><a href="#cb44-93" aria-hidden="true" tabindex="-1"></a><span class="in">    •   Printing is more concise and doesn’t overwhelm you with too much data.</span></span>
-<span id="cb44-94"><a href="#cb44-94" aria-hidden="true" tabindex="-1"></a><span class="in">    •   Tibbles are more explicit with column types when printed.</span></span>
-<span id="cb44-95"><a href="#cb44-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-96"><a href="#cb44-96" aria-hidden="true" tabindex="-1"></a><span class="fu">### create a tibble</span></span>
-<span id="cb44-99"><a href="#cb44-99" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-100"><a href="#cb44-100" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the wheat data frame to a tibble</span></span>
-<span id="cb44-101"><a href="#cb44-101" aria-hidden="true" tabindex="-1"></a>wheat_tibble <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(wheat_data)</span>
+<span id="cb44-77"><a href="#cb44-77" aria-hidden="true" tabindex="-1"></a>A data frame is a two-dimensional table-like structure in R, where columns can contain different types of data (e.g., numeric, character). It is the default structure for datasets loaded from CSV files or data packages.</span>
+<span id="cb44-78"><a href="#cb44-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-79"><a href="#cb44-79" aria-hidden="true" tabindex="-1"></a><span class="fu">### open a data frame</span></span>
+<span id="cb44-80"><a href="#cb44-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-83"><a href="#cb44-83" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-84"><a href="#cb44-84" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the wheat dataset from agricolae (which is a data frame)</span></span>
+<span id="cb44-85"><a href="#cb44-85" aria-hidden="true" tabindex="-1"></a>wheat_data <span class="ot">&lt;-</span> agridat<span class="sc">::</span>payne.wheat</span>
+<span id="cb44-86"><a href="#cb44-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-87"><a href="#cb44-87" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the structure of the data frame</span></span>
+<span id="cb44-88"><a href="#cb44-88" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(wheat_data)</span>
+<span id="cb44-89"><a href="#cb44-89" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-90"><a href="#cb44-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-91"><a href="#cb44-91" aria-hidden="true" tabindex="-1"></a><span class="fu">## What is a Tibble?</span></span>
+<span id="cb44-92"><a href="#cb44-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-93"><a href="#cb44-93" aria-hidden="true" tabindex="-1"></a>A tibble is a modern version of a data frame, introduced by the tibble package. It offers several improvements:</span>
+<span id="cb44-94"><a href="#cb44-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-95"><a href="#cb44-95" aria-hidden="true" tabindex="-1"></a><span class="in">```         </span></span>
+<span id="cb44-96"><a href="#cb44-96" aria-hidden="true" tabindex="-1"></a><span class="in">•   Tibbles don’t convert characters to factors by default.</span></span>
+<span id="cb44-97"><a href="#cb44-97" aria-hidden="true" tabindex="-1"></a><span class="in">•   Printing is more concise and doesn’t overwhelm you with too much data.</span></span>
+<span id="cb44-98"><a href="#cb44-98" aria-hidden="true" tabindex="-1"></a><span class="in">•   Tibbles are more explicit with column types when printed.</span></span>
+<span id="cb44-99"><a href="#cb44-99" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-100"><a href="#cb44-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-101"><a href="#cb44-101" aria-hidden="true" tabindex="-1"></a><span class="fu">### create a tibble</span></span>
 <span id="cb44-102"><a href="#cb44-102" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-103"><a href="#cb44-103" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the structure of the tibble</span></span>
-<span id="cb44-104"><a href="#cb44-104" aria-hidden="true" tabindex="-1"></a>wheat_tibble</span>
-<span id="cb44-105"><a href="#cb44-105" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-106"><a href="#cb44-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-107"><a href="#cb44-107" aria-hidden="true" tabindex="-1"></a><span class="fu">## iii. Key Differences between Data Frames and Tibbles</span></span>
+<span id="cb44-105"><a href="#cb44-105" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-106"><a href="#cb44-106" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the wheat data frame to a tibble</span></span>
+<span id="cb44-107"><a href="#cb44-107" aria-hidden="true" tabindex="-1"></a>wheat_tibble <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(wheat_data)</span>
 <span id="cb44-108"><a href="#cb44-108" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-109"><a href="#cb44-109" aria-hidden="true" tabindex="-1"></a><span class="in">    1.  **Printing**:</span></span>
-<span id="cb44-110"><a href="#cb44-110" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
-<span id="cb44-111"><a href="#cb44-111" aria-hidden="true" tabindex="-1"></a>  • Data Frames print the entire dataset unless you limit the number of rows. No information about column types is displayed.</span>
-<span id="cb44-112"><a href="#cb44-112" aria-hidden="true" tabindex="-1"></a>    •   Tibbles print only the first 10 rows and automatically show column types.</span>
-<span id="cb44-113"><a href="#cb44-113" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb44-114"><a href="#cb44-114" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example:</span></span>
-<span id="cb44-117"><a href="#cb44-117" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-118"><a href="#cb44-118" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the entire data frame</span></span>
-<span id="cb44-119"><a href="#cb44-119" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(wheat_data)</span>
+<span id="cb44-109"><a href="#cb44-109" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the structure of the tibble</span></span>
+<span id="cb44-110"><a href="#cb44-110" aria-hidden="true" tabindex="-1"></a>wheat_tibble</span>
+<span id="cb44-111"><a href="#cb44-111" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-112"><a href="#cb44-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-113"><a href="#cb44-113" aria-hidden="true" tabindex="-1"></a><span class="fu">## iii. Key Differences between Data Frames and Tibbles</span></span>
+<span id="cb44-114"><a href="#cb44-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-115"><a href="#cb44-115" aria-hidden="true" tabindex="-1"></a><span class="in">```         </span></span>
+<span id="cb44-116"><a href="#cb44-116" aria-hidden="true" tabindex="-1"></a><span class="in">1.  **Printing**:</span></span>
+<span id="cb44-117"><a href="#cb44-117" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-118"><a href="#cb44-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-119"><a href="#cb44-119" aria-hidden="true" tabindex="-1"></a>• Data Frames print the entire dataset unless you limit the number of rows. No information about column types is displayed. • Tibbles print only the first 10 rows and automatically show column types.</span>
 <span id="cb44-120"><a href="#cb44-120" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-121"><a href="#cb44-121" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the tibble (shows only first 10 rows and column types)</span></span>
-<span id="cb44-122"><a href="#cb44-122" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(wheat_tibble)</span>
-<span id="cb44-123"><a href="#cb44-123" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-124"><a href="#cb44-124" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-125"><a href="#cb44-125" aria-hidden="true" tabindex="-1"></a><span class="fu"># A package for data manipulation...🚀</span></span>
-<span id="cb44-126"><a href="#cb44-126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-127"><a href="#cb44-127" aria-hidden="true" tabindex="-1"></a><span class="al">![](https://dplyr.tidyverse.org/logo.png)</span>{.absolute top=0 right=0 height="30%"}</span>
+<span id="cb44-121"><a href="#cb44-121" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example:</span></span>
+<span id="cb44-122"><a href="#cb44-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-125"><a href="#cb44-125" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-126"><a href="#cb44-126" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the entire data frame</span></span>
+<span id="cb44-127"><a href="#cb44-127" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(wheat_data)</span>
 <span id="cb44-128"><a href="#cb44-128" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-129"><a href="#cb44-129" aria-hidden="true" tabindex="-1"></a>The <span class="in">`dplyr`</span> package in R provides powerful tools for transforming and analyzing data. In this tutorial, we'll use an agricultural dataset to explore some common <span class="in">`dplyr`</span> functions like <span class="in">`filter()`</span>, <span class="in">`mutate()`</span>, <span class="in">`summarize()`</span>, and <span class="in">`group_by()`</span>.</span>
-<span id="cb44-130"><a href="#cb44-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-131"><a href="#cb44-131" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why using R Packages? 💡</span></span>
+<span id="cb44-129"><a href="#cb44-129" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the tibble (shows only first 10 rows and column types)</span></span>
+<span id="cb44-130"><a href="#cb44-130" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(wheat_tibble)</span>
+<span id="cb44-131"><a href="#cb44-131" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb44-132"><a href="#cb44-132" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-133"><a href="#cb44-133" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Efficiency**: Avoid rewriting code for common tasks.</span>
-<span id="cb44-134"><a href="#cb44-134" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Consistency**: Standardized code structure and naming conventions.</span>
-<span id="cb44-135"><a href="#cb44-135" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Reproducibility**: Ensures that your work is easier to share and reproduce.</span>
-<span id="cb44-136"><a href="#cb44-136" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Intuitive**: R packages use functions with intuitive names of functions, so you can spend less time learning the code &amp; more time learning to solve practical problems. </span>
-<span id="cb44-137"><a href="#cb44-137" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-138"><a href="#cb44-138" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 1: mutate()</span></span>
-<span id="cb44-139"><a href="#cb44-139" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-140"><a href="#cb44-140" aria-hidden="true" tabindex="-1"></a>::: {.column width="65%"}</span>
-<span id="cb44-141"><a href="#cb44-141" aria-hidden="true" tabindex="-1"></a>Packages like <span class="in">`dplyr`</span> simplify tasks by providing clean, concise code for data manipulation. </span>
-<span id="cb44-142"><a href="#cb44-142" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-143"><a href="#cb44-143" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-144"><a href="#cb44-144" aria-hidden="true" tabindex="-1"></a>::: {.fragment}</span>
-<span id="cb44-145"><a href="#cb44-145" aria-hidden="true" tabindex="-1"></a>::: {.column width="65%"}</span>
-<span id="cb44-146"><a href="#cb44-146" aria-hidden="true" tabindex="-1"></a>**1. Create a new column**: <span class="in">`total`</span>, which is the sum of two existing columns (<span class="in">`var1`</span> and <span class="in">`var2`</span>).</span>
-<span id="cb44-147"><a href="#cb44-147" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-148"><a href="#cb44-148" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-149"><a href="#cb44-149" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-150"><a href="#cb44-150" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Base R version</span></span>
-<span id="cb44-151"><a href="#cb44-151" aria-hidden="true" tabindex="-1"></a>::: {.fragment}</span>
-<span id="cb44-152"><a href="#cb44-152" aria-hidden="true" tabindex="-1"></a>::: {.column width="80%"}</span>
-<span id="cb44-153"><a href="#cb44-153" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
-<span id="cb44-154"><a href="#cb44-154" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample data</span></span>
-<span id="cb44-155"><a href="#cb44-155" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">var1 =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">var2 =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>))</span>
-<span id="cb44-156"><a href="#cb44-156" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-157"><a href="#cb44-157" aria-hidden="true" tabindex="-1"></a><span class="co"># Adding a new column using base R</span></span>
-<span id="cb44-158"><a href="#cb44-158" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>total <span class="ot">&lt;-</span> df<span class="sc">$</span>var1 <span class="sc">+</span> df<span class="sc">$</span>var2</span>
-<span id="cb44-159"><a href="#cb44-159" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-160"><a href="#cb44-160" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-161"><a href="#cb44-161" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-162"><a href="#cb44-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-163"><a href="#cb44-163" aria-hidden="true" tabindex="-1"></a>::: {.fragment}</span>
-<span id="cb44-164"><a href="#cb44-164" aria-hidden="true" tabindex="-1"></a><span class="fu">#### dplyr package (Tidyverse)</span></span>
-<span id="cb44-165"><a href="#cb44-165" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
-<span id="cb44-166"><a href="#cb44-166" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb44-167"><a href="#cb44-167" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-168"><a href="#cb44-168" aria-hidden="true" tabindex="-1"></a><span class="co"># Using mutate to add a new column</span></span>
-<span id="cb44-169"><a href="#cb44-169" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb44-170"><a href="#cb44-170" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">total =</span> var1 <span class="sc">+</span> var2)</span>
+<span id="cb44-133"><a href="#cb44-133" aria-hidden="true" tabindex="-1"></a><span class="fu"># A package for data manipulation...🚀</span></span>
+<span id="cb44-134"><a href="#cb44-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-135"><a href="#cb44-135" aria-hidden="true" tabindex="-1"></a><span class="al">![](https://dplyr.tidyverse.org/logo.png)</span>{.absolute top="0" right="0" height="30%"}</span>
+<span id="cb44-136"><a href="#cb44-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-137"><a href="#cb44-137" aria-hidden="true" tabindex="-1"></a>The <span class="in">`dplyr`</span> package in R provides powerful tools for transforming and analyzing data. In this tutorial, we'll use an agricultural dataset to explore some common <span class="in">`dplyr`</span> functions like <span class="in">`filter()`</span>, <span class="in">`mutate()`</span>, <span class="in">`summarize()`</span>, and <span class="in">`group_by()`</span>.</span>
+<span id="cb44-138"><a href="#cb44-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-139"><a href="#cb44-139" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why using R Packages? 💡</span></span>
+<span id="cb44-140"><a href="#cb44-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-141"><a href="#cb44-141" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Efficiency**: Avoid rewriting code for common tasks.</span>
+<span id="cb44-142"><a href="#cb44-142" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Consistency**: Standardized code structure and naming conventions.</span>
+<span id="cb44-143"><a href="#cb44-143" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Reproducibility**: Ensures that your work is easier to share and reproduce.</span>
+<span id="cb44-144"><a href="#cb44-144" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Intuitive**: R packages use functions with intuitive names of functions, so you can spend less time learning the code &amp; more time learning to solve practical problems.</span>
+<span id="cb44-145"><a href="#cb44-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-146"><a href="#cb44-146" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 1: mutate()</span></span>
+<span id="cb44-147"><a href="#cb44-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-148"><a href="#cb44-148" aria-hidden="true" tabindex="-1"></a>::: {.column width="65%"}</span>
+<span id="cb44-149"><a href="#cb44-149" aria-hidden="true" tabindex="-1"></a>Packages like <span class="in">`dplyr`</span> simplify tasks by providing clean, concise code for data manipulation.</span>
+<span id="cb44-150"><a href="#cb44-150" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-151"><a href="#cb44-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-152"><a href="#cb44-152" aria-hidden="true" tabindex="-1"></a>:::: fragment</span>
+<span id="cb44-153"><a href="#cb44-153" aria-hidden="true" tabindex="-1"></a>::: {.column width="65%"}</span>
+<span id="cb44-154"><a href="#cb44-154" aria-hidden="true" tabindex="-1"></a>**1. Create a new column**: <span class="in">`total`</span>, which is the sum of two existing columns (<span class="in">`var1`</span> and <span class="in">`var2`</span>).</span>
+<span id="cb44-155"><a href="#cb44-155" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-156"><a href="#cb44-156" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb44-157"><a href="#cb44-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-158"><a href="#cb44-158" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Base R version</span></span>
+<span id="cb44-159"><a href="#cb44-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-160"><a href="#cb44-160" aria-hidden="true" tabindex="-1"></a>:::: fragment</span>
+<span id="cb44-161"><a href="#cb44-161" aria-hidden="true" tabindex="-1"></a>::: {.column width="80%"}</span>
+<span id="cb44-162"><a href="#cb44-162" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb44-163"><a href="#cb44-163" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample data</span></span>
+<span id="cb44-164"><a href="#cb44-164" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">var1 =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">var2 =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>))</span>
+<span id="cb44-165"><a href="#cb44-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-166"><a href="#cb44-166" aria-hidden="true" tabindex="-1"></a><span class="co"># Adding a new column using base R</span></span>
+<span id="cb44-167"><a href="#cb44-167" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>total <span class="ot">&lt;-</span> df<span class="sc">$</span>var1 <span class="sc">+</span> df<span class="sc">$</span>var2</span>
+<span id="cb44-168"><a href="#cb44-168" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-169"><a href="#cb44-169" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-170"><a href="#cb44-170" aria-hidden="true" tabindex="-1"></a>::::</span>
 <span id="cb44-171"><a href="#cb44-171" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-172"><a href="#cb44-172" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-173"><a href="#cb44-173" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-172"><a href="#cb44-172" aria-hidden="true" tabindex="-1"></a>::: fragment</span>
+<span id="cb44-173"><a href="#cb44-173" aria-hidden="true" tabindex="-1"></a><span class="fu">#### dplyr package (Tidyverse)</span></span>
 <span id="cb44-174"><a href="#cb44-174" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-175"><a href="#cb44-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-176"><a href="#cb44-176" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 2: filter()</span></span>
+<span id="cb44-175"><a href="#cb44-175" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb44-176"><a href="#cb44-176" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb44-177"><a href="#cb44-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-178"><a href="#cb44-178" aria-hidden="true" tabindex="-1"></a>::: {.fragment}</span>
-<span id="cb44-179"><a href="#cb44-179" aria-hidden="true" tabindex="-1"></a>**2. Filtering**: get values of <span class="in">`var1`</span> greater than 2.</span>
-<span id="cb44-180"><a href="#cb44-180" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-181"><a href="#cb44-181" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-182"><a href="#cb44-182" aria-hidden="true" tabindex="-1"></a>::: {.fragment}</span>
+<span id="cb44-178"><a href="#cb44-178" aria-hidden="true" tabindex="-1"></a><span class="co"># Using mutate to add a new column</span></span>
+<span id="cb44-179"><a href="#cb44-179" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb44-180"><a href="#cb44-180" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">total =</span> var1 <span class="sc">+</span> var2)</span>
+<span id="cb44-181"><a href="#cb44-181" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-182"><a href="#cb44-182" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb44-183"><a href="#cb44-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-184"><a href="#cb44-184" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-185"><a href="#cb44-185" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Base R version</span></span>
-<span id="cb44-186"><a href="#cb44-186" aria-hidden="true" tabindex="-1"></a>::: {.column width="65%"}</span>
-<span id="cb44-187"><a href="#cb44-187" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
-<span id="cb44-188"><a href="#cb44-188" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows using base R</span></span>
-<span id="cb44-189"><a href="#cb44-189" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="ot">&lt;-</span> df[df<span class="sc">$</span>var1 <span class="sc">&gt;</span> <span class="dv">2</span>, ]</span>
-<span id="cb44-190"><a href="#cb44-190" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-191"><a href="#cb44-191" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-192"><a href="#cb44-192" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-193"><a href="#cb44-193" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-194"><a href="#cb44-194" aria-hidden="true" tabindex="-1"></a>::: {.fragment}</span>
-<span id="cb44-195"><a href="#cb44-195" aria-hidden="true" tabindex="-1"></a><span class="fu">#### dplyr package (Tidyverse)</span></span>
-<span id="cb44-196"><a href="#cb44-196" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
-<span id="cb44-197"><a href="#cb44-197" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows using dplyr</span></span>
-<span id="cb44-198"><a href="#cb44-198" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="ot">&lt;-</span> <span class="fu">filter</span>(<span class="at">data =</span> df, var1 <span class="sc">&gt;</span> <span class="dv">2</span>)</span>
-<span id="cb44-199"><a href="#cb44-199" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-200"><a href="#cb44-200" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-201"><a href="#cb44-201" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-202"><a href="#cb44-202" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 3: select()</span></span>
+<span id="cb44-184"><a href="#cb44-184" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 2: filter()</span></span>
+<span id="cb44-185"><a href="#cb44-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-186"><a href="#cb44-186" aria-hidden="true" tabindex="-1"></a>::: fragment</span>
+<span id="cb44-187"><a href="#cb44-187" aria-hidden="true" tabindex="-1"></a>**2. Filtering**: get values of <span class="in">`var1`</span> greater than 2.</span>
+<span id="cb44-188"><a href="#cb44-188" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-189"><a href="#cb44-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-190"><a href="#cb44-190" aria-hidden="true" tabindex="-1"></a>:::: fragment</span>
+<span id="cb44-191"><a href="#cb44-191" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Base R version</span></span>
+<span id="cb44-192"><a href="#cb44-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-193"><a href="#cb44-193" aria-hidden="true" tabindex="-1"></a>::: {.column width="65%"}</span>
+<span id="cb44-194"><a href="#cb44-194" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb44-195"><a href="#cb44-195" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows using base R</span></span>
+<span id="cb44-196"><a href="#cb44-196" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="ot">&lt;-</span> df[df<span class="sc">$</span>var1 <span class="sc">&gt;</span> <span class="dv">2</span>, ]</span>
+<span id="cb44-197"><a href="#cb44-197" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-198"><a href="#cb44-198" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-199"><a href="#cb44-199" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb44-200"><a href="#cb44-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-201"><a href="#cb44-201" aria-hidden="true" tabindex="-1"></a>::: fragment</span>
+<span id="cb44-202"><a href="#cb44-202" aria-hidden="true" tabindex="-1"></a><span class="fu">#### dplyr package (Tidyverse)</span></span>
 <span id="cb44-203"><a href="#cb44-203" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-204"><a href="#cb44-204" aria-hidden="true" tabindex="-1"></a>::: {.fragment}</span>
-<span id="cb44-205"><a href="#cb44-205" aria-hidden="true" tabindex="-1"></a>**3. Select specific variables**: get <span class="in">`var1`</span> and <span class="in">`var3`</span>.</span>
-<span id="cb44-206"><a href="#cb44-206" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-207"><a href="#cb44-207" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-208"><a href="#cb44-208" aria-hidden="true" tabindex="-1"></a>&lt;br/&gt;</span>
+<span id="cb44-204"><a href="#cb44-204" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb44-205"><a href="#cb44-205" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows using dplyr</span></span>
+<span id="cb44-206"><a href="#cb44-206" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="ot">&lt;-</span> <span class="fu">filter</span>(<span class="at">data =</span> df, var1 <span class="sc">&gt;</span> <span class="dv">2</span>)</span>
+<span id="cb44-207"><a href="#cb44-207" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-208"><a href="#cb44-208" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb44-209"><a href="#cb44-209" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-210"><a href="#cb44-210" aria-hidden="true" tabindex="-1"></a>::: {.fragment}</span>
-<span id="cb44-211"><a href="#cb44-211" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Base R version</span></span>
-<span id="cb44-212"><a href="#cb44-212" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
-<span id="cb44-213"><a href="#cb44-213" aria-hidden="true" tabindex="-1"></a><span class="co"># Select columns using base R</span></span>
-<span id="cb44-214"><a href="#cb44-214" aria-hidden="true" tabindex="-1"></a>selected_df <span class="ot">&lt;-</span> df[ , <span class="fu">c</span>(<span class="st">"var1"</span>,<span class="st">"var3"</span>)]</span>
-<span id="cb44-215"><a href="#cb44-215" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-216"><a href="#cb44-216" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-210"><a href="#cb44-210" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 3: select()</span></span>
+<span id="cb44-211"><a href="#cb44-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-212"><a href="#cb44-212" aria-hidden="true" tabindex="-1"></a>::: fragment</span>
+<span id="cb44-213"><a href="#cb44-213" aria-hidden="true" tabindex="-1"></a>**3. Select specific variables**: get <span class="in">`var1`</span> and <span class="in">`var3`</span>.</span>
+<span id="cb44-214"><a href="#cb44-214" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-215"><a href="#cb44-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-216"><a href="#cb44-216" aria-hidden="true" tabindex="-1"></a>&lt;br/&gt;</span>
 <span id="cb44-217"><a href="#cb44-217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-218"><a href="#cb44-218" aria-hidden="true" tabindex="-1"></a>::: {.fragment}</span>
-<span id="cb44-219"><a href="#cb44-219" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-220"><a href="#cb44-220" aria-hidden="true" tabindex="-1"></a>&lt;br/&gt;</span>
-<span id="cb44-221"><a href="#cb44-221" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-222"><a href="#cb44-222" aria-hidden="true" tabindex="-1"></a><span class="fu">#### dplyr package (Tidyverse)</span></span>
-<span id="cb44-223"><a href="#cb44-223" aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
-<span id="cb44-224"><a href="#cb44-224" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows using dplyr</span></span>
-<span id="cb44-225"><a href="#cb44-225" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="ot">&lt;-</span> <span class="fu">select</span>(<span class="at">data =</span> df, var1, var3)</span>
-<span id="cb44-226"><a href="#cb44-226" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-227"><a href="#cb44-227" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb44-228"><a href="#cb44-228" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-229"><a href="#cb44-229" aria-hidden="true" tabindex="-1"></a><span class="fu"># Corn Dataset:</span></span>
-<span id="cb44-230"><a href="#cb44-230" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-231"><a href="#cb44-231" aria-hidden="true" tabindex="-1"></a>For this tutorial, we'll use the <span class="in">`lasrosas.corn`</span> dataset from the 'agridat' package, which contains information on corn varieties, yields, and topographical features. First, let's load the required packages and inspect the dataset:</span>
-<span id="cb44-232"><a href="#cb44-232" aria-hidden="true" tabindex="-1"></a><span class="fu">## Read data</span></span>
-<span id="cb44-235"><a href="#cb44-235" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-236"><a href="#cb44-236" aria-hidden="true" tabindex="-1"></a><span class="co"># Load dataset</span></span>
-<span id="cb44-237"><a href="#cb44-237" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"lasrosas.corn"</span>) <span class="co"># This creates an object with the name of the dataset "lasrosas.corn"</span></span>
-<span id="cb44-238"><a href="#cb44-238" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-239"><a href="#cb44-239" aria-hidden="true" tabindex="-1"></a><span class="co"># Store the data with another name</span></span>
-<span id="cb44-240"><a href="#cb44-240" aria-hidden="true" tabindex="-1"></a>corn_data <span class="ot">&lt;-</span> lasrosas.corn</span>
-<span id="cb44-241"><a href="#cb44-241" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-242"><a href="#cb44-242" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-243"><a href="#cb44-243" aria-hidden="true" tabindex="-1"></a><span class="fu">## Inspect data</span></span>
-<span id="cb44-244"><a href="#cb44-244" aria-hidden="true" tabindex="-1"></a><span class="fu">### glimpse</span></span>
-<span id="cb44-245"><a href="#cb44-245" aria-hidden="true" tabindex="-1"></a>The <span class="in">`glimpse()`</span> function provides an overview of the dataset, including variable names and data types.</span>
-<span id="cb44-248"><a href="#cb44-248" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-249"><a href="#cb44-249" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect the dataset</span></span>
-<span id="cb44-250"><a href="#cb44-250" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(corn_data)</span>
-<span id="cb44-251"><a href="#cb44-251" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-252"><a href="#cb44-252" aria-hidden="true" tabindex="-1"></a><span class="fu">### skim</span></span>
-<span id="cb44-253"><a href="#cb44-253" aria-hidden="true" tabindex="-1"></a>The <span class="in">`skim()`</span> function from the 'skimr' allows to take a deeper look to all the variables (columns), creating a quick summary that reports the presence of missing values, etc., etc.</span>
-<span id="cb44-256"><a href="#cb44-256" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-257"><a href="#cb44-257" aria-hidden="true" tabindex="-1"></a>skimr<span class="sc">::</span><span class="fu">skim</span>(corn_data)</span>
-<span id="cb44-258"><a href="#cb44-258" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-259"><a href="#cb44-259" aria-hidden="true" tabindex="-1"></a><span class="fu">## Adding New Variables with `mutate()`</span></span>
-<span id="cb44-260"><a href="#cb44-260" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-261"><a href="#cb44-261" aria-hidden="true" tabindex="-1"></a>You can add new columns to your dataset with <span class="in">`mutate()`</span>. Let's calculate the yield in tons per hectare (assuming the current yield is in kilograms):</span>
-<span id="cb44-262"><a href="#cb44-262" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-265"><a href="#cb44-265" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-266"><a href="#cb44-266" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a column for yield in tons</span></span>
-<span id="cb44-267"><a href="#cb44-267" aria-hidden="true" tabindex="-1"></a>corn_data <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span> </span>
-<span id="cb44-268"><a href="#cb44-268" aria-hidden="true" tabindex="-1"></a>  <span class="co"># New column, `yield_tons`, with the transformed yield values.</span></span>
-<span id="cb44-269"><a href="#cb44-269" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">yield_tons =</span> yield <span class="sc">/</span> <span class="dv">1000</span>)</span>
-<span id="cb44-270"><a href="#cb44-270" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-271"><a href="#cb44-271" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(corn_data)</span>
-<span id="cb44-272"><a href="#cb44-272" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-273"><a href="#cb44-273" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-274"><a href="#cb44-274" aria-hidden="true" tabindex="-1"></a><span class="fu">## Filtering Data</span></span>
-<span id="cb44-275"><a href="#cb44-275" aria-hidden="true" tabindex="-1"></a>To focus on specific data, we can use <span class="in">`filter()`</span>. For example, let's filter the data to include only rows where the nitrogen applied (<span class="in">`nitro`</span>) is greater than 100:</span>
+<span id="cb44-218"><a href="#cb44-218" aria-hidden="true" tabindex="-1"></a>::: fragment</span>
+<span id="cb44-219"><a href="#cb44-219" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Base R version</span></span>
+<span id="cb44-220"><a href="#cb44-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-221"><a href="#cb44-221" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb44-222"><a href="#cb44-222" aria-hidden="true" tabindex="-1"></a><span class="co"># Select columns using base R</span></span>
+<span id="cb44-223"><a href="#cb44-223" aria-hidden="true" tabindex="-1"></a>selected_df <span class="ot">&lt;-</span> df[ , <span class="fu">c</span>(<span class="st">"var1"</span>,<span class="st">"var3"</span>)]</span>
+<span id="cb44-224"><a href="#cb44-224" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-225"><a href="#cb44-225" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-226"><a href="#cb44-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-227"><a href="#cb44-227" aria-hidden="true" tabindex="-1"></a>::: fragment</span>
+<span id="cb44-228"><a href="#cb44-228" aria-hidden="true" tabindex="-1"></a>&lt;br/&gt;</span>
+<span id="cb44-229"><a href="#cb44-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-230"><a href="#cb44-230" aria-hidden="true" tabindex="-1"></a><span class="fu">#### dplyr package (Tidyverse)</span></span>
+<span id="cb44-231"><a href="#cb44-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-232"><a href="#cb44-232" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb44-233"><a href="#cb44-233" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows using dplyr</span></span>
+<span id="cb44-234"><a href="#cb44-234" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="ot">&lt;-</span> <span class="fu">select</span>(<span class="at">data =</span> df, var1, var3)</span>
+<span id="cb44-235"><a href="#cb44-235" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-236"><a href="#cb44-236" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-237"><a href="#cb44-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-238"><a href="#cb44-238" aria-hidden="true" tabindex="-1"></a><span class="fu"># Corn Dataset:</span></span>
+<span id="cb44-239"><a href="#cb44-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-240"><a href="#cb44-240" aria-hidden="true" tabindex="-1"></a>For this tutorial, we'll use the <span class="in">`lasrosas.corn`</span> dataset from the 'agridat' package, which contains information on corn varieties, yields, and topographical features. First, let's load the required packages and inspect the dataset: <span class="sc">\#</span># Read data</span>
+<span id="cb44-241"><a href="#cb44-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-244"><a href="#cb44-244" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-245"><a href="#cb44-245" aria-hidden="true" tabindex="-1"></a><span class="co"># Load dataset</span></span>
+<span id="cb44-246"><a href="#cb44-246" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"lasrosas.corn"</span>) <span class="co"># This creates an object with the name of the dataset "lasrosas.corn"</span></span>
+<span id="cb44-247"><a href="#cb44-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-248"><a href="#cb44-248" aria-hidden="true" tabindex="-1"></a><span class="co"># Store the data with another name</span></span>
+<span id="cb44-249"><a href="#cb44-249" aria-hidden="true" tabindex="-1"></a>corn_data <span class="ot">&lt;-</span> lasrosas.corn</span>
+<span id="cb44-250"><a href="#cb44-250" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-251"><a href="#cb44-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-252"><a href="#cb44-252" aria-hidden="true" tabindex="-1"></a><span class="fu">## Inspect data</span></span>
+<span id="cb44-253"><a href="#cb44-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-254"><a href="#cb44-254" aria-hidden="true" tabindex="-1"></a><span class="fu">### glimpse</span></span>
+<span id="cb44-255"><a href="#cb44-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-256"><a href="#cb44-256" aria-hidden="true" tabindex="-1"></a>The <span class="in">`glimpse()`</span> function provides an overview of the dataset, including variable names and data types.</span>
+<span id="cb44-257"><a href="#cb44-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-260"><a href="#cb44-260" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-261"><a href="#cb44-261" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect the dataset</span></span>
+<span id="cb44-262"><a href="#cb44-262" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(corn_data)</span>
+<span id="cb44-263"><a href="#cb44-263" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-264"><a href="#cb44-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-265"><a href="#cb44-265" aria-hidden="true" tabindex="-1"></a><span class="fu">### skim</span></span>
+<span id="cb44-266"><a href="#cb44-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-267"><a href="#cb44-267" aria-hidden="true" tabindex="-1"></a>The <span class="in">`skim()`</span> function from the 'skimr' allows to take a deeper look to all the variables (columns), creating a quick summary that reports the presence of missing values, etc., etc.</span>
+<span id="cb44-268"><a href="#cb44-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-271"><a href="#cb44-271" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-272"><a href="#cb44-272" aria-hidden="true" tabindex="-1"></a>skimr<span class="sc">::</span><span class="fu">skim</span>(corn_data)</span>
+<span id="cb44-273"><a href="#cb44-273" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-274"><a href="#cb44-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-275"><a href="#cb44-275" aria-hidden="true" tabindex="-1"></a><span class="fu">## Adding New Variables with `mutate()`</span></span>
 <span id="cb44-276"><a href="#cb44-276" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-279"><a href="#cb44-279" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-280"><a href="#cb44-280" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows with nitro &gt; 100</span></span>
-<span id="cb44-281"><a href="#cb44-281" aria-hidden="true" tabindex="-1"></a>high_nitro <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span></span>
-<span id="cb44-282"><a href="#cb44-282" aria-hidden="true" tabindex="-1"></a>  <span class="co"># only rows where the `nitro` column has values greater than 100.</span></span>
-<span id="cb44-283"><a href="#cb44-283" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(nitro <span class="sc">&gt;</span> <span class="dv">100</span>)</span>
-<span id="cb44-284"><a href="#cb44-284" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-285"><a href="#cb44-285" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(high_nitro)</span>
-<span id="cb44-286"><a href="#cb44-286" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-287"><a href="#cb44-287" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-288"><a href="#cb44-288" aria-hidden="true" tabindex="-1"></a><span class="fu">## Selecting columns</span></span>
+<span id="cb44-277"><a href="#cb44-277" aria-hidden="true" tabindex="-1"></a>You can add new columns to your dataset with <span class="in">`mutate()`</span>. Let's calculate the yield in tons per hectare (assuming the current yield is in kilograms):</span>
+<span id="cb44-278"><a href="#cb44-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-281"><a href="#cb44-281" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-282"><a href="#cb44-282" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a column for yield in tons</span></span>
+<span id="cb44-283"><a href="#cb44-283" aria-hidden="true" tabindex="-1"></a>corn_data <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span> </span>
+<span id="cb44-284"><a href="#cb44-284" aria-hidden="true" tabindex="-1"></a>  <span class="co"># New column, `yield_tons`, with the transformed yield values.</span></span>
+<span id="cb44-285"><a href="#cb44-285" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">yield_tons =</span> yield <span class="sc">/</span> <span class="dv">1000</span>)</span>
+<span id="cb44-286"><a href="#cb44-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-287"><a href="#cb44-287" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(corn_data)</span>
+<span id="cb44-288"><a href="#cb44-288" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb44-289"><a href="#cb44-289" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-290"><a href="#cb44-290" aria-hidden="true" tabindex="-1"></a>To select specific variables, we use <span class="in">`select()`</span>, which selects specific columns from the dataset.</span>
+<span id="cb44-290"><a href="#cb44-290" aria-hidden="true" tabindex="-1"></a><span class="fu">## Filtering Data</span></span>
 <span id="cb44-291"><a href="#cb44-291" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-294"><a href="#cb44-294" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-295"><a href="#cb44-295" aria-hidden="true" tabindex="-1"></a><span class="co"># Select specific columns</span></span>
-<span id="cb44-296"><a href="#cb44-296" aria-hidden="true" tabindex="-1"></a>selected_data <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span> <span class="fu">select</span>(yield, nitro, topo)</span>
-<span id="cb44-297"><a href="#cb44-297" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(selected_data)</span>
-<span id="cb44-298"><a href="#cb44-298" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-299"><a href="#cb44-299" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-300"><a href="#cb44-300" aria-hidden="true" tabindex="-1"></a><span class="fu">## Renaming columns</span></span>
-<span id="cb44-301"><a href="#cb44-301" aria-hidden="true" tabindex="-1"></a>When we need to change names of columns, we can use <span class="in">`rename()`</span>:</span>
-<span id="cb44-302"><a href="#cb44-302" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-305"><a href="#cb44-305" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-306"><a href="#cb44-306" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename a column</span></span>
-<span id="cb44-307"><a href="#cb44-307" aria-hidden="true" tabindex="-1"></a>renamed_data <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="at">Nitrogen =</span> nitro)</span>
-<span id="cb44-308"><a href="#cb44-308" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(renamed_data)</span>
-<span id="cb44-309"><a href="#cb44-309" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-310"><a href="#cb44-310" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-311"><a href="#cb44-311" aria-hidden="true" tabindex="-1"></a><span class="fu">## Arranging data</span></span>
-<span id="cb44-312"><a href="#cb44-312" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-313"><a href="#cb44-313" aria-hidden="true" tabindex="-1"></a>To reorder the data based on specific criteria, we can use <span class="in">`arrange()`</span>, which will arrange rows by a variable in ascending or descending order.</span>
-<span id="cb44-314"><a href="#cb44-314" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-317"><a href="#cb44-317" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-318"><a href="#cb44-318" aria-hidden="true" tabindex="-1"></a><span class="co"># Arrange data by yield in descending order</span></span>
-<span id="cb44-319"><a href="#cb44-319" aria-hidden="true" tabindex="-1"></a>arranged_data <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(yield))</span>
-<span id="cb44-320"><a href="#cb44-320" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(arranged_data)</span>
-<span id="cb44-321"><a href="#cb44-321" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-322"><a href="#cb44-322" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-323"><a href="#cb44-323" aria-hidden="true" tabindex="-1"></a><span class="fu">## Finding unique values</span></span>
-<span id="cb44-324"><a href="#cb44-324" aria-hidden="true" tabindex="-1"></a>To find out what are the unique values of a variable, we can use <span class="in">`distinct()`</span>, which will return the unique values within a column.</span>
-<span id="cb44-325"><a href="#cb44-325" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-328"><a href="#cb44-328" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-329"><a href="#cb44-329" aria-hidden="true" tabindex="-1"></a><span class="co"># Unique values in topo</span></span>
-<span id="cb44-330"><a href="#cb44-330" aria-hidden="true" tabindex="-1"></a>unique_topo <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span> <span class="fu">distinct</span>(topo)</span>
-<span id="cb44-331"><a href="#cb44-331" aria-hidden="true" tabindex="-1"></a>unique_topo</span>
-<span id="cb44-332"><a href="#cb44-332" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-333"><a href="#cb44-333" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-334"><a href="#cb44-334" aria-hidden="true" tabindex="-1"></a><span class="fu">## Counting</span></span>
-<span id="cb44-335"><a href="#cb44-335" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-336"><a href="#cb44-336" aria-hidden="true" tabindex="-1"></a>The function <span class="in">`count()`</span> counts the number of observations within a group.</span>
-<span id="cb44-337"><a href="#cb44-337" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-340"><a href="#cb44-340" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-341"><a href="#cb44-341" aria-hidden="true" tabindex="-1"></a><span class="co"># Count observations by topo</span></span>
-<span id="cb44-342"><a href="#cb44-342" aria-hidden="true" tabindex="-1"></a>topo_count <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span> <span class="fu">count</span>(topo)</span>
-<span id="cb44-343"><a href="#cb44-343" aria-hidden="true" tabindex="-1"></a>topo_count</span>
-<span id="cb44-344"><a href="#cb44-344" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-345"><a href="#cb44-345" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-346"><a href="#cb44-346" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summarizing Data</span></span>
-<span id="cb44-347"><a href="#cb44-347" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-348"><a href="#cb44-348" aria-hidden="true" tabindex="-1"></a>To get a quick overview of your data, you can use <span class="in">`summarize()`</span> in combination with <span class="in">`group_by()`</span>. For example, let's calculate the average yield for each topographical category (<span class="in">`topo`</span>):</span>
-<span id="cb44-349"><a href="#cb44-349" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-352"><a href="#cb44-352" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb44-353"><a href="#cb44-353" aria-hidden="true" tabindex="-1"></a><span class="co"># Average yield by topography</span></span>
-<span id="cb44-354"><a href="#cb44-354" aria-hidden="true" tabindex="-1"></a>average_yield_topo <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span></span>
-<span id="cb44-355"><a href="#cb44-355" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(topo) <span class="sc">%&gt;%</span></span>
-<span id="cb44-356"><a href="#cb44-356" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_yield =</span> <span class="fu">mean</span>(yield, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb44-357"><a href="#cb44-357" aria-hidden="true" tabindex="-1"></a>average_yield_topo</span>
-<span id="cb44-358"><a href="#cb44-358" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-359"><a href="#cb44-359" aria-hidden="true" tabindex="-1"></a><span class="co"># Average yield by year and topography</span></span>
-<span id="cb44-360"><a href="#cb44-360" aria-hidden="true" tabindex="-1"></a>average_yield_topoyear <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span></span>
-<span id="cb44-361"><a href="#cb44-361" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year, topo) <span class="sc">%&gt;%</span></span>
-<span id="cb44-362"><a href="#cb44-362" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_yield =</span> <span class="fu">mean</span>(yield, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb44-363"><a href="#cb44-363" aria-hidden="true" tabindex="-1"></a>average_yield_topoyear</span>
-<span id="cb44-364"><a href="#cb44-364" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb44-365"><a href="#cb44-365" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-366"><a href="#cb44-366" aria-hidden="true" tabindex="-1"></a>This groups the data by <span class="in">`topo`</span> and calculates the mean yield for each group.</span>
-<span id="cb44-367"><a href="#cb44-367" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-292"><a href="#cb44-292" aria-hidden="true" tabindex="-1"></a>To focus on specific data, we can use <span class="in">`filter()`</span>. For example, let's filter the data to include only rows where the nitrogen applied (<span class="in">`nitro`</span>) is greater than 100:</span>
+<span id="cb44-293"><a href="#cb44-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-296"><a href="#cb44-296" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-297"><a href="#cb44-297" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows with nitro &gt; 100</span></span>
+<span id="cb44-298"><a href="#cb44-298" aria-hidden="true" tabindex="-1"></a>high_nitro <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span></span>
+<span id="cb44-299"><a href="#cb44-299" aria-hidden="true" tabindex="-1"></a>  <span class="co"># only rows where the `nitro` column has values greater than 100.</span></span>
+<span id="cb44-300"><a href="#cb44-300" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(nitro <span class="sc">&gt;</span> <span class="dv">100</span>)</span>
+<span id="cb44-301"><a href="#cb44-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-302"><a href="#cb44-302" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(high_nitro)</span>
+<span id="cb44-303"><a href="#cb44-303" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-304"><a href="#cb44-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-305"><a href="#cb44-305" aria-hidden="true" tabindex="-1"></a><span class="fu">## Selecting columns</span></span>
+<span id="cb44-306"><a href="#cb44-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-307"><a href="#cb44-307" aria-hidden="true" tabindex="-1"></a>To select specific variables, we use <span class="in">`select()`</span>, which selects specific columns from the dataset.</span>
+<span id="cb44-308"><a href="#cb44-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-311"><a href="#cb44-311" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-312"><a href="#cb44-312" aria-hidden="true" tabindex="-1"></a><span class="co"># Select specific columns</span></span>
+<span id="cb44-313"><a href="#cb44-313" aria-hidden="true" tabindex="-1"></a>selected_data <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span> <span class="fu">select</span>(yield, nitro, topo)</span>
+<span id="cb44-314"><a href="#cb44-314" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(selected_data)</span>
+<span id="cb44-315"><a href="#cb44-315" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-316"><a href="#cb44-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-317"><a href="#cb44-317" aria-hidden="true" tabindex="-1"></a><span class="fu">## Renaming columns</span></span>
+<span id="cb44-318"><a href="#cb44-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-319"><a href="#cb44-319" aria-hidden="true" tabindex="-1"></a>When we need to change names of columns, we can use <span class="in">`rename()`</span>:</span>
+<span id="cb44-320"><a href="#cb44-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-323"><a href="#cb44-323" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-324"><a href="#cb44-324" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename a column</span></span>
+<span id="cb44-325"><a href="#cb44-325" aria-hidden="true" tabindex="-1"></a>renamed_data <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="at">Nitrogen =</span> nitro)</span>
+<span id="cb44-326"><a href="#cb44-326" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(renamed_data)</span>
+<span id="cb44-327"><a href="#cb44-327" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-328"><a href="#cb44-328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-329"><a href="#cb44-329" aria-hidden="true" tabindex="-1"></a><span class="fu">## Arranging data</span></span>
+<span id="cb44-330"><a href="#cb44-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-331"><a href="#cb44-331" aria-hidden="true" tabindex="-1"></a>To reorder the data based on specific criteria, we can use <span class="in">`arrange()`</span>, which will arrange rows by a variable in ascending or descending order.</span>
+<span id="cb44-332"><a href="#cb44-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-335"><a href="#cb44-335" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-336"><a href="#cb44-336" aria-hidden="true" tabindex="-1"></a><span class="co"># Arrange data by yield in descending order</span></span>
+<span id="cb44-337"><a href="#cb44-337" aria-hidden="true" tabindex="-1"></a>arranged_data <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(yield))</span>
+<span id="cb44-338"><a href="#cb44-338" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(arranged_data)</span>
+<span id="cb44-339"><a href="#cb44-339" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-340"><a href="#cb44-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-341"><a href="#cb44-341" aria-hidden="true" tabindex="-1"></a><span class="fu">## Finding unique values</span></span>
+<span id="cb44-342"><a href="#cb44-342" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-343"><a href="#cb44-343" aria-hidden="true" tabindex="-1"></a>To find out what are the unique values of a variable, we can use <span class="in">`distinct()`</span>, which will return the unique values within a column.</span>
+<span id="cb44-344"><a href="#cb44-344" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-347"><a href="#cb44-347" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-348"><a href="#cb44-348" aria-hidden="true" tabindex="-1"></a><span class="co"># Unique values in topo</span></span>
+<span id="cb44-349"><a href="#cb44-349" aria-hidden="true" tabindex="-1"></a>unique_topo <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span> <span class="fu">distinct</span>(topo)</span>
+<span id="cb44-350"><a href="#cb44-350" aria-hidden="true" tabindex="-1"></a>unique_topo</span>
+<span id="cb44-351"><a href="#cb44-351" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-352"><a href="#cb44-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-353"><a href="#cb44-353" aria-hidden="true" tabindex="-1"></a><span class="fu">## Counting</span></span>
+<span id="cb44-354"><a href="#cb44-354" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-355"><a href="#cb44-355" aria-hidden="true" tabindex="-1"></a>The function <span class="in">`count()`</span> counts the number of observations within a group.</span>
+<span id="cb44-356"><a href="#cb44-356" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-359"><a href="#cb44-359" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-360"><a href="#cb44-360" aria-hidden="true" tabindex="-1"></a><span class="co"># Count observations by topo</span></span>
+<span id="cb44-361"><a href="#cb44-361" aria-hidden="true" tabindex="-1"></a>topo_count <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span> <span class="fu">count</span>(topo)</span>
+<span id="cb44-362"><a href="#cb44-362" aria-hidden="true" tabindex="-1"></a>topo_count</span>
+<span id="cb44-363"><a href="#cb44-363" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-364"><a href="#cb44-364" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-365"><a href="#cb44-365" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summarizing Data</span></span>
+<span id="cb44-366"><a href="#cb44-366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-367"><a href="#cb44-367" aria-hidden="true" tabindex="-1"></a>To get a quick overview of your data, you can use <span class="in">`summarize()`</span> in combination with <span class="in">`group_by()`</span>. For example, let's calculate the average yield for each topographical category (<span class="in">`topo`</span>):</span>
 <span id="cb44-368"><a href="#cb44-368" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-369"><a href="#cb44-369" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-370"><a href="#cb44-370" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-371"><a href="#cb44-371" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-372"><a href="#cb44-372" aria-hidden="true" tabindex="-1"></a><span class="fu"># Hands-On Exercise</span></span>
-<span id="cb44-373"><a href="#cb44-373" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-374"><a href="#cb44-374" aria-hidden="true" tabindex="-1"></a>Try the following tasks using the <span class="in">`lasrosas.corn`</span> dataset:</span>
-<span id="cb44-375"><a href="#cb44-375" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-376"><a href="#cb44-376" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Filter the data to include only rows where the yield is greater than 6000.</span>
-<span id="cb44-377"><a href="#cb44-377" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Add a new column that calculates yield per kilogram of nitrogen applied.</span>
-<span id="cb44-378"><a href="#cb44-378" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Summarize the data to find the total yield for each <span class="in">`topo`</span> category.</span>
-<span id="cb44-379"><a href="#cb44-379" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>Arrange the data by <span class="in">`nitro`</span> in ascending order.</span>
-<span id="cb44-380"><a href="#cb44-380" aria-hidden="true" tabindex="-1"></a><span class="ss">5.  </span>Use <span class="in">`select()`</span> to create a dataset with only the <span class="in">`yield`</span>, <span class="in">`topo`</span>, and <span class="in">`nitro`</span> columns.</span>
-<span id="cb44-381"><a href="#cb44-381" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-382"><a href="#cb44-382" aria-hidden="true" tabindex="-1"></a>Submit your code and results to the class discussion forum. Happy coding!</span>
-<span id="cb44-383"><a href="#cb44-383" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-384"><a href="#cb44-384" aria-hidden="true" tabindex="-1"></a><span class="fu"># Conclusion</span></span>
-<span id="cb44-385"><a href="#cb44-385" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-386"><a href="#cb44-386" aria-hidden="true" tabindex="-1"></a>The <span class="in">`dplyr`</span> package simplifies data transformation and analysis tasks, making it easier to work with agricultural datasets like the one in this tutorial. Use these functions and try the hands-on exercise to deepen your understanding.</span>
-<span id="cb44-387"><a href="#cb44-387" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-388"><a href="#cb44-388" aria-hidden="true" tabindex="-1"></a>Happy coding!</span>
+<span id="cb44-371"><a href="#cb44-371" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-372"><a href="#cb44-372" aria-hidden="true" tabindex="-1"></a><span class="co"># Average yield by topography</span></span>
+<span id="cb44-373"><a href="#cb44-373" aria-hidden="true" tabindex="-1"></a>average_yield_topo <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span></span>
+<span id="cb44-374"><a href="#cb44-374" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(topo) <span class="sc">%&gt;%</span></span>
+<span id="cb44-375"><a href="#cb44-375" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_yield =</span> <span class="fu">mean</span>(yield, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb44-376"><a href="#cb44-376" aria-hidden="true" tabindex="-1"></a>average_yield_topo</span>
+<span id="cb44-377"><a href="#cb44-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-378"><a href="#cb44-378" aria-hidden="true" tabindex="-1"></a><span class="co"># Average yield by year and topography</span></span>
+<span id="cb44-379"><a href="#cb44-379" aria-hidden="true" tabindex="-1"></a>average_yield_topoyear <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span></span>
+<span id="cb44-380"><a href="#cb44-380" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year, topo) <span class="sc">%&gt;%</span></span>
+<span id="cb44-381"><a href="#cb44-381" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_yield =</span> <span class="fu">mean</span>(yield, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb44-382"><a href="#cb44-382" aria-hidden="true" tabindex="-1"></a>average_yield_topoyear</span>
+<span id="cb44-383"><a href="#cb44-383" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-384"><a href="#cb44-384" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-385"><a href="#cb44-385" aria-hidden="true" tabindex="-1"></a>This groups the data by <span class="in">`topo`</span> and calculates the mean yield for each group.</span>
+<span id="cb44-386"><a href="#cb44-386" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-387"><a href="#cb44-387" aria-hidden="true" tabindex="-1"></a><span class="fu"># Hands-On Exercise</span></span>
+<span id="cb44-388"><a href="#cb44-388" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-389"><a href="#cb44-389" aria-hidden="true" tabindex="-1"></a>Try the following tasks using the <span class="in">`lasrosas.corn`</span> dataset:</span>
+<span id="cb44-390"><a href="#cb44-390" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-391"><a href="#cb44-391" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Filter the data to include only rows where the yield is greater than 6000.</span>
+<span id="cb44-392"><a href="#cb44-392" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Add a new column that calculates yield per kilogram of nitrogen applied.</span>
+<span id="cb44-393"><a href="#cb44-393" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Summarize the data to find the total yield for each <span class="in">`topo`</span> category.</span>
+<span id="cb44-394"><a href="#cb44-394" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>Arrange the data by <span class="in">`nitro`</span> in ascending order.</span>
+<span id="cb44-395"><a href="#cb44-395" aria-hidden="true" tabindex="-1"></a><span class="ss">5.  </span>Use <span class="in">`select()`</span> to create a dataset with only the <span class="in">`yield`</span>, <span class="in">`topo`</span>, and <span class="in">`nitro`</span> columns.</span>
+<span id="cb44-396"><a href="#cb44-396" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-397"><a href="#cb44-397" aria-hidden="true" tabindex="-1"></a>Submit your code and results to the class discussion forum. Happy coding!</span>
+<span id="cb44-398"><a href="#cb44-398" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-399"><a href="#cb44-399" aria-hidden="true" tabindex="-1"></a><span class="fu"># Conclusion</span></span>
+<span id="cb44-400"><a href="#cb44-400" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-401"><a href="#cb44-401" aria-hidden="true" tabindex="-1"></a>The <span class="in">`dplyr`</span> package simplifies data transformation and analysis tasks, making it easier to work with agricultural datasets like the one in this tutorial. Use these functions and try the hands-on exercise to deepen your understanding.</span>
+<span id="cb44-402"><a href="#cb44-402" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-403"><a href="#cb44-403" aria-hidden="true" tabindex="-1"></a>Happy coding!</span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

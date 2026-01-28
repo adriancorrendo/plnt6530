@@ -1,0 +1,315 @@
+---
+title: "Data Viz I"
+author: "Dr. Adrian Correndo"
+date: "2026-01-30"
+categories: [figures, graphics, plots, ggplot2, tidyverse]
+format:
+  html:
+    toc: true
+    toc-location: left
+    toc-depth: 4
+    number-sections: true
+    table-class: "table table-striped table-hover"
+    self-contained: true
+editor: source
+smooth-scroll: true
+bibliography: ../../references.bib
+link-citations: TRUE
+---
+
+**Description** <br/>
+
+In this class, we will explore advanced visualization techniques using `ggplot2`. You'll learn how to fine-tune plots by modifying shapes, lines, legends, and adding custom titles and annotations. We will continue working with the **`agridat::lasrosas.corn`** dataset.
+
+![](https://ggplot2.tidyverse.org/logo.png){.absolute top=0 right=0 height="25%"}
+
+# Learning Objectives
+
+By the end of this session, you will: 1. Customize plot aesthetics, including point shapes, line types, and colors. 2. Modify legends and axis labels for better readability. 3. Use annotations and text elements to highlight key data points. 4. Adjust themes and layouts for professional presentation.
+
+**Required Packages** <br/>
+
+Install the necessary packages for this class:
+
+```{r warning=FALSE, message=FALSE}
+library(pacman)
+p_load("ggplot2", "gganimate", "agridat", "patchwork", "sf", "ggtext", "dplyr")
+```
+
+# Datasets: Las Rosas Corn Data
+
+We’ll use the **`agridat::lasrosas.corn`** dataset, focusing on yield, nitro levels, years, and spatial data.
+
+```{r}
+corn_data <- agridat::lasrosas.corn %>% 
+  mutate(Year = as.factor(year))
+
+glimpse(corn_data)
+
+nass_soybean <- agridat::nass.soybean %>% 
+  mutate(Year = as.factor(year))
+
+select_states <- c("Kansas", "Iowa", "Illinois", "Missouri")
+
+glimpse(nass_soybean)
+```
+
+# 1. Customizing ggplot2 Visualizations
+
+## Define custom palettes
+
+```{r}
+my_colors <- c("#1e6091", "#f9c74f", "#9b2226",  "#599999",  "#8e5572")
+```
+
+## Histogram with Adjusted Transparency and Custom Bins
+
+```{r}
+# Density
+density_01 <- 
+corn_data %>% 
+ggplot(aes(x = yield)) +
+  geom_density(aes(fill = Year), color = "grey15", alpha = 0.5)+
+  labs(title = "Yield Distribution Across Years", x = "Yield (qq/ha)", y = "Count") +
+  scale_fill_manual(values = my_colors)+
+  theme_classic()
+
+# Histogram
+histo_01 <-
+ggplot(corn_data, aes(x = yield)) +
+  geom_histogram(aes(fill = Year), bins = 20, alpha = 0.6, color = "black") +
+  labs(title = "Yield Distribution Across Years", x = "Yield (qq/ha)", y = "Count") +
+  scale_fill_manual(values = my_colors)+
+  geom_rug(aes(color = Year), alpha = 0.5)+
+  scale_color_manual(values = my_colors)+
+  theme_classic()
+
+histo_01
+
+# Faceting by Year
+histo_02 <-
+corn_data %>% 
+ggplot(aes(x = yield)) +
+  geom_histogram(aes(fill = Year), bins = 30, alpha = 0.6, color = "black") +
+  labs(title = "Yield Distribution Across Years", x = "Yield (qq/ha)", y = "Count") +
+  scale_fill_manual(values = my_colors)+
+  geom_rug(aes(color = topo), alpha = 0.5)+
+  scale_color_manual(values = my_colors)+
+  facet_wrap(~topo)+
+  theme_classic()+
+  theme(legend.position = "none")
+histo_02
+
+
+corn_data %>% 
+ggplot(aes(x = yield)) +
+  geom_histogram(aes(fill = topo), bins = 20, alpha = 0.6, color = "black") +
+  labs(title = "Yield Distribution Across Years", x = "Yield (qq/ha)", y = "Count") +
+  scale_fill_manual(values = my_colors)+
+  geom_rug(aes(color = topo), alpha = 0.5)+
+  scale_color_manual(values = my_colors)+
+  facet_wrap(~topo)+
+  theme_classic()+
+  theme(legend.position = "none")
+```
+
+## Column/Bar plot
+
+```{r}
+# Prepare summarized data frame
+aggregated_corn <- corn_data %>% group_by(Year, year, nitro, nf) %>% 
+  summarize(yield_mean = mean(yield),
+            sd_yield = sd(yield))
+
+# Column plot
+colplot_01 <- 
+  aggregated_corn %>% 
+ggplot() +
+  geom_col(aes(x = nf, y = yield_mean, fill = Year), 
+           color = "grey25") + # Triangle shape
+  scale_fill_manual(values = my_colors)+
+  labs(title = "Yield vs. Nitrogen Levels", x = "Nitrogen (kg/ha)", y = "Yield (qq/ha)") +
+  facet_wrap(~Year)+
+  theme_classic()
+
+colplot_01
+
+# Add SD bars
+colplot_02 <-
+colplot_01 +
+  geom_errorbar(data = aggregated_corn, 
+                aes(ymin = yield_mean - sd_yield,
+                    ymax = yield_mean + sd_yield, 
+                    x = nf),
+                width = .25)
+  
+
+colplot_02
+
+# facet by topography
+aggregated_topo <- corn_data %>% group_by(Year, year, nitro, nf, topo) %>% 
+  summarize(yield_mean = mean(yield),
+            sd_yield = sd(yield))
+
+# dacet by topography and Year
+colplot_03 <- 
+aggregated_topo %>% 
+ggplot() +
+  geom_col(aes(x = nf, y = yield_mean, fill = topo), 
+           color = "grey25", alpha = 0.5) + # Triangle shape
+  geom_errorbar(aes(ymin = yield_mean - sd_yield,
+                    ymax = yield_mean + sd_yield, x = nf),
+                width = .25)+
+  labs(title = "Yield vs. Nitrogen Levels", x = "Nitrogen (kg/ha)", y = "Yield (qq/ha)") +
+  facet_grid(topo~Year)+
+  scale_fill_manual(values = my_colors)+
+  theme_classic()
+
+colplot_03
+
+```
+
+## Scatter Plot with Custom Shapes and Line Types
+
+```{r}
+corn_data %>%
+ggplot(aes(x = nitro, y = yield, color = factor(year))) +
+  geom_point(size = 3, shape = 17) + # Triangle shape
+  geom_smooth(method = "lm", se = FALSE, linetype = "dashed") +
+  labs(title = "Yield vs. Nitrogen Levels", x = "Nitrogen (kg/ha)", y = "Yield (qq/ha)") +
+  theme_minimal()
+```
+
+## BoxPlot with Custom Shapes and Line Types
+
+```{r}
+corn_data %>% 
+ggplot(aes(x = nf, y = yield)) +
+  geom_boxplot(aes(fill = Year), color = "grey15", size = 0.5) +
+  geom_jitter(aes(x = nf, y = yield, color=Year), size = 0.1)+
+  scale_fill_brewer(palette=2, type = "qual")+
+  scale_color_brewer(palette=2, type = "qual")+
+  labs(title = "Yield vs. Nitrogen Levels", 
+       x = "Nitrogen (kg/ha)", y = "Yield (qq/ha)") +
+  facet_wrap(~Year)+
+  theme_classic()
+```
+
+# 2. Axis & Titles
+
+```{r}
+scatter_plot <- 
+corn_data %>% 
+ggplot(aes(x = nitro, y = yield, color = topo)) +
+  geom_point()+
+  # Add labels
+  labs(title = "Yield vs. Nitrogen", 
+       subtitle = "Data from Las Rosas Trials", 
+       x = "Nitrogen (kg/ha)", 
+       y = "Yield (qq/ha)") +
+  # Add manual color scale
+  scale_color_manual(values = my_colors)+
+  # Modify scale of x-axis
+  scale_x_continuous(limits = c(0,140), breaks = seq(0,150, by=30))+
+  facet_grid(Year~topo)+
+  theme_classic()
+
+scatter_plot
+
+# Update
+scatter_plot +
+  # Add regression line
+  geom_smooth()+
+  theme(legend.position = "none", # Remove legend
+        # Add panel border
+        panel.border = element_rect(linetype = "solid", fill = NA),
+        # Edit axis title text
+        axis.title = element_text(face = "bold", color = "red"))
+  
+```
+
+# 3. Annotating text
+
+```{r}
+colplot_01 +
+  geom_text(aes(label = round(yield_mean,0), x = nf, y = yield_mean + 3))+
+  scale_color_manual(values=my_colors)
+
+
+```
+
+# 4. Adjusting Themes for Presentation
+
+```{r}
+base_plot <- ggplot(corn_data, aes(x = nitro, y = yield, color = factor(year))) +
+  geom_point(size = 3) 
+base_plot
+
+base_plot + 
+  labs(title = "Fine-Tuned Yield vs. Nitrogen Plot") +
+  theme_classic(base_size = 14) + # Larger base font
+  theme(legend.position = "bottom")
+```
+
+# 5. Combining Multiple Plots with Custom Layouts
+
+```{r}
+p1 <- scatter_plot
+
+p2 <- histo_02
+
+p1 + p2 + plot_layout(ncol = 1)
+```
+
+# 6. Animated plots
+
+```{r}
+static_plot <-
+  nass_soybean %>% 
+  dplyr::filter(state %in% select_states) %>% 
+  ggplot(aes(x = year, y = yield)) + 
+  geom_point(aes(fill = state, 
+                 group = seq_along(year)),
+             color = "grey15", shape = 21, size = 2, alpha = 0.5)+
+  scale_fill_manual(values=my_colors)+
+  #scale_color_manual(values=my_colors)+
+  facet_wrap(~state)+
+  theme_classic()+
+  # Add panel border
+  theme(legend.position = "none",
+        panel.border = element_rect(linetype = "solid", fill = NA))
+
+static_plot
+
+animated_plot <- 
+  static_plot+
+  transition_reveal(year)
+
+animated_plot
+
+# Render the animation
+# gganimate::animate(animated_plot, fps = 20, duration = 4, 
+#                    width = 400, height = 300,
+#         renderer = gifski_renderer())
+
+# Save
+# anim_save(filename = "animated_plot.gif", animation = last_animation())
+```
+
+# Conclusion
+
+This tutorial provides various ggplot2 customization techniques relevant to agricultural research. Experiment with different styling options to enhance the clarity and impact of your visualizations!
+
+# Additional Resources for Data Visualization
+
+Here are some excellent resources to deepen your understanding of data visualization:
+
+1. **[ggplot2 Documentation](https://ggplot2.tidyverse.org/)** – The official documentation for ggplot2 with comprehensive guides and examples.
+2. **[R Graphics Cookbook](https://r-graphics.org/)** – A collection of practical recipes for creating a wide variety of graphics with ggplot2.
+3. **[The Grammar of Graphics](https://www.springer.com/gp/book/9780387245447)** by Leland Wilkinson – The foundational theory behind ggplot2.
+4. **[Data Visualization: A Practical Introduction](https://socviz.co/)** by Kieran Healy – An excellent resource for both beginners and advanced users.
+5. **[Tidyverse Tutorials](https://www.tidyverse.org/learn/)** – Tutorials on ggplot2 and related packages in the Tidyverse ecosystem.
+6. **[R Graph Gallery](https://r-graph-gallery.com/)** – A rich gallery of ggplot2 visualizations for inspiration and code snippets.
+
+Explore these resources to expand your visualization skills and stay updated with best practices in data presentation!
+

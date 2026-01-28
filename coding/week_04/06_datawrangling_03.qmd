@@ -1,0 +1,328 @@
+---
+title: "Advanced Data Wrangling in R"
+author: "Dr. Adrian Correndo"
+date: "2026-01-28"
+categories: [data wrangling, dplyr, tidyr, case study]
+format:
+  html:
+    toc: true
+    toc-location: left
+    toc-depth: 4
+    number-sections: true
+    table-class: "table table-striped table-hover"
+editor: source
+smooth-scroll: true
+bibliography: ../../references.bib
+link-citations: TRUE
+---
+
+**Description** <br/>
+
+This class dives deeper into the world of R data wrangling, covering advanced techniques and their applications. We'll explore complex functions and join operations essential for real-world data analysis.
+
+**Required packages for today** <br/>
+
+```{r eval=TRUE, warning=FALSE, message=FALSE}
+library(pacman)
+p_load(dplyr, tidyr, stringr, lubridate, janitor)
+```
+
+# Review of Previous Lessons
+
+|  |  |
+|----|----|
+| ![](https://dplyr.tidyverse.org/logo.png){.absolute top="0" right="0" height="45%"} | ![](https://tidyr.tidyverse.org/logo.png){.absolute top="0" right="0" height="45%"} |
+
+Quick recap of essential data wrangling functions: 
+
+::: panel-tabset
+## `dplyr` 
+-   `mutate()`
+
+-   `filter()`
+-   `select()`
+-   `slice()`, `slice_head()`, `slice_tail()`, `slice_sample()`
+-   `rename()`
+
+-   `arrange()`
+-   `distinct()`
+-   `count()`
+
+-   `glimpse()`
+-   `summarise()`
+-   `group_by`
+
+## `tidyr`
+
+-   `unite()`
+-   `separate()`
+-   `pivot_longer()`
+-   `pivot_wider()`
+-   `case_when()`
+-   `nest()` 
+-   `unnest()` 
+
+## `skimr`
+
+- `skim()`
+
+:::
+
+# Complex Joins
+
+In data analysis, combining data from different sources is often necessary. Here, we'll use `dplyr`'s join functions to merge datasets based on common keys.
+
+## Example: Merging Weather and Crop Yield Data
+
+## `left_join()`
+Includes all records from the left dataset and the matched records from the right dataset. If there is no match, the result is NA in the columns of the right dataset.
+
+```{r }
+# Daily data
+daily_weather_data <- tibble(
+  date = seq(as.Date("2024-04-01"), as.Date("2024-10-01"), by = "day"),
+  # create month column with name
+  month = lubridate::month(date, label = TRUE, abbr = TRUE),
+  precipitation = round(runif(n=184, min = 0, max = 25), digits = 0),
+  temperature = runif(n=184, min = 10, max = 30)
+)
+
+# Summarize daily weather by month
+monthly_weather_data <- daily_weather_data %>%
+  group_by(month) %>%
+  summarise(total_precipitation = sum(precipitation),
+            avg_temperature = mean(temperature)) %>% 
+  ungroup()
+
+# Forage data
+forage_data <- tibble(
+  date = seq(as.Date("2024-04-01"), as.Date("2024-10-01"), by = "month"),
+  # extract month from date
+  month = lubridate::month(date, label = TRUE, abbr = TRUE),
+  forage_yield = c(500, 1200, 3000, 4000, 2800, 1500, 0) )
+
+# Merge data
+left_joined_data <- left_join(monthly_weather_data, forage_data, by = "month")
+
+```
+
+## `right_join()`
+Includes all records from the right dataset and the matched records from the left dataset. If there is no match, the result is NA in the columns of the left dataset.
+
+```{r }
+# Merge data
+right_joined_data <- 
+  right_join(daily_weather_data, forage_data, by = "month")
+```
+
+## `full_join()`
+Includes all records when there is a match in the keys of the left or right datasets. If there is no match, the result is NA in the columns of the dataset that does not have a match.
+
+```{r full-join}
+# Merge data
+full_joined_data <- 
+  full_join(daily_weather_data, forage_data, by = "date")
+```
+
+If a key appears more than once in either table, the join can produce more rows than expected.
+
+Filtering joins are also very useful:
+
+## `inner_join()`
+keep only keys present in both tables
+```{r}
+# inner_join: 
+inner_join(monthly_weather_data, forage_data, by = "month")
+```
+
+## `semi_join()`
+keep rows from left that have a match in right (does NOT bring columns from right)
+```{r}
+semi_join(monthly_weather_data, forage_data, by = "month")
+```
+
+## `anti_join()`
+find rows in left with NO match in right (great for debugging)
+```{r}
+anti_join(monthly_weather_data, forage_data, by = "month")
+anti_join(daily_weather_data, forage_data, by = "date")
+```
+
+# across()
+
+After merging, it's crucial to check for missing values and duplicates:
+
+## `everything()`
+it allows you to apply functions to all columns in a data frame
+```{r data-quality}
+data_quality_summary <- full_joined_data %>%
+  summarise(across(.cols = everything(), 
+                   .fns = ~ sum(is.na(.)), 
+                   .names = "missing_{.col}"))
+
+data_quality_summary
+```
+
+## `where()`
+
+When you have many columns and want to apply the same transformation/summarization to all of them (or a subset), `across()` is the go-to tool.
+
+```{r}
+# Example: summarize ALL numeric columns by month
+daily_weather_data %>%
+  mutate(month = lubridate::month(date, label = TRUE, abbr = TRUE)) %>%
+  group_by(month) %>%
+  summarise(
+    across(where(is.numeric), list(mean = mean, sd = sd), .names = "{.col}_{.fn}"),
+    .groups = "drop"
+  )
+```
+
+# Missing data with `tidyr`
+
+## `replace_na()`
+```{r}
+df <- tibble(
+  site = c("Elora", "Elora", "Ridgetown", "Ridgetown"),
+  year = c(2024, 2025, 2024, 2025),
+  yield = c(NA, 8.2, 7.9, NA)
+)
+
+df %>%
+  tidyr::replace_na(list(yield = 0))
+```
+
+## `drop_na()`
+```{r}
+df %>% tidyr::drop_na(yield)
+```
+
+## fill()
+common with messy datasets
+```{r}
+df2 <- tibble(
+  site = c("Elora", NA, NA, "Ridgetown", NA),
+  plot = 1:5,
+  value = rnorm(5)
+)
+
+df2 %>%
+  tidyr::fill(site, .direction = "down")
+```
+
+
+# Date Handling with `lubridate`
+
+![](https://lubridate.tidyverse.org/logo.png){.absolute top="0" right="0" height="25%"}
+
+Using `lubridate`, we can extract various date components for analysis.
+
+```{r date-features}
+weather_data_dates <- daily_weather_data %>%
+  mutate(
+    year_month_day = format(date, "%Y_%m_%d"),
+    day_of_year = yday(date),
+    day_of_month = mday(date),
+    week_of_year = week(date),
+    month_name = month(date, label = TRUE, abbr = FALSE)
+  )
+
+# Take a look 
+glimpse(weather_data_dates)
+```
+
+# Data Cleaning with `janitor`
+
+![](https://sfirke.github.io/janitor/reference/figures/logo_small.png){.absolute top="0" right="0" height="25%"}
+
+## clean_names()
+Sometimes, datasets come with inconsistent column names, which can cause issues in analysis.
+
+```{r messy-data}
+messy_weather_data <- tibble(
+  `Date Recorded` = seq(as.Date("2024-04-01"), as.Date("2024-10-01"), by = "month"),
+  `Precipitation (mm)` = c(20, 40, 60, 80, 50, 30, 2),
+  `Temperature..(C,)` = c(15, 18, 25, 30, 22, 16, 12)
+)
+
+clean_weather_data <- messy_weather_data %>% clean_names()
+clean_weather_data
+```
+
+## `get_dupes()`
+it helps identify duplicate rows in a dataset
+```{r}
+duplicate_rows <- full_joined_data %>% get_dupes()
+```
+
+## `compare_df_cols()` 🧩 
+it helps to check if datasets align
+```{r}
+janitor::compare_df_cols(daily_weather_data, monthly_weather_data)
+
+# this one compares by position too
+janitor::compare_df_cols_same(daily_weather_data, monthly_weather_data) 
+
+```
+
+## `make_clean_names()` 🏷
+it's the same idea than `clean_names()`, but returns a vector, which is useful when you’re renaming in a custom way.
+```{r}
+names(df) <- janitor::make_clean_names(names(messy_weather_data))
+```
+
+## `tabyl()`
+Simple frequency table: how many daily records per month?
+```{r}
+daily_weather_data %>%
+  mutate(month = month(date, label = TRUE, abbr = TRUE)) %>%
+  tabyl(month)
+```
+## `adorn_*()` functions
+Enhance tabyl outputs with totals, percentages, and formatting.
+```{r}
+# 2) Two-way tabyl: month x "rainy day?" (precipitation > 0)
+daily_weather_data %>%
+  mutate(
+    month = month(date, label = TRUE, abbr = TRUE),
+    rainy_day = if_else(precipitation > 0, "Yes", "No")
+  ) %>%
+  tabyl(month, rainy_day) %>%
+  adorn_totals(where = c("row", "col")) %>%
+  adorn_percentages("row") %>%
+  adorn_pct_formatting(digits = 1) %>%
+  adorn_ns()
+```
+## `tabyl()` + `case_when()`
+Create temperature bins (cold/mild/warm) by month
+```{r}
+# Create temperature bins (cold/mild/warm) by month
+daily_weather_data %>%
+  mutate(
+    month = month(date, label = TRUE, abbr = TRUE),
+    temp_bin = case_when(
+      temperature < 0 ~ "Below 0°C",
+      temperature < 10 ~ "0–10°C",
+      temperature < 20 ~ "10–20°C",
+      TRUE ~ "20°C+"
+    )
+  ) %>%
+  tabyl(month, temp_bin) %>%
+  adorn_totals(where = c("row", "col")) %>%
+  adorn_percentages("row") %>%
+  adorn_pct_formatting(digits = 1) %>%
+  adorn_ns()
+```
+
+# Final Thoughts and Resources
+
+Data wrangling is a crucial step in data analysis, ensuring datasets are clean, structured, and ready for further exploration. By leveraging `dplyr`, `tidyr`, `janitor`, and `lubridate`, we can efficiently manage and transform our data to extract meaningful insights.
+
+For further reading and practice, consider the following resources:
+
+-   [R for Data Science](https://r4ds.had.co.nz/) by Hadley Wickham & Garrett Grolemund
+-   [tidyverse documentation](https://www.tidyverse.org/)
+-   [lubridate cheatsheet](https://evoldyn.gitlab.io/evomics-2018/ref-sheets/R_lubridate.pdf)
+-   [Data Wrangling with R](https://rstudio-conf-2020.github.io/data-wrangling/) - A comprehensive tutorial
+
+Keep practicing and experimenting with different datasets to solidify your understanding. Happy coding!

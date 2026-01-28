@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://adriancorrendo.github.io/coding/week_04/06_datawrangling_03.html</loc>
+    <lastmod>2026-01-28T04:21:55.260Z</lastmod>
+  </url>
+  <url>
     <loc>https://adriancorrendo.github.io/coding/extras/p_value.html</loc>
     <lastmod>2026-01-20T20:49:43.010Z</lastmod>
   </url>
@@ -19,26 +23,6 @@
   <url>
     <loc>https://adriancorrendo.github.io/coding/week_03/04_datawrangling_01.html</loc>
     <lastmod>2026-01-22T02:57:32.263Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/outline/calendar.html</loc>
-    <lastmod>2026-01-23T18:39:49.730Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/slides/day1.html</loc>
-    <lastmod>2026-01-04T20:39:29.235Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/index.html</loc>
-    <lastmod>2026-01-04T20:55:19.406Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/software/software.html</loc>
-    <lastmod>2025-12-07T21:39:00.752Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/outline/outline.html</loc>
-    <lastmod>2026-01-04T20:48:38.652Z</lastmod>
   </url>
   <url>
     <loc>https://adriancorrendo.github.io/coding/week_03/05_datawrangling_02.html</loc>

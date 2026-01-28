@@ -1,5 +1,82 @@
 [
   {
+    "objectID": "coding/week_04/06_datawrangling_03.html",
+    "href": "coding/week_04/06_datawrangling_03.html",
+    "title": "Advanced Data Wrangling in R",
+    "section": "",
+    "text": "Description\nThis class dives deeper into the world of R data wrangling, covering advanced techniques and their applications. We’ll explore complex functions and join operations essential for real-world data analysis.\nRequired packages for today\nlibrary(pacman)\np_load(dplyr, tidyr, stringr, lubridate, janitor)",
+    "crumbs": [
+      "Lessons",
+      "06-Data Wrangling III"
+    ]
+  },
+  {
+    "objectID": "coding/week_04/06_datawrangling_03.html#example-merging-weather-and-crop-yield-data",
+    "href": "coding/week_04/06_datawrangling_03.html#example-merging-weather-and-crop-yield-data",
+    "title": "Advanced Data Wrangling in R",
+    "section": "2.1 Example: Merging Weather and Crop Yield Data",
+    "text": "2.1 Example: Merging Weather and Crop Yield Data",
+    "crumbs": [
+      "Lessons",
+      "06-Data Wrangling III"
+    ]
+  },
+  {
+    "objectID": "coding/week_04/06_datawrangling_03.html#inner_join",
+    "href": "coding/week_04/06_datawrangling_03.html#inner_join",
+    "title": "Advanced Data Wrangling in R",
+    "section": "2.5 inner_join()",
+    "text": "2.5 inner_join()\nkeep only keys present in both tables\n\n# inner_join: \ninner_join(monthly_weather_data, forage_data, by = \"month\")\n\n# A tibble: 7 × 5\n  month total_precipitation avg_temperature date       forage_yield\n  &lt;ord&gt;               &lt;dbl&gt;           &lt;dbl&gt; &lt;date&gt;            &lt;dbl&gt;\n1 Apr                   365            18.1 2024-04-01          500\n2 May                   455            18.0 2024-05-01         1200\n3 Jun                   410            20.8 2024-06-01         3000\n4 Jul                   423            18.7 2024-07-01         4000\n5 Aug                   372            18.1 2024-08-01         2800\n6 Sep                   364            20.4 2024-09-01         1500\n7 Oct                    22            16.7 2024-10-01            0",
+    "crumbs": [
+      "Lessons",
+      "06-Data Wrangling III"
+    ]
+  },
+  {
+    "objectID": "coding/week_04/06_datawrangling_03.html#semi_join",
+    "href": "coding/week_04/06_datawrangling_03.html#semi_join",
+    "title": "Advanced Data Wrangling in R",
+    "section": "2.6 semi_join()",
+    "text": "2.6 semi_join()\nkeep rows from left that have a match in right (does NOT bring columns from right)\n\nsemi_join(monthly_weather_data, forage_data, by = \"month\")\n\n# A tibble: 7 × 3\n  month total_precipitation avg_temperature\n  &lt;ord&gt;               &lt;dbl&gt;           &lt;dbl&gt;\n1 Apr                   365            18.1\n2 May                   455            18.0\n3 Jun                   410            20.8\n4 Jul                   423            18.7\n5 Aug                   372            18.1\n6 Sep                   364            20.4\n7 Oct                    22            16.7",
+    "crumbs": [
+      "Lessons",
+      "06-Data Wrangling III"
+    ]
+  },
+  {
+    "objectID": "coding/week_04/06_datawrangling_03.html#anti_join",
+    "href": "coding/week_04/06_datawrangling_03.html#anti_join",
+    "title": "Advanced Data Wrangling in R",
+    "section": "2.7 anti_join()",
+    "text": "2.7 anti_join()\nfind rows in left with NO match in right (great for debugging)\n\nanti_join(monthly_weather_data, forage_data, by = \"month\")\n\n# A tibble: 0 × 3\n# ℹ 3 variables: month &lt;ord&gt;, total_precipitation &lt;dbl&gt;, avg_temperature &lt;dbl&gt;\n\nanti_join(daily_weather_data, forage_data, by = \"date\")\n\n# A tibble: 177 × 4\n   date       month precipitation temperature\n   &lt;date&gt;     &lt;ord&gt;         &lt;dbl&gt;       &lt;dbl&gt;\n 1 2024-04-02 Apr               5        14.0\n 2 2024-04-03 Apr              19        20.3\n 3 2024-04-04 Apr              15        23.8\n 4 2024-04-05 Apr               3        14.3\n 5 2024-04-06 Apr              23        19.8\n 6 2024-04-07 Apr               1        11.5\n 7 2024-04-08 Apr               4        20.2\n 8 2024-04-09 Apr              21        11.7\n 9 2024-04-10 Apr              15        19.3\n10 2024-04-11 Apr              17        25.8\n# ℹ 167 more rows",
+    "crumbs": [
+      "Lessons",
+      "06-Data Wrangling III"
+    ]
+  },
+  {
+    "objectID": "coding/week_04/06_datawrangling_03.html#across-where",
+    "href": "coding/week_04/06_datawrangling_03.html#across-where",
+    "title": "Advanced Data Wrangling in R",
+    "section": "3.1 across() + where()",
+    "text": "3.1 across() + where()\nWhen you have many columns and want to apply the same transformation/summarization to all of them (or a subset), across() is the go-to tool.\n\n# Example: summarize ALL numeric columns by month\ndaily_weather_data %&gt;%\n  mutate(month = lubridate::month(date, label = TRUE, abbr = TRUE)) %&gt;%\n  group_by(month) %&gt;%\n  summarise(\n    across(where(is.numeric), list(mean = mean, sd = sd), .names = \"{.col}_{.fn}\"),\n    .groups = \"drop\"\n  )\n\n# A tibble: 7 × 5\n  month precipitation_mean precipitation_sd temperature_mean temperature_sd\n  &lt;ord&gt;              &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;          &lt;dbl&gt;\n1 Apr                 10.4             6.94             19.8           5.33\n2 May                 10.9             8.17             18.9           5.70\n3 Jun                 12.3             7.35             20.5           6.20\n4 Jul                 13.8             7.50             19.6           5.12\n5 Aug                 12               6.31             20.8           5.58\n6 Sep                 16.3             6.74             19.5           5.89\n7 Oct                 20              NA                24.2          NA",
+    "crumbs": [
+      "Lessons",
+      "06-Data Wrangling III"
+    ]
+  },
+  {
+    "objectID": "coding/week_04/06_datawrangling_03.html#replace_na",
+    "href": "coding/week_04/06_datawrangling_03.html#replace_na",
+    "title": "Advanced Data Wrangling in R",
+    "section": "4.1 replace_na()",
+    "text": "4.1 replace_na()\n\ndf &lt;- tibble(\n  site = c(\"Elora\", \"Elora\", \"Ridgetown\", \"Ridgetown\"),\n  year = c(2024, 2025, 2024, 2025),\n  yield = c(NA, 8.2, 7.9, NA)\n)\n\ndf %&gt;%\n  tidyr::replace_na(list(yield = 0))\n\n# A tibble: 4 × 3\n  site       year yield\n  &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;\n1 Elora      2024   0  \n2 Elora      2025   8.2\n3 Ridgetown  2024   7.9\n4 Ridgetown  2025   0",
+    "crumbs": [
+      "Lessons",
+      "06-Data Wrangling III"
+    ]
+  },
+  {
     "objectID": "coding/extras/p_value.html",
     "href": "coding/extras/p_value.html",
     "title": "What Does a p-value Really Mean?",
@@ -693,477 +770,6 @@
     ]
   },
   {
-    "objectID": "outline/calendar.html",
-    "href": "outline/calendar.html",
-    "title": "PLNT6530|01 - Calendar",
-    "section": "",
-    "text": "Days: Wednesdays and Fridays\nTime: 11:30 am - 12:50 pm\nLocation: CRSC 121B",
-    "crumbs": [
-      "Calendar",
-      "Schedule"
-    ]
-  },
-  {
-    "objectID": "outline/calendar.html#calendar",
-    "href": "outline/calendar.html#calendar",
-    "title": "PLNT6530|01 - Calendar",
-    "section": "Calendar",
-    "text": "Calendar\nThe course runs on Wednesdays and Fridays from 1:00 PM to 2:20 PM. Below is the tentative schedule. Please, note the schedule may vary depending on the progress of the class.\n\n\n\nWeek\nDate\nTopic\nMaterial\nLesson\n\n\n\n\n1\nJan 7\nIntroductions, Reproducibility\n🌐\n🎥\n\n\n\nJan 09\nEssentials of Quarto and R\n🌐\n🎥\n\n\n2\nJan 14\nFundamentals of R packages\n🌐\n🎥\n\n\n\nJan 16\nBasics of version control & GitHub\n🌐\n🎥\n\n\n3\nJan 21\nData Wrangling I\n🌐\n🎥\n\n\n\nJan 23\nData Wrangling II\n🌐\n🎥\n\n\n4\nJan 28\nData Wrangling III\n🌐\n🎥\n\n\n\nJan 30\nData Viz I: ggplot2 basics\n🌐\n🎥\n\n\n5\nFeb 04\nData Viz II: Multiple plots\n🌐\n🎥\n\n\n\nFeb 06\nData Viz III: Advanced plots, maps\n🌐\n🎥\n\n\n6\nFeb 11\nIteration: Loops & Mapping\n🌐\n🎥\n\n\n\nFeb 13\nWeather Data: Retrieving & Processing\n🌐\n🎥\n\n\n\n\nWinter Break begins after the end of class\n\n\n\n\n7\nFeb 25\nModels I: TBD\n🌐\n🎥\n\n\n\nFeb 27\nModels II: TBD\n🌐\n🎥\n\n\n8\nMar 04\nModels III: TBD\n🌐\n🎥\n\n\n\nMar 06\nModels IV: TBD\n🌐\n🎥\n\n\n9\nMar 11\nModels V: TBD\n🌐\n🎥\n\n\n\nMar 13\nModels VI: TBD\n🌐\n🎥\n\n\n10\nMar 18\nModels VII: TBD\n🌐\n🎥\n\n\n\nMar 20\nModels VIII: TBD\n🌐\n🎥\n\n\n11\nMar 25\nModels IX: TBD\n🌐\n🎥\n\n\n\nMar 27\nGeneral Review class\n🌐\n🎥\n\n\n12\nApr 01\nSemester Projects Presentations I\n🌐\n\n\n\n\nApr 03\nSemester Projects Presentations II\n🌐\n\n\n\n13\nApr 10\nFinal Exam Due (11.59 pm)\n🌐",
-    "crumbs": [
-      "Calendar",
-      "Schedule"
-    ]
-  },
-  {
-    "objectID": "slides/day1.html#introductions",
-    "href": "slides/day1.html#introductions",
-    "title": "ReproducibleData Science for Ag",
-    "section": "Introductions 💬",
-    "text": "Introductions 💬\n\n\ni. Who are you and why enrolling on this course?\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nResearch project, career goals…",
-    "crumbs": [
-      "Slides",
-      "Reproducibility"
-    ]
-  },
-  {
-    "objectID": "slides/day1.html#learning-goals",
-    "href": "slides/day1.html#learning-goals",
-    "title": "ReproducibleData Science for Ag",
-    "section": "Learning Goals 📌",
-    "text": "Learning Goals 📌\n\nReproducibility: understand the principles and importance of reproducible data analysis.\nData manipulation: develop proficiency in R, including key data structures, packages, and functions to read, clean, transform, and organize datasets.\nData visualization: create informative and aesthetically pleasing visualizations of data.\nModelling and iteration: apply various algorithms and statistical models common to plant agriculture, and implement techniques to handle multiple datasets simultaneously.\nProfessional reporting: produce professional reports for sharing results.\nVersion control: manage the basics of Git and Github for collaborative projects.",
-    "crumbs": [
-      "Slides",
-      "Reproducibility"
-    ]
-  },
-  {
-    "objectID": "slides/day1.html#a-hands-on-learning-model",
-    "href": "slides/day1.html#a-hands-on-learning-model",
-    "title": "ReproducibleData Science for Ag",
-    "section": "A hands-on learning model",
-    "text": "A hands-on learning model\n\nLive coding sessions (you code along with me)\nFocus on doing, not just reading about tools\nClass time is for:\n\nbuilding workflows\ntroubleshooting together\npracticing reproducible habits",
-    "crumbs": [
-      "Slides",
-      "Reproducibility"
-    ]
-  },
-  {
-    "objectID": "slides/day1.html#what-youll-leave-with",
-    "href": "slides/day1.html#what-youll-leave-with",
-    "title": "ReproducibleData Science for Ag",
-    "section": "What you’ll leave with",
-    "text": "What you’ll leave with\n\nThe ability to complete a reproducible analysis workflow\nAn understanding of main models used in agriculture data science\nConfidence reading/writing Quarto (.qmd) documents\nA lot of templates to re-use in the future\nA portfolio-ready project",
-    "crumbs": [
-      "Slides",
-      "Reproducibility"
-    ]
-  },
-  {
-    "objectID": "slides/day1.html#course-assessment",
-    "href": "slides/day1.html#course-assessment",
-    "title": "ReproducibleData Science for Ag",
-    "section": "Course-Assessment",
-    "text": "Course-Assessment\nThree main components\n\nQuizzes / short coding assignments — 30%\n\n5 total (asynchronous)\nlowest 2 dropped\n\nSemester project — 50%\n\ngroups of 2\nAnalysis of your own dataset (or provided if you don’t have one)\n\nFinal exam — 20%\n\nOn-line, asynchronous, open-book",
-    "crumbs": [
-      "Slides",
-      "Reproducibility"
-    ]
-  },
-  {
-    "objectID": "slides/day1.html#semester-project-50",
-    "href": "slides/day1.html#semester-project-50",
-    "title": "ReproducibleData Science for Ag",
-    "section": "Semester project (50%)",
-    "text": "Semester project (50%)\n\n\n\n\n\n\nNote\n\n\nExpectations  - Use reproducible practices throughout (files, code, and narrative)  - Clear questions, clean data, and transparent methods  - Professional communication (figures, tables, interpretation) \n\n\n\n\nMilestones\n\nProposal (10%)\nInitial report (20%)\nPresentation (20%)\nFinal report (50%)",
-    "crumbs": [
-      "Slides",
-      "Reproducibility"
-    ]
-  },
-  {
-    "objectID": "slides/day1.html#key-definitions",
-    "href": "slides/day1.html#key-definitions",
-    "title": "ReproducibleData Science for Ag",
-    "section": "Key Definitions 📖",
-    "text": "Key Definitions 📖\n\n\n\nData Science: Extracting insights from data using algorithms and statistical methods. \nData Literacy: Skills to read, interpret, and analyze data. \nReproducibility: Ensuring analyses can be recreated by others.\n\n\n\n\n\n\n\n\n\nNote\n\n\nWhy does reproducibility matter?\n\nTrustworthy results,\ntransparency, &\ncollaboration in research.",
-    "crumbs": [
-      "Slides",
-      "Reproducibility"
-    ]
-  },
-  {
-    "objectID": "slides/day1.html#challenges-in-data-literacy",
-    "href": "slides/day1.html#challenges-in-data-literacy",
-    "title": "ReproducibleData Science for Ag",
-    "section": "Challenges in Data Literacy 🌐",
-    "text": "Challenges in Data Literacy 🌐\n\nDiverse data sources (weather, soil, crop data)\nStandardization issues across datasets\nData skills gap among ag professionals",
-    "crumbs": [
-      "Slides",
-      "Reproducibility"
-    ]
-  },
-  {
-    "objectID": "slides/day1.html#why-does-it-matter",
-    "href": "slides/day1.html#why-does-it-matter",
-    "title": "ReproducibleData Science for Ag",
-    "section": "Why does it matter?",
-    "text": "Why does it matter?\n\n\nIt is the #1 skill-gap in the job market: \n\nAcademia,\nIndustry,\nGovernment, NGOs, etc.\n\n\n\n\n\nIs there a REPRODUCIBILITY CRISIS in science?\nYES\nA Nature survey with ~1,600 researchers found that\n\n+70% failure rate to reproduce another scientist’s experiments\n+50% have failed to reproduce their own experiments\nMain causes: selective reporting, weak stats, code/data unavailability, etc.",
-    "crumbs": [
-      "Slides",
-      "Reproducibility"
-    ]
-  },
-  {
-    "objectID": "slides/day1.html#why-reproducibility-in-agriculture",
-    "href": "slides/day1.html#why-reproducibility-in-agriculture",
-    "title": "ReproducibleData Science for Ag",
-    "section": "Why Reproducibility in Agriculture?",
-    "text": "Why Reproducibility in Agriculture?\n\nAgriculture research relies heavily on environmental data, often variable and complex.\nWe have complex challenges 🗒️\n\nVariability due to environmental factors, soil types, and weather patterns.\nComplex datasets involving long-term studies, geographical variability.\n\nOpportunities ✅\n\nReproducibility helps stakeholders make reliable, data-driven decisions.\nEnsures scientific findings are reliable and valid.\nFacilitates collaboration, accountability, and efficiency among researchers and practitioners.",
-    "crumbs": [
-      "Slides",
-      "Reproducibility"
-    ]
-  },
-  {
-    "objectID": "slides/day1.html#challenges-in-ag-research",
-    "href": "slides/day1.html#challenges-in-ag-research",
-    "title": "ReproducibleData Science for Ag",
-    "section": "Challenges in Ag-research",
-    "text": "Challenges in Ag-research\n\nREPRODUCIBILITY 💻\n\nLimited capability to reproduce analyses & results\nDATA are rarely shared, CODES even less\n\n\n\nACCESSIBILITY 📲\n\nYet we are not translating enough science into flexible, and transparent decision tools.\n\n\n\n“But it all starts with …”\n\n\nEDUCATION 🎓\n\nLimited curriculum in applied data science",
-    "crumbs": [
-      "Slides",
-      "Reproducibility"
-    ]
-  },
-  {
-    "objectID": "slides/day1.html#what-is-r-1",
-    "href": "slides/day1.html#what-is-r-1",
-    "title": "ReproducibleData Science for Ag",
-    "section": "What is R? 🧮",
-    "text": "What is R? 🧮\n\n\nR is a programming language and environment primarily for statistical analysis, data visualization, and data science.\nKnown for its extensive statistical libraries, data manipulation capabilities, and graphics.\nWidely used in fields like data science, bioinformatics, agriculture, and social sciences.",
-    "crumbs": [
-      "Slides",
-      "Reproducibility"
-    ]
-  },
-  {
-    "objectID": "slides/day1.html#brief-history-of-r",
-    "href": "slides/day1.html#brief-history-of-r",
-    "title": "ReproducibleData Science for Ag",
-    "section": "Brief History of R 📜",
-    "text": "Brief History of R 📜\n\n\n\nOrigin: Developed in the early 1990s by Ross Ihaka and Robert Gentleman at the University of Auckland, New Zealand.\nInspiration: R is an implementation of the S language, designed at Bell Laboratories for data analysis.\nOpen Source: Released as free, open-source software, leading to a large community of users and contributors.\nPopularity: Today, R is one of the top programming languages for statistical analysis and data science.\nCRAN: the Comprehensive R Archive Network, which hosts thousands of packages was developed in 1997 by Kurt Hornik & Fritz Leisch.\n\n\n  Ihaka, Gentleman",
-    "crumbs": [
-      "Slides",
-      "Reproducibility"
-    ]
-  },
-  {
-    "objectID": "slides/day1.html#packages",
-    "href": "slides/day1.html#packages",
-    "title": "ReproducibleData Science for Ag",
-    "section": "Packages",
-    "text": "Packages\nThere are currently 23,052 of packages (on CRAN only).",
-    "crumbs": [
-      "Slides",
-      "Reproducibility"
-    ]
-  },
-  {
-    "objectID": "slides/day1.html#r-vs.-excel-for-data-wrangling",
-    "href": "slides/day1.html#r-vs.-excel-for-data-wrangling",
-    "title": "ReproducibleData Science for Ag",
-    "section": "R vs. Excel for Data Wrangling 📊",
-    "text": "R vs. Excel for Data Wrangling 📊\n\n\n\nExcel: Known for ease of use, popular among business and finance professionals.\n\nPros: Intuitive, good for small datasets and quick analysis.\nCons: Limited in handling large datasets, lacks reproducibility.\n\nR: Provides powerful data manipulation packages (e.g., dplyr, tidyr).\n\nPros: Handles large datasets efficiently, supports complex transformations, fully reproducible.\nCons: Requires programming knowledge, steeper learning curve than Excel.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nTip: R is highly scalable and is ideal for projects requiring automation, reproducibility, and handling large datasets.",
-    "crumbs": [
-      "Slides",
-      "Reproducibility"
-    ]
-  },
-  {
-    "objectID": "slides/day1.html#r-vs.-sas-for-statistical-analysis",
-    "href": "slides/day1.html#r-vs.-sas-for-statistical-analysis",
-    "title": "ReproducibleData Science for Ag",
-    "section": "R vs. SAS for Statistical Analysis 📉",
-    "text": "R vs. SAS for Statistical Analysis 📉\n\n\n\nSAS: A powerful statistical software suite used widely in industries such as healthcare and finance.\n\nPros: Robust for regulatory environments, highly standardized.\nCons: Proprietary and costly, limited community contributions.\n\nR: Offers a vast array of statistical packages and flexibility in method implementation.\n\nPros: Free and open-source, customizable, strong community support.\nCons: Requires more coding and configuration for regulatory standards.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nComparison: R is often chosen for research and academia due to its flexibility and customization, while SAS remains strong in industries needing strict compliance and control.",
-    "crumbs": [
-      "Slides",
-      "Reproducibility"
-    ]
-  },
-  {
-    "objectID": "slides/day1.html#r-vs-python",
-    "href": "slides/day1.html#r-vs-python",
-    "title": "ReproducibleData Science for Ag",
-    "section": "R vs Python 🔍",
-    "text": "R vs Python 🔍\n\nR, & Python are popular languages in data science and research.\nEach language has unique strengths, ideal use cases, and licensing considerations.",
-    "crumbs": [
-      "Slides",
-      "Reproducibility"
-    ]
-  },
-  {
-    "objectID": "slides/day1.html#r-strengths-and-use-cases",
-    "href": "slides/day1.html#r-strengths-and-use-cases",
-    "title": "ReproducibleData Science for Ag",
-    "section": "R: Strengths and Use Cases 🧮",
-    "text": "R: Strengths and Use Cases 🧮\n\n\n\nDesigned for Statistics: R is optimized for statistical analysis, making it ideal for research and academia.\nVisualization: Excellent data visualization libraries like ggplot2.\nLicensing: Licensed under GPL; many packages are also GPL, with some using MIT or BSD.\n\n\nIdeal Use Cases:\n\nData analysis, visualization, and complex statistical modeling.\nResearch and academia where open-source, reproducible code is needed.\nLicensing in Production: GPL may restrict proprietary use; check package licenses carefully.",
-    "crumbs": [
-      "Slides",
-      "Reproducibility"
-    ]
-  },
-  {
-    "objectID": "slides/day1.html#python-strengths-and-use-cases",
-    "href": "slides/day1.html#python-strengths-and-use-cases",
-    "title": "ReproducibleData Science for Ag",
-    "section": "Python: Strengths and Use Cases 🐍",
-    "text": "Python: Strengths and Use Cases 🐍\n\n\n\nGeneral-Purpose Language: Python is popular for both data science and software development.\nMachine Learning & AI: Extensive libraries for ML and AI, such as scikit-learn, TensorFlow.\nLicensing: PSFL (Python Software Foundation License), highly permissive for proprietary use.\n\n\nIdeal Use Cases:\n\nEnd-to-end development, from data wrangling to ML and web development.\nProduction-ready ML and AI applications.\nLicensing in Production: Permissive licenses allow closed-source use, making Python production-friendly.",
-    "crumbs": [
-      "Slides",
-      "Reproducibility"
-    ]
-  },
-  {
-    "objectID": "slides/day1.html#comparison-summary",
-    "href": "slides/day1.html#comparison-summary",
-    "title": "ReproducibleData Science for Ag",
-    "section": "Comparison Summary 📊",
-    "text": "Comparison Summary 📊\n\n\n\n\n\n\n\nNote\n\n\n\nExcel: User-friendly, ideal for simple tasks, but limited for complex data wrangling.\nSAS: Industry-standard for statistical analysis with regulatory requirements, but costly and less flexible than R.\nR: Best for statistical analysis and visualization, but GPL license may restrict use in proprietary products.\nPython: Strong in ML and AI with highly permissive licensing, making it ideal for production.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFeature\nR\nPython\n\n\n\n\nPrimary Strength\nStatistics & Visualization\nGeneral-purpose, ML, AI\n\n\nPerformance\nModerate\nModerate\n\n\nLicensing\nGPL (core), MIT, BSD (some)\nPSFL, highly permissive\n\n\nProduction Use\nLimited by GPL\nVery friendly for proprietary",
-    "crumbs": [
-      "Slides",
-      "Reproducibility"
-    ]
-  },
-  {
-    "objectID": "slides/day1.html#comparison-summary-ii",
-    "href": "slides/day1.html#comparison-summary-ii",
-    "title": "ReproducibleData Science for Ag",
-    "section": "Comparison Summary II 📊",
-    "text": "Comparison Summary II 📊\nChoosing the right tool depends on:\n\nyour project’s requirements, \nteam structure & skills, and \nlicensing needs for research vs. production.\n\n\n\n\n\n\n\n\nTip\n\n\n\nR: Best for statistical analysis and visualization, but GPL license may restrict use in proprietary products.\nPython: Strong in ML and AI with highly permissive licensing, making it ideal for production.",
-    "crumbs": [
-      "Slides",
-      "Reproducibility"
-    ]
-  },
-  {
-    "objectID": "slides/day1.html#why-r",
-    "href": "slides/day1.html#why-r",
-    "title": "ReproducibleData Science for Ag",
-    "section": "Why R?",
-    "text": "Why R?\n\n\n\n1. Open-Source\n\nFree to use and modify, with contributions from a large community.\n\n2. Multi-Platform\n\nRuns on Windows, macOS, and Linux, making it versatile for collaboration.\n\n3. Community Support\n\nStrong online help through forums, tutorials, and dedicated resources.\n\n4. Continuous Development\n\nRegular updates keep R on the leading edge of data science.\n\n5. Reproducible Workflows\n\nTools like Rmarkdown and Quarto facilitates the job.",
-    "crumbs": [
-      "Slides",
-      "Reproducibility"
-    ]
-  },
-  {
-    "objectID": "slides/day1.html#why-rstudio",
-    "href": "slides/day1.html#why-rstudio",
-    "title": "ReproducibleData Science for Ag",
-    "section": "Why RStudio?",
-    "text": "Why RStudio?\n\n\n\n1. An interface to R\n\nProvides a user-friendly environment to work with R.\n\n2. Integrates various components of an analysis\n\nCombines data, code, and output in one place, simplifying the workflow.\n\n3. Colored syntax\n\nHighlights code with colors, making it easier to read and spot errors, improving code clarity.\n\n4. Syntax suggestions\n\nOffers autocomplete suggestions, which speeds up coding and reduces mistakes.\n\n5. RStudio panels\n\nPanels for console, scripts, files, and plots, giving quick access to all elements.",
-    "crumbs": [
-      "Slides",
-      "Reproducibility"
-    ]
-  },
-  {
-    "objectID": "slides/day1.html#rstudio-panels",
-    "href": "slides/day1.html#rstudio-panels",
-    "title": "ReproducibleData Science for Ag",
-    "section": "Rstudio panels",
-    "text": "Rstudio panels",
-    "crumbs": [
-      "Slides",
-      "Reproducibility"
-    ]
-  },
-  {
-    "objectID": "slides/day1.html#why-posit-cloud",
-    "href": "slides/day1.html#why-posit-cloud",
-    "title": "ReproducibleData Science for Ag",
-    "section": "Why posit cloud?",
-    "text": "Why posit cloud?\n\n\n\n\n1. Learn how to use a cloud service\n\nGain experience with cloud-based tools, increasingly important in data science.\n\n2. Access from anywhere\n\nAccess R and RStudio directly from your web browser without any setup.\n\n3. Collaboration\n\nShare projects easily with others, facilitating teamwork and joint analysis.\n\n4. It’s free for you\n\nYou’ll have free access to Posit Cloud through this course (this semester).",
-    "crumbs": [
-      "Slides",
-      "Reproducibility"
-    ]
-  },
-  {
-    "objectID": "slides/day1.html#why-version-control",
-    "href": "slides/day1.html#why-version-control",
-    "title": "ReproducibleData Science for Ag",
-    "section": "Why version control? 🔄",
-    "text": "Why version control? 🔄\n\n\n\n\n1. Track Changes\n\nMaintain a complete history of edits, making it easy to identify when and why changes were made.\n\n2. Collaborate Seamlessly\n\nMultiple users can work together without overwriting each other’s work, enhancing teamwork.\n\n3. Ensure Data Integrity\n\nProtect primary data by using branches for experimentation, avoiding accidental overwrites.\n\n4. Boost Reproducibility\n\nAccess exact versions of code and data, enabling others to reproduce your work reliably.\n\n5. Provide Built-in Documentation\n\nChanges can be documented, helping to understand workflow.",
-    "crumbs": [
-      "Slides",
-      "Reproducibility"
-    ]
-  },
-  {
-    "objectID": "slides/day1.html#what-are-git-and-github",
-    "href": "slides/day1.html#what-are-git-and-github",
-    "title": "ReproducibleData Science for Ag",
-    "section": "What are Git and GitHub?",
-    "text": "What are Git and GitHub?\n\n\n\nGit\n\nA version control system that tracks changes in files on your local computer, allowing you to manage versions and revert to previous work.\n\nGitHub\n\nAn online platform for hosting Git repositories, enabling easy collaboration, project sharing, and cloud storage.",
-    "crumbs": [
-      "Slides",
-      "Reproducibility"
-    ]
-  },
-  {
-    "objectID": "slides/day1.html#thank-you",
-    "href": "slides/day1.html#thank-you",
-    "title": "ReproducibleData Science for Ag",
-    "section": "THANK YOU!",
-    "text": "THANK YOU!\n_\n\n\nAdrian A. Correndo\n📬 acorrend@uoguelph.ca\n\nAssistant Professor\nPick Family Chair, Sustainable Cropping Systems\nRm 226, Crop Science Building\n\n\n\n\n\n\n\n\n\nContact me",
-    "crumbs": [
-      "Slides",
-      "Reproducibility"
-    ]
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "PLNT6530|01 - Reproducible Data Sci for Ag",
-    "section": "",
-    "text": "Reproducible Data Science for Ag is offered at Department of Plant Agriculture (University of Guelph) by Dr. Adrian Correndo. It is designed for graduate students in crop and soil sciences to develop key skills in data science using R. This course emphasizes reproducibility in data analysis, ensuring that results can be consistently replicated. Students will learn essential data science concepts, and how to use functions, packages, and version control to effectively manage their data and collaborate with peers. Following tidy principles, the course promotes best coding practices for data wrangling, effective visualization, and clean deployment of statistical models common in agriculture. By the end of the course, students will be equipped to handle a variety of agricultural datasets and produce reliable, reproducible research outcomes.\n\n\n\nBy the end of this course, students will be able to:\n\nReproducibility: understand the principles and importance of reproducible data analysis.\nData manipulation: develop proficiency in R, including key data structures, packages, and functions to read, clean, transform, and organize datasets.\nData visualization: create informative and aesthetically pleasing visualizations of data.\nModelling and iteration: apply various algorithms and statistical models common to plant agriculture, and implement techniques to handle multiple datasets simultaneously.\nProfessional reporting: produce professional reports for sharing results.\nVersion control: manage the basics of Git and Github for collaborative projects.\n\n\n\n\nThis course will use a variety of technologies and resources. To successfully participate in and complete this course, students will need access to the following\n\n\nCourseLink. This platform will be used as the main Course-Home Page. If you need any assistance with the software tools or the CourseLink website, contact CourseLink Support. Email: courselink@uoguelph.ca Tel: 519-824-4120 ext. 56939 Toll-Free (CAN/USA): 1-866- 275-1478. Support Hours (Eastern Time): Monday thru Friday: 8:30 am–8:30 pm; Saturday: 10:00 am–4:00 pm; Sunday: 12:00 pm–6:00 pm\nZoom. This course will use Zoom for lectures when in-person class is not possible. Check your system requirements to ensure you will be able to participate (https://opened.uoguelph.ca/student-resources/system-and-software-requirements/). A Zoom link for the class will be provided before the first day of class. Please, check Home-Page and announcements on CourseLink, and emails from the instructor (acorrend@uoguelph.ca).\n\n\n\n\nR (latest stable version, available at CRAN).\nRStudio/Posit IDE (desktop or cloud-based version for writing and running R code).\nCourse-Specific Libraries and Packages: Students will be required to install R packages. Detailed instructions will be provided in class.\nVersion Control and Collaboration Tools: Git (for version control) and a free GitHub account for collaborative project work and sharing code.\n\n\n\n\nA laptop or desktop computer capable of running R and RStudio (Windows, MacOS, or Linux). Minimum specifications include:\n\nProcessor: At least a dual-core processor.\nRAM: 8 GB or more (16 GB recommended for handling larger datasets).\nStorage: 10 GB of free space for software installation, course files, and datasets.\n\n\n\n\nReliable high-speed internet for accessing online sessions, resources, downloading software, and using cloud-based platforms (e.g., Posit Cloud, GitHub).",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#dpag-oac-uog",
-    "href": "index.html#dpag-oac-uog",
-    "title": "PLNT6530|01 - Reproducible Data Sci for Ag",
-    "section": "",
-    "text": "Reproducible Data Science for Ag is offered at Department of Plant Agriculture (University of Guelph) by Dr. Adrian Correndo. It is designed for graduate students in crop and soil sciences to develop key skills in data science using R. This course emphasizes reproducibility in data analysis, ensuring that results can be consistently replicated. Students will learn essential data science concepts, and how to use functions, packages, and version control to effectively manage their data and collaborate with peers. Following tidy principles, the course promotes best coding practices for data wrangling, effective visualization, and clean deployment of statistical models common in agriculture. By the end of the course, students will be equipped to handle a variety of agricultural datasets and produce reliable, reproducible research outcomes.\n\n\n\nBy the end of this course, students will be able to:\n\nReproducibility: understand the principles and importance of reproducible data analysis.\nData manipulation: develop proficiency in R, including key data structures, packages, and functions to read, clean, transform, and organize datasets.\nData visualization: create informative and aesthetically pleasing visualizations of data.\nModelling and iteration: apply various algorithms and statistical models common to plant agriculture, and implement techniques to handle multiple datasets simultaneously.\nProfessional reporting: produce professional reports for sharing results.\nVersion control: manage the basics of Git and Github for collaborative projects.\n\n\n\n\nThis course will use a variety of technologies and resources. To successfully participate in and complete this course, students will need access to the following\n\n\nCourseLink. This platform will be used as the main Course-Home Page. If you need any assistance with the software tools or the CourseLink website, contact CourseLink Support. Email: courselink@uoguelph.ca Tel: 519-824-4120 ext. 56939 Toll-Free (CAN/USA): 1-866- 275-1478. Support Hours (Eastern Time): Monday thru Friday: 8:30 am–8:30 pm; Saturday: 10:00 am–4:00 pm; Sunday: 12:00 pm–6:00 pm\nZoom. This course will use Zoom for lectures when in-person class is not possible. Check your system requirements to ensure you will be able to participate (https://opened.uoguelph.ca/student-resources/system-and-software-requirements/). A Zoom link for the class will be provided before the first day of class. Please, check Home-Page and announcements on CourseLink, and emails from the instructor (acorrend@uoguelph.ca).\n\n\n\n\nR (latest stable version, available at CRAN).\nRStudio/Posit IDE (desktop or cloud-based version for writing and running R code).\nCourse-Specific Libraries and Packages: Students will be required to install R packages. Detailed instructions will be provided in class.\nVersion Control and Collaboration Tools: Git (for version control) and a free GitHub account for collaborative project work and sharing code.\n\n\n\n\nA laptop or desktop computer capable of running R and RStudio (Windows, MacOS, or Linux). Minimum specifications include:\n\nProcessor: At least a dual-core processor.\nRAM: 8 GB or more (16 GB recommended for handling larger datasets).\nStorage: 10 GB of free space for software installation, course files, and datasets.\n\n\n\n\nReliable high-speed internet for accessing online sessions, resources, downloading software, and using cloud-based platforms (e.g., Posit Cloud, GitHub).",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "software/software.html",
-    "href": "software/software.html",
-    "title": "Required Software & Accounts",
-    "section": "",
-    "text": "R & RStudio IDEGitGitHubGitHub DesktopPosit Cloud\n\n\nBefore starting with the course, it is important that you install R and R Studio in your computer. Please, follow these simple steps:\nDownload the latest version of R from CRAN, here Download the latest version of RStudio from posit, here Run and install in the downloaded files in the same order. There are plenty of useful tutorials on the internet such as:\n\nhttps://rstudio-education.github.io/hopr/starting.html\nhttps://www.youtube.com/watch?v=Tb3R4GLJ45U\n\n\n\nWhat is Git?\nGit is a powerful version control system that helps you track changes in your code, collaborate with others, and manage your projects effectively.\nHow to Install Git:\nFollow these steps to install Git on your computer:\n\nVisit the official Git website (https://git-scm.com/);to download the installer for your operating system.\nFor detailed guidance, read the official tutorial to install git (https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).\nYou may use these step-by-step videos for installation:\n\n• Installing Git on Windows (https://www.youtube.com/watch?v=iYkLrXobBbA)\n• Installing Git on Mac (https://www.youtube.com/watch?v=B4qsvQ5IqWk)\nOnce installed, verify by typing git –version in your terminal to ensure Git is ready to use!\n\n\nWhat is GitHub?\nGitHub is a web-based interface (nowadays own by Microsoft) that facilitates the use of Git, an open source version control software. This lets multiple people make separate changes to projects and have control over them. GitHub is to Git the equivalent of what RStudio is to R.\nFor this course, it is required that you create your GitHub account. Preferably, using your University email (##@uoguelph.ca). Please, follow the steps detailed on this official link from GitHub:\nhttps://docs.github.com/en/get-started/start-your-journey/creating-an-account-on-github\nYou may also find multiple useful YouTube tutorials like this one:\nhttps://www.youtube.com/watch?v=h5cKAd94QNo\n\n\nWhat is GitHub Desktop?\nGitHub Desktop is a user-friendly application that helps you interact with Git and GitHub through a simple graphical interface, making it easier to manage your repositories.\nHow to Install GitHub Desktop:\nFollow these steps to install GitHub Desktop on your computer:\n\nVisit the GitHub Desktop website (https://desktop.github.com); and download the application for your operating system.\nRun the installer and follow the on-screen instructions to complete the installation.\nAfter installation, sign in to your GitHub account or create one if you don’t have it.\n\nFor additional help, check out these videos:\n• Installing GitHub Desktop on Windows (https://www.youtube.com/watch?v=3JdDAJ2YPeU)\n• Installing GitHub Desktop on Mac (https://www.youtube.com/watch?v=C0n6O4d0ccw)\nOnce installed, you can easily clone repositories, commit changes, and sync your work with GitHub!\n\n\nWhat is Posit Cloud?\nPosit Cloud is an online platform that allows you to run RStudio “online”. It helps to write and execute R code directly in your browser, making it easy to learn and work on data science projects without installing software locally.\nHow to Create a Free Posit Cloud Account:\nFollow these steps to set up your free account:\n\nVisit Posit Cloud website at https://posit.cloud.\nClick on Sign Up and choose to create an account using your UoG email. THIS IS IMPORTANT, USE YOUR UOG EMAIL!\nComplete the registration form and verify your email if required.\nOnce registered, log in to your Posit Cloud account and start exploring R projects directly in your browser.\nMore instructions about our course workspace will be provided during the semester.\n\nFor a hint of what PositCloud does, you may watch with this video:\nhttps://www.youtube.com/watch?v=-fzwm4ZhVQQ With Posit Cloud, you’ll have a convenient environment to learn and work on your R programming assignments!",
-    "crumbs": [
-      "Software",
-      "Instructions"
-    ]
-  },
-  {
-    "objectID": "outline/outline.html",
-    "href": "outline/outline.html",
-    "title": "PLNT6530|01 - Course Outline",
-    "section": "",
-    "text": "Course Code: PLNT6530\nCourse Title: Reproducible Data Sci for Ag\nTerm: Winter\nCredits: 0.50\n\n\n\n\nDays: Wednesdays and Fridays\nTime: 11:30 am - 12:50 pm\nLocation: CRSC 202\n\n\n\n\n\nDr. Adrian Correndo\nEmail: acorrend@uoguelph.ca",
-    "crumbs": [
-      "Course Outline",
-      "Outline"
-    ]
-  },
-  {
-    "objectID": "outline/outline.html#course-information",
-    "href": "outline/outline.html#course-information",
-    "title": "PLNT6530|01 - Course Outline",
-    "section": "",
-    "text": "Course Code: PLNT6530\nCourse Title: Reproducible Data Sci for Ag\nTerm: Winter\nCredits: 0.50\n\n\n\n\nDays: Wednesdays and Fridays\nTime: 11:30 am - 12:50 pm\nLocation: CRSC 202\n\n\n\n\n\nDr. Adrian Correndo\nEmail: acorrend@uoguelph.ca",
-    "crumbs": [
-      "Course Outline",
-      "Outline"
-    ]
-  },
-  {
-    "objectID": "outline/outline.html#course-description",
-    "href": "outline/outline.html#course-description",
-    "title": "PLNT6530|01 - Course Outline",
-    "section": "2. Course Description",
-    "text": "2. Course Description\nThis course is designed for graduate students in crop and soil sciences to develop key skills in data science using R. It emphasizes reproducibility in data analysis, ensuring that results can be consistently replicated. Students will learn essential data science concepts, and how to use functions, packages, and version control to effectively manage their data and collaborate with peers. Following tidy principles, the course promotes best coding practices for data wrangling, effective visualization, and clean deployment of statistical models common in agriculture. By the end of the course, students will be equipped to handle a variety of agricultural datasets and produce reliable, reproducible research outcomes.\n\nPrerequisite(s)\nA basic understanding of R or any programming language is recommended but not required. Basic statistical theory is also recommended.\n\n\nTextbooks and Resources\nRecommended:\n\nR for Data Science by Hadley Wickham & Garrett Grolemund.\nOnline resources and package documentation will be provided throughout the course.",
-    "crumbs": [
-      "Course Outline",
-      "Outline"
-    ]
-  },
-  {
-    "objectID": "outline/outline.html#course-learning-outcomes",
-    "href": "outline/outline.html#course-learning-outcomes",
-    "title": "PLNT6530|01 - Course Outline",
-    "section": "3. Course Learning Outcomes",
-    "text": "3. Course Learning Outcomes\nBy the end of this course, students will be able to:\n\nReproducibility: understand the principles and importance of reproducible data analysis.\nData manipulation: develop proficiency in R, including key data structures, packages, and functions to read, clean, transform, and organize datasets.\nData visualization: create informative and aesthetically pleasing visualizations of data.\nModelling and iteration: apply various algorithms and statistical models common to plant agriculture, and implement techniques to handle multiple datasets simultaneously.\nProfessional reporting: produce professional reports for sharing results.\nVersion control: manage the basics of Git and Github for collaborative projects.",
-    "crumbs": [
-      "Course Outline",
-      "Outline"
-    ]
-  },
-  {
-    "objectID": "outline/outline.html#calendar",
-    "href": "outline/outline.html#calendar",
-    "title": "PLNT6530|01 - Course Outline",
-    "section": "4. Calendar",
-    "text": "4. Calendar\nSee http://adriancorrendo.github.io/plnt6530/calendar.html\n\nLast Day to Drop Course\nTBD",
-    "crumbs": [
-      "Course Outline",
-      "Outline"
-    ]
-  },
-  {
-    "objectID": "outline/outline.html#assessment-breakdown",
-    "href": "outline/outline.html#assessment-breakdown",
-    "title": "PLNT6530|01 - Course Outline",
-    "section": "5. Assessment Breakdown",
-    "text": "5. Assessment Breakdown\n\n\n\n\n\n\n\n\nComponent\nWeight (%)\nDetails\n\n\n\n\nWeekly Exercises\n30%\nHands-on exercises to practice skills covered in each week’s topic.\n\n\nSemester Project\n50%\nComplete data analysis project, report, and presentation.\n\n\nFinal Exam\n20%\nCumulative assessment covering all topics from the course.\n\n\n\n\nFinal Exam\n\nDate: April 10th (asynchronous).",
-    "crumbs": [
-      "Course Outline",
-      "Outline"
-    ]
-  },
-  {
-    "objectID": "outline/outline.html#course-grading-policies",
-    "href": "outline/outline.html#course-grading-policies",
-    "title": "PLNT6530|01 - Course Outline",
-    "section": "6. Course Grading Policies",
-    "text": "6. Course Grading Policies\n\na. Late Submissions\nAssignments submitted late will be penalized 5% per day, up to six days. Extensions granted only for valid reasons.\n\n\nb. Use of Devices\nElectronic recording of classes is forbidden without prior permission from the instructor.\n\n\nc. Academic honesty\nPlease adhere to the following guidelines when working on assignments for this course:\n\nIndividual and Team Assignments: You are welcome to discuss individual homework and lab assignments with other students; however, direct sharing or copying of code or written work is not permitted. For team assignments, collaboration is allowed freely within your team. Sharing or copying code or written content between teams is prohibited. Any unauthorized sharing or copying will be treated as a violation for all parties involved.\nExams: Collaboration or discussion with others during exams is strictly prohibited. Unauthorized collaboration or use of unapproved materials will be considered a violation for all students involved.\nReusing Code: Unless specified otherwise, you may refer to online resources (e.g., StackOverflow) for coding examples in assignments. If you use code from an external source directly or take inspiration from it, you must clearly cite the source. The use of AI to complete tasks is not prohibited but it must be disclosed. Failure to cite reused code will be considered plagiarism.",
-    "crumbs": [
-      "Course Outline",
-      "Outline"
-    ]
-  },
-  {
-    "objectID": "outline/outline.html#course-statements",
-    "href": "outline/outline.html#course-statements",
-    "title": "PLNT6530|01 - Course Outline",
-    "section": "7. Course Statements",
-    "text": "7. Course Statements\n\nA. Communication with instructor\nDuring the course, your instructor will interact with you on various course matters on the course website using the following ways of communication:\n\nAnnouncements: The instructor will use Announcements on the Course Home page to provide you with course reminders and updates. Please, check this section frequently for course updates from your instructor.\nEmail: If you have a conflict that prevents you from completing course requirements, or have a question concerning a personal matter, you can send your instructor a private message by email. The instructor will attempt to respond to your email within 24 hours.\nVideo Call: If you have a complex question you would like to discuss with your instructor, you may book a video meeting on Zoom or Teams. Video meetings depend on the availability and are booked on a first come first served basis.\n\n\n\nB. Course Technology Requirements\nThis course will use a variety of technologies and resources. To successfully participate in and complete this course, students will need access to the following\n\n1. Communication tools:\nCourseLink. This platform will be used as the main Course-Home Page. If you need any assistance with the software tools or the CourseLink website, contact CourseLink Support. Email: courselink@uoguelph.ca Tel: 519-824-4120 ext. 56939 Toll-Free (CAN/USA): 1-866- 275-1478. Support Hours (Eastern Time): Monday thru Friday: 8:30 am–8:30 pm; Saturday: 10:00 am–4:00 pm; Sunday: 12:00 pm–6:00 pm\nZoom. This course will use Zoom for lectures when in-person class is not possible. Check your system requirements to ensure you will be able to participate (https://opened.uoguelph.ca/student-resources/system-and-software-requirements/). A Zoom link for the class will be provided before the first day of class. Please, check Home-Page and announcements on CourseLink, and emails from the instructor (acorrend@uoguelph.ca).\n\n\n2. Software & Tools:\n\nR (latest stable version, available at CRAN).\nRStudio/Posit IDE (desktop or cloud-based version for writing and running R code).\nCourse-Specific Libraries and Packages: Students will be required to install R packages. Detailed instructions will be provided in class.\nVersion Control and Collaboration Tools: Git (for version control) and a free GitHub account for collaborative project work and sharing code.\n\n\n\n3. Computing Requirements:\nA laptop or desktop computer capable of running R and RStudio (Windows, MacOS, or Linux). Minimum specifications include:\n\nProcessor: At least a dual-core processor.\nRAM: 8 GB or more (16 GB recommended for handling larger datasets).\nStorage: 10 GB of free space for software installation, course files, and datasets.\n\n\n\n4. Internet Access:\nReliable high-speed internet for accessing online sessions, resources, downloading software, and using cloud-based platforms (e.g., Posit Cloud, GitHub).\n\n\n\n\nC. Data Usage Policy for the Semester Project\nStudents are encouraged to use data from their own research projects for the semester project. However, it is essential to ensure the integrity and privacy of the data, as well as compliance with the policies of their research lab or institution. To safeguard data privacy and integrity: \n\nData Sharing Restrictions: Students are NOT allowed to upload raw research data directly to the instructor, peers, GitHub repositories, Posit Cloud, or any other external platform.\nDe-Identification and Transformation: Before using or sharing the data for the semester project, students must de-identify and transform the data as necessary. This process should ensure that sensitive information or identifying details are removed or anonymized. All data preparation must be performed locally on the student’s machine before incorporating it into the project. \nDocumentation Requirement: Students must include a clear description of the steps taken to de-identify and transform the data in their project report or presentation. This demonstrates adherence to ethical data handling practices.\n\nBy following these guidelines, students can apply their learning to real-world datasets while respecting ethical and institutional standards. The instructor is not responsible for students’ violations to the integrity and privacy of their research data. Non-compliance with this policy may result in disqualification of the project or additional academic consequences.",
-    "crumbs": [
-      "Course Outline",
-      "Outline"
-    ]
-  },
-  {
-    "objectID": "outline/outline.html#accessibility",
-    "href": "outline/outline.html#accessibility",
-    "title": "PLNT6530|01 - Course Outline",
-    "section": "8. Accessibility",
-    "text": "8. Accessibility\nStudents requiring accommodations must register with Student Accessibility Services. Contact the instructor early in the semester to arrange accommodations.",
-    "crumbs": [
-      "Course Outline",
-      "Outline"
-    ]
-  },
-  {
-    "objectID": "outline/outline.html#land-acknowledgement",
-    "href": "outline/outline.html#land-acknowledgement",
-    "title": "PLNT6530|01 - Course Outline",
-    "section": "9. Land Acknowledgement",
-    "text": "9. Land Acknowledgement\nThe University of Guelph resides on the ancestral lands of the Attawandaron people and the treaty lands and territory of the Mississaugas of the Credit. We recognize the significance of the Dish with One Spoon Covenant to this land and offer respect to our Anishinaabe, Haudenosaunee, and Métis neighbours. Today, this gathering place is home to many First Nations, Inuit, and Métis peoples, and acknowledging them reminds us of our important connection to this land where we work and learn.",
-    "crumbs": [
-      "Course Outline",
-      "Outline"
-    ]
-  },
-  {
     "objectID": "coding/week_03/05_datawrangling_02.html",
     "href": "coding/week_03/05_datawrangling_02.html",
     "title": "Transforming Ag data in R II",
@@ -1711,6 +1317,160 @@
     "crumbs": [
       "Extras",
       "Pipe Ops"
+    ]
+  },
+  {
+    "objectID": "coding/week_04/06_datawrangling_03.html#left_join",
+    "href": "coding/week_04/06_datawrangling_03.html#left_join",
+    "title": "Advanced Data Wrangling in R",
+    "section": "2.2 left_join()",
+    "text": "2.2 left_join()\nIncludes all records from the left dataset and the matched records from the right dataset. If there is no match, the result is NA in the columns of the right dataset.\n\n# Daily data\ndaily_weather_data &lt;- tibble(\n  date = seq(as.Date(\"2024-04-01\"), as.Date(\"2024-10-01\"), by = \"day\"),\n  # create month column with name\n  month = lubridate::month(date, label = TRUE, abbr = TRUE),\n  precipitation = round(runif(n=184, min = 0, max = 25), digits = 0),\n  temperature = runif(n=184, min = 10, max = 30)\n)\n\n# Summarize daily weather by month\nmonthly_weather_data &lt;- daily_weather_data %&gt;%\n  group_by(month) %&gt;%\n  summarise(total_precipitation = sum(precipitation),\n            avg_temperature = mean(temperature)) %&gt;% \n  ungroup()\n\n# Forage data\nforage_data &lt;- tibble(\n  date = seq(as.Date(\"2024-04-01\"), as.Date(\"2024-10-01\"), by = \"month\"),\n  # extract month from date\n  month = lubridate::month(date, label = TRUE, abbr = TRUE),\n  forage_yield = c(500, 1200, 3000, 4000, 2800, 1500, 0) )\n\n# Merge data\nleft_joined_data &lt;- left_join(monthly_weather_data, forage_data, by = \"month\")",
+    "crumbs": [
+      "Lessons",
+      "06-Data Wrangling III"
+    ]
+  },
+  {
+    "objectID": "coding/week_04/06_datawrangling_03.html#right_join",
+    "href": "coding/week_04/06_datawrangling_03.html#right_join",
+    "title": "Advanced Data Wrangling in R",
+    "section": "2.3 right_join()",
+    "text": "2.3 right_join()\nIncludes all records from the right dataset and the matched records from the left dataset. If there is no match, the result is NA in the columns of the left dataset.\n\n# Merge data\nright_joined_data &lt;- \n  right_join(daily_weather_data, forage_data, by = \"month\")",
+    "crumbs": [
+      "Lessons",
+      "06-Data Wrangling III"
+    ]
+  },
+  {
+    "objectID": "coding/week_04/06_datawrangling_03.html#full_join",
+    "href": "coding/week_04/06_datawrangling_03.html#full_join",
+    "title": "Advanced Data Wrangling in R",
+    "section": "2.4 full_join()",
+    "text": "2.4 full_join()\nIncludes all records when there is a match in the keys of the left or right datasets. If there is no match, the result is NA in the columns of the dataset that does not have a match.\n\n# Merge data\nfull_joined_data &lt;- \n  full_join(daily_weather_data, forage_data, by = \"date\")\n\nIf a key appears more than once in either table, the join can produce more rows than expected.\nFiltering joins are also very useful:",
+    "crumbs": [
+      "Lessons",
+      "06-Data Wrangling III"
+    ]
+  },
+  {
+    "objectID": "coding/week_04/06_datawrangling_03.html#where",
+    "href": "coding/week_04/06_datawrangling_03.html#where",
+    "title": "Advanced Data Wrangling in R",
+    "section": "3.2 where()",
+    "text": "3.2 where()\nWhen you have many columns and want to apply the same transformation/summarization to all of them (or a subset), across() is the go-to tool.\n\n# Example: summarize ALL numeric columns by month\ndaily_weather_data %&gt;%\n  mutate(month = lubridate::month(date, label = TRUE, abbr = TRUE)) %&gt;%\n  group_by(month) %&gt;%\n  summarise(\n    across(where(is.numeric), list(mean = mean, sd = sd), .names = \"{.col}_{.fn}\"),\n    .groups = \"drop\"\n  )\n\n# A tibble: 7 × 5\n  month precipitation_mean precipitation_sd temperature_mean temperature_sd\n  &lt;ord&gt;              &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;          &lt;dbl&gt;\n1 Apr                 12.2             7.44             18.1           5.05\n2 May                 14.7             7.78             18.0           5.31\n3 Jun                 13.7             6.94             20.8           6.21\n4 Jul                 13.6             6.26             18.7           6.57\n5 Aug                 12               8.19             18.1           6.03\n6 Sep                 12.1             7.71             20.4           5.48\n7 Oct                 22              NA                16.7          NA",
+    "crumbs": [
+      "Lessons",
+      "06-Data Wrangling III"
+    ]
+  },
+  {
+    "objectID": "coding/week_04/06_datawrangling_03.html#everything",
+    "href": "coding/week_04/06_datawrangling_03.html#everything",
+    "title": "Advanced Data Wrangling in R",
+    "section": "3.1 everything()",
+    "text": "3.1 everything()\nit allows you to apply functions to all columns in a data frame\n\ndata_quality_summary &lt;- full_joined_data %&gt;%\n  summarise(across(.cols = everything(), \n                   .fns = ~ sum(is.na(.)), \n                   .names = \"missing_{.col}\"))\n\ndata_quality_summary\n\n# A tibble: 1 × 6\n  missing_date missing_month.x missing_precipitation missing_temperature\n         &lt;int&gt;           &lt;int&gt;                 &lt;int&gt;               &lt;int&gt;\n1            0               0                     0                   0\n# ℹ 2 more variables: missing_month.y &lt;int&gt;, missing_forage_yield &lt;int&gt;",
+    "crumbs": [
+      "Lessons",
+      "06-Data Wrangling III"
+    ]
+  },
+  {
+    "objectID": "coding/week_04/06_datawrangling_03.html#drop_na",
+    "href": "coding/week_04/06_datawrangling_03.html#drop_na",
+    "title": "Advanced Data Wrangling in R",
+    "section": "4.2 drop_na()",
+    "text": "4.2 drop_na()\n\ndf %&gt;% tidyr::drop_na(yield)\n\n# A tibble: 2 × 3\n  site       year yield\n  &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;\n1 Elora      2025   8.2\n2 Ridgetown  2024   7.9",
+    "crumbs": [
+      "Lessons",
+      "06-Data Wrangling III"
+    ]
+  },
+  {
+    "objectID": "coding/week_04/06_datawrangling_03.html#fill",
+    "href": "coding/week_04/06_datawrangling_03.html#fill",
+    "title": "Advanced Data Wrangling in R",
+    "section": "4.3 fill()",
+    "text": "4.3 fill()\ncommon with messy datasets\n\ndf2 &lt;- tibble(\n  site = c(\"Elora\", NA, NA, \"Ridgetown\", NA),\n  plot = 1:5,\n  value = rnorm(5)\n)\n\ndf2 %&gt;%\n  tidyr::fill(site, .direction = \"down\")\n\n# A tibble: 5 × 3\n  site       plot  value\n  &lt;chr&gt;     &lt;int&gt;  &lt;dbl&gt;\n1 Elora         1 -1.38 \n2 Elora         2  0.854\n3 Elora         3 -2.90 \n4 Ridgetown     4 -0.637\n5 Ridgetown     5  0.734",
+    "crumbs": [
+      "Lessons",
+      "06-Data Wrangling III"
+    ]
+  },
+  {
+    "objectID": "coding/week_04/06_datawrangling_03.html#clean_names",
+    "href": "coding/week_04/06_datawrangling_03.html#clean_names",
+    "title": "Advanced Data Wrangling in R",
+    "section": "6.1 clean_names()",
+    "text": "6.1 clean_names()\nSometimes, datasets come with inconsistent column names, which can cause issues in analysis.\n\nmessy_weather_data &lt;- tibble(\n  `Date Recorded` = seq(as.Date(\"2024-04-01\"), as.Date(\"2024-10-01\"), by = \"month\"),\n  `Precipitation (mm)` = c(20, 40, 60, 80, 50, 30, 2),\n  `Temperature..(C,)` = c(15, 18, 25, 30, 22, 16, 12)\n)\n\nclean_weather_data &lt;- messy_weather_data %&gt;% clean_names()\nclean_weather_data\n\n# A tibble: 7 × 3\n  date_recorded precipitation_mm temperature_c\n  &lt;date&gt;                   &lt;dbl&gt;         &lt;dbl&gt;\n1 2024-04-01                  20            15\n2 2024-05-01                  40            18\n3 2024-06-01                  60            25\n4 2024-07-01                  80            30\n5 2024-08-01                  50            22\n6 2024-09-01                  30            16\n7 2024-10-01                   2            12",
+    "crumbs": [
+      "Lessons",
+      "06-Data Wrangling III"
+    ]
+  },
+  {
+    "objectID": "coding/week_04/06_datawrangling_03.html#get_dupes",
+    "href": "coding/week_04/06_datawrangling_03.html#get_dupes",
+    "title": "Advanced Data Wrangling in R",
+    "section": "6.2 get_dupes()",
+    "text": "6.2 get_dupes()\nit helps identify duplicate rows in a dataset\n\nduplicate_rows &lt;- full_joined_data %&gt;% get_dupes()\n\nNo variable names specified - using all columns.\n\n\nNo duplicate combinations found of: date, month.x, precipitation, temperature, month.y, forage_yield",
+    "crumbs": [
+      "Lessons",
+      "06-Data Wrangling III"
+    ]
+  },
+  {
+    "objectID": "coding/week_04/06_datawrangling_03.html#compare_df_cols",
+    "href": "coding/week_04/06_datawrangling_03.html#compare_df_cols",
+    "title": "Advanced Data Wrangling in R",
+    "section": "6.3 compare_df_cols() 🧩",
+    "text": "6.3 compare_df_cols() 🧩\nit helps to check if datasets align\n\njanitor::compare_df_cols(daily_weather_data, monthly_weather_data)\n\n          column_name daily_weather_data monthly_weather_data\n1     avg_temperature               &lt;NA&gt;              numeric\n2                date               Date                 &lt;NA&gt;\n3               month             factor               factor\n4       precipitation            numeric                 &lt;NA&gt;\n5         temperature            numeric                 &lt;NA&gt;\n6 total_precipitation               &lt;NA&gt;              numeric\n\n# this one compares by position too\njanitor::compare_df_cols_same(daily_weather_data, monthly_weather_data) \n\n[1] TRUE",
+    "crumbs": [
+      "Lessons",
+      "06-Data Wrangling III"
+    ]
+  },
+  {
+    "objectID": "coding/week_04/06_datawrangling_03.html#make_clean_names",
+    "href": "coding/week_04/06_datawrangling_03.html#make_clean_names",
+    "title": "Advanced Data Wrangling in R",
+    "section": "6.4 make_clean_names() 🏷",
+    "text": "6.4 make_clean_names() 🏷\nit’s the same idea than clean_names(), but returns a vector, which is useful when you’re renaming in a custom way.\n\nnames(df) &lt;- janitor::make_clean_names(names(messy_weather_data))",
+    "crumbs": [
+      "Lessons",
+      "06-Data Wrangling III"
+    ]
+  },
+  {
+    "objectID": "coding/week_04/06_datawrangling_03.html#tabyl",
+    "href": "coding/week_04/06_datawrangling_03.html#tabyl",
+    "title": "Advanced Data Wrangling in R",
+    "section": "6.5 tabyl()",
+    "text": "6.5 tabyl()\nSimple frequency table: how many daily records per month?\n\ndaily_weather_data %&gt;%\n  mutate(month = month(date, label = TRUE, abbr = TRUE)) %&gt;%\n  tabyl(month)\n\n month  n     percent\n   Jan  0 0.000000000\n   Feb  0 0.000000000\n   Mar  0 0.000000000\n   Apr 30 0.163043478\n   May 31 0.168478261\n   Jun 30 0.163043478\n   Jul 31 0.168478261\n   Aug 31 0.168478261\n   Sep 30 0.163043478\n   Oct  1 0.005434783\n   Nov  0 0.000000000\n   Dec  0 0.000000000",
+    "crumbs": [
+      "Lessons",
+      "06-Data Wrangling III"
+    ]
+  },
+  {
+    "objectID": "coding/week_04/06_datawrangling_03.html#adorn_-functions",
+    "href": "coding/week_04/06_datawrangling_03.html#adorn_-functions",
+    "title": "Advanced Data Wrangling in R",
+    "section": "6.6 adorn_*() functions",
+    "text": "6.6 adorn_*() functions\nEnhance tabyl outputs with totals, percentages, and formatting.\n\n# 2) Two-way tabyl: month x \"rainy day?\" (precipitation &gt; 0)\ndaily_weather_data %&gt;%\n  mutate(\n    month = month(date, label = TRUE, abbr = TRUE),\n    rainy_day = if_else(precipitation &gt; 0, \"Yes\", \"No\")\n  ) %&gt;%\n  tabyl(month, rainy_day) %&gt;%\n  adorn_totals(where = c(\"row\", \"col\")) %&gt;%\n  adorn_percentages(\"row\") %&gt;%\n  adorn_pct_formatting(digits = 1) %&gt;%\n  adorn_ns()\n\n month       No          Yes        Total\n   Jan    - (0)      -   (0) 100.0%   (0)\n   Feb    - (0)      -   (0) 100.0%   (0)\n   Mar    - (0)      -   (0) 100.0%   (0)\n   Apr 0.0% (0) 100.0%  (30) 100.0%  (30)\n   May 3.2% (1)  96.8%  (30) 100.0%  (31)\n   Jun 0.0% (0) 100.0%  (30) 100.0%  (30)\n   Jul 0.0% (0) 100.0%  (31) 100.0%  (31)\n   Aug 0.0% (0) 100.0%  (31) 100.0%  (31)\n   Sep 0.0% (0) 100.0%  (30) 100.0%  (30)\n   Oct 0.0% (0) 100.0%   (1) 100.0%   (1)\n   Nov    - (0)      -   (0) 100.0%   (0)\n   Dec    - (0)      -   (0) 100.0%   (0)\n Total 0.5% (1)  99.5% (183) 100.0% (184)",
+    "crumbs": [
+      "Lessons",
+      "06-Data Wrangling III"
+    ]
+  },
+  {
+    "objectID": "coding/week_04/06_datawrangling_03.html#tabyl-case_when",
+    "href": "coding/week_04/06_datawrangling_03.html#tabyl-case_when",
+    "title": "Advanced Data Wrangling in R",
+    "section": "6.7 tabyl() + case_when()",
+    "text": "6.7 tabyl() + case_when()\nCreate temperature bins (cold/mild/warm) by month\n\n# Create temperature bins (cold/mild/warm) by month\ndaily_weather_data %&gt;%\n  mutate(\n    month = month(date, label = TRUE, abbr = TRUE),\n    temp_bin = case_when(\n      temperature &lt; 0 ~ \"Below 0°C\",\n      temperature &lt; 10 ~ \"0–10°C\",\n      temperature &lt; 20 ~ \"10–20°C\",\n      TRUE ~ \"20°C+\"\n    )\n  ) %&gt;%\n  tabyl(month, temp_bin) %&gt;%\n  adorn_totals(where = c(\"row\", \"col\")) %&gt;%\n  adorn_percentages(\"row\") %&gt;%\n  adorn_pct_formatting(digits = 1) %&gt;%\n  adorn_ns()\n\n month      10–20°C      20°C+        Total\n   Jan      -   (0)     -  (0) 100.0%   (0)\n   Feb      -   (0)     -  (0) 100.0%   (0)\n   Mar      -   (0)     -  (0) 100.0%   (0)\n   Apr  66.7%  (20) 33.3% (10) 100.0%  (30)\n   May  71.0%  (22) 29.0%  (9) 100.0%  (31)\n   Jun  36.7%  (11) 63.3% (19) 100.0%  (30)\n   Jul  58.1%  (18) 41.9% (13) 100.0%  (31)\n   Aug  67.7%  (21) 32.3% (10) 100.0%  (31)\n   Sep  50.0%  (15) 50.0% (15) 100.0%  (30)\n   Oct 100.0%   (1)  0.0%  (0) 100.0%   (1)\n   Nov      -   (0)     -  (0) 100.0%   (0)\n   Dec      -   (0)     -  (0) 100.0%   (0)\n Total  58.7% (108) 41.3% (76) 100.0% (184)",
+    "crumbs": [
+      "Lessons",
+      "06-Data Wrangling III"
     ]
   }
 ]
