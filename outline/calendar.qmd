@@ -35,7 +35,7 @@ The course runs on Wednesdays and Fridays from 1:00 PM to 2:20 PM. Below is the 
 |  | Jan 16 | Basics of version control & GitHub | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_02/03_versioncontrol.html) | [🎥](https://zoom.us/rec/share/BWba1XKsMaqqqQ5WdM8CVYpCo7wE-nF78oYsHI5VLbjPxxciuu0LdphpU-M6F3ry.IL4B83T_ZqKyA3gQ?startTime=1768581227000) |
 | 3 | Jan 21 | Data Wrangling I | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_03/04_datawrangling_01.html) | [🎥](https://zoom.us/rec/share/ZFWzTgRa6e60VNzKXEI7Y8cGUNWtouSGXEcEbpPqVkHFBfr8rh8spcMUZjzyXeUp.YW2Fd8HvscBrhZwx?startTime=1769013287000) |
 |  | Jan 23 | Data Wrangling II | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_03/05_datawrangling_02.html) | [🎥](https://zoom.us/rec/share/b4zPnZjJqrU9W8diUrxeVCAnON239CSnsCcd8Ca0o71DTPmif4a1h8dZBQJ3BSrI.ePqnWlUsjhLtp6ii?startTime=1769185854000) |
-| 4 | Jan 28 | Data Wrangling III | 🌐 | 🎥 |
+| 4 | Jan 28 | Data Wrangling III | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_04/06_datawrangling_03.html) | [🎥](https://zoom.us/rec/share/1F4dxjjIrSoybzUVXTMTWPUDIvU8P28rn7X3dvaCyuT_E5B8ZbDblOUVySoCCMlo.CxaSVAad3yVAWwUM?startTime=1769618014000) |
 |  | Jan 30 | Data Viz I: ggplot2 basics | 🌐 | 🎥 |
 | 5 | Feb 04 | Data Viz II: Multiple plots | 🌐 | 🎥 |
 |  | Feb 06 | Data Viz III: Advanced plots, maps | 🌐 | 🎥 |
