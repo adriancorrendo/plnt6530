@@ -1494,5 +1494,71 @@
       "Calendar",
       "Schedule"
     ]
+  },
+  {
+    "objectID": "coding/week_04/07_ggplot2_01.html",
+    "href": "coding/week_04/07_ggplot2_01.html",
+    "title": "Data Viz I",
+    "section": "",
+    "text": "Description\nIn this class, we will explore advanced visualization techniques using ggplot2. You’ll learn how to fine-tune plots by modifying shapes, lines, legends, and adding custom titles and annotations. We will continue working with the agridat::lasrosas.corn dataset.",
+    "crumbs": [
+      "Lessons",
+      "07-Data Viz I"
+    ]
+  },
+  {
+    "objectID": "coding/week_04/07_ggplot2_01.html#define-custom-palettes",
+    "href": "coding/week_04/07_ggplot2_01.html#define-custom-palettes",
+    "title": "Data Viz I",
+    "section": "3.1 Define custom palettes",
+    "text": "3.1 Define custom palettes\n\nmy_colors &lt;- c(\"#1e6091\", \"#f9c74f\", \"#9b2226\",  \"#599999\",  \"#8e5572\")\nyears_colors &lt;- c(\"1999\" = \"#1e6091\", \"2001\" = \"#9b2226\")",
+    "crumbs": [
+      "Lessons",
+      "07-Data Viz I"
+    ]
+  },
+  {
+    "objectID": "coding/week_04/07_ggplot2_01.html#histogram-with-adjusted-transparency-and-custom-bins",
+    "href": "coding/week_04/07_ggplot2_01.html#histogram-with-adjusted-transparency-and-custom-bins",
+    "title": "Data Viz I",
+    "section": "3.2 Histogram with Adjusted Transparency and Custom Bins",
+    "text": "3.2 Histogram with Adjusted Transparency and Custom Bins\n\n3.2.1 i. First layers\n\ncorn_data %&gt;% \n  ggplot(aes(x=yield))+ # create the canvas with x axis defined\n  geom_histogram(aes(fill = Year)) # add histogram layer with Year colors\n\n`stat_bin()` using `bins = 30`. Pick better value `binwidth`.\n\n\n\n\n\n\n\n\n\n\n\n3.2.2 ii. Add more layers and labels\n\n# Histogram\nhisto_01 &lt;-\ncorn_data %&gt;%\nggplot(aes(x = yield)) +\n  # Layers\n  geom_histogram(aes(fill = Year), bins = 20, alpha = 0.6, color = \"black\") +\n  geom_rug(aes(color = Year), alpha = 0.5)+\n  # Labels\n  labs(title = \"Yield Distribution Across Years\", \n       subtitle = \"Las Rosas Corn Trials\",\n       x = \"Yield (qq/ha)\",\n       y = \"Count (#)\") +\n  # Scales\n  scale_fill_manual(values = years_colors)+\n  scale_color_manual(values = years_colors)+\n  theme_bw()\n\nhisto_01\n\n\n\n\n\n\n\n# Faceting by Year\nhisto_02 &lt;-\n  corn_data %&gt;% \nggplot(aes(x = yield)) +\n  # Layers\n  geom_histogram(aes(fill = Year), bins = 20, alpha = 0.6, color = \"black\") +\n  geom_rug(aes(color = Year), alpha = 0.5)+\n  # Labels\n  labs(title = \"Yield Distribution Across Years\", \n       subtitle = \"Las Rosas Corn Trials\",\n       x = \"Yield (qq/ha)\",\n       y = \"Count (#)\") +\n  # Scales\n  scale_fill_manual(values = years_colors)+\n  scale_color_manual(values = years_colors)+\n  facet_wrap(~Year)+\n  theme_classic()\n  \nhisto_02\n\n\n\n\n\n\n\n# Faceting by Year\nhisto_03 &lt;-\n  corn_data %&gt;% \nggplot(aes(x = yield)) +\n  # Layers\n  geom_histogram(aes(fill = Year), bins = 20, alpha = 0.6, color = \"black\") +\n  geom_rug(aes(color = Year), alpha = 0.5)+\n  # Labels\n  labs(title = \"Yield Distribution Across Years\", \n       subtitle = \"Las Rosas Corn Trials\",\n       x = \"Yield (qq/ha)\",\n       y = \"Count (#)\") +\n  # Scales\n  scale_fill_manual(values = years_colors)+\n  scale_color_manual(values = years_colors)+\n  facet_wrap(~topo)+\n  theme_classic()\n\nhisto_03\n\n\n\n\n\n\n\n# Faceting by Year\nhisto_04 &lt;-\n  corn_data %&gt;% \nggplot(aes(x = yield)) +\n  # Layers\n  geom_histogram(aes(fill = topo), bins = 20, alpha = 0.6, color = \"black\") +\n  geom_rug(aes(color = Year), alpha = 0.5)+\n  # Labels\n  labs(title = \"Yield Distribution Across Years\", \n       subtitle = \"Las Rosas Corn Trials\",\n       x = \"Yield (qq/ha)\",\n       y = \"Count (#)\") +\n  # Scales\n  scale_fill_manual(values = my_colors)+\n  scale_color_manual(values = my_colors)+\n  facet_wrap(~Year)+\n  theme_classic()\n\nhisto_04\n\n\n\n\n\n\n\n\n\n\n3.2.3 Density plot\n\ncorn_data %&gt;%\nggplot(aes(x = yield)) +\n  # Layers\n  geom_density(aes(fill = Year), bins = 20, alpha = 0.6, color = \"black\") +\n  geom_rug(aes(color = Year), alpha = 0.5)+\n  # Labels\n  labs(title = \"Yield Distribution Across Years\", \n       subtitle = \"Las Rosas Corn Trials\",\n       x = \"Yield (qq/ha)\",\n       y = \"Count (#)\") +\n  # Scales\n  scale_fill_manual(values = years_colors)+\n  scale_color_manual(values = years_colors)+\n  theme_bw()\n\nWarning in geom_density(aes(fill = Year), bins = 20, alpha = 0.6, color =\n\"black\"): Ignoring unknown parameters: `bins`",
+    "crumbs": [
+      "Lessons",
+      "07-Data Viz I"
+    ]
+  },
+  {
+    "objectID": "coding/week_04/07_ggplot2_01.html#columnbar-plot",
+    "href": "coding/week_04/07_ggplot2_01.html#columnbar-plot",
+    "title": "Data Viz I",
+    "section": "3.3 Column/Bar plot",
+    "text": "3.3 Column/Bar plot\n\n# Prepare summarized data frame\naggregated_corn &lt;- \n  corn_data %&gt;% \n  group_by(Year, year, nitro, nf) %&gt;% \n  summarize(yield_mean = mean(yield),\n            sd_yield = sd(yield))\n\n`summarise()` has grouped output by 'Year', 'year', 'nitro'. You can override\nusing the `.groups` argument.\n\n# Column plot\ncolplot_01 &lt;- \n  aggregated_corn %&gt;% \nggplot() +\n  geom_col(aes(x = nf, y = yield_mean, fill = Year), \n           color = \"grey25\") + # Triangle shape\n  scale_fill_manual(values = my_colors)+\n  labs(title = \"Yield vs. Nitrogen Levels\", x = \"Nitrogen (kg/ha)\", y = \"Yield (qq/ha)\") +\n  facet_wrap(~Year)+\n  theme_classic()\n\ncolplot_01\n\n\n\n\n\n\n\n# Add SD bars\ncolplot_02 &lt;-\ncolplot_01 +\n  geom_errorbar(data = aggregated_corn, \n                aes(ymin = yield_mean - sd_yield,\n                    ymax = yield_mean + sd_yield, \n                    x = nf),\n                width = .25)\n  \n\ncolplot_02\n\n\n\n\n\n\n\n# facet by topography\naggregated_topo &lt;- corn_data %&gt;% \n  group_by(Year, year, nitro, nf, topo) %&gt;% \n  summarize(yield_mean = mean(yield),\n            sd_yield = sd(yield))\n\n`summarise()` has grouped output by 'Year', 'year', 'nitro', 'nf'. You can\noverride using the `.groups` argument.\n\n# dacet by topography and Year\ncolplot_03 &lt;- \naggregated_topo %&gt;% \nggplot() +\n  geom_col(aes(x = nf, y = yield_mean, fill = topo), \n           color = \"grey25\", alpha = 0.5) +\n  geom_errorbar(aes(ymin = yield_mean - sd_yield,\n                    ymax = yield_mean + sd_yield, x = nf),\n                width = .25)+\n  labs(title = \"Yield vs. Nitrogen Levels\", x = \"Nitrogen (kg/ha)\", y = \"Yield (qq/ha)\") +\n  facet_grid(topo~Year)+\n  scale_fill_manual(values = my_colors)+\n  theme_classic()\n\ncolplot_03",
+    "crumbs": [
+      "Lessons",
+      "07-Data Viz I"
+    ]
+  },
+  {
+    "objectID": "coding/week_04/07_ggplot2_01.html#scatter-plot-with-custom-shapes-and-line-types",
+    "href": "coding/week_04/07_ggplot2_01.html#scatter-plot-with-custom-shapes-and-line-types",
+    "title": "Data Viz I",
+    "section": "3.4 Scatter Plot with Custom Shapes and Line Types",
+    "text": "3.4 Scatter Plot with Custom Shapes and Line Types\n\n# By year\nscatter_01 &lt;- corn_data %&gt;%\nggplot(aes(x = nitro, y = yield, color = factor(year))) +\n  geom_point(size = 3, shape = 17) + # Triangle shape\n  geom_smooth(method = \"lm\", se = FALSE, linetype = \"dashed\") +\n  labs(title = \"Yield vs. Nitrogen Levels\", x = \"Nitrogen (kg/ha)\", y = \"Yield (qq/ha)\") +\n  theme_minimal()\n\n# by topography\nscatter_02 &lt;- corn_data %&gt;%\nggplot(aes(x = nitro, y = yield, color = topo)) +\n  geom_point(size = 3, shape = 19) + # Circle shape\n  geom_smooth(method = \"lm\", se = FALSE, linetype = \"dotted\") +\n  labs(title = \"Yield vs. Nitrogen Levels\", x = \"Nitrogen (kg/ha)\", y = \"Yield (qq/ha)\") +\n  facet_wrap(~Year)+\n  theme_minimal()\n\nscatter_02\n\n`geom_smooth()` using formula = 'y ~ x'",
+    "crumbs": [
+      "Lessons",
+      "07-Data Viz I"
+    ]
+  },
+  {
+    "objectID": "coding/week_04/07_ggplot2_01.html#boxplot-with-custom-shapes-and-line-types",
+    "href": "coding/week_04/07_ggplot2_01.html#boxplot-with-custom-shapes-and-line-types",
+    "title": "Data Viz I",
+    "section": "3.5 BoxPlot with Custom Shapes and Line Types",
+    "text": "3.5 BoxPlot with Custom Shapes and Line Types\n\ncorn_data %&gt;% \nggplot(aes(x = nf, y = yield)) +\n  geom_boxplot(aes(fill = Year), color = \"grey15\", size = 0.5) +\n  geom_jitter(aes(x = nf, y = yield, color=Year), size = 0.1)+\n  scale_fill_brewer(palette=2, type = \"qual\")+\n  scale_color_brewer(palette=2, type = \"qual\")+\n  labs(title = \"Yield vs. Nitrogen Levels\", \n       x = \"Nitrogen (kg/ha)\", y = \"Yield (qq/ha)\") +\n  facet_wrap(~Year)+\n  theme_classic()",
+    "crumbs": [
+      "Lessons",
+      "07-Data Viz I"
+    ]
   }
 ]

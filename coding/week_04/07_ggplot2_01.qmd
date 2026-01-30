@@ -33,7 +33,9 @@ Install the necessary packages for this class:
 
 ```{r warning=FALSE, message=FALSE}
 library(pacman)
-p_load("ggplot2", "gganimate", "agridat", "patchwork", "sf", "ggtext", "dplyr")
+p_load("dplyr") # data wrangling
+p_load("ggplot2", "agridat", "patchwork", "ggtext") # plotting
+p_load("gganimate", "magick", "gifski") # animations
 ```
 
 # Datasets: Las Rosas Corn Data
@@ -60,64 +62,127 @@ glimpse(nass_soybean)
 
 ```{r}
 my_colors <- c("#1e6091", "#f9c74f", "#9b2226",  "#599999",  "#8e5572")
+years_colors <- c("1999" = "#1e6091", "2001" = "#9b2226")
 ```
 
 ## Histogram with Adjusted Transparency and Custom Bins
-
+### i. First layers
 ```{r}
-# Density
-density_01 <- 
 corn_data %>% 
-ggplot(aes(x = yield)) +
-  geom_density(aes(fill = Year), color = "grey15", alpha = 0.5)+
-  labs(title = "Yield Distribution Across Years", x = "Yield (qq/ha)", y = "Count") +
-  scale_fill_manual(values = my_colors)+
-  theme_classic()
+  ggplot(aes(x=yield))+ # create the canvas with x axis defined
+  geom_histogram(aes(fill = Year)) # add histogram layer with Year colors
+```
 
+### ii. Add more layers and labels
+```{r fig.height= 6, fig.width=8}
 # Histogram
 histo_01 <-
-ggplot(corn_data, aes(x = yield)) +
+corn_data %>%
+ggplot(aes(x = yield)) +
+  # Layers
   geom_histogram(aes(fill = Year), bins = 20, alpha = 0.6, color = "black") +
-  labs(title = "Yield Distribution Across Years", x = "Yield (qq/ha)", y = "Count") +
-  scale_fill_manual(values = my_colors)+
   geom_rug(aes(color = Year), alpha = 0.5)+
-  scale_color_manual(values = my_colors)+
-  theme_classic()
+  # Labels
+  labs(title = "Yield Distribution Across Years", 
+       subtitle = "Las Rosas Corn Trials",
+       x = "Yield (qq/ha)",
+       y = "Count (#)") +
+  # Scales
+  scale_fill_manual(values = years_colors)+
+  scale_color_manual(values = years_colors)+
+  theme_bw()
 
 histo_01
 
 # Faceting by Year
 histo_02 <-
-corn_data %>% 
+  corn_data %>% 
 ggplot(aes(x = yield)) +
-  geom_histogram(aes(fill = Year), bins = 30, alpha = 0.6, color = "black") +
-  labs(title = "Yield Distribution Across Years", x = "Yield (qq/ha)", y = "Count") +
-  scale_fill_manual(values = my_colors)+
-  geom_rug(aes(color = topo), alpha = 0.5)+
-  scale_color_manual(values = my_colors)+
-  facet_wrap(~topo)+
-  theme_classic()+
-  theme(legend.position = "none")
+  # Layers
+  geom_histogram(aes(fill = Year), bins = 20, alpha = 0.6, color = "black") +
+  geom_rug(aes(color = Year), alpha = 0.5)+
+  # Labels
+  labs(title = "Yield Distribution Across Years", 
+       subtitle = "Las Rosas Corn Trials",
+       x = "Yield (qq/ha)",
+       y = "Count (#)") +
+  # Scales
+  scale_fill_manual(values = years_colors)+
+  scale_color_manual(values = years_colors)+
+  facet_wrap(~Year)+
+  theme_classic()
+  
 histo_02
 
 
-corn_data %>% 
+# Faceting by Year
+histo_03 <-
+  corn_data %>% 
 ggplot(aes(x = yield)) +
-  geom_histogram(aes(fill = topo), bins = 20, alpha = 0.6, color = "black") +
-  labs(title = "Yield Distribution Across Years", x = "Yield (qq/ha)", y = "Count") +
-  scale_fill_manual(values = my_colors)+
-  geom_rug(aes(color = topo), alpha = 0.5)+
-  scale_color_manual(values = my_colors)+
+  # Layers
+  geom_histogram(aes(fill = Year), bins = 20, alpha = 0.6, color = "black") +
+  geom_rug(aes(color = Year), alpha = 0.5)+
+  # Labels
+  labs(title = "Yield Distribution Across Years", 
+       subtitle = "Las Rosas Corn Trials",
+       x = "Yield (qq/ha)",
+       y = "Count (#)") +
+  # Scales
+  scale_fill_manual(values = years_colors)+
+  scale_color_manual(values = years_colors)+
   facet_wrap(~topo)+
-  theme_classic()+
-  theme(legend.position = "none")
+  theme_classic()
+
+histo_03
+
+# Faceting by Year
+histo_04 <-
+  corn_data %>% 
+ggplot(aes(x = yield)) +
+  # Layers
+  geom_histogram(aes(fill = topo), bins = 20, alpha = 0.6, color = "black") +
+  geom_rug(aes(color = Year), alpha = 0.5)+
+  # Labels
+  labs(title = "Yield Distribution Across Years", 
+       subtitle = "Las Rosas Corn Trials",
+       x = "Yield (qq/ha)",
+       y = "Count (#)") +
+  # Scales
+  scale_fill_manual(values = my_colors)+
+  scale_color_manual(values = my_colors)+
+  facet_wrap(~Year)+
+  theme_classic()
+
+histo_04
+
 ```
+
+### Density plot
+```{r}
+corn_data %>%
+ggplot(aes(x = yield)) +
+  # Layers
+  geom_density(aes(fill = Year), bins = 20, alpha = 0.6, color = "black") +
+  geom_rug(aes(color = Year), alpha = 0.5)+
+  # Labels
+  labs(title = "Yield Distribution Across Years", 
+       subtitle = "Las Rosas Corn Trials",
+       x = "Yield (qq/ha)",
+       y = "Count (#)") +
+  # Scales
+  scale_fill_manual(values = years_colors)+
+  scale_color_manual(values = years_colors)+
+  theme_bw()
+```
+
 
 ## Column/Bar plot
 
 ```{r}
 # Prepare summarized data frame
-aggregated_corn <- corn_data %>% group_by(Year, year, nitro, nf) %>% 
+aggregated_corn <- 
+  corn_data %>% 
+  group_by(Year, year, nitro, nf) %>% 
   summarize(yield_mean = mean(yield),
             sd_yield = sd(yield))
 
@@ -147,7 +212,8 @@ colplot_01 +
 colplot_02
 
 # facet by topography
-aggregated_topo <- corn_data %>% group_by(Year, year, nitro, nf, topo) %>% 
+aggregated_topo <- corn_data %>% 
+  group_by(Year, year, nitro, nf, topo) %>% 
   summarize(yield_mean = mean(yield),
             sd_yield = sd(yield))
 
@@ -156,7 +222,7 @@ colplot_03 <-
 aggregated_topo %>% 
 ggplot() +
   geom_col(aes(x = nf, y = yield_mean, fill = topo), 
-           color = "grey25", alpha = 0.5) + # Triangle shape
+           color = "grey25", alpha = 0.5) +
   geom_errorbar(aes(ymin = yield_mean - sd_yield,
                     ymax = yield_mean + sd_yield, x = nf),
                 width = .25)+
@@ -172,12 +238,24 @@ colplot_03
 ## Scatter Plot with Custom Shapes and Line Types
 
 ```{r}
-corn_data %>%
+# By year
+scatter_01 <- corn_data %>%
 ggplot(aes(x = nitro, y = yield, color = factor(year))) +
   geom_point(size = 3, shape = 17) + # Triangle shape
   geom_smooth(method = "lm", se = FALSE, linetype = "dashed") +
   labs(title = "Yield vs. Nitrogen Levels", x = "Nitrogen (kg/ha)", y = "Yield (qq/ha)") +
   theme_minimal()
+
+# by topography
+scatter_02 <- corn_data %>%
+ggplot(aes(x = nitro, y = yield, color = topo)) +
+  geom_point(size = 3, shape = 19) + # Circle shape
+  geom_smooth(method = "lm", se = FALSE, linetype = "dotted") +
+  labs(title = "Yield vs. Nitrogen Levels", x = "Nitrogen (kg/ha)", y = "Yield (qq/ha)") +
+  facet_wrap(~Year)+
+  theme_minimal()
+
+scatter_02
 ```
 
 ## BoxPlot with Custom Shapes and Line Types
@@ -210,7 +288,8 @@ ggplot(aes(x = nitro, y = yield, color = topo)) +
   # Add manual color scale
   scale_color_manual(values = my_colors)+
   # Modify scale of x-axis
-  scale_x_continuous(limits = c(0,140), breaks = seq(0,150, by=30))+
+  scale_x_continuous(limits = c(0,150), breaks = seq(0,150, by=30))+
+  scale_y_continuous(limits = c(0,90), breaks = seq(0,90, by=10))+
   facet_grid(Year~topo)+
   theme_classic()
 
@@ -219,7 +298,7 @@ scatter_plot
 # Update
 scatter_plot +
   # Add regression line
-  geom_smooth()+
+  geom_smooth(method = "lm", formula = y ~ x + I(x^2), se = FALSE)+
   theme(legend.position = "none", # Remove legend
         # Add panel border
         panel.border = element_rect(linetype = "solid", fill = NA),
@@ -232,9 +311,10 @@ scatter_plot +
 
 ```{r}
 colplot_01 +
-  geom_text(aes(label = round(yield_mean,0), x = nf, y = yield_mean + 3))+
-  scale_color_manual(values=my_colors)
-
+  scale_fill_manual(values = years_colors)+
+  geom_text(aes(label = round(yield_mean,0), x = nf, y = yield_mean + 3,
+                color = Year))+
+  scale_color_manual(values=years_colors)
 
 ```
 
@@ -258,7 +338,10 @@ p1 <- scatter_plot
 
 p2 <- histo_02
 
+# Combine using patchwork
 p1 + p2 + plot_layout(ncol = 1)
+
+p1 + p2 + plot_layout(ncol = 2)
 ```
 
 # 6. Animated plots
@@ -289,8 +372,8 @@ animated_plot
 
 # Render the animation
 # gganimate::animate(animated_plot, fps = 20, duration = 4, 
-#                    width = 400, height = 300,
-#         renderer = gifski_renderer())
+#                     width = 400, height = 300,
+#          renderer = gifski_renderer())
 
 # Save
 # anim_save(filename = "animated_plot.gif", animation = last_animation())
