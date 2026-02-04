@@ -67,6 +67,10 @@ website:
             text: "06-Data Wrangling III"
           - href: coding/week_04/07_ggplot2_01.qmd
             text: "07-Data Viz I"
+          - href: coding/week_05/08_ggplot2_adv.qmd
+            text: "08-Data Viz II"
+          - href: coding/week_05/09_ggplot2_plus.qmd
+            text: "09-Data Viz III"
       - section: "Extras"
         contents:
           - href: coding/quarto/quarto.qmd

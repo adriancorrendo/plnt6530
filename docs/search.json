@@ -319,6 +319,171 @@
     ]
   },
   {
+    "objectID": "coding/week_05/09_ggplot2_plus.html",
+    "href": "coding/week_05/09_ggplot2_plus.html",
+    "title": "Data Viz III: Geographic Mapping with ggplot2",
+    "section": "",
+    "text": "Description\nIn this class, we will explore how to create geographic maps using ggplot2, sf, maps, leaflet, and geojson. We’ll cover techniques for plotting data points on US and Canada maps, customizing map aesthetics, and working with spatial data.",
+    "crumbs": [
+      "Lessons",
+      "09-Data Viz III"
+    ]
+  },
+  {
+    "objectID": "coding/week_05/09_ggplot2_plus.html#us-map-with-state-boundaries",
+    "href": "coding/week_05/09_ggplot2_plus.html#us-map-with-state-boundaries",
+    "title": "Data Viz III: Geographic Mapping with ggplot2",
+    "section": "2.1 US Map with State Boundaries",
+    "text": "2.1 US Map with State Boundaries\n\n# Load US map data\nus_map &lt;- map_data(\"state\")\n\n# Plot US map\nus_plot &lt;- \n  ggplot() +\n  geom_polygon(data = us_map, aes(x = long, y = lat, group = group),\n               fill = \"grey90\", color = \"grey35\") +\n  coord_fixed(1.3) +\n  labs(title = \"Map of the United States\") +\n  theme_base()\n\nus_plot",
+    "crumbs": [
+      "Lessons",
+      "09-Data Viz III"
+    ]
+  },
+  {
+    "objectID": "coding/week_05/09_ggplot2_plus.html#canada-map-with-provincial-boundaries",
+    "href": "coding/week_05/09_ggplot2_plus.html#canada-map-with-provincial-boundaries",
+    "title": "Data Viz III: Geographic Mapping with ggplot2",
+    "section": "2.2 Canada Map with Provincial Boundaries",
+    "text": "2.2 Canada Map with Provincial Boundaries\n\n# Load Canada map data\ncanada_map &lt;- map_data(\"world\", region = \"Canada\")\n\n# Plot Canada map\ncanada_plot &lt;- ggplot() +\n  geom_polygon(data = canada_map, aes(x = long, y = lat, group = group),\n               fill = \"steelblue\", color = \"black\") +\n  coord_fixed(1.3) +\n  labs(title = \"Map of Canada\")\n\ncanada_plot\n\n\n\n\n\n\n\ncanada_cut &lt;- canada_plot +\n  # Cut limits of map\n  scale_y_continuous(limits = c(41, 48))+\n  scale_x_continuous(limits = c(-87, -75))+\n  theme_minimal()\n\ncanada_cut",
+    "crumbs": [
+      "Lessons",
+      "09-Data Viz III"
+    ]
+  },
+  {
+    "objectID": "coding/week_05/09_ggplot2_plus.html#plotting-cities-on-us-map",
+    "href": "coding/week_05/09_ggplot2_plus.html#plotting-cities-on-us-map",
+    "title": "Data Viz III: Geographic Mapping with ggplot2",
+    "section": "3.1 Plotting Cities on US Map",
+    "text": "3.1 Plotting Cities on US Map\n\n# Sample city data\ncities_us &lt;- data.frame(\n  city = c(\"New Jersey\", \"New York\", \"Los Angeles\", \"Chicago\", \"Houston\", \"Phoenix\"),\n  lon = c(-74, -74.006, -118.2437, -87.6298, -95.3698, -112.074),\n  lat = c(40.9, 40.7128, 34.0522, 41.8781, 29.7604, 33.4484)\n)\n\n# Plot US map with cities\nus_plot +\n  geom_point(data = cities_us, aes(x = lon, y = lat), \n             color = \"red\", size = 3) +\n  # geom_label(data = cities_us, aes(x = lon, y = lat, label = city), \n  #                  size = 3, color = \"black\")\n  geom_label_repel(data = cities_us, aes(x = lon, y = lat, label = city), \n                    size = 3, color = \"black\")",
+    "crumbs": [
+      "Lessons",
+      "09-Data Viz III"
+    ]
+  },
+  {
+    "objectID": "coding/week_05/09_ggplot2_plus.html#plotting-cities-on-canada-map",
+    "href": "coding/week_05/09_ggplot2_plus.html#plotting-cities-on-canada-map",
+    "title": "Data Viz III: Geographic Mapping with ggplot2",
+    "section": "3.2 Plotting Cities on Canada Map",
+    "text": "3.2 Plotting Cities on Canada Map\n\n# Sample city data for Canada\ncities_canada &lt;- data.frame(\n  city = c(\"Toronto\", \"Vancouver\", \"Montreal\", \"Calgary\", \"Ottawa\"),\n  lon = c(-79.3832, -123.1216, -73.5673, -114.0719, -75.6972),\n  lat = c(43.6511, 49.2827, 45.5017, 51.0447, 45.4215)\n)\n\n# Plot Canada map with cities\ncanada_plot +\n  geom_point(data = cities_canada, aes(x = lon, y = lat), \n             color = \"blue\", size = 3) +\n  geom_label_repel(data = cities_canada, aes(x = lon, y = lat, label = city), \n                   size = 3, color = \"black\")",
+    "crumbs": [
+      "Lessons",
+      "09-Data Viz III"
+    ]
+  },
+  {
+    "objectID": "coding/week_05/09_ggplot2_plus.html#loading-and-plotting-shapefiles",
+    "href": "coding/week_05/09_ggplot2_plus.html#loading-and-plotting-shapefiles",
+    "title": "Data Viz III: Geographic Mapping with ggplot2",
+    "section": "4.1 Loading and Plotting Shapefiles",
+    "text": "4.1 Loading and Plotting Shapefiles\n\n# Load shapefile (replace 'path_to_shapefile' with your actual path)\n# usa_shapefile &lt;- st_read(\"path_to_shapefile/usa_shapefile.shp\")\n\n# Example using built-in dataset from `sf`\nnc &lt;- st_read(system.file(\"shape/nc.shp\", package = \"sf\"))\n\nReading layer `nc' from data source \n  `/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/sf/shape/nc.shp' \n  using driver `ESRI Shapefile'\nSimple feature collection with 100 features and 14 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: -84.32385 ymin: 33.88199 xmax: -75.45698 ymax: 36.58965\nGeodetic CRS:  NAD27\n\n# Plot shapefile\nggplot(nc) +\n  geom_sf(fill = \"lightblue\", color = \"black\") +\n  labs(title = \"Shapefile Example: North Carolina Counties\") +\n  # Adjust scales for limits\n  scale_y_continuous(limits = c(34.5, 36))+\n  scale_x_continuous(limits = c(-82, -78))+\n  theme_minimal()",
+    "crumbs": [
+      "Lessons",
+      "09-Data Viz III"
+    ]
+  },
+  {
+    "objectID": "coding/week_05/09_ggplot2_plus.html#read-shp-of-canada-and-us",
+    "href": "coding/week_05/09_ggplot2_plus.html#read-shp-of-canada-and-us",
+    "title": "Data Viz III: Geographic Mapping with ggplot2",
+    "section": "4.2 Read shp of Canada and US",
+    "text": "4.2 Read shp of Canada and US\n\n## Load shp files\nusa_shp &lt;- st_read(\"shp_map/us/usa.shp\") %&gt;%\n  # Remove non-contiguous and territories\n  filter(!(NAME %in% c(\"Alaska\", \"District of Columbia\", \"Hawaii\", \"Puerto Rico\")))\n\nReading layer `usa' from data source \n  `/Users/acorrend/Documents/GitHub/plnt6530/coding/week_05/shp_map/us/usa.shp' \n  using driver `ESRI Shapefile'\nSimple feature collection with 52 features and 9 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: -179.1473 ymin: 17.88481 xmax: 179.7785 ymax: 71.35256\nGeodetic CRS:  NAD83\n\ncan_shp &lt;- st_read(\"shp_map/can/canada.shp\")\n\nReading layer `canada' from data source \n  `/Users/acorrend/Documents/GitHub/plnt6530/coding/week_05/shp_map/can/canada.shp' \n  using driver `ESRI Shapefile'\nSimple feature collection with 13 features and 6 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: -141.0181 ymin: 41.67695 xmax: -52.5823 ymax: 89.99943\nGeodetic CRS:  NAD83",
+    "crumbs": [
+      "Lessons",
+      "09-Data Viz III"
+    ]
+  },
+  {
+    "objectID": "coding/week_05/09_ggplot2_plus.html#create-objects-for-maps",
+    "href": "coding/week_05/09_ggplot2_plus.html#create-objects-for-maps",
+    "title": "Data Viz III: Geographic Mapping with ggplot2",
+    "section": "4.3 Create objects for maps",
+    "text": "4.3 Create objects for maps\n\n# Create list of selected provinces\nselected_provinces &lt;- c(\"Ontario\", \"Manitoba\", \"Quebec\")\n\n# Define coordinates for Ontario cities\nontario_cities &lt;- data.frame(\n  city = c(\"Toronto\", \"Ottawa\", \"Hamilton\", \"London\", \"Kingston\"),\n  lon = c(-79.3832, -75.6972, -79.8711, -81.2497, -76.4880),\n  lat = c(43.6511, 45.4215, 43.2557, 42.9834, 44.2312)\n)",
+    "crumbs": [
+      "Lessons",
+      "09-Data Viz III"
+    ]
+  },
+  {
+    "objectID": "coding/week_05/09_ggplot2_plus.html#define-function-to-customize-plot",
+    "href": "coding/week_05/09_ggplot2_plus.html#define-function-to-customize-plot",
+    "title": "Data Viz III: Geographic Mapping with ggplot2",
+    "section": "4.4 Define function to customize plot",
+    "text": "4.4 Define function to customize plot\n\ngeo_plot &lt;- function(x, y, z, title = NULL){\n  ggplot()+\n    geom_sf(data=x, fill = \"white\", color = \"black\") + # Provinces map\n  geom_sf(data=y, fill = \"white\", color = \"black\")+ # US map\n  # Adjust scales for lat and lon\n  scale_y_continuous(limits = c(41.8, 46))+\n  scale_x_continuous(limits = c(-84, -75), breaks = seq(-84,-74, by=1)) +\n  # Add cities with points\n  geom_point(data = z, aes(x = lon, y = lat, fill = city), \n             color = \"grey25\", shape = 21, size = 3, alpha = 0.95) +\n  # Scalebar\n  annotation_scale(tick_height = 0.3)+\n  # Text Notes for names of cities\n  geom_text_repel(data = z, \n                  aes(x=lon, y=lat, label = city), size = 3)+\n  # Name of PROVINCE\n  annotate(\"text\", x = -78, y = 45, label = \"ONTARIO\", \n           size = 4, fontface = \"bold\")+\n  # Name of Lakes\n  ## Ontario\n  annotate(\"text\", x = -77.8, y = 43.7, label = \"Lake Ontario\", \n           size = 3, fontface = \"italic\")+\n  ## Huron \n  annotate(\"text\", x = -82.5, y = 44.5, label = \"Lake \\nHuron\", \n           size = 3, fontface = \"italic\")+\n  # Add labels\n  labs(title = title, \n       x = \"Longitude\", y = \"Latitude\")+\n  # Adjust theme\n  theme_base()+\n  # reduce axis text size\n  theme(\n    panel.background = element_rect(fill = \"#bde0fe\"),\n    title = element_text(size = rel(.7)),\n    axis.title =  element_text(size = rel(.9), face = \"bold\"),\n    axis.text = element_text(size = rel(.5))\n    )\n}",
+    "crumbs": [
+      "Lessons",
+      "09-Data Viz III"
+    ]
+  },
+  {
+    "objectID": "coding/week_05/09_ggplot2_plus.html#plot",
+    "href": "coding/week_05/09_ggplot2_plus.html#plot",
+    "title": "Data Viz III: Geographic Mapping with ggplot2",
+    "section": "4.5 Plot",
+    "text": "4.5 Plot\n\n# Plot from function\ngeo_plot(x = can_shp, y = usa_shp, z = ontario_cities, \n         title = \"Ontario Map from SHP\")",
+    "crumbs": [
+      "Lessons",
+      "09-Data Viz III"
+    ]
+  },
+  {
+    "objectID": "coding/week_05/09_ggplot2_plus.html#loading-geojson-data",
+    "href": "coding/week_05/09_ggplot2_plus.html#loading-geojson-data",
+    "title": "Data Viz III: Geographic Mapping with ggplot2",
+    "section": "5.1 Loading GeoJSON Data",
+    "text": "5.1 Loading GeoJSON Data\n\n# Load Canada GeoJSON (replace with actual file path if available)\n# Read geojson for Canada\ncan_geojson &lt;- read_sf(\"geojson_maps/canada_provinces.geojson\")  %&gt;%  \n  # dplyr::filter(name == \"Ontario\")  %&gt;% \n  dplyr::filter(name %in% selected_provinces)  %&gt;% \n  dplyr::mutate(Province = name, \n                GEOID = cartodb_id)  %&gt;%  \n  dplyr::select(GEOID, Province, geometry)\n\n# Read geojson for US\nusa_geojson &lt;- read_sf(\"geojson_maps/us-states.json\")",
+    "crumbs": [
+      "Lessons",
+      "09-Data Viz III"
+    ]
+  },
+  {
+    "objectID": "coding/week_05/09_ggplot2_plus.html#plot-geojson",
+    "href": "coding/week_05/09_ggplot2_plus.html#plot-geojson",
+    "title": "Data Viz III: Geographic Mapping with ggplot2",
+    "section": "5.2 Plot GEOJSON",
+    "text": "5.2 Plot GEOJSON\n\n# Plot from function\ngeo_plot(x = can_geojson, y = usa_geojson, z = ontario_cities, \n         title = \"Ontario Map from GEOJSON\")",
+    "crumbs": [
+      "Lessons",
+      "09-Data Viz III"
+    ]
+  },
+  {
+    "objectID": "coding/week_05/09_ggplot2_plus.html#explanation",
+    "href": "coding/week_05/09_ggplot2_plus.html#explanation",
+    "title": "Data Viz III: Geographic Mapping with ggplot2",
+    "section": "5.3 Explanation:",
+    "text": "5.3 Explanation:\n\ngeojson_read(): Reads the GeoJSON file.\nst_as_sf(): Converts the data into an sf object for plotting.\ngeom_sf(): Plots the GeoJSON data.",
+    "crumbs": [
+      "Lessons",
+      "09-Data Viz III"
+    ]
+  },
+  {
+    "objectID": "coding/week_05/09_ggplot2_plus.html#ontario-map-with-leaflet",
+    "href": "coding/week_05/09_ggplot2_plus.html#ontario-map-with-leaflet",
+    "title": "Data Viz III: Geographic Mapping with ggplot2",
+    "section": "6.1 Ontario Map with leaflet",
+    "text": "6.1 Ontario Map with leaflet\n\n# Create interactive map\nontario_cities %&gt;%\nleaflet() %&gt;%\n  addTiles() %&gt;%\n# Add PINS\naddMarkers(~lon, ~lat, popup = ~city) %&gt;%\naddCircleMarkers(~lon, ~lat, popup = ~city, radius = 5, color = \"gold\",\n                  fillOpacity = 0.7) %&gt;%\n# Configure initial view of the map\nsetView(lng = -80, lat = 44, zoom = 6)",
+    "crumbs": [
+      "Lessons",
+      "09-Data Viz III"
+    ]
+  },
+  {
+    "objectID": "coding/week_05/09_ggplot2_plus.html#explanation-1",
+    "href": "coding/week_05/09_ggplot2_plus.html#explanation-1",
+    "title": "Data Viz III: Geographic Mapping with ggplot2",
+    "section": "6.2 Explanation:",
+    "text": "6.2 Explanation:\n\naddTiles(): Adds the base map layer.\naddMarkers(): Plots city locations with popups displaying city names.\nsetView(): Centers the map on Toronto with a specified zoom level.",
+    "crumbs": [
+      "Lessons",
+      "09-Data Viz III"
+    ]
+  },
+  {
     "objectID": "coding/week_02/02_fundamentals_rpackages.html",
     "href": "coding/week_02/02_fundamentals_rpackages.html",
     "title": "Fundamentals of R Packages",
@@ -1700,6 +1865,50 @@
     "crumbs": [
       "Lessons",
       "03-Git & GitHub"
+    ]
+  },
+  {
+    "objectID": "coding/week_05/08_ggplot2_adv.html",
+    "href": "coding/week_05/08_ggplot2_adv.html",
+    "title": "Data Viz II",
+    "section": "",
+    "text": "Description\nIn this session, we’ll explore advanced visualization techniques using ggplot2, focusing on secondary axes, polygons for data segmentation, and mathematical annotations. These skills will help you create more dynamic and insightful visual representations.",
+    "crumbs": [
+      "Lessons",
+      "08-Data Viz II"
+    ]
+  },
+  {
+    "objectID": "coding/week_05/08_ggplot2_adv.html#explanation",
+    "href": "coding/week_05/08_ggplot2_adv.html#explanation",
+    "title": "Data Viz II",
+    "section": "2.1 Explanation:",
+    "text": "2.1 Explanation:\n\nPrimary Y-axis: Displays precipitation in mm.\nSecondary Y-axis: Converts temperature to °C using a conversion factor.\nAnnotations: Temperature and precipitation values are labeled for clarity.",
+    "crumbs": [
+      "Lessons",
+      "08-Data Viz II"
+    ]
+  },
+  {
+    "objectID": "coding/week_05/08_ggplot2_adv.html#explanation-1",
+    "href": "coding/week_05/08_ggplot2_adv.html#explanation-1",
+    "title": "Data Viz II",
+    "section": "3.1 Explanation:",
+    "text": "3.1 Explanation:\n\nannotate(\"rect\"): Creates colored polygons for each quadrant.\nLabels: Descriptive labels are added to clarify each region.",
+    "crumbs": [
+      "Lessons",
+      "08-Data Viz II"
+    ]
+  },
+  {
+    "objectID": "coding/week_05/08_ggplot2_adv.html#explanation-2",
+    "href": "coding/week_05/08_ggplot2_adv.html#explanation-2",
+    "title": "Data Viz II",
+    "section": "4.1 Explanation:",
+    "text": "4.1 Explanation:\n\nlm() fits a linear model to the data.\nannotate() displays the regression equation on the plot.",
+    "crumbs": [
+      "Lessons",
+      "08-Data Viz II"
     ]
   },
   {
