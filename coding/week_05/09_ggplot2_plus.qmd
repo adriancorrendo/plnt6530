@@ -36,11 +36,16 @@ By the end of this session, you will: 1. Load and visualize geographic data usin
 
 Ensure the following packages are installed:
 
+```{r}
+
+```
+
 ```{r warning=FALSE, message=FALSE}
 library(pacman)
-p_load(ggplot2, sf, maps, dplyr, 
-       ggthemes, ggrepel, leaflet, geojsonio,
-       ggspatial, ggpubr)
+p_load(dplyr) # data wrangling
+p_load(sf,leaflet, geojsonio, maps) # maps
+p_load(ggplot2, ggthemes, ggrepel,
+       ggspatial, ggpubr) # plots
 ```
 
 # Introduction to Mapping with `ggplot2` and `maps`
@@ -51,16 +56,18 @@ We will start by creating basic maps of the US and Canada using the `maps` packa
 
 ```{r}
 # Load US map data
-us_map <- map_data("state")
+us_map <- map_data(map = "state")
 
 # Plot US map
 us_plot <- 
   ggplot() +
   geom_polygon(data = us_map, aes(x = long, y = lat, group = group),
-               fill = "grey90", color = "grey35") +
+               fill = "#099999", color = "black") +
   coord_fixed(1.3) +
-  labs(title = "Map of the United States") +
-  theme_base()
+  labs(title = "Map of the United States",
+       subtitle = "States") +
+  theme_base()+
+  theme(panel.background = element_rect(fill = "#bde0fe"))
 
 us_plot
 ```
@@ -69,18 +76,23 @@ us_plot
 
 ```{r}
 # Load Canada map data
-canada_map <- map_data("world", region = "Canada")
+canada_map <- map_data("world", region = "Canada", )
 
 # Plot Canada map
-canada_plot <- ggplot() +
-  geom_polygon(data = canada_map, aes(x = long, y = lat, group = group),
-               fill = "steelblue", color = "black") +
+canada_plot <- 
+  ggplot() +
+  geom_polygon(data = canada_map, 
+               aes(x = long, y = lat, group = group, fill = subregion),
+               #fill = "#900000", 
+               color = "black") +
   coord_fixed(1.3) +
-  labs(title = "Map of Canada")
+  labs(title = "Map of Canada")+
+  theme(legend.position = "none")
 
 canada_plot
 
-canada_cut <- canada_plot +
+canada_cut <-
+  canada_plot +
   # Cut limits of map
   scale_y_continuous(limits = c(41, 48))+
   scale_x_continuous(limits = c(-87, -75))+
@@ -107,9 +119,9 @@ cities_us <- data.frame(
 us_plot +
   geom_point(data = cities_us, aes(x = lon, y = lat), 
              color = "red", size = 3) +
-  # geom_label(data = cities_us, aes(x = lon, y = lat, label = city), 
+  # geom_label(data = cities_us, aes(x = lon, y = lat, label = city),
   #                  size = 3, color = "black")
-  geom_label_repel(data = cities_us, aes(x = lon, y = lat, label = city), 
+  geom_label_repel(data = cities_us, aes(x = lon, y = lat, label = city),
                     size = 3, color = "black")
 ```
 
@@ -149,18 +161,23 @@ ggplot(nc) +
   geom_sf(fill = "lightblue", color = "black") +
   labs(title = "Shapefile Example: North Carolina Counties") +
   # Adjust scales for limits
-  scale_y_continuous(limits = c(34.5, 36))+
-  scale_x_continuous(limits = c(-82, -78))+
+  # scale_y_continuous(limits = c(34.5, 36))+
+  # scale_x_continuous(limits = c(-82, -78))+
   theme_minimal()
 ```
 
 ## Read shp of Canada and US
 
 ```{r}
+states_out <- c("Alaska", "District of Columbia", "Hawaii", "Puerto Rico")
+# create not in function
+`%notin%` <- Negate(`%in%`)
+
 ## Load shp files
-usa_shp <- st_read("shp_map/us/usa.shp") %>%
+usa_shp <- st_read(dsn = "shp_map/us/usa.shp") %>%
   # Remove non-contiguous and territories
-  filter(!(NAME %in% c("Alaska", "District of Columbia", "Hawaii", "Puerto Rico")))
+  # dplyr::filter(!(NAME %in% states_out))
+  dplyr::filter(NAME %notin% states_out)
 
 can_shp <- st_read("shp_map/can/canada.shp")
 ```
@@ -182,9 +199,10 @@ ontario_cities <- data.frame(
 ## Define function to customize plot
 
 ```{r}
-geo_plot <- function(x, y, z, title = NULL){
+geo_plot <- 
+  function(x, y, z, title = NULL){
   ggplot()+
-    geom_sf(data=x, fill = "white", color = "black") + # Provinces map
+  geom_sf(data=x, fill = "white", color = "black") + # Provinces map
   geom_sf(data=y, fill = "white", color = "black")+ # US map
   # Adjust scales for lat and lon
   scale_y_continuous(limits = c(41.8, 46))+
@@ -278,9 +296,9 @@ ontario_cities %>%
 leaflet() %>%
   addTiles() %>%
 # Add PINS
-addMarkers(~lon, ~lat, popup = ~city) %>%
-addCircleMarkers(~lon, ~lat, popup = ~city, radius = 5, color = "gold",
-                  fillOpacity = 0.7) %>%
+addMarkers(lng=~lon,lat=~lat, popup = ~city) %>%
+addCircleMarkers(~lon, ~lat, popup = ~city, radius = 6, color = "blue",
+                  fillOpacity = 0.9) %>%
 # Configure initial view of the map
 setView(lng = -80, lat = 44, zoom = 6)
 ```

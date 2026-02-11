@@ -1,5 +1,25 @@
 [
   {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "PLNT6530|01 - Reproducible Data Sci for Ag",
+    "section": "",
+    "text": "Reproducible Data Science for Ag is offered at Department of Plant Agriculture (University of Guelph) by Dr. Adrian Correndo. It is designed for graduate students in crop and soil sciences to develop key skills in data science using R. This course emphasizes reproducibility in data analysis, ensuring that results can be consistently replicated. Students will learn essential data science concepts, and how to use functions, packages, and version control to effectively manage their data and collaborate with peers. Following tidy principles, the course promotes best coding practices for data wrangling, effective visualization, and clean deployment of statistical models common in agriculture. By the end of the course, students will be equipped to handle a variety of agricultural datasets and produce reliable, reproducible research outcomes.\n\n\n\nBy the end of this course, students will be able to:\n\nReproducibility: understand the principles and importance of reproducible data analysis.\nData manipulation: develop proficiency in R, including key data structures, packages, and functions to read, clean, transform, and organize datasets.\nData visualization: create informative and aesthetically pleasing visualizations of data.\nModelling and iteration: apply various algorithms and statistical models common to plant agriculture, and implement techniques to handle multiple datasets simultaneously.\nProfessional reporting: produce professional reports for sharing results.\nVersion control: manage the basics of Git and Github for collaborative projects.\n\n\n\n\nThis course will use a variety of technologies and resources. To successfully participate in and complete this course, students will need access to the following\n\n\nCourseLink. This platform will be used as the main Course-Home Page. If you need any assistance with the software tools or the CourseLink website, contact CourseLink Support. Email: courselink@uoguelph.ca Tel: 519-824-4120 ext. 56939 Toll-Free (CAN/USA): 1-866- 275-1478. Support Hours (Eastern Time): Monday thru Friday: 8:30 am–8:30 pm; Saturday: 10:00 am–4:00 pm; Sunday: 12:00 pm–6:00 pm\nZoom. This course will use Zoom for lectures when in-person class is not possible. Check your system requirements to ensure you will be able to participate (https://opened.uoguelph.ca/student-resources/system-and-software-requirements/). A Zoom link for the class will be provided before the first day of class. Please, check Home-Page and announcements on CourseLink, and emails from the instructor (acorrend@uoguelph.ca).\n\n\n\n\nR (latest stable version, available at CRAN).\nRStudio/Posit IDE (desktop or cloud-based version for writing and running R code).\nCourse-Specific Libraries and Packages: Students will be required to install R packages. Detailed instructions will be provided in class.\nVersion Control and Collaboration Tools: Git (for version control) and a free GitHub account for collaborative project work and sharing code.\n\n\n\n\nA laptop or desktop computer capable of running R and RStudio (Windows, MacOS, or Linux). Minimum specifications include:\n\nProcessor: At least a dual-core processor.\nRAM: 8 GB or more (16 GB recommended for handling larger datasets).\nStorage: 10 GB of free space for software installation, course files, and datasets.\n\n\n\n\nReliable high-speed internet for accessing online sessions, resources, downloading software, and using cloud-based platforms (e.g., Posit Cloud, GitHub).",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#dpag-oac-uog",
+    "href": "index.html#dpag-oac-uog",
+    "title": "PLNT6530|01 - Reproducible Data Sci for Ag",
+    "section": "",
+    "text": "Reproducible Data Science for Ag is offered at Department of Plant Agriculture (University of Guelph) by Dr. Adrian Correndo. It is designed for graduate students in crop and soil sciences to develop key skills in data science using R. This course emphasizes reproducibility in data analysis, ensuring that results can be consistently replicated. Students will learn essential data science concepts, and how to use functions, packages, and version control to effectively manage their data and collaborate with peers. Following tidy principles, the course promotes best coding practices for data wrangling, effective visualization, and clean deployment of statistical models common in agriculture. By the end of the course, students will be equipped to handle a variety of agricultural datasets and produce reliable, reproducible research outcomes.\n\n\n\nBy the end of this course, students will be able to:\n\nReproducibility: understand the principles and importance of reproducible data analysis.\nData manipulation: develop proficiency in R, including key data structures, packages, and functions to read, clean, transform, and organize datasets.\nData visualization: create informative and aesthetically pleasing visualizations of data.\nModelling and iteration: apply various algorithms and statistical models common to plant agriculture, and implement techniques to handle multiple datasets simultaneously.\nProfessional reporting: produce professional reports for sharing results.\nVersion control: manage the basics of Git and Github for collaborative projects.\n\n\n\n\nThis course will use a variety of technologies and resources. To successfully participate in and complete this course, students will need access to the following\n\n\nCourseLink. This platform will be used as the main Course-Home Page. If you need any assistance with the software tools or the CourseLink website, contact CourseLink Support. Email: courselink@uoguelph.ca Tel: 519-824-4120 ext. 56939 Toll-Free (CAN/USA): 1-866- 275-1478. Support Hours (Eastern Time): Monday thru Friday: 8:30 am–8:30 pm; Saturday: 10:00 am–4:00 pm; Sunday: 12:00 pm–6:00 pm\nZoom. This course will use Zoom for lectures when in-person class is not possible. Check your system requirements to ensure you will be able to participate (https://opened.uoguelph.ca/student-resources/system-and-software-requirements/). A Zoom link for the class will be provided before the first day of class. Please, check Home-Page and announcements on CourseLink, and emails from the instructor (acorrend@uoguelph.ca).\n\n\n\n\nR (latest stable version, available at CRAN).\nRStudio/Posit IDE (desktop or cloud-based version for writing and running R code).\nCourse-Specific Libraries and Packages: Students will be required to install R packages. Detailed instructions will be provided in class.\nVersion Control and Collaboration Tools: Git (for version control) and a free GitHub account for collaborative project work and sharing code.\n\n\n\n\nA laptop or desktop computer capable of running R and RStudio (Windows, MacOS, or Linux). Minimum specifications include:\n\nProcessor: At least a dual-core processor.\nRAM: 8 GB or more (16 GB recommended for handling larger datasets).\nStorage: 10 GB of free space for software installation, course files, and datasets.\n\n\n\n\nReliable high-speed internet for accessing online sessions, resources, downloading software, and using cloud-based platforms (e.g., Posit Cloud, GitHub).",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
     "objectID": "coding/extras/p_value.html",
     "href": "coding/extras/p_value.html",
     "title": "What Does a p-value Really Mean?",
@@ -99,223 +119,388 @@
     ]
   },
   {
-    "objectID": "coding/extras/fair_care.html",
-    "href": "coding/extras/fair_care.html",
-    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
+    "objectID": "coding/extras/pipe_operator.html",
+    "href": "coding/extras/pipe_operator.html",
+    "title": "The pipe operator",
     "section": "",
-    "text": "When we learn coding, we often focus on how to analyze data. But in real projects, the hardest (and most important) questions are often:\n\nShould we collect/share this data at all?\nWho could be harmed if it’s misused?\nHow do we make data useful without losing trust or violating rights?\n\nGood data management protects three things:\n\nPrivacy 🔒 — preventing inappropriate exposure of personal or sensitive information\n\nIntegrity ✅ — ensuring data aren’t altered, corrupted, or misrepresented\n\nValue 💡 — making data understandable and reusable so it can support learning, decisions, and research",
+    "text": "Most data analysis in R is a sequence of small steps: start with a dataset, then filter, transform, summarize, and visualize. You can write this as nested function calls or by creating many intermediate objects (df1, df2, df3), but both approaches can get messy: nested calls are hard to read from the inside out, and lots of intermediate objects add clutter.\nA pipe operator lets you write code in the same order you think about the workflow: top-to-bottom, step-by-step. The output of one step becomes the input of the next. In practice, pipelines tend to be easier to read, easier to modify, and easier to debug because each step is explicit and you can inspect results at any point.\nIn the R ecosystem, there are two common pipes:\n\n%&gt;% from magrittr (widely used in tidyverse workflows)\n|&gt; the native (base R) pipe (built into R 4.1.0 and later)\n\nThis short note shows both and highlights a few practical differences. Let’s navigate an example:\n\n\n\nlibrary(pacman)\npacman::p_load(dplyr, ggplot2)\n\n\n\n\n\n# Load the package\nlibrary(agridat)\n# Load an example dataset\ndata(rothamsted.oats, package = 'agridat')\n# Alternatively, you can load the dataset directly (cleaner)\nrothamsted.oats &lt;- agridat::rothamsted.oats\nhead(rothamsted.oats)\n\n  block trt  grain straw row col\n1     x  oa 61.375  83.0  12   1\n2     x 2me 68.750 130.0  12   2\n3     x 2sl 64.250 100.0  12   3\n4     x  ob 65.500  96.0  12   4\n5     w 2sl 79.625 130.5  12   5\n6     w  oa 79.250 122.0  12   6\n\n\n\n\n\n\n\nThe ‘dplyr’ package heavily utilizes the pipe operator %&gt;% from the ‘magrittr’ package to streamline data manipulation workflows. This operator allows you to pass the output of one function directly into the next function, making your code more readable and easier to follow.\n\n# Group by treatment and summarize\n# Using the pipe operator for chaining commands\nrothamsted.oats %&gt;%\n  group_by(trt) %&gt;%\n  summarize(mean_grain = mean(grain))\n\n# A tibble: 12 × 2\n   trt   mean_grain\n   &lt;fct&gt;      &lt;dbl&gt;\n 1 1me         82.8\n 2 1ml         86.5\n 3 1se         81.1\n 4 1sl         80.8\n 5 2me         81.5\n 6 2ml         82.3\n 7 2se         81.2\n 8 2sl         81.2\n 9 oa          77.6\n10 ob          79.2\n11 oc          78.4\n12 od          81.4\n\n# The best practice is to specify the data using the .data argument\nrothamsted.oats %&gt;%\n  group_by(trt) %&gt;%\n  summarize(.data = ., mean_grain = mean(grain))\n\n# A tibble: 12 × 2\n   trt   mean_grain\n   &lt;fct&gt;      &lt;dbl&gt;\n 1 1me         82.8\n 2 1ml         86.5\n 3 1se         81.1\n 4 1sl         80.8\n 5 2me         81.5\n 6 2ml         82.3\n 7 2se         81.2\n 8 2sl         81.2\n 9 oa          77.6\n10 ob          79.2\n11 oc          78.4\n12 od          81.4\n\n# Let's make a plot\nrothamsted.oats %&gt;%\n  ggplot(aes(x = trt, y = grain)) +\n  geom_boxplot(aes(fill=trt)) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\n\nWith the introduction of R 4.1.0, base R now includes its own native pipe operator |&gt;, which serves a similar purpose to the %&gt;% operator from the ‘magrittr’ package. This operator allows you to pass the result of one expression as the first argument to the next expression, enhancing code readability without the need for additional packages.\n\n# Using the native pipe operator\nrothamsted.oats |&gt;\n  group_by(trt) |&gt;\n  summarize(.data = _, mean_grain = mean(grain))\n\n# A tibble: 12 × 2\n   trt   mean_grain\n   &lt;fct&gt;      &lt;dbl&gt;\n 1 1me         82.8\n 2 1ml         86.5\n 3 1se         81.1\n 4 1sl         80.8\n 5 2me         81.5\n 6 2ml         82.3\n 7 2se         81.2\n 8 2sl         81.2\n 9 oa          77.6\n10 ob          79.2\n11 oc          78.4\n12 od          81.4\n\n# Let's make a plot again\nrothamsted.oats |&gt;\n  ggplot(aes(x = trt, y = grain)) +\n  geom_boxplot(aes(fill=trt)) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\nNotice when using the %&gt;% the placeholder . is used to indicate where the piped value should be inserted if it’s not the first argument. Similarly, with the native pipe |&gt;, the placeholder _ can be used to indicate where the piped value should be inserted if it’s not the first argument.\n\n\n\n\n\n\n\n\nDoes any work “better” than the other?\n\n\n\n\n\n\nNo package needed (it’s base R syntax), so it works everywhere without loading magrittr.\nUsually less overhead than %&gt;% because %&gt;% is a function-based pipe, while |&gt; is language syntax.\nIn practice, the difference is rarely noticeable compared to the cost of dplyr verbs, but it can matter in tight loops.\nPlays nicely with modern R style and is increasingly common in new code.\n\n\n\n\n\nPlaceholder power: %&gt;% uses . to place the LHS wherever you want. Base |&gt; uses _ but it’s more restricted (notably, it’s tied to named arguments).\n%&gt;% can do extras like creating functions from a pipeline (and other magrittr variants like %T&gt;%, %&lt;&gt;%, etc.). Base |&gt; doesn’t include those.\n%&gt;% lets you pipe into a bare function name (x %&gt;% sqrt).\nBase |&gt; generally requires a call: x |&gt; sqrt()",
     "crumbs": [
       "Extras",
-      "Fair & Care"
+      "Pipe Ops"
     ]
   },
   {
-    "objectID": "coding/extras/fair_care.html#why-talk-about-data-protection-in-a-coding-class",
-    "href": "coding/extras/fair_care.html#why-talk-about-data-protection-in-a-coding-class",
-    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
+    "objectID": "coding/extras/pipe_operator.html#libraries",
+    "href": "coding/extras/pipe_operator.html#libraries",
+    "title": "The pipe operator",
     "section": "",
-    "text": "When we learn coding, we often focus on how to analyze data. But in real projects, the hardest (and most important) questions are often:\n\nShould we collect/share this data at all?\nWho could be harmed if it’s misused?\nHow do we make data useful without losing trust or violating rights?\n\nGood data management protects three things:\n\nPrivacy 🔒 — preventing inappropriate exposure of personal or sensitive information\n\nIntegrity ✅ — ensuring data aren’t altered, corrupted, or misrepresented\n\nValue 💡 — making data understandable and reusable so it can support learning, decisions, and research",
+    "text": "library(pacman)\npacman::p_load(dplyr, ggplot2)",
     "crumbs": [
       "Extras",
-      "Fair & Care"
+      "Pipe Ops"
     ]
   },
   {
-    "objectID": "coding/extras/fair_care.html#fair-principles",
-    "href": "coding/extras/fair_care.html#fair-principles",
-    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
-    "section": "2 ✨ FAIR principles",
-    "text": "2 ✨ FAIR principles\nFAIR is about making data (and metadata) easy to discover and reuse—by both people and computers.\n\nFindable: others can locate the dataset (titles, keywords, metadata, persistent links)\nAccessible: it can be retrieved in a controlled way (open when possible, restricted when needed)\nInteroperable: it uses standard formats and vocabularies so tools can combine it with other data\nReusable: it includes enough context (methods, units, codes, license) to be reused correctly\n\n\n\n\n\n\n\n✅ Key idea\n\n\n\nFAIR does not mean “open.”\nData can be restricted and still be FAIR if it is well-described and the access conditions are clear.",
-    "crumbs": [
-      "Extras",
-      "Fair & Care"
-    ]
-  },
-  {
-    "objectID": "coding/extras/fair_care.html#care-principles",
-    "href": "coding/extras/fair_care.html#care-principles",
-    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
-    "section": "3 🌿 CARE principles",
-    "text": "3 🌿 CARE principles\nCARE focuses on the people and communities behind data, especially when data relate to Indigenous Peoples and Indigenous Knowledge.\n\nCollective benefit: data use should support community wellbeing (not just outside interests)\nAuthority to control: communities have rights and interests in how data are collected, accessed, and used\nResponsibility: users of data must be accountable and support respectful relationships\nEthics: data use should minimize harm and align with community values and consent\n\n\n\n\n\n\n\n🧭 Key idea\n\n\n\nCARE emphasizes rights, power, relationships, and purpose—not just technical usability.",
-    "crumbs": [
-      "Extras",
-      "Fair & Care"
-    ]
-  },
-  {
-    "objectID": "coding/extras/fair_care.html#fair-care-together",
-    "href": "coding/extras/fair_care.html#fair-care-together",
-    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
-    "section": "4 🧩 FAIR + CARE together",
-    "text": "4 🧩 FAIR + CARE together\nFAIR and CARE answer different questions:\n\nFAIR asks: Can this dataset be found and reused properly?\nCARE asks: Should it be used this way, and who benefits or could be harmed?\n\nThey complement each other:\n\nYou can make data technically reusable (FAIR) while still respecting rights, consent, and community governance (CARE).\nA dataset can be well-organized but still inappropriate to share if it ignores authority, consent, or potential harm.\n\n\n\n\n\n\n\n⭐ Takeaway\n\n\n\nFAIR improves reusability. CARE protects people and communities.\nStrong data practice needs both.",
-    "crumbs": [
-      "Extras",
-      "Fair & Care"
-    ]
-  },
-  {
-    "objectID": "coding/extras/fair_care.html#practical-checklist-for-student-projects",
-    "href": "coding/extras/fair_care.html#practical-checklist-for-student-projects",
-    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
-    "section": "5 ✅ Practical checklist for student projects",
-    "text": "5 ✅ Practical checklist for student projects\nUse this before sharing data, code, or a repository.\n\n5.1 🔒 1) Privacy & sensitivity\n\nDoes the dataset include personal, confidential, location-based, or culturally sensitive information?\nHave you removed identifiers (when appropriate) and documented what was removed?\nAre access rules clear (open vs restricted)?\n\n\n\n\n\n\n\n⚠️ Caution\n\n\n\nEven if you remove names, small datasets + detailed locations + rare characteristics can still identify people or communities.\n\n\n\n\n5.2 ✅ 2) Integrity & trust\n\nDo you track versions of files (e.g., Git commits, file naming, or release tags)?\nCan someone reproduce your results from your code + data description?\nDid you document cleaning steps and assumptions?\n\n\n\n5.3 ✨ 3) FAIR basics\n\nIs there a clear README describing what the dataset is and how to use it?\nAre variables explained (a data dictionary)?\nAre formats standard (e.g., .csv, consistent units, consistent column names)?\nIs there a license or clear re-use statement?\n\n\n\n5.4 🌿 4) CARE basics\n\nWho does the data describe, and who should have a say in how it is used?\nDoes the project involve Indigenous data or knowledge?\nDo you have permission/consent and the right governance process for use and sharing?\nCan you explain who benefits from this work and how potential harms are reduced?",
-    "crumbs": [
-      "Extras",
-      "Fair & Care"
-    ]
-  },
-  {
-    "objectID": "coding/extras/fair_care.html#in-a-nutshell",
-    "href": "coding/extras/fair_care.html#in-a-nutshell",
-    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
-    "section": "6 🏁 In a nutshell",
-    "text": "6 🏁 In a nutshell\n\nFAIR helps others use data well. \nCARE helps ensure data use is right and respectful. \nTogether, they help protect privacy, integrity, and the value of data. 🛡️",
-    "crumbs": [
-      "Extras",
-      "Fair & Care"
-    ]
-  },
-  {
-    "objectID": "coding/extras/fair_care.html#to-think-about",
-    "href": "coding/extras/fair_care.html#to-think-about",
-    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
-    "section": "7 🗣️To think about…",
-    "text": "7 🗣️To think about…\nPick one scenario:\n\nA dataset contains farm trial results with GPS coordinates\n\nA dataset includes survey responses from a small community\n\nA dataset includes information related to Indigenous lands, communities, or knowledge\n\nConsider the following questions: - What could go wrong if the data are shared publicly? - What would you do to make the project more FAIR? - What CARE questions should be asked before publishing?\n\n\n\n\n\n\n🧠 Optional prompt\n\n\n\nWrite a 3–4 sentence “sharing decision” for your scenario:  - What will be shared?  - What will be restricted (and why)?  - How will you document access conditions and responsibilities?",
-    "crumbs": [
-      "Extras",
-      "Fair & Care"
-    ]
-  },
-  {
-    "objectID": "coding/extras/fair_care.html#suggested-reading",
-    "href": "coding/extras/fair_care.html#suggested-reading",
-    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
-    "section": "8 📚 Suggested reading",
-    "text": "8 📚 Suggested reading\n\n8.1 ✨ FAIR\n\nFAIR Guiding Principles (Wilkinson et al., 2016)\n\nGO FAIR overview\n\nThe Turing Way Book\n\n\n\n8.2 🌿 CARE + Indigenous Data Governance\n\nGlobal Indigenous Data Alliance (CARE): https://www.gida-global.org/care\n\nCARE principles paper (Carroll et al., 2020)\n\n\n\n8.3 🧩 FAIR + CARE together\n\nOperationalizing FAIR + CARE (Carroll et al., 2021)",
-    "crumbs": [
-      "Extras",
-      "Fair & Care"
-    ]
-  },
-  {
-    "objectID": "coding/week_01/essentials_01.html",
-    "href": "coding/week_01/essentials_01.html",
-    "title": "Essentials of R coding I",
+    "objectID": "coding/extras/pipe_operator.html#data",
+    "href": "coding/extras/pipe_operator.html#data",
+    "title": "The pipe operator",
     "section": "",
-    "text": "This page provides an overview of the essential types of elements in R, including examples and explanations for each. Use this as a quick reference to understand the basics of data types and operations.",
+    "text": "# Load the package\nlibrary(agridat)\n# Load an example dataset\ndata(rothamsted.oats, package = 'agridat')\n# Alternatively, you can load the dataset directly (cleaner)\nrothamsted.oats &lt;- agridat::rothamsted.oats\nhead(rothamsted.oats)\n\n  block trt  grain straw row col\n1     x  oa 61.375  83.0  12   1\n2     x 2me 68.750 130.0  12   2\n3     x 2sl 64.250 100.0  12   3\n4     x  ob 65.500  96.0  12   4\n5     w 2sl 79.625 130.5  12   5\n6     w  oa 79.250 122.0  12   6",
     "crumbs": [
-      "Lessons",
-      "01-Essentials of R"
+      "Extras",
+      "Pipe Ops"
     ]
   },
   {
-    "objectID": "coding/week_01/essentials_01.html#numbers",
-    "href": "coding/week_01/essentials_01.html#numbers",
-    "title": "Essentials of R coding I",
-    "section": "01. Numbers",
-    "text": "01. Numbers\n\n20\n\n[1] 20",
+    "objectID": "coding/extras/pipe_operator.html#the-pipe-operators",
+    "href": "coding/extras/pipe_operator.html#the-pipe-operators",
+    "title": "The pipe operator",
+    "section": "",
+    "text": "The ‘dplyr’ package heavily utilizes the pipe operator %&gt;% from the ‘magrittr’ package to streamline data manipulation workflows. This operator allows you to pass the output of one function directly into the next function, making your code more readable and easier to follow.\n\n# Group by treatment and summarize\n# Using the pipe operator for chaining commands\nrothamsted.oats %&gt;%\n  group_by(trt) %&gt;%\n  summarize(mean_grain = mean(grain))\n\n# A tibble: 12 × 2\n   trt   mean_grain\n   &lt;fct&gt;      &lt;dbl&gt;\n 1 1me         82.8\n 2 1ml         86.5\n 3 1se         81.1\n 4 1sl         80.8\n 5 2me         81.5\n 6 2ml         82.3\n 7 2se         81.2\n 8 2sl         81.2\n 9 oa          77.6\n10 ob          79.2\n11 oc          78.4\n12 od          81.4\n\n# The best practice is to specify the data using the .data argument\nrothamsted.oats %&gt;%\n  group_by(trt) %&gt;%\n  summarize(.data = ., mean_grain = mean(grain))\n\n# A tibble: 12 × 2\n   trt   mean_grain\n   &lt;fct&gt;      &lt;dbl&gt;\n 1 1me         82.8\n 2 1ml         86.5\n 3 1se         81.1\n 4 1sl         80.8\n 5 2me         81.5\n 6 2ml         82.3\n 7 2se         81.2\n 8 2sl         81.2\n 9 oa          77.6\n10 ob          79.2\n11 oc          78.4\n12 od          81.4\n\n# Let's make a plot\nrothamsted.oats %&gt;%\n  ggplot(aes(x = trt, y = grain)) +\n  geom_boxplot(aes(fill=trt)) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\n\nWith the introduction of R 4.1.0, base R now includes its own native pipe operator |&gt;, which serves a similar purpose to the %&gt;% operator from the ‘magrittr’ package. This operator allows you to pass the result of one expression as the first argument to the next expression, enhancing code readability without the need for additional packages.\n\n# Using the native pipe operator\nrothamsted.oats |&gt;\n  group_by(trt) |&gt;\n  summarize(.data = _, mean_grain = mean(grain))\n\n# A tibble: 12 × 2\n   trt   mean_grain\n   &lt;fct&gt;      &lt;dbl&gt;\n 1 1me         82.8\n 2 1ml         86.5\n 3 1se         81.1\n 4 1sl         80.8\n 5 2me         81.5\n 6 2ml         82.3\n 7 2se         81.2\n 8 2sl         81.2\n 9 oa          77.6\n10 ob          79.2\n11 oc          78.4\n12 od          81.4\n\n# Let's make a plot again\nrothamsted.oats |&gt;\n  ggplot(aes(x = trt, y = grain)) +\n  geom_boxplot(aes(fill=trt)) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\nNotice when using the %&gt;% the placeholder . is used to indicate where the piped value should be inserted if it’s not the first argument. Similarly, with the native pipe |&gt;, the placeholder _ can be used to indicate where the piped value should be inserted if it’s not the first argument.\n\n\n\n\n\n\n\n\nDoes any work “better” than the other?\n\n\n\n\n\n\nNo package needed (it’s base R syntax), so it works everywhere without loading magrittr.\nUsually less overhead than %&gt;% because %&gt;% is a function-based pipe, while |&gt; is language syntax.\nIn practice, the difference is rarely noticeable compared to the cost of dplyr verbs, but it can matter in tight loops.\nPlays nicely with modern R style and is increasingly common in new code.\n\n\n\n\n\nPlaceholder power: %&gt;% uses . to place the LHS wherever you want. Base |&gt; uses _ but it’s more restricted (notably, it’s tied to named arguments).\n%&gt;% can do extras like creating functions from a pipeline (and other magrittr variants like %T&gt;%, %&lt;&gt;%, etc.). Base |&gt; doesn’t include those.\n%&gt;% lets you pipe into a bare function name (x %&gt;% sqrt).\nBase |&gt; generally requires a call: x |&gt; sqrt()",
     "crumbs": [
-      "Lessons",
-      "01-Essentials of R"
+      "Extras",
+      "Pipe Ops"
     ]
   },
   {
-    "objectID": "coding/week_01/essentials_01.html#math-operations",
-    "href": "coding/week_01/essentials_01.html#math-operations",
-    "title": "Essentials of R coding I",
-    "section": "02. Math Operations",
-    "text": "02. Math Operations\n\n20+1 # addition\n\n[1] 21\n\n20-4 # subtraction\n\n[1] 16\n\n20*5 # multiplication\n\n[1] 100\n\n20/5 # division\n\n[1] 4\n\n2^2 # exponentials\n\n[1] 4\n\nsqrt(9) # square root\n\n[1] 3\n\n# Greater exponents for roots\n# notation is: x^(1/n)\n\n# Cubic root of 27\n27^(1/3)  # Result: 3\n\n[1] 3\n\n# 4th root of 16\n16^(1/4)  # Result: 2\n\n[1] 2\n\n# 5th root of 32\n32^(1/5)  # Result: 2\n\n[1] 2",
+    "objectID": "coding/extras/read_tabular.html",
+    "href": "coding/extras/read_tabular.html",
+    "title": "Reading tabular data in R",
+    "section": "",
+    "text": "In real projects, a big part of “data science” is simply getting data into R reliably and reproducibly. CSV (comma separated values) and Excel are the most common formats you’ll see in agriculture, industry, and research workflows.\nThis short note covers:  - 📄 how to read CSV (readr).  - 📊 how to read Excel (readxl, openxlsx).  - 🗂️ how to read many files in a folder.  - 🧾 how to read many sheets in an excel file.  - 🧹 common cleaning options like skipping rows, header rows, and missing values",
     "crumbs": [
-      "Lessons",
-      "01-Essentials of R"
+      "Extras",
+      "Read Tabular Data"
     ]
   },
   {
-    "objectID": "coding/week_01/essentials_01.html#text-or-characters-also-called-strings",
-    "href": "coding/week_01/essentials_01.html#text-or-characters-also-called-strings",
-    "title": "Essentials of R coding I",
-    "section": "03. Text or characters (also called strings)",
-    "text": "03. Text or characters (also called strings)\n\n\"coding is fun\"\n\n[1] \"coding is fun\"\n\n\nBut these elements are not stored as objects yet:",
+    "objectID": "coding/extras/read_tabular.html#quick-comparison-of-main-packages",
+    "href": "coding/extras/read_tabular.html#quick-comparison-of-main-packages",
+    "title": "Reading tabular data in R",
+    "section": "2.1 Quick comparison of main packages",
+    "text": "2.1 Quick comparison of main packages\n📄 CSV / delimited text\n- Package: readr\n- ✅ Strengths: fast, consistent parsing, clear messages, good type control (col_types)\n- ⚠️ Notes: great default for tidyverse-style workflows\n📊 Excel (.xlsx)\n- Package: readxl\n- ✅ Strengths: simple reading of Excel, minimal dependencies\n- ⚠️ Notes: read-only (does not write Excel)\n📊 Excel (.xlsx)\n- Package: openxlsx\n- ✅ Strengths: read + write, more control over excels/sheets\n- ⚠️ Notes: great when you must write .xlsx outputs\nRule of thumb: - 📄 CSV: start with readr::read_csv() - 📊 Excel reading: start with readxl::read_excel() - 📝 Excel reading + writing or more control: use openxlsx",
     "crumbs": [
-      "Lessons",
-      "01-Essentials of R"
+      "Extras",
+      "Read Tabular Data"
     ]
   },
   {
-    "objectID": "coding/week_01/essentials_01.html#define-objects",
-    "href": "coding/week_01/essentials_01.html#define-objects",
-    "title": "Essentials of R coding I",
-    "section": "04. Define objects",
-    "text": "04. Define objects\n\na &lt;- 20\n10 -&gt; b\n# We can also use equal:\nc = 15\n# But using \"&lt;-\", and leave = only for operations (so you can notice the difference) is considered a better coding practice.",
+    "objectID": "coding/extras/read_tabular.html#basic-read",
+    "href": "coding/extras/read_tabular.html#basic-read",
+    "title": "Reading tabular data in R",
+    "section": "3.1 Basic read",
+    "text": "3.1 Basic read\n\ndf &lt;- readr::read_csv(\"data/my_file.csv\")\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\ndf\n\n# A tibble: 289 × 6\n   gen   trial env   yield  year loc  \n   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;\n 1 G16   T2    E01     590  2001 Mieso\n 2 G17   T2    E01     554  2001 Mieso\n 3 G18   T2    E01     586  2001 Mieso\n 4 G19   T2    E01     738  2001 Mieso\n 5 G20   T2    E01     489  2001 Mieso\n 6 G21   T2    E01     684  2001 Mieso\n 7 G22   T2    E01     555  2001 Mieso\n 8 G23   T2    E01    1025  2001 Mieso\n 9 G24   T2    E01     493  2001 Mieso\n10 G25   T2    E01     691  2001 Mieso\n# ℹ 279 more rows",
     "crumbs": [
-      "Lessons",
-      "01-Essentials of R"
+      "Extras",
+      "Read Tabular Data"
     ]
   },
   {
-    "objectID": "coding/week_01/essentials_01.html#print-objects",
-    "href": "coding/week_01/essentials_01.html#print-objects",
-    "title": "Essentials of R coding I",
-    "section": "05. Print objects",
-    "text": "05. Print objects\n\na\n\n[1] 20\n\nprint(a)\n\n[1] 20\n\nb\n\n[1] 10\n\nc\n\n[1] 15",
+    "objectID": "coding/extras/read_tabular.html#common-options",
+    "href": "coding/extras/read_tabular.html#common-options",
+    "title": "Reading tabular data in R",
+    "section": "3.2 Common options",
+    "text": "3.2 Common options\nmissing values, quieter output\n\ndf &lt;- readr::read_csv(\n  file = \"data/my_file.csv\",\n  na = c(\"\", \"NA\", \"N/A\", \"na\", \".\")\n)\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.",
     "crumbs": [
-      "Lessons",
-      "01-Essentials of R"
+      "Extras",
+      "Read Tabular Data"
     ]
   },
   {
-    "objectID": "coding/week_01/essentials_01.html#vectors",
-    "href": "coding/week_01/essentials_01.html#vectors",
-    "title": "Essentials of R coding I",
-    "section": "06. Vectors",
-    "text": "06. Vectors\nA vector is one of the most basic data structures. It is a sequence of elements of the same type, such as numbers, characters, or logical values. Vectors are used to store and manipulate collections of data efficiently. \n\na. Creating a vector\nVectors can be created using the c() function (combine function):\n\n# Numeric vector\nnumeric_vector &lt;- c(1, 2, 3, 4.5)\nnumeric_vector\n\n[1] 1.0 2.0 3.0 4.5\n\n# Character vector\ncharacter_vector &lt;- c(\"corn\", \"wheat\", \"soybean\")\ncharacter_vector\n\n[1] \"corn\"    \"wheat\"   \"soybean\"\n\n# Logical vector\nlogical_vector &lt;- c(TRUE, FALSE, TRUE)\nlogical_vector\n\n[1]  TRUE FALSE  TRUE\n\n\n\n\nb. Accessing Elements\nYou can access elements of a vector using square brackets []:\n\n# Access the first element\nnumeric_vector[1]\n\n[1] 1\n\n# Access multiple elements\nnumeric_vector[c(1, 3)]\n\n[1] 1 3\n\n\n\n\nc. Vectorized Operations\nIn R, vector-operations are applied to each element automatically:\n\n# Adding a scalar to a vector\nnumeric_vector + 2\n\n[1] 3.0 4.0 5.0 6.5\n\n# Element-wise addition\nnumeric_vector + c(10, 20, 30, 40)\n\n[1] 11.0 22.0 33.0 44.5\n\n\n\n\nd. Common Functions with Vectors\n\n‘length()’: Get the number of elements in a vector.\n‘typeof()’ or ‘class()’: Determine the type of elements in a vector.\n‘seq()’: Generate a sequence of numbers.\n‘rep()’: Repeat elements to create a vector.",
+    "objectID": "coding/extras/read_tabular.html#control-column-types",
+    "href": "coding/extras/read_tabular.html#control-column-types",
+    "title": "Reading tabular data in R",
+    "section": "3.3 Control column types 🎯",
+    "text": "3.3 Control column types 🎯\nRecommended for reproducibility.\n\ndf &lt;- readr::read_csv(file = \"data/my_file.csv\") |&gt; \n    mutate(loc  = as.character(loc),\n           year  = as.integer(year),\n           yield = as.numeric(yield))\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.",
     "crumbs": [
-      "Lessons",
-      "01-Essentials of R"
+      "Extras",
+      "Read Tabular Data"
     ]
   },
   {
-    "objectID": "coding/week_01/essentials_01.html#lists",
-    "href": "coding/week_01/essentials_01.html#lists",
-    "title": "Essentials of R coding I",
-    "section": "07. Lists",
-    "text": "07. Lists\nIn R, a list is a versatile data structure that can contain elements of different types, including vectors, matrices, data frames, and even other lists. Unlike vectors, which are homogeneous, lists are heterogeneous, meaning their elements can be of different data types and lengths. \nKey Characteristics of Lists: \n\nHeterogeneous: Lists can store elements of varying types (numeric, character, logical, etc.) and structures (vectors, data frames, functions, etc.). \nIndexed: Elements in a list are accessed using double square brackets [[ ]] or named elements using $.\n\nWhy Use Lists? \n\nFlexibility: Lists can store complex and nested data structures. \nData Wrangling: Useful for handling results from models, nested data, or any mixed-type collections. \nFunctions: Functions in R often return their output as lists (e.g., lm()). \n\n\na. Creating a list\nLists are created using the list() function:\n\n# Create a list with different types of elements\nmy_list &lt;- list(\n  \"numeric_v\" = numeric_vector,\n  \"character_v\" = character_vector,\n  \"single_number\" = 42,\n  \"logical_value\" = TRUE\n)\n\n\n\nb. Accessing Elements in a List\nYou can access elements in a list by their position or name:\nBy Position:\n\n# Access the first element\nmy_list[[1]]\n\n[1] 1.0 2.0 3.0 4.5\n\n# Access the second element\nmy_list[[2]]\n\n[1] \"corn\"    \"wheat\"   \"soybean\"\n\n\nBy name:\n\n# Access by name\nmy_list$numeric_v\n\n[1] 1.0 2.0 3.0 4.5\n\nmy_list$character_v\n\n[1] \"corn\"    \"wheat\"   \"soybean\"\n\n\nSubelements:\n\n# Access the first value in the numeric vector\nmy_list$numeric_vector[1]\n\nNULL\n\n\n\n\nc. Some functions for lists\n\n# Number of elements in the list\nlength(my_list)\n\n[1] 4\n\n# Names of the elements\nnames(my_list)\n\n[1] \"numeric_v\"     \"character_v\"   \"single_number\" \"logical_value\"\n\n# Structure of the list\nstr(my_list)\n\nList of 4\n $ numeric_v    : num [1:4] 1 2 3 4.5\n $ character_v  : chr [1:3] \"corn\" \"wheat\" \"soybean\"\n $ single_number: num 42\n $ logical_value: logi TRUE",
+    "objectID": "coding/extras/read_tabular.html#skip-lines-at-the-top",
+    "href": "coding/extras/read_tabular.html#skip-lines-at-the-top",
+    "title": "Reading tabular data in R",
+    "section": "3.4 Skip lines at the top ⏭️",
+    "text": "3.4 Skip lines at the top ⏭️\nFor example for metadata, notes, extra header rows…\n\ndf &lt;- readr::read_csv(\n  file = \"data/my_file.csv\",\n  skip = 1\n)\n\nRows: 288 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): G16, T2, E01, Mieso\ndbl (2): 590, 2001\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.",
     "crumbs": [
-      "Lessons",
-      "01-Essentials of R"
+      "Extras",
+      "Read Tabular Data"
     ]
   },
   {
-    "objectID": "coding/week_01/essentials_01.html#data-frame",
-    "href": "coding/week_01/essentials_01.html#data-frame",
-    "title": "Essentials of R coding I",
-    "section": "08. Data frame",
-    "text": "08. Data frame\nIn R, a data frame is a two-dimensional data structure used for storing tabular data. It is one of the most commonly used data structures in R for data analysis and manipulation. \nKey Characteristics of a Data Frame \n\nTabular Structure: Data is organized in rows and columns. \nHeterogeneous Columns: Each column can contain different data types (e.g., numeric, character, logical), but all elements in a column must be of the same type. \nRow and Column Names: Rows and columns can have names for easier identification. \n\nWhy Use a Data Frame? \n\nData Analysis: It is ideal for representing structured data like spreadsheets or databases. \nFlexible Operations: Columns can be easily added, removed, or modified. \nIntegration with R Functions: Many R functions for statistical modeling and analysis expect data frames as input. \n\n\na. Creating a Data Frame\nA data frame can be created using the data.frame() function:\n\n# Create a data frame\nmy_data &lt;- data.frame(\n  Crop = c(\"Corn\", \"Wheat\", \"Soybean\"), # Character column\n  Yield = c(180, 90, 50), # Numeric column\n  Legume = c(FALSE, FALSE, TRUE) # Logical column\n)\n\nprint(my_data)\n\n     Crop Yield Legume\n1    Corn   180  FALSE\n2   Wheat    90  FALSE\n3 Soybean    50   TRUE\n\n\n\n\nb. Accessing data in a data frame\nAccessing columns:\n\n# Access a column by name\nmy_data$Crop\n\n[1] \"Corn\"    \"Wheat\"   \"Soybean\"\n\n# Access a column by index\nmy_data[, 2]\n\n[1] 180  90  50\n\n\nAccessing rows:\n\n# Access the first row\nmy_data[1, ]\n\n  Crop Yield Legume\n1 Corn   180  FALSE\n\n# Access specific rows\nmy_data[c(1, 3), ]\n\n     Crop Yield Legume\n1    Corn   180  FALSE\n3 Soybean    50   TRUE\n\n\nAccessing specific elements\n\n# Access the element in the 2nd row, 3rd column\nmy_data[2, 3]\n\n[1] FALSE\n\n# Access specific cells by column name\nmy_data[2, \"Crop\"]\n\n[1] \"Wheat\"\n\n\n\n\nc. Adding a new column\n\nmy_data$Season &lt;- c(\"Summer\", \"Winter\", \"Summer\")\n\n\n\nd. Modify a column\n\nmy_data$Yield &lt;- my_data$Yield + 5\n\n\n\ne. Adding a new row\nIn base R, we can use rbind() to add rows:\n\nnew_row &lt;- data.frame(Crop = \"Barley\", Yield = 80, Legume = FALSE, Season = \"Winter\")\nmy_data &lt;- rbind(my_data, new_row)\n\n\n\nf. Filtering (rows)\nIn base R, we can use subset() to filter rows:\n\nsubset(my_data, Yield &gt; 150)\n\n  Crop Yield Legume Season\n1 Corn   185  FALSE Summer\n\n\nWe can also use logical conditions:\n\nmy_data[my_data$Legume == TRUE, ]\n\n     Crop Yield Legume Season\n3 Soybean    55   TRUE Summer\n\n\n\n\ng. Selecting (columns)\nIn base R, there is no function to select columns. We need to use brackets [] and vectors c():\n\nmy_data[c(\"Crop\", \"Yield\")]\n\n     Crop Yield\n1    Corn   185\n2   Wheat    95\n3 Soybean    55\n4  Barley    80\n\n\n\n\nh. Some functions for data frames\n\nnrow(my_data)        # Number of rows\n\n[1] 4\n\nncol(my_data)        # Number of columns\n\n[1] 4\n\ncolnames(my_data)    # Column names\n\n[1] \"Crop\"   \"Yield\"  \"Legume\" \"Season\"\n\nsummary(my_data)     # Summary statistics\n\n     Crop               Yield          Legume           Season         \n Length:4           Min.   : 55.00   Mode :logical   Length:4          \n Class :character   1st Qu.: 73.75   FALSE:3         Class :character  \n Mode  :character   Median : 87.50   TRUE :1         Mode  :character  \n                    Mean   :103.75                                     \n                    3rd Qu.:117.50                                     \n                    Max.   :185.00",
+    "objectID": "coding/extras/read_tabular.html#skip-blank-lines",
+    "href": "coding/extras/read_tabular.html#skip-blank-lines",
+    "title": "Reading tabular data in R",
+    "section": "3.5 Skip blank lines 🕳️",
+    "text": "3.5 Skip blank lines 🕳️\nOften helpful with messy CSV exports\n\ndf &lt;- readr::read_csv(\n  file = \"data/my_file.csv\",\n  skip_empty_rows = TRUE\n)\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.",
     "crumbs": [
-      "Lessons",
-      "01-Essentials of R"
+      "Extras",
+      "Read Tabular Data"
     ]
   },
   {
-    "objectID": "coding/week_01/essentials_01.html#matrix",
-    "href": "coding/week_01/essentials_01.html#matrix",
-    "title": "Essentials of R coding I",
-    "section": "09. Matrix",
-    "text": "09. Matrix\nIn R, a matrix is a two-dimensional, rectangular data structure that stores elements of the same type. It is similar to a data frame in structure but less flexible, as all elements in a matrix must be of a single data type (e.g., numeric, character, or logical). \nKey Characteristics of a Matrix \n\nHomogeneous: All elements in a matrix must be of the same type. \n2D Structure: A matrix has rows and columns, forming a table-like structure. \nDimensions: Defined by the number of rows and columns. \n\nWhy Use a Matrix? \n\nMathematical Operations: Ideal for linear algebra and mathematical modeling. \nEfficient Storage: Matrices use less memory compared to more complex structures like data frames. \nSimpler Operations: Homogeneous data ensures consistent behavior across elements. \n\n\na. Creating a Matrix\nYou can create a matrix using the matrix() function:\n\n# Create a numeric matrix\nmy_matrix &lt;- matrix(\n  data = 1:9,     # Data values\n  nrow = 3,       # Number of rows\n  ncol = 3,       # Number of columns\n)\n\nprint(my_matrix)\n\n     [,1] [,2] [,3]\n[1,]    1    4    7\n[2,]    2    5    8\n[3,]    3    6    9\n\n\n\n\nb. Accessing elements in a matrix\nAccessing rows:\n\n# Access the first row\nmy_matrix[1, ]\n\n[1] 1 4 7\n\n\nAccessing columns:\n\n# Access the second column\nmy_matrix[, 2]\n\n[1] 4 5 6\n\n\nAccessing specific elements:\n\n# Access the element in the 2nd row, 3rd column\nmy_matrix[2, 3]\n\n[1] 8\n\n\n\n\nc. Adding a new column\n\nnew_col &lt;- c(10, 11, 12) # Create the column\nmy_matrix &lt;- cbind(my_matrix, new_col) # Paste it to the existing\n\n\n\nd. Adding a new row\n\nnew_row &lt;- c(13, 14, 15, 16)\nmy_matrix &lt;- rbind(my_matrix, new_row)",
+    "objectID": "coding/extras/read_tabular.html#basic-read-first-sheet-by-default",
+    "href": "coding/extras/read_tabular.html#basic-read-first-sheet-by-default",
+    "title": "Reading tabular data in R",
+    "section": "4.1 Basic read (first sheet by default)",
+    "text": "4.1 Basic read (first sheet by default)\n\ndf &lt;- readxl::read_excel(path=\"data/my_excel.xlsx\")\nhead(df)\n\n# A tibble: 6 × 6\n  gen   trial env   yield  year loc  \n  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;\n1 G16   T2    E01     590  2001 Mieso\n2 G17   T2    E01     554  2001 Mieso\n3 G18   T2    E01     586  2001 Mieso\n4 G19   T2    E01     738  2001 Mieso\n5 G20   T2    E01     489  2001 Mieso\n6 G21   T2    E01     684  2001 Mieso",
     "crumbs": [
-      "Lessons",
-      "01-Essentials of R"
+      "Extras",
+      "Read Tabular Data"
     ]
   },
   {
-    "objectID": "coding/week_01/essentials_01.html#functions",
-    "href": "coding/week_01/essentials_01.html#functions",
-    "title": "Essentials of R coding I",
-    "section": "10. Functions",
-    "text": "10. Functions\n\na. Create a function\nWe need to use the syntax function(x) { x as object of a task }. ‘x’ is considered an “argument”, and the function itself is inside the {}. For example:\n\nmy_function &lt;- function(x) { x + 1 }\n\n\n\nb. Check the function\n\nmy_function(9)\n\n[1] 10\n\n\n\n\nc. Write a function with 3 arguments\n\nmy_xyz_function &lt;- function(x, y, z) { x + y - z }\n\n\n\nd. Order of arguments\nNote: R is order sensitive (if you don’t explicitly specify the argument)\n\nmy_xyz_function(12, 3, 4)\n\n[1] 11\n\nmy_xyz_function(12, 4, 3)\n\n[1] 13\n\n\n\n\ne. Specifying arguments with names\nIf you specify the argument name as = to, the order doesn’t matter:\n\nmy_xyz_function(z = 4, x = 12, y = 3)\n\n[1] 11\n\n\n\n\nf. A more complex function\n\nfx &lt;- function(x, y, remove_na = NULL) {\n        # First operation is a sum, removing NAs\n        first &lt;- sum(c(x, y), na.rm = remove_na)\n        # Add a text message\n        second &lt;- \"This function is so cool\"\n        # Store result\n        result &lt;- first + x\n        # Print output\n        print(list(\"Message\" = second,\n                   \"1st\" = first,\n                   \"end\" = result))\n                   }\n\nRun the function with alternative arguments:\n\nfx(x = a, y = b, remove_na = FALSE)\n\n$Message\n[1] \"This function is so cool\"\n\n$`1st`\n[1] 30\n\n$end\n[1] 50\n\nfx(x = a, y = b, remove_na = TRUE)\n\n$Message\n[1] \"This function is so cool\"\n\n$`1st`\n[1] 30\n\n$end\n[1] 50\n\n\nStore the output in an object:\n\nfoo &lt;- fx(x=b, y=a)\n\n$Message\n[1] \"This function is so cool\"\n\n$`1st`\n[1] 30\n\n$end\n[1] 40",
+    "objectID": "coding/extras/read_tabular.html#read-a-specific-sheet",
+    "href": "coding/extras/read_tabular.html#read-a-specific-sheet",
+    "title": "Reading tabular data in R",
+    "section": "4.2 Read a specific sheet",
+    "text": "4.2 Read a specific sheet\nby name or position\n\ndf1 &lt;- readxl::read_excel(path=\"data/my_excel.xlsx\", sheet = \"Sheet1\")\ndf2 &lt;- readxl::read_excel(path=\"data/my_excel.xlsx\", sheet = 2)",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#skip-rows",
+    "href": "coding/extras/read_tabular.html#skip-rows",
+    "title": "Reading tabular data in R",
+    "section": "4.3 Skip rows ⏭️",
+    "text": "4.3 Skip rows ⏭️\nFor example, title row + empty row\n\ndf &lt;- readxl::read_excel(\n  path = \"data/my_excel.xlsx\",\n  sheet = 1,\n  skip  = 2\n)",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#diagnose",
+    "href": "coding/extras/read_tabular.html#diagnose",
+    "title": "Reading tabular data in R",
+    "section": "4.4 Diagnose 🔎",
+    "text": "4.4 Diagnose 🔎\nFor example, “empty first row” or “headers” not where expected”\n\ndf_rows &lt;- readxl::read_excel(\n  path = \"data/my_excel.xlsx\",\n  sheet     = 1,\n  n_max     = 6, # number of rows of data\n  col_names = FALSE # remove headers row\n)\n\nNew names:\n• `` -&gt; `...1`\n• `` -&gt; `...2`\n• `` -&gt; `...3`\n• `` -&gt; `...4`\n• `` -&gt; `...5`\n• `` -&gt; `...6`\n\ndf_rows\n\n# A tibble: 6 × 6\n  ...1  ...2  ...3  ...4  ...5  ...6 \n  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;\n1 gen   trial env   yield year  loc  \n2 G16   T2    E01   590   2001  Mieso\n3 G17   T2    E01   554   2001  Mieso\n4 G18   T2    E01   586   2001  Mieso\n5 G19   T2    E01   738   2001  Mieso\n6 G20   T2    E01   489   2001  Mieso\n\n\nThen set skip based on what you see (commonly skip = 1 or skip = 2) and re-read.",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#reading-excel-with-openxlsx",
+    "href": "coding/extras/read_tabular.html#reading-excel-with-openxlsx",
+    "title": "Reading tabular data in R",
+    "section": "4.5 Reading Excel with openxlsx 🛠",
+    "text": "4.5 Reading Excel with openxlsx 🛠\nNice when you also write excel files later\n\ndf_sr1 &lt;- openxlsx::read.xlsx(\n  xlsxFile = \"data/my_excel.xlsx\",\n  sheet    = 1,\n  startRow = 1 # speficies where headers are located\n)\nhead(df_sr1)\n\n  gen trial env yield year   loc\n1 G16    T2 E01   590 2001 Mieso\n2 G17    T2 E01   554 2001 Mieso\n3 G18    T2 E01   586 2001 Mieso\n4 G19    T2 E01   738 2001 Mieso\n5 G20    T2 E01   489 2001 Mieso\n6 G21    T2 E01   684 2001 Mieso\n\n\n\n4.5.1 Skip rows by moving startRow ⏭️:\n\ndf_sr3 &lt;- openxlsx::read.xlsx(\n  xlsxFile = \"data/my_excel.xlsx\",\n  sheet    = 1,\n  startRow = 3\n)\nslice_head(df_sr3)\n\n  G17 T2 E01 554 2001 Mieso\n1 G18 T2 E01 586 2001 Mieso",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#read-stack",
+    "href": "coding/extras/read_tabular.html#read-stack",
+    "title": "Reading tabular data in R",
+    "section": "5.1 Read + stack 🧱",
+    "text": "5.1 Read + stack 🧱\nThis is call row-bind\n\nfolder &lt;- \"data\"\n\nfiles &lt;- list.files(path = folder, pattern = \"\\\\.csv$\", full.names = TRUE)\n\nall_data &lt;- files |&gt;\n  setNames(basename(files)) |&gt; # here we name by file basename\n  # Here we read and stack using map_dfr\n  purrr::map_dfr(\n    \\(f) readr::read_csv(f), # here we read each file\n    .id = \"source_file\" # this creates a new column with the file name\n  )\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\nhead(all_data)\n\n# A tibble: 6 × 7\n  source_file    gen   trial env   yield  year loc  \n  &lt;chr&gt;          &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;\n1 my_file_02.csv G16   T2    E01     590  2001 Mieso\n2 my_file_02.csv G17   T2    E01     554  2001 Mieso\n3 my_file_02.csv G18   T2    E01     586  2001 Mieso\n4 my_file_02.csv G19   T2    E01     738  2001 Mieso\n5 my_file_02.csv G20   T2    E01     489  2001 Mieso\n6 my_file_02.csv G21   T2    E01     684  2001 Mieso",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#add-variables-from-filename",
+    "href": "coding/extras/read_tabular.html#add-variables-from-filename",
+    "title": "Reading tabular data in R",
+    "section": "5.2 Add variables from filename 🏷️",
+    "text": "5.2 Add variables from filename 🏷️\nFor example year, or site\n\nall_data &lt;- files |&gt;\n  purrr::map_dfr(\n    # here we read each file\n    \\(f) readr::read_csv(f) |&gt; \n      dplyr::mutate(source_file = basename(f))  ) |&gt; # add filename as column\n  dplyr::mutate(year = stringr::str_extract(source_file, \"\\\\d{4}\")) \n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n# here we extract a 4-digit year from the filename\n\nall_data %&gt;% \n  group_by(source_file) %&gt;%\n  slice_head()\n\n# A tibble: 2 × 7\n# Groups:   source_file [2]\n  gen   trial env   yield year  loc   source_file   \n  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;         \n1 G16   T2    E01     590 &lt;NA&gt;  Mieso my_file.csv   \n2 G16   T2    E01     590 &lt;NA&gt;  Mieso my_file_02.csv",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#keep-them-as-a-named-list",
+    "href": "coding/extras/read_tabular.html#keep-them-as-a-named-list",
+    "title": "Reading tabular data in R",
+    "section": "5.3 Keep them as a named list 📚",
+    "text": "5.3 Keep them as a named list 📚\n\ncsv_list &lt;- files |&gt;\n  setNames(basename(files)) |&gt;\n  purrr::map(\\(f) readr::read_csv(f))\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\nnames(csv_list)\n\n[1] \"my_file_02.csv\" \"my_file.csv\"",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#with-readxl",
+    "href": "coding/extras/read_tabular.html#with-readxl",
+    "title": "Reading tabular data in R",
+    "section": "7.1 With readxl",
+    "text": "7.1 With readxl\n\npath &lt;- \"data/my_excel.xlsx\"\n\nsheets &lt;- readxl::excel_sheets(path)\n\nall_sheets &lt;- sheets |&gt;\n  setNames(sheets) |&gt;\n  purrr::map_dfr(\n    \\(sh) readxl::read_excel(path, sheet = sh) |&gt;\n      dplyr::mutate(sheet = sh)\n  )\n\nall_sheets  %&gt;% \n  group_by(sheet) %&gt;%\n  slice_head()\n\n# A tibble: 2 × 7\n# Groups:   sheet [2]\n  gen   trial env   yield  year loc   sheet \n  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; \n1 G16   T2    E01     590  2001 Mieso Sheet1\n2 G16   T2    E01     590  2001 Mieso Sheet2",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#with-openxlsx",
+    "href": "coding/extras/read_tabular.html#with-openxlsx",
+    "title": "Reading tabular data in R",
+    "section": "7.2 With openxlsx 🛠️",
+    "text": "7.2 With openxlsx 🛠️\n\npath &lt;- \"data/my_excel.xlsx\"\n\nsheets &lt;- openxlsx::getSheetNames(path)\n\nall_sheets &lt;- sheets |&gt;\n  setNames(sheets) |&gt;\n  purrr::map_dfr(\n    \\(sh) openxlsx::read.xlsx(path, sheet = sh) |&gt;\n      dplyr::mutate(sheet = sh)\n  )\n\nall_sheets %&gt;% \n  group_by(sheet) %&gt;%\n  slice_head()\n\n# A tibble: 2 × 7\n# Groups:   sheet [2]\n  gen   trial env   yield  year loc   sheet \n  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; \n1 G16   T2    E01     590  2001 Mieso Sheet1\n2 G16   T2    E01     590  2001 Mieso Sheet2",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/extras/read_tabular.html#footnotes-in-excel",
+    "href": "coding/extras/read_tabular.html#footnotes-in-excel",
+    "title": "Reading tabular data in R",
+    "section": "7.3 Footnotes in Excel 📝",
+    "text": "7.3 Footnotes in Excel 📝\nIf a sheet has footnotes at the bottom, you can often remove them after import by filtering rows:\n\ndf &lt;- readxl::read_excel(path=\"data/my_excel.xlsx\") |&gt;\n  dplyr::filter(!is.na(yield))   # example: keep rows that have yield",
+    "crumbs": [
+      "Extras",
+      "Read Tabular Data"
+    ]
+  },
+  {
+    "objectID": "coding/week_06/10_iteration.html",
+    "href": "coding/week_06/10_iteration.html",
+    "title": "Iteration in R: The Power of purrr",
+    "section": "",
+    "text": "Description\nThis lesson explores iteration in R, focusing on the power of the purrr package for functional programming. We’ll compare traditional for loops with purrr’s map() functions to illustrate more efficient and readable approaches to iteration.\nRequired packages for today\nlibrary(pacman) # to install and load packages faster\np_load(dplyr, tidyr) # data wrangling\np_load(purrr) # iteration mapping\np_load(ggplot2) # plots\np_load(agridat) # data\np_load(nlme, broom.mixed, car, performance) # mixed models work\np_load(emmeans, multcomp, multcompView) # multiple comparisons\np_load(ggplot2)",
     "crumbs": [
       "Lessons",
-      "01-Essentials of R"
+      "10-Iteration"
+    ]
+  },
+  {
+    "objectID": "coding/week_06/10_iteration.html#understanding-the-difference-between-map-and-map_dbl",
+    "href": "coding/week_06/10_iteration.html#understanding-the-difference-between-map-and-map_dbl",
+    "title": "Iteration in R: The Power of purrr",
+    "section": "4.1 Understanding the Difference Between map() and map_dbl()",
+    "text": "4.1 Understanding the Difference Between map() and map_dbl()\n\nmap_dbl() guarantees that the output is a numeric vector.\n\nSimilarly:\n\nmap_chr() returns a character vector.\nmap_lgl() produces a logical vector.\nmap_int() yields an integer vector.\n\n\nmap(), the most general form, returns a list by default.\n\nThese functions are part of an iterative approach where a function is mapped over elements of a list or vector.",
+    "crumbs": [
+      "Lessons",
+      "10-Iteration"
+    ]
+  },
+  {
+    "objectID": "coding/week_06/10_iteration.html#practical-application",
+    "href": "coding/week_06/10_iteration.html#practical-application",
+    "title": "Iteration in R: The Power of purrr",
+    "section": "5.1 Practical Application",
+    "text": "5.1 Practical Application\nA common workflow involves combining group_by() and nest() to create nested data frames for iteration. You can then use mutate() along with map() to apply a function to each nested data frame:\nlibrary(dplyr)\nlibrary(purrr)\nlibrary(tidyr)\n\ndata %&gt;%\n  group_by(group_variable) %&gt;%\n  nest() %&gt;%\n  mutate(results = map(data, your_function))\nThis approach is very powerful for applying custom functions to subsets of data efficiently.\nLet’s see that in practice…",
+    "crumbs": [
+      "Lessons",
+      "10-Iteration"
+    ]
+  },
+  {
+    "objectID": "coding/week_06/10_iteration.html#load-the-data",
+    "href": "coding/week_06/10_iteration.html#load-the-data",
+    "title": "Iteration in R: The Power of purrr",
+    "section": "6.1 Load the data",
+    "text": "6.1 Load the data\n\ndata_corn_00 &lt;- agridat::lasrosas.corn\nhead(data_corn_00)\n\n  year       lat      long yield nitro topo     bv rep nf\n1 1999 -33.05113 -63.84886 72.14 131.5    W 162.60  R1 N5\n2 1999 -33.05115 -63.84879 73.79 131.5    W 170.49  R1 N5\n3 1999 -33.05116 -63.84872 77.25 131.5    W 168.39  R1 N5\n4 1999 -33.05117 -63.84865 76.35 131.5    W 176.68  R1 N5\n5 1999 -33.05118 -63.84858 75.55 131.5    W 171.46  R1 N5\n6 1999 -33.05120 -63.84851 70.24 131.5    W 170.56  R1 N5",
+    "crumbs": [
+      "Lessons",
+      "10-Iteration"
+    ]
+  },
+  {
+    "objectID": "coding/week_06/10_iteration.html#prepare-the-data",
+    "href": "coding/week_06/10_iteration.html#prepare-the-data",
+    "title": "Iteration in R: The Power of purrr",
+    "section": "6.2 Prepare the data",
+    "text": "6.2 Prepare the data\n\ndata_corn_01 &lt;- data_corn_00 %&gt;% \n  # Select only necessary variables\n  dplyr::select(year, topo, rep, nf, yield) %&gt;% \n  # Group by\n  group_by(year, topo) %&gt;% \n  # Create nested data frames\n  nest(my_data = c(rep, nf, yield))",
+    "crumbs": [
+      "Lessons",
+      "10-Iteration"
+    ]
+  },
+  {
+    "objectID": "coding/week_06/10_iteration.html#create-functions",
+    "href": "coding/week_06/10_iteration.html#create-functions",
+    "title": "Iteration in R: The Power of purrr",
+    "section": "6.3 Create functions",
+    "text": "6.3 Create functions\n\n6.3.1 Rep (block) as fixed\n\n# SIMPLEST MODEL\nfit_block_fixed &lt;- function(x){\n  lm(# Response variable\n     yield ~ \n       # Fixed (treatment)\n       nf + \n       # Block as fixed too\n       rep,\n     # Data\n     data = x)\n}\n\n\n\n6.3.2 Rep (block) as random\n\n# RANDOM BLOCK (mixed model)\nfit_block_random &lt;- function(x){\n  nlme::lme(# Response variable\n    yield ~\n    # Fixed\n    nf,\n    # Random\n    random = ~1|rep,\n    # Data\n    data = x)\n  }",
+    "crumbs": [
+      "Lessons",
+      "10-Iteration"
+    ]
+  },
+  {
+    "objectID": "coding/week_06/10_iteration.html#fit-models-with-mapping",
+    "href": "coding/week_06/10_iteration.html#fit-models-with-mapping",
+    "title": "Iteration in R: The Power of purrr",
+    "section": "6.4 Fit models with mapping",
+    "text": "6.4 Fit models with mapping\n\nmodels &lt;- data_corn_01 %&gt;% \n  # BLOCK as FIXED \n  mutate(model_1 = map(my_data, fit_block_fixed)) %&gt;% \n  # BLOCK as RANDOM\n  mutate(model_2 = map(my_data, fit_block_random)) %&gt;% \n    \n  # Data wrangling\n  pivot_longer(cols = c(model_1:model_2), # show alternative 'contains' model\n               names_to = \"model_id\",\n               values_to = \"model\") %&gt;% \n  # Map over model column\n  mutate(results = map(model, broom.mixed::augment )) %&gt;% \n  # Performance\n  mutate(performance = map(model, broom.mixed::glance )) %&gt;% \n  # Extract AIC\n  mutate(AIC = map(performance, ~.x$AIC)) %&gt;% \n  ungroup()",
+    "crumbs": [
+      "Lessons",
+      "10-Iteration"
+    ]
+  },
+  {
+    "objectID": "coding/week_06/10_iteration.html#model-selection",
+    "href": "coding/week_06/10_iteration.html#model-selection",
+    "title": "Iteration in R: The Power of purrr",
+    "section": "6.5 Model selection",
+    "text": "6.5 Model selection\nCompare models performance\n\n# Visual model selection\nbest_models &lt;- \n  models %&gt;% \n  group_by(year, topo) %&gt;% \n  # Use case_when to identify the best model\n  mutate(best_model = \n           case_when(AIC == min(as.numeric(AIC)) ~ \"Yes\",\n                     TRUE ~ \"No\")) %&gt;% \n  ungroup()\n\n# Plot\nbest_models %&gt;% \n  ggplot()+\n  geom_point(aes(x = model_id, y = as.numeric(AIC), \n                 color = best_model, shape = best_model), \n             size = 3)+\n  facet_wrap(year~topo)+\n  theme_bw()\n\n\n\n\n\n\n\n# Final models\nselected_models &lt;- best_models %&gt;% dplyr::filter(best_model == \"Yes\")",
+    "crumbs": [
+      "Lessons",
+      "10-Iteration"
+    ]
+  },
+  {
+    "objectID": "coding/week_06/10_iteration.html#run-anova",
+    "href": "coding/week_06/10_iteration.html#run-anova",
+    "title": "Iteration in R: The Power of purrr",
+    "section": "6.6 Run ANOVA",
+    "text": "6.6 Run ANOVA\nEstimate the effects of factor under study\n\nmodels_effects &lt;- \n  selected_models %&gt;%\n  # Type 3 Sum of Squares (Partial SS, when interactions are present)\n  mutate(ANOVA = map(model, ~Anova(., type = 3)) )\n\n# Extract ANOVAS\nmodels_effects$ANOVA[[1]]\n\nAnalysis of Deviance Table (Type III tests)\n\nResponse: yield\n              Chisq Df Pr(&gt;Chisq)    \n(Intercept) 5729.95  1  &lt; 2.2e-16 ***\nnf           164.03  5  &lt; 2.2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nmodels_effects$ANOVA[[2]]\n\nAnalysis of Deviance Table (Type III tests)\n\nResponse: yield\n              Chisq Df Pr(&gt;Chisq)    \n(Intercept) 6089.64  1  &lt; 2.2e-16 ***\nnf           318.03  5  &lt; 2.2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nmodels_effects$ANOVA[[3]]\n\nAnova Table (Type III tests)\n\nResponse: yield\n            Sum Sq  Df  F value    Pr(&gt;F)    \n(Intercept) 158985   1 7299.604 &lt; 2.2e-16 ***\nnf            1975   5   18.136 4.699e-16 ***\nrep            691   2   15.858 2.509e-07 ***\nResiduals     7841 360                       \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nmodels_effects$ANOVA[[8]]\n\nAnalysis of Deviance Table (Type III tests)\n\nResponse: yield\n                Chisq Df Pr(&gt;Chisq)    \n(Intercept) 18282.203  1  &lt; 2.2e-16 ***\nnf             72.431  5  3.194e-14 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1",
+    "crumbs": [
+      "Lessons",
+      "10-Iteration"
+    ]
+  },
+  {
+    "objectID": "coding/week_06/10_iteration.html#means-comparison",
+    "href": "coding/week_06/10_iteration.html#means-comparison",
+    "title": "Iteration in R: The Power of purrr",
+    "section": "6.7 Means comparison",
+    "text": "6.7 Means comparison\n\n# MULTCOMPARISON\n# emmeans and cld multcomp\n# We need to specify ourselves the most important interaction to perform the comparisons\nmult_comp &lt;- \n  models_effects %&gt;% \n  # Comparisons estimates (emmeans)\n  mutate(mc_estimates = map(model, ~emmeans(., ~ nf))) %&gt;% \n  # Assign letters and p-value adjustment (multcomp)\n  mutate(mc_letters = \n           map(mc_estimates, \n               ~as.data.frame( \n                 # By specifies a strata or level to assign the letters\n                 cld(., decreasing = TRUE, details=FALSE,\n                     reversed=TRUE, alpha=0.05,  adjust = \"tukey\", Letters=LETTERS))))\n\nNote: adjust = \"tukey\" was changed to \"sidak\"\nbecause \"tukey\" is only appropriate for one set of pairwise comparisons\nNote: adjust = \"tukey\" was changed to \"sidak\"\nbecause \"tukey\" is only appropriate for one set of pairwise comparisons\nNote: adjust = \"tukey\" was changed to \"sidak\"\nbecause \"tukey\" is only appropriate for one set of pairwise comparisons\nNote: adjust = \"tukey\" was changed to \"sidak\"\nbecause \"tukey\" is only appropriate for one set of pairwise comparisons\nNote: adjust = \"tukey\" was changed to \"sidak\"\nbecause \"tukey\" is only appropriate for one set of pairwise comparisons\nNote: adjust = \"tukey\" was changed to \"sidak\"\nbecause \"tukey\" is only appropriate for one set of pairwise comparisons\nNote: adjust = \"tukey\" was changed to \"sidak\"\nbecause \"tukey\" is only appropriate for one set of pairwise comparisons\nNote: adjust = \"tukey\" was changed to \"sidak\"\nbecause \"tukey\" is only appropriate for one set of pairwise comparisons",
+    "crumbs": [
+      "Lessons",
+      "10-Iteration"
+    ]
+  },
+  {
+    "objectID": "coding/week_06/10_iteration.html#plotting",
+    "href": "coding/week_06/10_iteration.html#plotting",
+    "title": "Iteration in R: The Power of purrr",
+    "section": "6.8 Plotting",
+    "text": "6.8 Plotting\nWe can also use mapping to create multiple plots at once. ### data preparation\n\n# Unnest data\ndata_plot &lt;- data_corn_00\n\n\n6.8.1 plotting function\n\nplot_yield_vs_nitro &lt;- \n  function(data, x_var, y_var, group_var, facet_var,\n           smooth_method = \"loess\", se = FALSE, title = NULL) {\n\n  ggplot(data, aes_string(x = x_var, y = y_var)) +\n    geom_point(aes_string(color = group_var, fill = group_var, shape = group_var),\n               size = 2, alpha = 0.85) +\n    geom_smooth(aes_string(color = group_var, fill = group_var),\n                method = smooth_method, se = se) +\n    facet_wrap(as.formula(paste(\"~\", facet_var))) +\n    theme_bw() +\n    labs(\n      title = title,\n      x = x_var,\n      y = y_var,\n      color = group_var,\n      fill  = group_var,\n      shape = group_var\n    )\n}\n\nWe can also pass options for plots as vectors or list\n\nmethods &lt;- c(\"loess\", \"lm\")\nses     &lt;- c(FALSE, FALSE)\ntitles  &lt;- c(\"Yield vs nitro (LOESS), faceted by year\",\n             \"Yield vs nitro (LM), faceted by year\")",
+    "crumbs": [
+      "Lessons",
+      "10-Iteration"
+    ]
+  },
+  {
+    "objectID": "coding/week_06/10_iteration.html#create-plots-with-pmap",
+    "href": "coding/week_06/10_iteration.html#create-plots-with-pmap",
+    "title": "Iteration in R: The Power of purrr",
+    "section": "7.2 Create plots with pmap()",
+    "text": "7.2 Create plots with pmap()\n\nplots &lt;- pmap(\n  list(\n    smooth_method = methods,\n    se = ses,\n    title = titles,\n    facet_var = rep(\"year\", length(methods)),\n    group_var = rep(\"topo\", length(methods))\n  ),\n  function(smooth_method, se, title, facet_var, group_var) {\n    plot_yield_vs_nitro(\n      data = data_plot,\n      x_var = \"nitro\",\n      y_var = \"yield\",\n      group_var = group_var,\n      facet_var = facet_var,\n      smooth_method = smooth_method,\n      se = se,\n      title = title\n    )\n  }\n)\n\nWarning: `aes_string()` was deprecated in ggplot2 3.0.0.\nℹ Please use tidy evaluation idioms with `aes()`.\nℹ See also `vignette(\"ggplot2-in-packages\")` for more information.",
+    "crumbs": [
+      "Lessons",
+      "10-Iteration"
+    ]
+  },
+  {
+    "objectID": "coding/week_06/10_iteration.html#display-plots",
+    "href": "coding/week_06/10_iteration.html#display-plots",
+    "title": "Iteration in R: The Power of purrr",
+    "section": "7.3 Display plots",
+    "text": "7.3 Display plots\n\n# use walk to print them all at once\nwalk(plots, print)\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\n\n`geom_smooth()` using formula = 'y ~ x'",
+    "crumbs": [
+      "Lessons",
+      "10-Iteration"
     ]
   },
   {
@@ -334,7 +519,7 @@
     "href": "coding/week_05/09_ggplot2_plus.html#us-map-with-state-boundaries",
     "title": "Data Viz III: Geographic Mapping with ggplot2",
     "section": "2.1 US Map with State Boundaries",
-    "text": "2.1 US Map with State Boundaries\n\n# Load US map data\nus_map &lt;- map_data(\"state\")\n\n# Plot US map\nus_plot &lt;- \n  ggplot() +\n  geom_polygon(data = us_map, aes(x = long, y = lat, group = group),\n               fill = \"grey90\", color = \"grey35\") +\n  coord_fixed(1.3) +\n  labs(title = \"Map of the United States\") +\n  theme_base()\n\nus_plot",
+    "text": "2.1 US Map with State Boundaries\n\n# Load US map data\nus_map &lt;- map_data(map = \"state\")\n\n# Plot US map\nus_plot &lt;- \n  ggplot() +\n  geom_polygon(data = us_map, aes(x = long, y = lat, group = group),\n               fill = \"#099999\", color = \"black\") +\n  coord_fixed(1.3) +\n  labs(title = \"Map of the United States\",\n       subtitle = \"States\") +\n  theme_base()+\n  theme(panel.background = element_rect(fill = \"#bde0fe\"))\n\nus_plot",
     "crumbs": [
       "Lessons",
       "09-Data Viz III"
@@ -345,7 +530,7 @@
     "href": "coding/week_05/09_ggplot2_plus.html#canada-map-with-provincial-boundaries",
     "title": "Data Viz III: Geographic Mapping with ggplot2",
     "section": "2.2 Canada Map with Provincial Boundaries",
-    "text": "2.2 Canada Map with Provincial Boundaries\n\n# Load Canada map data\ncanada_map &lt;- map_data(\"world\", region = \"Canada\")\n\n# Plot Canada map\ncanada_plot &lt;- ggplot() +\n  geom_polygon(data = canada_map, aes(x = long, y = lat, group = group),\n               fill = \"steelblue\", color = \"black\") +\n  coord_fixed(1.3) +\n  labs(title = \"Map of Canada\")\n\ncanada_plot\n\n\n\n\n\n\n\ncanada_cut &lt;- canada_plot +\n  # Cut limits of map\n  scale_y_continuous(limits = c(41, 48))+\n  scale_x_continuous(limits = c(-87, -75))+\n  theme_minimal()\n\ncanada_cut",
+    "text": "2.2 Canada Map with Provincial Boundaries\n\n# Load Canada map data\ncanada_map &lt;- map_data(\"world\", region = \"Canada\", )\n\n# Plot Canada map\ncanada_plot &lt;- \n  ggplot() +\n  geom_polygon(data = canada_map, \n               aes(x = long, y = lat, group = group, fill = subregion),\n               #fill = \"#900000\", \n               color = \"black\") +\n  coord_fixed(1.3) +\n  labs(title = \"Map of Canada\")+\n  theme(legend.position = \"none\")\n\ncanada_plot\n\n\n\n\n\n\n\ncanada_cut &lt;-\n  canada_plot +\n  # Cut limits of map\n  scale_y_continuous(limits = c(41, 48))+\n  scale_x_continuous(limits = c(-87, -75))+\n  theme_minimal()\n\ncanada_cut",
     "crumbs": [
       "Lessons",
       "09-Data Viz III"
@@ -356,7 +541,7 @@
     "href": "coding/week_05/09_ggplot2_plus.html#plotting-cities-on-us-map",
     "title": "Data Viz III: Geographic Mapping with ggplot2",
     "section": "3.1 Plotting Cities on US Map",
-    "text": "3.1 Plotting Cities on US Map\n\n# Sample city data\ncities_us &lt;- data.frame(\n  city = c(\"New Jersey\", \"New York\", \"Los Angeles\", \"Chicago\", \"Houston\", \"Phoenix\"),\n  lon = c(-74, -74.006, -118.2437, -87.6298, -95.3698, -112.074),\n  lat = c(40.9, 40.7128, 34.0522, 41.8781, 29.7604, 33.4484)\n)\n\n# Plot US map with cities\nus_plot +\n  geom_point(data = cities_us, aes(x = lon, y = lat), \n             color = \"red\", size = 3) +\n  # geom_label(data = cities_us, aes(x = lon, y = lat, label = city), \n  #                  size = 3, color = \"black\")\n  geom_label_repel(data = cities_us, aes(x = lon, y = lat, label = city), \n                    size = 3, color = \"black\")",
+    "text": "3.1 Plotting Cities on US Map\n\n# Sample city data\ncities_us &lt;- data.frame(\n  city = c(\"New Jersey\", \"New York\", \"Los Angeles\", \"Chicago\", \"Houston\", \"Phoenix\"),\n  lon = c(-74, -74.006, -118.2437, -87.6298, -95.3698, -112.074),\n  lat = c(40.9, 40.7128, 34.0522, 41.8781, 29.7604, 33.4484)\n)\n\n# Plot US map with cities\nus_plot +\n  geom_point(data = cities_us, aes(x = lon, y = lat), \n             color = \"red\", size = 3) +\n  # geom_label(data = cities_us, aes(x = lon, y = lat, label = city),\n  #                  size = 3, color = \"black\")\n  geom_label_repel(data = cities_us, aes(x = lon, y = lat, label = city),\n                    size = 3, color = \"black\")",
     "crumbs": [
       "Lessons",
       "09-Data Viz III"
@@ -378,7 +563,7 @@
     "href": "coding/week_05/09_ggplot2_plus.html#loading-and-plotting-shapefiles",
     "title": "Data Viz III: Geographic Mapping with ggplot2",
     "section": "4.1 Loading and Plotting Shapefiles",
-    "text": "4.1 Loading and Plotting Shapefiles\n\n# Load shapefile (replace 'path_to_shapefile' with your actual path)\n# usa_shapefile &lt;- st_read(\"path_to_shapefile/usa_shapefile.shp\")\n\n# Example using built-in dataset from `sf`\nnc &lt;- st_read(system.file(\"shape/nc.shp\", package = \"sf\"))\n\nReading layer `nc' from data source \n  `/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/sf/shape/nc.shp' \n  using driver `ESRI Shapefile'\nSimple feature collection with 100 features and 14 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: -84.32385 ymin: 33.88199 xmax: -75.45698 ymax: 36.58965\nGeodetic CRS:  NAD27\n\n# Plot shapefile\nggplot(nc) +\n  geom_sf(fill = \"lightblue\", color = \"black\") +\n  labs(title = \"Shapefile Example: North Carolina Counties\") +\n  # Adjust scales for limits\n  scale_y_continuous(limits = c(34.5, 36))+\n  scale_x_continuous(limits = c(-82, -78))+\n  theme_minimal()",
+    "text": "4.1 Loading and Plotting Shapefiles\n\n# Load shapefile (replace 'path_to_shapefile' with your actual path)\n# usa_shapefile &lt;- st_read(\"path_to_shapefile/usa_shapefile.shp\")\n\n# Example using built-in dataset from `sf`\nnc &lt;- st_read(system.file(\"shape/nc.shp\", package = \"sf\"))\n\nReading layer `nc' from data source \n  `/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/sf/shape/nc.shp' \n  using driver `ESRI Shapefile'\nSimple feature collection with 100 features and 14 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: -84.32385 ymin: 33.88199 xmax: -75.45698 ymax: 36.58965\nGeodetic CRS:  NAD27\n\n# Plot shapefile\nggplot(nc) +\n  geom_sf(fill = \"lightblue\", color = \"black\") +\n  labs(title = \"Shapefile Example: North Carolina Counties\") +\n  # Adjust scales for limits\n  # scale_y_continuous(limits = c(34.5, 36))+\n  # scale_x_continuous(limits = c(-82, -78))+\n  theme_minimal()",
     "crumbs": [
       "Lessons",
       "09-Data Viz III"
@@ -389,7 +574,7 @@
     "href": "coding/week_05/09_ggplot2_plus.html#read-shp-of-canada-and-us",
     "title": "Data Viz III: Geographic Mapping with ggplot2",
     "section": "4.2 Read shp of Canada and US",
-    "text": "4.2 Read shp of Canada and US\n\n## Load shp files\nusa_shp &lt;- st_read(\"shp_map/us/usa.shp\") %&gt;%\n  # Remove non-contiguous and territories\n  filter(!(NAME %in% c(\"Alaska\", \"District of Columbia\", \"Hawaii\", \"Puerto Rico\")))\n\nReading layer `usa' from data source \n  `/Users/acorrend/Documents/GitHub/plnt6530/coding/week_05/shp_map/us/usa.shp' \n  using driver `ESRI Shapefile'\nSimple feature collection with 52 features and 9 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: -179.1473 ymin: 17.88481 xmax: 179.7785 ymax: 71.35256\nGeodetic CRS:  NAD83\n\ncan_shp &lt;- st_read(\"shp_map/can/canada.shp\")\n\nReading layer `canada' from data source \n  `/Users/acorrend/Documents/GitHub/plnt6530/coding/week_05/shp_map/can/canada.shp' \n  using driver `ESRI Shapefile'\nSimple feature collection with 13 features and 6 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: -141.0181 ymin: 41.67695 xmax: -52.5823 ymax: 89.99943\nGeodetic CRS:  NAD83",
+    "text": "4.2 Read shp of Canada and US\n\nstates_out &lt;- c(\"Alaska\", \"District of Columbia\", \"Hawaii\", \"Puerto Rico\")\n# create not in function\n`%notin%` &lt;- Negate(`%in%`)\n\n## Load shp files\nusa_shp &lt;- st_read(dsn = \"shp_map/us/usa.shp\") %&gt;%\n  # Remove non-contiguous and territories\n  # dplyr::filter(!(NAME %in% states_out))\n  dplyr::filter(NAME %notin% states_out)\n\nReading layer `usa' from data source \n  `/Users/acorrend/Documents/GitHub/plnt6530/coding/week_05/shp_map/us/usa.shp' \n  using driver `ESRI Shapefile'\nSimple feature collection with 52 features and 9 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: -179.1473 ymin: 17.88481 xmax: 179.7785 ymax: 71.35256\nGeodetic CRS:  NAD83\n\ncan_shp &lt;- st_read(\"shp_map/can/canada.shp\")\n\nReading layer `canada' from data source \n  `/Users/acorrend/Documents/GitHub/plnt6530/coding/week_05/shp_map/can/canada.shp' \n  using driver `ESRI Shapefile'\nSimple feature collection with 13 features and 6 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: -141.0181 ymin: 41.67695 xmax: -52.5823 ymax: 89.99943\nGeodetic CRS:  NAD83",
     "crumbs": [
       "Lessons",
       "09-Data Viz III"
@@ -411,7 +596,7 @@
     "href": "coding/week_05/09_ggplot2_plus.html#define-function-to-customize-plot",
     "title": "Data Viz III: Geographic Mapping with ggplot2",
     "section": "4.4 Define function to customize plot",
-    "text": "4.4 Define function to customize plot\n\ngeo_plot &lt;- function(x, y, z, title = NULL){\n  ggplot()+\n    geom_sf(data=x, fill = \"white\", color = \"black\") + # Provinces map\n  geom_sf(data=y, fill = \"white\", color = \"black\")+ # US map\n  # Adjust scales for lat and lon\n  scale_y_continuous(limits = c(41.8, 46))+\n  scale_x_continuous(limits = c(-84, -75), breaks = seq(-84,-74, by=1)) +\n  # Add cities with points\n  geom_point(data = z, aes(x = lon, y = lat, fill = city), \n             color = \"grey25\", shape = 21, size = 3, alpha = 0.95) +\n  # Scalebar\n  annotation_scale(tick_height = 0.3)+\n  # Text Notes for names of cities\n  geom_text_repel(data = z, \n                  aes(x=lon, y=lat, label = city), size = 3)+\n  # Name of PROVINCE\n  annotate(\"text\", x = -78, y = 45, label = \"ONTARIO\", \n           size = 4, fontface = \"bold\")+\n  # Name of Lakes\n  ## Ontario\n  annotate(\"text\", x = -77.8, y = 43.7, label = \"Lake Ontario\", \n           size = 3, fontface = \"italic\")+\n  ## Huron \n  annotate(\"text\", x = -82.5, y = 44.5, label = \"Lake \\nHuron\", \n           size = 3, fontface = \"italic\")+\n  # Add labels\n  labs(title = title, \n       x = \"Longitude\", y = \"Latitude\")+\n  # Adjust theme\n  theme_base()+\n  # reduce axis text size\n  theme(\n    panel.background = element_rect(fill = \"#bde0fe\"),\n    title = element_text(size = rel(.7)),\n    axis.title =  element_text(size = rel(.9), face = \"bold\"),\n    axis.text = element_text(size = rel(.5))\n    )\n}",
+    "text": "4.4 Define function to customize plot\n\ngeo_plot &lt;- \n  function(x, y, z, title = NULL){\n  ggplot()+\n  geom_sf(data=x, fill = \"white\", color = \"black\") + # Provinces map\n  geom_sf(data=y, fill = \"white\", color = \"black\")+ # US map\n  # Adjust scales for lat and lon\n  scale_y_continuous(limits = c(41.8, 46))+\n  scale_x_continuous(limits = c(-84, -75), breaks = seq(-84,-74, by=1)) +\n  # Add cities with points\n  geom_point(data = z, aes(x = lon, y = lat, fill = city), \n             color = \"grey25\", shape = 21, size = 3, alpha = 0.95) +\n  # Scalebar\n  annotation_scale(tick_height = 0.3)+\n  # Text Notes for names of cities\n  geom_text_repel(data = z, \n                  aes(x=lon, y=lat, label = city), size = 3)+\n  # Name of PROVINCE\n  annotate(\"text\", x = -78, y = 45, label = \"ONTARIO\", \n           size = 4, fontface = \"bold\")+\n  # Name of Lakes\n  ## Ontario\n  annotate(\"text\", x = -77.8, y = 43.7, label = \"Lake Ontario\", \n           size = 3, fontface = \"italic\")+\n  ## Huron \n  annotate(\"text\", x = -82.5, y = 44.5, label = \"Lake \\nHuron\", \n           size = 3, fontface = \"italic\")+\n  # Add labels\n  labs(title = title, \n       x = \"Longitude\", y = \"Latitude\")+\n  # Adjust theme\n  theme_base()+\n  # reduce axis text size\n  theme(\n    panel.background = element_rect(fill = \"#bde0fe\"),\n    title = element_text(size = rel(.7)),\n    axis.title =  element_text(size = rel(.9), face = \"bold\"),\n    axis.text = element_text(size = rel(.5))\n    )\n}",
     "crumbs": [
       "Lessons",
       "09-Data Viz III"
@@ -466,7 +651,7 @@
     "href": "coding/week_05/09_ggplot2_plus.html#ontario-map-with-leaflet",
     "title": "Data Viz III: Geographic Mapping with ggplot2",
     "section": "6.1 Ontario Map with leaflet",
-    "text": "6.1 Ontario Map with leaflet\n\n# Create interactive map\nontario_cities %&gt;%\nleaflet() %&gt;%\n  addTiles() %&gt;%\n# Add PINS\naddMarkers(~lon, ~lat, popup = ~city) %&gt;%\naddCircleMarkers(~lon, ~lat, popup = ~city, radius = 5, color = \"gold\",\n                  fillOpacity = 0.7) %&gt;%\n# Configure initial view of the map\nsetView(lng = -80, lat = 44, zoom = 6)",
+    "text": "6.1 Ontario Map with leaflet\n\n# Create interactive map\nontario_cities %&gt;%\nleaflet() %&gt;%\n  addTiles() %&gt;%\n# Add PINS\naddMarkers(lng=~lon,lat=~lat, popup = ~city) %&gt;%\naddCircleMarkers(~lon, ~lat, popup = ~city, radius = 6, color = \"blue\",\n                  fillOpacity = 0.9) %&gt;%\n# Configure initial view of the map\nsetView(lng = -80, lat = 44, zoom = 6)",
     "crumbs": [
       "Lessons",
       "09-Data Viz III"
@@ -1100,11 +1285,22 @@
     ]
   },
   {
+    "objectID": "slides/day1.html",
+    "href": "slides/day1.html",
+    "title": "ReproducibleData Science for Ag",
+    "section": "",
+    "text": "Tip\n\n\n\n\nResearch project, career goals…",
+    "crumbs": [
+      "Slides",
+      "Reproducibility"
+    ]
+  },
+  {
     "objectID": "slides/day1.html#introductions",
     "href": "slides/day1.html#introductions",
     "title": "ReproducibleData Science for Ag",
-    "section": "Introductions 💬",
-    "text": "Introductions 💬\n\n\ni. Who are you and why enrolling on this course?\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nResearch project, career goals…",
+    "section": "",
+    "text": "Tip\n\n\n\n\nResearch project, career goals…",
     "crumbs": [
       "Slides",
       "Reproducibility"
@@ -1148,7 +1344,7 @@
     "href": "slides/day1.html#course-assessment",
     "title": "ReproducibleData Science for Ag",
     "section": "Course-Assessment",
-    "text": "Course-Assessment\nThree main components\n\nQuizzes / short coding assignments — 30%\n\n5 total (asynchronous)\nlowest 2 dropped\n\nSemester project — 50%\n\ngroups of 2\nAnalysis of your own dataset (or provided if you don’t have one)\n\nFinal exam — 20%\n\nOn-line, asynchronous, open-book",
+    "text": "Course-Assessment\n\nThree main components\n\nQuizzes / short coding assignments — 30%\n\n5 total (asynchronous)\nlowest 2 dropped\n\nSemester project — 50%\n\ngroups of 2\nAnalysis of your own dataset (or provided if you don’t have one)\n\nFinal exam — 20%\n\nOn-line, asynchronous, open-book",
     "crumbs": [
       "Slides",
       "Reproducibility"
@@ -1159,7 +1355,7 @@
     "href": "slides/day1.html#semester-project-50",
     "title": "ReproducibleData Science for Ag",
     "section": "Semester project (50%)",
-    "text": "Semester project (50%)\n\n\n\n\n\n\nNote\n\n\nExpectations  - Use reproducible practices throughout (files, code, and narrative)  - Clear questions, clean data, and transparent methods  - Professional communication (figures, tables, interpretation) \n\n\n\n\nMilestones\n\nProposal (10%)\nInitial report (20%)\nPresentation (20%)\nFinal report (50%)",
+    "text": "Semester project (50%)\n\n\n\n\n\n\nNote\n\n\n\nExpectations  - Use reproducible practices throughout (files, code, and narrative)  - Clear questions, clean data, and transparent methods  - Professional communication (figures, tables, interpretation) \n\n\n\n\nMilestones\n\nProposal (10%)\nInitial report (20%)\nPresentation (20%)\nFinal report (50%)",
     "crumbs": [
       "Slides",
       "Reproducibility"
@@ -1170,7 +1366,7 @@
     "href": "slides/day1.html#key-definitions",
     "title": "ReproducibleData Science for Ag",
     "section": "Key Definitions 📖",
-    "text": "Key Definitions 📖\n\n\n\nData Science: Extracting insights from data using algorithms and statistical methods. \nData Literacy: Skills to read, interpret, and analyze data. \nReproducibility: Ensuring analyses can be recreated by others.\n\n\n\n\n\n\n\n\n\nNote\n\n\nWhy does reproducibility matter?\n\nTrustworthy results,\ntransparency, &\ncollaboration in research.",
+    "text": "Key Definitions 📖\n\n\n\nData Science: Extracting insights from data using algorithms and statistical methods. \nData Literacy: Skills to read, interpret, and analyze data. \nReproducibility: Ensuring analyses can be recreated by others.\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nWhy does reproducibility matter?\n\nTrustworthy results,\ntransparency, &\ncollaboration in research.",
     "crumbs": [
       "Slides",
       "Reproducibility"
@@ -1192,7 +1388,7 @@
     "href": "slides/day1.html#why-does-it-matter",
     "title": "ReproducibleData Science for Ag",
     "section": "Why does it matter?",
-    "text": "Why does it matter?\n\n\nIt is the #1 skill-gap in the job market: \n\nAcademia,\nIndustry,\nGovernment, NGOs, etc.\n\n\n\n\n\nIs there a REPRODUCIBILITY CRISIS in science?\nYES\nA Nature survey with ~1,600 researchers found that\n\n+70% failure rate to reproduce another scientist’s experiments\n+50% have failed to reproduce their own experiments\nMain causes: selective reporting, weak stats, code/data unavailability, etc.",
+    "text": "Why does it matter?\n\n\nIt is the #1 skill-gap in the job market: \n\nAcademia,\nIndustry,\nGovernment, NGOs, etc.\n\n\n\n\n\n\n\nIs there a REPRODUCIBILITY CRISIS in science?\nYES\nA Nature survey with ~1,600 researchers found that\n\n+70% failure rate to reproduce another scientist’s experiments\n+50% have failed to reproduce their own experiments\nMain causes: selective reporting, weak stats, code/data unavailability, etc.",
     "crumbs": [
       "Slides",
       "Reproducibility"
@@ -1214,7 +1410,7 @@
     "href": "slides/day1.html#challenges-in-ag-research",
     "title": "ReproducibleData Science for Ag",
     "section": "Challenges in Ag-research",
-    "text": "Challenges in Ag-research\n\nREPRODUCIBILITY 💻\n\nLimited capability to reproduce analyses & results\nDATA are rarely shared, CODES even less\n\n\n\nACCESSIBILITY 📲\n\nYet we are not translating enough science into flexible, and transparent decision tools.\n\n\n\n“But it all starts with …”\n\n\nEDUCATION 🎓\n\nLimited curriculum in applied data science",
+    "text": "Challenges in Ag-research\n\n\nREPRODUCIBILITY 💻\n\nLimited capability to reproduce analyses & results\nDATA are rarely shared, CODES even less\n\n\n\n\n\nACCESSIBILITY 📲\n\nYet we are not translating enough science into flexible, and transparent decision tools.\n\n\n\n\n“But it all starts with …”\n\n\n\nEDUCATION 🎓\n\nLimited curriculum in applied data science",
     "crumbs": [
       "Slides",
       "Reproducibility"
@@ -1258,7 +1454,7 @@
     "href": "slides/day1.html#r-vs.-excel-for-data-wrangling",
     "title": "ReproducibleData Science for Ag",
     "section": "R vs. Excel for Data Wrangling 📊",
-    "text": "R vs. Excel for Data Wrangling 📊\n\n\n\nExcel: Known for ease of use, popular among business and finance professionals.\n\nPros: Intuitive, good for small datasets and quick analysis.\nCons: Limited in handling large datasets, lacks reproducibility.\n\nR: Provides powerful data manipulation packages (e.g., dplyr, tidyr).\n\nPros: Handles large datasets efficiently, supports complex transformations, fully reproducible.\nCons: Requires programming knowledge, steeper learning curve than Excel.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nTip: R is highly scalable and is ideal for projects requiring automation, reproducibility, and handling large datasets.",
+    "text": "R vs. Excel for Data Wrangling 📊\n\n\n\nExcel: Known for ease of use, popular among business and finance professionals.\n\nPros: Intuitive, good for small datasets and quick analysis.\nCons: Limited in handling large datasets, lacks reproducibility.\n\nR: Provides powerful data manipulation packages (e.g., dplyr, tidyr).\n\nPros: Handles large datasets efficiently, supports complex transformations, fully reproducible.\nCons: Requires programming knowledge, steeper learning curve than Excel.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTip\n\n\n\n\nTip: R is highly scalable and is ideal for projects requiring automation, reproducibility, and handling large datasets.",
     "crumbs": [
       "Slides",
       "Reproducibility"
@@ -1269,7 +1465,7 @@
     "href": "slides/day1.html#r-vs.-sas-for-statistical-analysis",
     "title": "ReproducibleData Science for Ag",
     "section": "R vs. SAS for Statistical Analysis 📉",
-    "text": "R vs. SAS for Statistical Analysis 📉\n\n\n\nSAS: A powerful statistical software suite used widely in industries such as healthcare and finance.\n\nPros: Robust for regulatory environments, highly standardized.\nCons: Proprietary and costly, limited community contributions.\n\nR: Offers a vast array of statistical packages and flexibility in method implementation.\n\nPros: Free and open-source, customizable, strong community support.\nCons: Requires more coding and configuration for regulatory standards.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nComparison: R is often chosen for research and academia due to its flexibility and customization, while SAS remains strong in industries needing strict compliance and control.",
+    "text": "R vs. SAS for Statistical Analysis 📉\n\n\n\nSAS: A powerful statistical software suite used widely in industries such as healthcare and finance.\n\nPros: Robust for regulatory environments, highly standardized.\nCons: Proprietary and costly, limited community contributions.\n\nR: Offers a vast array of statistical packages and flexibility in method implementation.\n\nPros: Free and open-source, customizable, strong community support.\nCons: Requires more coding and configuration for regulatory standards.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\n\nComparison: R is often chosen for research and academia due to its flexibility and customization, while SAS remains strong in industries needing strict compliance and control.",
     "crumbs": [
       "Slides",
       "Reproducibility"
@@ -1291,7 +1487,7 @@
     "href": "slides/day1.html#r-strengths-and-use-cases",
     "title": "ReproducibleData Science for Ag",
     "section": "R: Strengths and Use Cases 🧮",
-    "text": "R: Strengths and Use Cases 🧮\n\n\n\nDesigned for Statistics: R is optimized for statistical analysis, making it ideal for research and academia.\nVisualization: Excellent data visualization libraries like ggplot2.\nLicensing: Licensed under GPL; many packages are also GPL, with some using MIT or BSD.\n\n\nIdeal Use Cases:\n\nData analysis, visualization, and complex statistical modeling.\nResearch and academia where open-source, reproducible code is needed.\nLicensing in Production: GPL may restrict proprietary use; check package licenses carefully.",
+    "text": "R: Strengths and Use Cases 🧮\n\n\n\nDesigned for Statistics: R is optimized for statistical analysis, making it ideal for research and academia.\nVisualization: Excellent data visualization libraries like ggplot2.\nLicensing: Licensed under GPL; many packages are also GPL, with some using MIT or BSD.\n\n\n\nIdeal Use Cases:\n\nData analysis, visualization, and complex statistical modeling.\nResearch and academia where open-source, reproducible code is needed.\nLicensing in Production: GPL may restrict proprietary use; check package licenses carefully.",
     "crumbs": [
       "Slides",
       "Reproducibility"
@@ -1302,7 +1498,7 @@
     "href": "slides/day1.html#python-strengths-and-use-cases",
     "title": "ReproducibleData Science for Ag",
     "section": "Python: Strengths and Use Cases 🐍",
-    "text": "Python: Strengths and Use Cases 🐍\n\n\n\nGeneral-Purpose Language: Python is popular for both data science and software development.\nMachine Learning & AI: Extensive libraries for ML and AI, such as scikit-learn, TensorFlow.\nLicensing: PSFL (Python Software Foundation License), highly permissive for proprietary use.\n\n\nIdeal Use Cases:\n\nEnd-to-end development, from data wrangling to ML and web development.\nProduction-ready ML and AI applications.\nLicensing in Production: Permissive licenses allow closed-source use, making Python production-friendly.",
+    "text": "Python: Strengths and Use Cases 🐍\n\n\n\nGeneral-Purpose Language: Python is popular for both data science and software development.\nMachine Learning & AI: Extensive libraries for ML and AI, such as scikit-learn, TensorFlow.\nLicensing: PSFL (Python Software Foundation License), highly permissive for proprietary use.\n\n\n\nIdeal Use Cases:\n\nEnd-to-end development, from data wrangling to ML and web development.\nProduction-ready ML and AI applications.\nLicensing in Production: Permissive licenses allow closed-source use, making Python production-friendly.",
     "crumbs": [
       "Slides",
       "Reproducibility"
@@ -1313,7 +1509,7 @@
     "href": "slides/day1.html#comparison-summary",
     "title": "ReproducibleData Science for Ag",
     "section": "Comparison Summary 📊",
-    "text": "Comparison Summary 📊\n\n\n\n\n\n\n\nNote\n\n\n\nExcel: User-friendly, ideal for simple tasks, but limited for complex data wrangling.\nSAS: Industry-standard for statistical analysis with regulatory requirements, but costly and less flexible than R.\nR: Best for statistical analysis and visualization, but GPL license may restrict use in proprietary products.\nPython: Strong in ML and AI with highly permissive licensing, making it ideal for production.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFeature\nR\nPython\n\n\n\n\nPrimary Strength\nStatistics & Visualization\nGeneral-purpose, ML, AI\n\n\nPerformance\nModerate\nModerate\n\n\nLicensing\nGPL (core), MIT, BSD (some)\nPSFL, highly permissive\n\n\nProduction Use\nLimited by GPL\nVery friendly for proprietary",
+    "text": "Comparison Summary 📊\n\n\n\n\n\n\n\nNote\n\n\n\n\nExcel: User-friendly, ideal for simple tasks, but limited for complex data wrangling.\nSAS: Industry-standard for statistical analysis with regulatory requirements, but costly and less flexible than R.\nR: Best for statistical analysis and visualization, but GPL license may restrict use in proprietary products.\nPython: Strong in ML and AI with highly permissive licensing, making it ideal for production.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFeature\nR\nPython\n\n\n\n\nPrimary Strength\nStatistics & Visualization\nGeneral-purpose, ML, AI\n\n\nPerformance\nModerate\nModerate\n\n\nLicensing\nGPL (core), MIT, BSD (some)\nPSFL, highly permissive\n\n\nProduction Use\nLimited by GPL\nVery friendly for proprietary",
     "crumbs": [
       "Slides",
       "Reproducibility"
@@ -1324,7 +1520,7 @@
     "href": "slides/day1.html#comparison-summary-ii",
     "title": "ReproducibleData Science for Ag",
     "section": "Comparison Summary II 📊",
-    "text": "Comparison Summary II 📊\nChoosing the right tool depends on:\n\nyour project’s requirements, \nteam structure & skills, and \nlicensing needs for research vs. production.\n\n\n\n\n\n\n\n\nTip\n\n\n\nR: Best for statistical analysis and visualization, but GPL license may restrict use in proprietary products.\nPython: Strong in ML and AI with highly permissive licensing, making it ideal for production.",
+    "text": "Comparison Summary II 📊\n\nChoosing the right tool depends on:\n\nyour project’s requirements, \nteam structure & skills, and \nlicensing needs for research vs. production.\n\n\n\n\n\n\n\n\nTip\n\n\n\n\nR: Best for statistical analysis and visualization, but GPL license may restrict use in proprietary products.\nPython: Strong in ML and AI with highly permissive licensing, making it ideal for production.",
     "crumbs": [
       "Slides",
       "Reproducibility"
@@ -1401,30 +1597,10 @@
     "href": "slides/day1.html#thank-you",
     "title": "ReproducibleData Science for Ag",
     "section": "THANK YOU!",
-    "text": "THANK YOU!\n_\n\n\nAdrian A. Correndo\n📬 acorrend@uoguelph.ca\n\nAssistant Professor\nPick Family Chair, Sustainable Cropping Systems\nRm 226, Crop Science Building\n\n\n\n\n\n\n\n\n\nContact me",
+    "text": "THANK YOU!\n\n_\n\n\n\nAdrian A. Correndo\n📬 acorrend@uoguelph.ca\n\nAssistant Professor\nPick Family Chair, Sustainable Cropping Systems\nRm 226, Crop Science Building\n\n\n\n\n\n\n\n\n\n\n\n\n\nContact me",
     "crumbs": [
       "Slides",
       "Reproducibility"
-    ]
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "PLNT6530|01 - Reproducible Data Sci for Ag",
-    "section": "",
-    "text": "Reproducible Data Science for Ag is offered at Department of Plant Agriculture (University of Guelph) by Dr. Adrian Correndo. It is designed for graduate students in crop and soil sciences to develop key skills in data science using R. This course emphasizes reproducibility in data analysis, ensuring that results can be consistently replicated. Students will learn essential data science concepts, and how to use functions, packages, and version control to effectively manage their data and collaborate with peers. Following tidy principles, the course promotes best coding practices for data wrangling, effective visualization, and clean deployment of statistical models common in agriculture. By the end of the course, students will be equipped to handle a variety of agricultural datasets and produce reliable, reproducible research outcomes.\n\n\n\nBy the end of this course, students will be able to:\n\nReproducibility: understand the principles and importance of reproducible data analysis.\nData manipulation: develop proficiency in R, including key data structures, packages, and functions to read, clean, transform, and organize datasets.\nData visualization: create informative and aesthetically pleasing visualizations of data.\nModelling and iteration: apply various algorithms and statistical models common to plant agriculture, and implement techniques to handle multiple datasets simultaneously.\nProfessional reporting: produce professional reports for sharing results.\nVersion control: manage the basics of Git and Github for collaborative projects.\n\n\n\n\nThis course will use a variety of technologies and resources. To successfully participate in and complete this course, students will need access to the following\n\n\nCourseLink. This platform will be used as the main Course-Home Page. If you need any assistance with the software tools or the CourseLink website, contact CourseLink Support. Email: courselink@uoguelph.ca Tel: 519-824-4120 ext. 56939 Toll-Free (CAN/USA): 1-866- 275-1478. Support Hours (Eastern Time): Monday thru Friday: 8:30 am–8:30 pm; Saturday: 10:00 am–4:00 pm; Sunday: 12:00 pm–6:00 pm\nZoom. This course will use Zoom for lectures when in-person class is not possible. Check your system requirements to ensure you will be able to participate (https://opened.uoguelph.ca/student-resources/system-and-software-requirements/). A Zoom link for the class will be provided before the first day of class. Please, check Home-Page and announcements on CourseLink, and emails from the instructor (acorrend@uoguelph.ca).\n\n\n\n\nR (latest stable version, available at CRAN).\nRStudio/Posit IDE (desktop or cloud-based version for writing and running R code).\nCourse-Specific Libraries and Packages: Students will be required to install R packages. Detailed instructions will be provided in class.\nVersion Control and Collaboration Tools: Git (for version control) and a free GitHub account for collaborative project work and sharing code.\n\n\n\n\nA laptop or desktop computer capable of running R and RStudio (Windows, MacOS, or Linux). Minimum specifications include:\n\nProcessor: At least a dual-core processor.\nRAM: 8 GB or more (16 GB recommended for handling larger datasets).\nStorage: 10 GB of free space for software installation, course files, and datasets.\n\n\n\n\nReliable high-speed internet for accessing online sessions, resources, downloading software, and using cloud-based platforms (e.g., Posit Cloud, GitHub).",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#dpag-oac-uog",
-    "href": "index.html#dpag-oac-uog",
-    "title": "PLNT6530|01 - Reproducible Data Sci for Ag",
-    "section": "",
-    "text": "Reproducible Data Science for Ag is offered at Department of Plant Agriculture (University of Guelph) by Dr. Adrian Correndo. It is designed for graduate students in crop and soil sciences to develop key skills in data science using R. This course emphasizes reproducibility in data analysis, ensuring that results can be consistently replicated. Students will learn essential data science concepts, and how to use functions, packages, and version control to effectively manage their data and collaborate with peers. Following tidy principles, the course promotes best coding practices for data wrangling, effective visualization, and clean deployment of statistical models common in agriculture. By the end of the course, students will be equipped to handle a variety of agricultural datasets and produce reliable, reproducible research outcomes.\n\n\n\nBy the end of this course, students will be able to:\n\nReproducibility: understand the principles and importance of reproducible data analysis.\nData manipulation: develop proficiency in R, including key data structures, packages, and functions to read, clean, transform, and organize datasets.\nData visualization: create informative and aesthetically pleasing visualizations of data.\nModelling and iteration: apply various algorithms and statistical models common to plant agriculture, and implement techniques to handle multiple datasets simultaneously.\nProfessional reporting: produce professional reports for sharing results.\nVersion control: manage the basics of Git and Github for collaborative projects.\n\n\n\n\nThis course will use a variety of technologies and resources. To successfully participate in and complete this course, students will need access to the following\n\n\nCourseLink. This platform will be used as the main Course-Home Page. If you need any assistance with the software tools or the CourseLink website, contact CourseLink Support. Email: courselink@uoguelph.ca Tel: 519-824-4120 ext. 56939 Toll-Free (CAN/USA): 1-866- 275-1478. Support Hours (Eastern Time): Monday thru Friday: 8:30 am–8:30 pm; Saturday: 10:00 am–4:00 pm; Sunday: 12:00 pm–6:00 pm\nZoom. This course will use Zoom for lectures when in-person class is not possible. Check your system requirements to ensure you will be able to participate (https://opened.uoguelph.ca/student-resources/system-and-software-requirements/). A Zoom link for the class will be provided before the first day of class. Please, check Home-Page and announcements on CourseLink, and emails from the instructor (acorrend@uoguelph.ca).\n\n\n\n\nR (latest stable version, available at CRAN).\nRStudio/Posit IDE (desktop or cloud-based version for writing and running R code).\nCourse-Specific Libraries and Packages: Students will be required to install R packages. Detailed instructions will be provided in class.\nVersion Control and Collaboration Tools: Git (for version control) and a free GitHub account for collaborative project work and sharing code.\n\n\n\n\nA laptop or desktop computer capable of running R and RStudio (Windows, MacOS, or Linux). Minimum specifications include:\n\nProcessor: At least a dual-core processor.\nRAM: 8 GB or more (16 GB recommended for handling larger datasets).\nStorage: 10 GB of free space for software installation, course files, and datasets.\n\n\n\n\nReliable high-speed internet for accessing online sessions, resources, downloading software, and using cloud-based platforms (e.g., Posit Cloud, GitHub).",
-    "crumbs": [
-      "Home"
     ]
   },
   {
@@ -1967,245 +2143,276 @@
     ]
   },
   {
-    "objectID": "coding/extras/read_tabular.html",
-    "href": "coding/extras/read_tabular.html",
-    "title": "Reading tabular data in R",
+    "objectID": "coding/week_01/essentials_01.html",
+    "href": "coding/week_01/essentials_01.html",
+    "title": "Essentials of R coding I",
     "section": "",
-    "text": "In real projects, a big part of “data science” is simply getting data into R reliably and reproducibly. CSV (comma separated values) and Excel are the most common formats you’ll see in agriculture, industry, and research workflows.\nThis short note covers:  - 📄 how to read CSV (readr).  - 📊 how to read Excel (readxl, openxlsx).  - 🗂️ how to read many files in a folder.  - 🧾 how to read many sheets in an excel file.  - 🧹 common cleaning options like skipping rows, header rows, and missing values",
+    "text": "This page provides an overview of the essential types of elements in R, including examples and explanations for each. Use this as a quick reference to understand the basics of data types and operations.",
     "crumbs": [
-      "Extras",
-      "Read Tabular Data"
+      "Lessons",
+      "01-Essentials of R"
     ]
   },
   {
-    "objectID": "coding/extras/read_tabular.html#quick-comparison-of-main-packages",
-    "href": "coding/extras/read_tabular.html#quick-comparison-of-main-packages",
-    "title": "Reading tabular data in R",
-    "section": "2.1 Quick comparison of main packages",
-    "text": "2.1 Quick comparison of main packages\n📄 CSV / delimited text\n- Package: readr\n- ✅ Strengths: fast, consistent parsing, clear messages, good type control (col_types)\n- ⚠️ Notes: great default for tidyverse-style workflows\n📊 Excel (.xlsx)\n- Package: readxl\n- ✅ Strengths: simple reading of Excel, minimal dependencies\n- ⚠️ Notes: read-only (does not write Excel)\n📊 Excel (.xlsx)\n- Package: openxlsx\n- ✅ Strengths: read + write, more control over excels/sheets\n- ⚠️ Notes: great when you must write .xlsx outputs\nRule of thumb: - 📄 CSV: start with readr::read_csv() - 📊 Excel reading: start with readxl::read_excel() - 📝 Excel reading + writing or more control: use openxlsx",
+    "objectID": "coding/week_01/essentials_01.html#numbers",
+    "href": "coding/week_01/essentials_01.html#numbers",
+    "title": "Essentials of R coding I",
+    "section": "01. Numbers",
+    "text": "01. Numbers\n\n20\n\n[1] 20",
     "crumbs": [
-      "Extras",
-      "Read Tabular Data"
+      "Lessons",
+      "01-Essentials of R"
     ]
   },
   {
-    "objectID": "coding/extras/read_tabular.html#basic-read",
-    "href": "coding/extras/read_tabular.html#basic-read",
-    "title": "Reading tabular data in R",
-    "section": "3.1 Basic read",
-    "text": "3.1 Basic read\n\ndf &lt;- readr::read_csv(\"data/my_file.csv\")\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\ndf\n\n# A tibble: 289 × 6\n   gen   trial env   yield  year loc  \n   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;\n 1 G16   T2    E01     590  2001 Mieso\n 2 G17   T2    E01     554  2001 Mieso\n 3 G18   T2    E01     586  2001 Mieso\n 4 G19   T2    E01     738  2001 Mieso\n 5 G20   T2    E01     489  2001 Mieso\n 6 G21   T2    E01     684  2001 Mieso\n 7 G22   T2    E01     555  2001 Mieso\n 8 G23   T2    E01    1025  2001 Mieso\n 9 G24   T2    E01     493  2001 Mieso\n10 G25   T2    E01     691  2001 Mieso\n# ℹ 279 more rows",
+    "objectID": "coding/week_01/essentials_01.html#math-operations",
+    "href": "coding/week_01/essentials_01.html#math-operations",
+    "title": "Essentials of R coding I",
+    "section": "02. Math Operations",
+    "text": "02. Math Operations\n\n20+1 # addition\n\n[1] 21\n\n20-4 # subtraction\n\n[1] 16\n\n20*5 # multiplication\n\n[1] 100\n\n20/5 # division\n\n[1] 4\n\n2^2 # exponentials\n\n[1] 4\n\nsqrt(9) # square root\n\n[1] 3\n\n# Greater exponents for roots\n# notation is: x^(1/n)\n\n# Cubic root of 27\n27^(1/3)  # Result: 3\n\n[1] 3\n\n# 4th root of 16\n16^(1/4)  # Result: 2\n\n[1] 2\n\n# 5th root of 32\n32^(1/5)  # Result: 2\n\n[1] 2",
     "crumbs": [
-      "Extras",
-      "Read Tabular Data"
+      "Lessons",
+      "01-Essentials of R"
     ]
   },
   {
-    "objectID": "coding/extras/read_tabular.html#common-options",
-    "href": "coding/extras/read_tabular.html#common-options",
-    "title": "Reading tabular data in R",
-    "section": "3.2 Common options",
-    "text": "3.2 Common options\nmissing values, quieter output\n\ndf &lt;- readr::read_csv(\n  file = \"data/my_file.csv\",\n  na = c(\"\", \"NA\", \"N/A\", \"na\", \".\")\n)\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.",
+    "objectID": "coding/week_01/essentials_01.html#text-or-characters-also-called-strings",
+    "href": "coding/week_01/essentials_01.html#text-or-characters-also-called-strings",
+    "title": "Essentials of R coding I",
+    "section": "03. Text or characters (also called strings)",
+    "text": "03. Text or characters (also called strings)\n\n\"coding is fun\"\n\n[1] \"coding is fun\"\n\n\nBut these elements are not stored as objects yet:",
     "crumbs": [
-      "Extras",
-      "Read Tabular Data"
+      "Lessons",
+      "01-Essentials of R"
     ]
   },
   {
-    "objectID": "coding/extras/read_tabular.html#control-column-types",
-    "href": "coding/extras/read_tabular.html#control-column-types",
-    "title": "Reading tabular data in R",
-    "section": "3.3 Control column types 🎯",
-    "text": "3.3 Control column types 🎯\nRecommended for reproducibility.\n\ndf &lt;- readr::read_csv(file = \"data/my_file.csv\") |&gt; \n    mutate(loc  = as.character(loc),\n           year  = as.integer(year),\n           yield = as.numeric(yield))\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.",
+    "objectID": "coding/week_01/essentials_01.html#define-objects",
+    "href": "coding/week_01/essentials_01.html#define-objects",
+    "title": "Essentials of R coding I",
+    "section": "04. Define objects",
+    "text": "04. Define objects\n\na &lt;- 20\n10 -&gt; b\n# We can also use equal:\nc = 15\n# But using \"&lt;-\", and leave = only for operations (so you can notice the difference) is considered a better coding practice.",
     "crumbs": [
-      "Extras",
-      "Read Tabular Data"
+      "Lessons",
+      "01-Essentials of R"
     ]
   },
   {
-    "objectID": "coding/extras/read_tabular.html#skip-lines-at-the-top",
-    "href": "coding/extras/read_tabular.html#skip-lines-at-the-top",
-    "title": "Reading tabular data in R",
-    "section": "3.4 Skip lines at the top ⏭️",
-    "text": "3.4 Skip lines at the top ⏭️\nFor example for metadata, notes, extra header rows…\n\ndf &lt;- readr::read_csv(\n  file = \"data/my_file.csv\",\n  skip = 1\n)\n\nRows: 288 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): G16, T2, E01, Mieso\ndbl (2): 590, 2001\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.",
+    "objectID": "coding/week_01/essentials_01.html#print-objects",
+    "href": "coding/week_01/essentials_01.html#print-objects",
+    "title": "Essentials of R coding I",
+    "section": "05. Print objects",
+    "text": "05. Print objects\n\na\n\n[1] 20\n\nprint(a)\n\n[1] 20\n\nb\n\n[1] 10\n\nc\n\n[1] 15",
     "crumbs": [
-      "Extras",
-      "Read Tabular Data"
+      "Lessons",
+      "01-Essentials of R"
     ]
   },
   {
-    "objectID": "coding/extras/read_tabular.html#skip-blank-lines",
-    "href": "coding/extras/read_tabular.html#skip-blank-lines",
-    "title": "Reading tabular data in R",
-    "section": "3.5 Skip blank lines 🕳️",
-    "text": "3.5 Skip blank lines 🕳️\nOften helpful with messy CSV exports\n\ndf &lt;- readr::read_csv(\n  file = \"data/my_file.csv\",\n  skip_empty_rows = TRUE\n)\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.",
+    "objectID": "coding/week_01/essentials_01.html#vectors",
+    "href": "coding/week_01/essentials_01.html#vectors",
+    "title": "Essentials of R coding I",
+    "section": "06. Vectors",
+    "text": "06. Vectors\nA vector is one of the most basic data structures. It is a sequence of elements of the same type, such as numbers, characters, or logical values. Vectors are used to store and manipulate collections of data efficiently. \n\na. Creating a vector\nVectors can be created using the c() function (combine function):\n\n# Numeric vector\nnumeric_vector &lt;- c(1, 2, 3, 4.5)\nnumeric_vector\n\n[1] 1.0 2.0 3.0 4.5\n\n# Character vector\ncharacter_vector &lt;- c(\"corn\", \"wheat\", \"soybean\")\ncharacter_vector\n\n[1] \"corn\"    \"wheat\"   \"soybean\"\n\n# Logical vector\nlogical_vector &lt;- c(TRUE, FALSE, TRUE)\nlogical_vector\n\n[1]  TRUE FALSE  TRUE\n\n\n\n\nb. Accessing Elements\nYou can access elements of a vector using square brackets []:\n\n# Access the first element\nnumeric_vector[1]\n\n[1] 1\n\n# Access multiple elements\nnumeric_vector[c(1, 3)]\n\n[1] 1 3\n\n\n\n\nc. Vectorized Operations\nIn R, vector-operations are applied to each element automatically:\n\n# Adding a scalar to a vector\nnumeric_vector + 2\n\n[1] 3.0 4.0 5.0 6.5\n\n# Element-wise addition\nnumeric_vector + c(10, 20, 30, 40)\n\n[1] 11.0 22.0 33.0 44.5\n\n\n\n\nd. Common Functions with Vectors\n\n‘length()’: Get the number of elements in a vector.\n‘typeof()’ or ‘class()’: Determine the type of elements in a vector.\n‘seq()’: Generate a sequence of numbers.\n‘rep()’: Repeat elements to create a vector.",
     "crumbs": [
-      "Extras",
-      "Read Tabular Data"
+      "Lessons",
+      "01-Essentials of R"
     ]
   },
   {
-    "objectID": "coding/extras/read_tabular.html#basic-read-first-sheet-by-default",
-    "href": "coding/extras/read_tabular.html#basic-read-first-sheet-by-default",
-    "title": "Reading tabular data in R",
-    "section": "4.1 Basic read (first sheet by default)",
-    "text": "4.1 Basic read (first sheet by default)\n\ndf &lt;- readxl::read_excel(path=\"data/my_excel.xlsx\")\nhead(df)\n\n# A tibble: 6 × 6\n  gen   trial env   yield  year loc  \n  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;\n1 G16   T2    E01     590  2001 Mieso\n2 G17   T2    E01     554  2001 Mieso\n3 G18   T2    E01     586  2001 Mieso\n4 G19   T2    E01     738  2001 Mieso\n5 G20   T2    E01     489  2001 Mieso\n6 G21   T2    E01     684  2001 Mieso",
+    "objectID": "coding/week_01/essentials_01.html#lists",
+    "href": "coding/week_01/essentials_01.html#lists",
+    "title": "Essentials of R coding I",
+    "section": "07. Lists",
+    "text": "07. Lists\nIn R, a list is a versatile data structure that can contain elements of different types, including vectors, matrices, data frames, and even other lists. Unlike vectors, which are homogeneous, lists are heterogeneous, meaning their elements can be of different data types and lengths. \nKey Characteristics of Lists: \n\nHeterogeneous: Lists can store elements of varying types (numeric, character, logical, etc.) and structures (vectors, data frames, functions, etc.). \nIndexed: Elements in a list are accessed using double square brackets [[ ]] or named elements using $.\n\nWhy Use Lists? \n\nFlexibility: Lists can store complex and nested data structures. \nData Wrangling: Useful for handling results from models, nested data, or any mixed-type collections. \nFunctions: Functions in R often return their output as lists (e.g., lm()). \n\n\na. Creating a list\nLists are created using the list() function:\n\n# Create a list with different types of elements\nmy_list &lt;- list(\n  \"numeric_v\" = numeric_vector,\n  \"character_v\" = character_vector,\n  \"single_number\" = 42,\n  \"logical_value\" = TRUE\n)\n\n\n\nb. Accessing Elements in a List\nYou can access elements in a list by their position or name:\nBy Position:\n\n# Access the first element\nmy_list[[1]]\n\n[1] 1.0 2.0 3.0 4.5\n\n# Access the second element\nmy_list[[2]]\n\n[1] \"corn\"    \"wheat\"   \"soybean\"\n\n\nBy name:\n\n# Access by name\nmy_list$numeric_v\n\n[1] 1.0 2.0 3.0 4.5\n\nmy_list$character_v\n\n[1] \"corn\"    \"wheat\"   \"soybean\"\n\n\nSubelements:\n\n# Access the first value in the numeric vector\nmy_list$numeric_vector[1]\n\nNULL\n\n\n\n\nc. Some functions for lists\n\n# Number of elements in the list\nlength(my_list)\n\n[1] 4\n\n# Names of the elements\nnames(my_list)\n\n[1] \"numeric_v\"     \"character_v\"   \"single_number\" \"logical_value\"\n\n# Structure of the list\nstr(my_list)\n\nList of 4\n $ numeric_v    : num [1:4] 1 2 3 4.5\n $ character_v  : chr [1:3] \"corn\" \"wheat\" \"soybean\"\n $ single_number: num 42\n $ logical_value: logi TRUE",
     "crumbs": [
-      "Extras",
-      "Read Tabular Data"
+      "Lessons",
+      "01-Essentials of R"
     ]
   },
   {
-    "objectID": "coding/extras/read_tabular.html#read-a-specific-sheet",
-    "href": "coding/extras/read_tabular.html#read-a-specific-sheet",
-    "title": "Reading tabular data in R",
-    "section": "4.2 Read a specific sheet",
-    "text": "4.2 Read a specific sheet\nby name or position\n\ndf1 &lt;- readxl::read_excel(path=\"data/my_excel.xlsx\", sheet = \"Sheet1\")\ndf2 &lt;- readxl::read_excel(path=\"data/my_excel.xlsx\", sheet = 2)",
+    "objectID": "coding/week_01/essentials_01.html#data-frame",
+    "href": "coding/week_01/essentials_01.html#data-frame",
+    "title": "Essentials of R coding I",
+    "section": "08. Data frame",
+    "text": "08. Data frame\nIn R, a data frame is a two-dimensional data structure used for storing tabular data. It is one of the most commonly used data structures in R for data analysis and manipulation. \nKey Characteristics of a Data Frame \n\nTabular Structure: Data is organized in rows and columns. \nHeterogeneous Columns: Each column can contain different data types (e.g., numeric, character, logical), but all elements in a column must be of the same type. \nRow and Column Names: Rows and columns can have names for easier identification. \n\nWhy Use a Data Frame? \n\nData Analysis: It is ideal for representing structured data like spreadsheets or databases. \nFlexible Operations: Columns can be easily added, removed, or modified. \nIntegration with R Functions: Many R functions for statistical modeling and analysis expect data frames as input. \n\n\na. Creating a Data Frame\nA data frame can be created using the data.frame() function:\n\n# Create a data frame\nmy_data &lt;- data.frame(\n  Crop = c(\"Corn\", \"Wheat\", \"Soybean\"), # Character column\n  Yield = c(180, 90, 50), # Numeric column\n  Legume = c(FALSE, FALSE, TRUE) # Logical column\n)\n\nprint(my_data)\n\n     Crop Yield Legume\n1    Corn   180  FALSE\n2   Wheat    90  FALSE\n3 Soybean    50   TRUE\n\n\n\n\nb. Accessing data in a data frame\nAccessing columns:\n\n# Access a column by name\nmy_data$Crop\n\n[1] \"Corn\"    \"Wheat\"   \"Soybean\"\n\n# Access a column by index\nmy_data[, 2]\n\n[1] 180  90  50\n\n\nAccessing rows:\n\n# Access the first row\nmy_data[1, ]\n\n  Crop Yield Legume\n1 Corn   180  FALSE\n\n# Access specific rows\nmy_data[c(1, 3), ]\n\n     Crop Yield Legume\n1    Corn   180  FALSE\n3 Soybean    50   TRUE\n\n\nAccessing specific elements\n\n# Access the element in the 2nd row, 3rd column\nmy_data[2, 3]\n\n[1] FALSE\n\n# Access specific cells by column name\nmy_data[2, \"Crop\"]\n\n[1] \"Wheat\"\n\n\n\n\nc. Adding a new column\n\nmy_data$Season &lt;- c(\"Summer\", \"Winter\", \"Summer\")\n\n\n\nd. Modify a column\n\nmy_data$Yield &lt;- my_data$Yield + 5\n\n\n\ne. Adding a new row\nIn base R, we can use rbind() to add rows:\n\nnew_row &lt;- data.frame(Crop = \"Barley\", Yield = 80, Legume = FALSE, Season = \"Winter\")\nmy_data &lt;- rbind(my_data, new_row)\n\n\n\nf. Filtering (rows)\nIn base R, we can use subset() to filter rows:\n\nsubset(my_data, Yield &gt; 150)\n\n  Crop Yield Legume Season\n1 Corn   185  FALSE Summer\n\n\nWe can also use logical conditions:\n\nmy_data[my_data$Legume == TRUE, ]\n\n     Crop Yield Legume Season\n3 Soybean    55   TRUE Summer\n\n\n\n\ng. Selecting (columns)\nIn base R, there is no function to select columns. We need to use brackets [] and vectors c():\n\nmy_data[c(\"Crop\", \"Yield\")]\n\n     Crop Yield\n1    Corn   185\n2   Wheat    95\n3 Soybean    55\n4  Barley    80\n\n\n\n\nh. Some functions for data frames\n\nnrow(my_data)        # Number of rows\n\n[1] 4\n\nncol(my_data)        # Number of columns\n\n[1] 4\n\ncolnames(my_data)    # Column names\n\n[1] \"Crop\"   \"Yield\"  \"Legume\" \"Season\"\n\nsummary(my_data)     # Summary statistics\n\n     Crop               Yield          Legume           Season         \n Length:4           Min.   : 55.00   Mode :logical   Length:4          \n Class :character   1st Qu.: 73.75   FALSE:3         Class :character  \n Mode  :character   Median : 87.50   TRUE :1         Mode  :character  \n                    Mean   :103.75                                     \n                    3rd Qu.:117.50                                     \n                    Max.   :185.00",
     "crumbs": [
-      "Extras",
-      "Read Tabular Data"
+      "Lessons",
+      "01-Essentials of R"
     ]
   },
   {
-    "objectID": "coding/extras/read_tabular.html#skip-rows",
-    "href": "coding/extras/read_tabular.html#skip-rows",
-    "title": "Reading tabular data in R",
-    "section": "4.3 Skip rows ⏭️",
-    "text": "4.3 Skip rows ⏭️\nFor example, title row + empty row\n\ndf &lt;- readxl::read_excel(\n  path = \"data/my_excel.xlsx\",\n  sheet = 1,\n  skip  = 2\n)",
+    "objectID": "coding/week_01/essentials_01.html#matrix",
+    "href": "coding/week_01/essentials_01.html#matrix",
+    "title": "Essentials of R coding I",
+    "section": "09. Matrix",
+    "text": "09. Matrix\nIn R, a matrix is a two-dimensional, rectangular data structure that stores elements of the same type. It is similar to a data frame in structure but less flexible, as all elements in a matrix must be of a single data type (e.g., numeric, character, or logical). \nKey Characteristics of a Matrix \n\nHomogeneous: All elements in a matrix must be of the same type. \n2D Structure: A matrix has rows and columns, forming a table-like structure. \nDimensions: Defined by the number of rows and columns. \n\nWhy Use a Matrix? \n\nMathematical Operations: Ideal for linear algebra and mathematical modeling. \nEfficient Storage: Matrices use less memory compared to more complex structures like data frames. \nSimpler Operations: Homogeneous data ensures consistent behavior across elements. \n\n\na. Creating a Matrix\nYou can create a matrix using the matrix() function:\n\n# Create a numeric matrix\nmy_matrix &lt;- matrix(\n  data = 1:9,     # Data values\n  nrow = 3,       # Number of rows\n  ncol = 3,       # Number of columns\n)\n\nprint(my_matrix)\n\n     [,1] [,2] [,3]\n[1,]    1    4    7\n[2,]    2    5    8\n[3,]    3    6    9\n\n\n\n\nb. Accessing elements in a matrix\nAccessing rows:\n\n# Access the first row\nmy_matrix[1, ]\n\n[1] 1 4 7\n\n\nAccessing columns:\n\n# Access the second column\nmy_matrix[, 2]\n\n[1] 4 5 6\n\n\nAccessing specific elements:\n\n# Access the element in the 2nd row, 3rd column\nmy_matrix[2, 3]\n\n[1] 8\n\n\n\n\nc. Adding a new column\n\nnew_col &lt;- c(10, 11, 12) # Create the column\nmy_matrix &lt;- cbind(my_matrix, new_col) # Paste it to the existing\n\n\n\nd. Adding a new row\n\nnew_row &lt;- c(13, 14, 15, 16)\nmy_matrix &lt;- rbind(my_matrix, new_row)",
     "crumbs": [
-      "Extras",
-      "Read Tabular Data"
+      "Lessons",
+      "01-Essentials of R"
     ]
   },
   {
-    "objectID": "coding/extras/read_tabular.html#diagnose",
-    "href": "coding/extras/read_tabular.html#diagnose",
-    "title": "Reading tabular data in R",
-    "section": "4.4 Diagnose 🔎",
-    "text": "4.4 Diagnose 🔎\nFor example, “empty first row” or “headers” not where expected”\n\ndf_rows &lt;- readxl::read_excel(\n  path = \"data/my_excel.xlsx\",\n  sheet     = 1,\n  n_max     = 6, # number of rows of data\n  col_names = FALSE # remove headers row\n)\n\nNew names:\n• `` -&gt; `...1`\n• `` -&gt; `...2`\n• `` -&gt; `...3`\n• `` -&gt; `...4`\n• `` -&gt; `...5`\n• `` -&gt; `...6`\n\ndf_rows\n\n# A tibble: 6 × 6\n  ...1  ...2  ...3  ...4  ...5  ...6 \n  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;\n1 gen   trial env   yield year  loc  \n2 G16   T2    E01   590   2001  Mieso\n3 G17   T2    E01   554   2001  Mieso\n4 G18   T2    E01   586   2001  Mieso\n5 G19   T2    E01   738   2001  Mieso\n6 G20   T2    E01   489   2001  Mieso\n\n\nThen set skip based on what you see (commonly skip = 1 or skip = 2) and re-read.",
+    "objectID": "coding/week_01/essentials_01.html#functions",
+    "href": "coding/week_01/essentials_01.html#functions",
+    "title": "Essentials of R coding I",
+    "section": "10. Functions",
+    "text": "10. Functions\n\na. Create a function\nWe need to use the syntax function(x) { x as object of a task }. ‘x’ is considered an “argument”, and the function itself is inside the {}. For example:\n\nmy_function &lt;- function(x) { x + 1 }\n\n\n\nb. Check the function\n\nmy_function(9)\n\n[1] 10\n\n\n\n\nc. Write a function with 3 arguments\n\nmy_xyz_function &lt;- function(x, y, z) { x + y - z }\n\n\n\nd. Order of arguments\nNote: R is order sensitive (if you don’t explicitly specify the argument)\n\nmy_xyz_function(12, 3, 4)\n\n[1] 11\n\nmy_xyz_function(12, 4, 3)\n\n[1] 13\n\n\n\n\ne. Specifying arguments with names\nIf you specify the argument name as = to, the order doesn’t matter:\n\nmy_xyz_function(z = 4, x = 12, y = 3)\n\n[1] 11\n\n\n\n\nf. A more complex function\n\nfx &lt;- function(x, y, remove_na = NULL) {\n        # First operation is a sum, removing NAs\n        first &lt;- sum(c(x, y), na.rm = remove_na)\n        # Add a text message\n        second &lt;- \"This function is so cool\"\n        # Store result\n        result &lt;- first + x\n        # Print output\n        print(list(\"Message\" = second,\n                   \"1st\" = first,\n                   \"end\" = result))\n                   }\n\nRun the function with alternative arguments:\n\nfx(x = a, y = b, remove_na = FALSE)\n\n$Message\n[1] \"This function is so cool\"\n\n$`1st`\n[1] 30\n\n$end\n[1] 50\n\nfx(x = a, y = b, remove_na = TRUE)\n\n$Message\n[1] \"This function is so cool\"\n\n$`1st`\n[1] 30\n\n$end\n[1] 50\n\n\nStore the output in an object:\n\nfoo &lt;- fx(x=b, y=a)\n\n$Message\n[1] \"This function is so cool\"\n\n$`1st`\n[1] 30\n\n$end\n[1] 40",
     "crumbs": [
-      "Extras",
-      "Read Tabular Data"
+      "Lessons",
+      "01-Essentials of R"
     ]
   },
   {
-    "objectID": "coding/extras/read_tabular.html#reading-excel-with-openxlsx",
-    "href": "coding/extras/read_tabular.html#reading-excel-with-openxlsx",
-    "title": "Reading tabular data in R",
-    "section": "4.5 Reading Excel with openxlsx 🛠",
-    "text": "4.5 Reading Excel with openxlsx 🛠\nNice when you also write excel files later\n\ndf_sr1 &lt;- openxlsx::read.xlsx(\n  xlsxFile = \"data/my_excel.xlsx\",\n  sheet    = 1,\n  startRow = 1 # speficies where headers are located\n)\nhead(df_sr1)\n\n  gen trial env yield year   loc\n1 G16    T2 E01   590 2001 Mieso\n2 G17    T2 E01   554 2001 Mieso\n3 G18    T2 E01   586 2001 Mieso\n4 G19    T2 E01   738 2001 Mieso\n5 G20    T2 E01   489 2001 Mieso\n6 G21    T2 E01   684 2001 Mieso\n\n\n\n4.5.1 Skip rows by moving startRow ⏭️:\n\ndf_sr3 &lt;- openxlsx::read.xlsx(\n  xlsxFile = \"data/my_excel.xlsx\",\n  sheet    = 1,\n  startRow = 3\n)\nslice_head(df_sr3)\n\n  G17 T2 E01 554 2001 Mieso\n1 G18 T2 E01 586 2001 Mieso",
-    "crumbs": [
-      "Extras",
-      "Read Tabular Data"
-    ]
-  },
-  {
-    "objectID": "coding/extras/read_tabular.html#read-stack",
-    "href": "coding/extras/read_tabular.html#read-stack",
-    "title": "Reading tabular data in R",
-    "section": "5.1 Read + stack 🧱",
-    "text": "5.1 Read + stack 🧱\nThis is call row-bind\n\nfolder &lt;- \"data\"\n\nfiles &lt;- list.files(path = folder, pattern = \"\\\\.csv$\", full.names = TRUE)\n\nall_data &lt;- files |&gt;\n  setNames(basename(files)) |&gt; # here we name by file basename\n  # Here we read and stack using map_dfr\n  purrr::map_dfr(\n    \\(f) readr::read_csv(f), # here we read each file\n    .id = \"source_file\" # this creates a new column with the file name\n  )\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\nhead(all_data)\n\n# A tibble: 6 × 7\n  source_file    gen   trial env   yield  year loc  \n  &lt;chr&gt;          &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;\n1 my_file_02.csv G16   T2    E01     590  2001 Mieso\n2 my_file_02.csv G17   T2    E01     554  2001 Mieso\n3 my_file_02.csv G18   T2    E01     586  2001 Mieso\n4 my_file_02.csv G19   T2    E01     738  2001 Mieso\n5 my_file_02.csv G20   T2    E01     489  2001 Mieso\n6 my_file_02.csv G21   T2    E01     684  2001 Mieso",
-    "crumbs": [
-      "Extras",
-      "Read Tabular Data"
-    ]
-  },
-  {
-    "objectID": "coding/extras/read_tabular.html#add-variables-from-filename",
-    "href": "coding/extras/read_tabular.html#add-variables-from-filename",
-    "title": "Reading tabular data in R",
-    "section": "5.2 Add variables from filename 🏷️",
-    "text": "5.2 Add variables from filename 🏷️\nFor example year, or site\n\nall_data &lt;- files |&gt;\n  purrr::map_dfr(\n    # here we read each file\n    \\(f) readr::read_csv(f) |&gt; \n      dplyr::mutate(source_file = basename(f))  ) |&gt; # add filename as column\n  dplyr::mutate(year = stringr::str_extract(source_file, \"\\\\d{4}\")) \n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n# here we extract a 4-digit year from the filename\n\nall_data %&gt;% \n  group_by(source_file) %&gt;%\n  slice_head()\n\n# A tibble: 2 × 7\n# Groups:   source_file [2]\n  gen   trial env   yield year  loc   source_file   \n  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;         \n1 G16   T2    E01     590 &lt;NA&gt;  Mieso my_file.csv   \n2 G16   T2    E01     590 &lt;NA&gt;  Mieso my_file_02.csv",
-    "crumbs": [
-      "Extras",
-      "Read Tabular Data"
-    ]
-  },
-  {
-    "objectID": "coding/extras/read_tabular.html#keep-them-as-a-named-list",
-    "href": "coding/extras/read_tabular.html#keep-them-as-a-named-list",
-    "title": "Reading tabular data in R",
-    "section": "5.3 Keep them as a named list 📚",
-    "text": "5.3 Keep them as a named list 📚\n\ncsv_list &lt;- files |&gt;\n  setNames(basename(files)) |&gt;\n  purrr::map(\\(f) readr::read_csv(f))\n\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\nRows: 289 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): gen, trial, env, loc\ndbl (2): yield, year\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\nnames(csv_list)\n\n[1] \"my_file_02.csv\" \"my_file.csv\"",
-    "crumbs": [
-      "Extras",
-      "Read Tabular Data"
-    ]
-  },
-  {
-    "objectID": "coding/extras/read_tabular.html#with-readxl",
-    "href": "coding/extras/read_tabular.html#with-readxl",
-    "title": "Reading tabular data in R",
-    "section": "7.1 With readxl",
-    "text": "7.1 With readxl\n\npath &lt;- \"data/my_excel.xlsx\"\n\nsheets &lt;- readxl::excel_sheets(path)\n\nall_sheets &lt;- sheets |&gt;\n  setNames(sheets) |&gt;\n  purrr::map_dfr(\n    \\(sh) readxl::read_excel(path, sheet = sh) |&gt;\n      dplyr::mutate(sheet = sh)\n  )\n\nall_sheets  %&gt;% \n  group_by(sheet) %&gt;%\n  slice_head()\n\n# A tibble: 2 × 7\n# Groups:   sheet [2]\n  gen   trial env   yield  year loc   sheet \n  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; \n1 G16   T2    E01     590  2001 Mieso Sheet1\n2 G16   T2    E01     590  2001 Mieso Sheet2",
-    "crumbs": [
-      "Extras",
-      "Read Tabular Data"
-    ]
-  },
-  {
-    "objectID": "coding/extras/read_tabular.html#with-openxlsx",
-    "href": "coding/extras/read_tabular.html#with-openxlsx",
-    "title": "Reading tabular data in R",
-    "section": "7.2 With openxlsx 🛠️",
-    "text": "7.2 With openxlsx 🛠️\n\npath &lt;- \"data/my_excel.xlsx\"\n\nsheets &lt;- openxlsx::getSheetNames(path)\n\nall_sheets &lt;- sheets |&gt;\n  setNames(sheets) |&gt;\n  purrr::map_dfr(\n    \\(sh) openxlsx::read.xlsx(path, sheet = sh) |&gt;\n      dplyr::mutate(sheet = sh)\n  )\n\nall_sheets %&gt;% \n  group_by(sheet) %&gt;%\n  slice_head()\n\n# A tibble: 2 × 7\n# Groups:   sheet [2]\n  gen   trial env   yield  year loc   sheet \n  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; \n1 G16   T2    E01     590  2001 Mieso Sheet1\n2 G16   T2    E01     590  2001 Mieso Sheet2",
-    "crumbs": [
-      "Extras",
-      "Read Tabular Data"
-    ]
-  },
-  {
-    "objectID": "coding/extras/read_tabular.html#footnotes-in-excel",
-    "href": "coding/extras/read_tabular.html#footnotes-in-excel",
-    "title": "Reading tabular data in R",
-    "section": "7.3 Footnotes in Excel 📝",
-    "text": "7.3 Footnotes in Excel 📝\nIf a sheet has footnotes at the bottom, you can often remove them after import by filtering rows:\n\ndf &lt;- readxl::read_excel(path=\"data/my_excel.xlsx\") |&gt;\n  dplyr::filter(!is.na(yield))   # example: keep rows that have yield",
-    "crumbs": [
-      "Extras",
-      "Read Tabular Data"
-    ]
-  },
-  {
-    "objectID": "coding/extras/pipe_operator.html",
-    "href": "coding/extras/pipe_operator.html",
-    "title": "The pipe operator",
+    "objectID": "coding/extras/fair_care.html",
+    "href": "coding/extras/fair_care.html",
+    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
     "section": "",
-    "text": "Most data analysis in R is a sequence of small steps: start with a dataset, then filter, transform, summarize, and visualize. You can write this as nested function calls or by creating many intermediate objects (df1, df2, df3), but both approaches can get messy: nested calls are hard to read from the inside out, and lots of intermediate objects add clutter.\nA pipe operator lets you write code in the same order you think about the workflow: top-to-bottom, step-by-step. The output of one step becomes the input of the next. In practice, pipelines tend to be easier to read, easier to modify, and easier to debug because each step is explicit and you can inspect results at any point.\nIn the R ecosystem, there are two common pipes:\n\n%&gt;% from magrittr (widely used in tidyverse workflows)\n|&gt; the native (base R) pipe (built into R 4.1.0 and later)\n\nThis short note shows both and highlights a few practical differences. Let’s navigate an example:\n\n\n\nlibrary(pacman)\npacman::p_load(dplyr, ggplot2)\n\n\n\n\n\n# Load the package\nlibrary(agridat)\n# Load an example dataset\ndata(rothamsted.oats, package = 'agridat')\n# Alternatively, you can load the dataset directly (cleaner)\nrothamsted.oats &lt;- agridat::rothamsted.oats\nhead(rothamsted.oats)\n\n  block trt  grain straw row col\n1     x  oa 61.375  83.0  12   1\n2     x 2me 68.750 130.0  12   2\n3     x 2sl 64.250 100.0  12   3\n4     x  ob 65.500  96.0  12   4\n5     w 2sl 79.625 130.5  12   5\n6     w  oa 79.250 122.0  12   6\n\n\n\n\n\n\n\nThe ‘dplyr’ package heavily utilizes the pipe operator %&gt;% from the ‘magrittr’ package to streamline data manipulation workflows. This operator allows you to pass the output of one function directly into the next function, making your code more readable and easier to follow.\n\n# Group by treatment and summarize\n# Using the pipe operator for chaining commands\nrothamsted.oats %&gt;%\n  group_by(trt) %&gt;%\n  summarize(mean_grain = mean(grain))\n\n# A tibble: 12 × 2\n   trt   mean_grain\n   &lt;fct&gt;      &lt;dbl&gt;\n 1 1me         82.8\n 2 1ml         86.5\n 3 1se         81.1\n 4 1sl         80.8\n 5 2me         81.5\n 6 2ml         82.3\n 7 2se         81.2\n 8 2sl         81.2\n 9 oa          77.6\n10 ob          79.2\n11 oc          78.4\n12 od          81.4\n\n# The best practice is to specify the data using the .data argument\nrothamsted.oats %&gt;%\n  group_by(trt) %&gt;%\n  summarize(.data = ., mean_grain = mean(grain))\n\n# A tibble: 12 × 2\n   trt   mean_grain\n   &lt;fct&gt;      &lt;dbl&gt;\n 1 1me         82.8\n 2 1ml         86.5\n 3 1se         81.1\n 4 1sl         80.8\n 5 2me         81.5\n 6 2ml         82.3\n 7 2se         81.2\n 8 2sl         81.2\n 9 oa          77.6\n10 ob          79.2\n11 oc          78.4\n12 od          81.4\n\n# Let's make a plot\nrothamsted.oats %&gt;%\n  ggplot(aes(x = trt, y = grain)) +\n  geom_boxplot(aes(fill=trt)) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\n\nWith the introduction of R 4.1.0, base R now includes its own native pipe operator |&gt;, which serves a similar purpose to the %&gt;% operator from the ‘magrittr’ package. This operator allows you to pass the result of one expression as the first argument to the next expression, enhancing code readability without the need for additional packages.\n\n# Using the native pipe operator\nrothamsted.oats |&gt;\n  group_by(trt) |&gt;\n  summarize(.data = _, mean_grain = mean(grain))\n\n# A tibble: 12 × 2\n   trt   mean_grain\n   &lt;fct&gt;      &lt;dbl&gt;\n 1 1me         82.8\n 2 1ml         86.5\n 3 1se         81.1\n 4 1sl         80.8\n 5 2me         81.5\n 6 2ml         82.3\n 7 2se         81.2\n 8 2sl         81.2\n 9 oa          77.6\n10 ob          79.2\n11 oc          78.4\n12 od          81.4\n\n# Let's make a plot again\nrothamsted.oats |&gt;\n  ggplot(aes(x = trt, y = grain)) +\n  geom_boxplot(aes(fill=trt)) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\nNotice when using the %&gt;% the placeholder . is used to indicate where the piped value should be inserted if it’s not the first argument. Similarly, with the native pipe |&gt;, the placeholder _ can be used to indicate where the piped value should be inserted if it’s not the first argument.\n\n\n\n\n\n\n\n\nDoes any work “better” than the other?\n\n\n\n\n\n\nNo package needed (it’s base R syntax), so it works everywhere without loading magrittr.\nUsually less overhead than %&gt;% because %&gt;% is a function-based pipe, while |&gt; is language syntax.\nIn practice, the difference is rarely noticeable compared to the cost of dplyr verbs, but it can matter in tight loops.\nPlays nicely with modern R style and is increasingly common in new code.\n\n\n\n\n\nPlaceholder power: %&gt;% uses . to place the LHS wherever you want. Base |&gt; uses _ but it’s more restricted (notably, it’s tied to named arguments).\n%&gt;% can do extras like creating functions from a pipeline (and other magrittr variants like %T&gt;%, %&lt;&gt;%, etc.). Base |&gt; doesn’t include those.\n%&gt;% lets you pipe into a bare function name (x %&gt;% sqrt).\nBase |&gt; generally requires a call: x |&gt; sqrt()",
+    "text": "When we learn coding, we often focus on how to analyze data. But in real projects, the hardest (and most important) questions are often:\n\nShould we collect/share this data at all?\nWho could be harmed if it’s misused?\nHow do we make data useful without losing trust or violating rights?\n\nGood data management protects three things:\n\nPrivacy 🔒 — preventing inappropriate exposure of personal or sensitive information\n\nIntegrity ✅ — ensuring data aren’t altered, corrupted, or misrepresented\n\nValue 💡 — making data understandable and reusable so it can support learning, decisions, and research",
     "crumbs": [
       "Extras",
-      "Pipe Ops"
+      "Fair & Care"
     ]
   },
   {
-    "objectID": "coding/extras/pipe_operator.html#libraries",
-    "href": "coding/extras/pipe_operator.html#libraries",
-    "title": "The pipe operator",
+    "objectID": "coding/extras/fair_care.html#why-talk-about-data-protection-in-a-coding-class",
+    "href": "coding/extras/fair_care.html#why-talk-about-data-protection-in-a-coding-class",
+    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
     "section": "",
-    "text": "library(pacman)\npacman::p_load(dplyr, ggplot2)",
+    "text": "When we learn coding, we often focus on how to analyze data. But in real projects, the hardest (and most important) questions are often:\n\nShould we collect/share this data at all?\nWho could be harmed if it’s misused?\nHow do we make data useful without losing trust or violating rights?\n\nGood data management protects three things:\n\nPrivacy 🔒 — preventing inappropriate exposure of personal or sensitive information\n\nIntegrity ✅ — ensuring data aren’t altered, corrupted, or misrepresented\n\nValue 💡 — making data understandable and reusable so it can support learning, decisions, and research",
     "crumbs": [
       "Extras",
-      "Pipe Ops"
+      "Fair & Care"
     ]
   },
   {
-    "objectID": "coding/extras/pipe_operator.html#data",
-    "href": "coding/extras/pipe_operator.html#data",
-    "title": "The pipe operator",
-    "section": "",
-    "text": "# Load the package\nlibrary(agridat)\n# Load an example dataset\ndata(rothamsted.oats, package = 'agridat')\n# Alternatively, you can load the dataset directly (cleaner)\nrothamsted.oats &lt;- agridat::rothamsted.oats\nhead(rothamsted.oats)\n\n  block trt  grain straw row col\n1     x  oa 61.375  83.0  12   1\n2     x 2me 68.750 130.0  12   2\n3     x 2sl 64.250 100.0  12   3\n4     x  ob 65.500  96.0  12   4\n5     w 2sl 79.625 130.5  12   5\n6     w  oa 79.250 122.0  12   6",
+    "objectID": "coding/extras/fair_care.html#fair-principles",
+    "href": "coding/extras/fair_care.html#fair-principles",
+    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
+    "section": "2 ✨ FAIR principles",
+    "text": "2 ✨ FAIR principles\nFAIR is about making data (and metadata) easy to discover and reuse—by both people and computers.\n\nFindable: others can locate the dataset (titles, keywords, metadata, persistent links)\nAccessible: it can be retrieved in a controlled way (open when possible, restricted when needed)\nInteroperable: it uses standard formats and vocabularies so tools can combine it with other data\nReusable: it includes enough context (methods, units, codes, license) to be reused correctly\n\n\n\n\n\n\n\n✅ Key idea\n\n\n\nFAIR does not mean “open.”\nData can be restricted and still be FAIR if it is well-described and the access conditions are clear.",
     "crumbs": [
       "Extras",
-      "Pipe Ops"
+      "Fair & Care"
     ]
   },
   {
-    "objectID": "coding/extras/pipe_operator.html#the-pipe-operators",
-    "href": "coding/extras/pipe_operator.html#the-pipe-operators",
-    "title": "The pipe operator",
-    "section": "",
-    "text": "The ‘dplyr’ package heavily utilizes the pipe operator %&gt;% from the ‘magrittr’ package to streamline data manipulation workflows. This operator allows you to pass the output of one function directly into the next function, making your code more readable and easier to follow.\n\n# Group by treatment and summarize\n# Using the pipe operator for chaining commands\nrothamsted.oats %&gt;%\n  group_by(trt) %&gt;%\n  summarize(mean_grain = mean(grain))\n\n# A tibble: 12 × 2\n   trt   mean_grain\n   &lt;fct&gt;      &lt;dbl&gt;\n 1 1me         82.8\n 2 1ml         86.5\n 3 1se         81.1\n 4 1sl         80.8\n 5 2me         81.5\n 6 2ml         82.3\n 7 2se         81.2\n 8 2sl         81.2\n 9 oa          77.6\n10 ob          79.2\n11 oc          78.4\n12 od          81.4\n\n# The best practice is to specify the data using the .data argument\nrothamsted.oats %&gt;%\n  group_by(trt) %&gt;%\n  summarize(.data = ., mean_grain = mean(grain))\n\n# A tibble: 12 × 2\n   trt   mean_grain\n   &lt;fct&gt;      &lt;dbl&gt;\n 1 1me         82.8\n 2 1ml         86.5\n 3 1se         81.1\n 4 1sl         80.8\n 5 2me         81.5\n 6 2ml         82.3\n 7 2se         81.2\n 8 2sl         81.2\n 9 oa          77.6\n10 ob          79.2\n11 oc          78.4\n12 od          81.4\n\n# Let's make a plot\nrothamsted.oats %&gt;%\n  ggplot(aes(x = trt, y = grain)) +\n  geom_boxplot(aes(fill=trt)) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\n\nWith the introduction of R 4.1.0, base R now includes its own native pipe operator |&gt;, which serves a similar purpose to the %&gt;% operator from the ‘magrittr’ package. This operator allows you to pass the result of one expression as the first argument to the next expression, enhancing code readability without the need for additional packages.\n\n# Using the native pipe operator\nrothamsted.oats |&gt;\n  group_by(trt) |&gt;\n  summarize(.data = _, mean_grain = mean(grain))\n\n# A tibble: 12 × 2\n   trt   mean_grain\n   &lt;fct&gt;      &lt;dbl&gt;\n 1 1me         82.8\n 2 1ml         86.5\n 3 1se         81.1\n 4 1sl         80.8\n 5 2me         81.5\n 6 2ml         82.3\n 7 2se         81.2\n 8 2sl         81.2\n 9 oa          77.6\n10 ob          79.2\n11 oc          78.4\n12 od          81.4\n\n# Let's make a plot again\nrothamsted.oats |&gt;\n  ggplot(aes(x = trt, y = grain)) +\n  geom_boxplot(aes(fill=trt)) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\nNotice when using the %&gt;% the placeholder . is used to indicate where the piped value should be inserted if it’s not the first argument. Similarly, with the native pipe |&gt;, the placeholder _ can be used to indicate where the piped value should be inserted if it’s not the first argument.\n\n\n\n\n\n\n\n\nDoes any work “better” than the other?\n\n\n\n\n\n\nNo package needed (it’s base R syntax), so it works everywhere without loading magrittr.\nUsually less overhead than %&gt;% because %&gt;% is a function-based pipe, while |&gt; is language syntax.\nIn practice, the difference is rarely noticeable compared to the cost of dplyr verbs, but it can matter in tight loops.\nPlays nicely with modern R style and is increasingly common in new code.\n\n\n\n\n\nPlaceholder power: %&gt;% uses . to place the LHS wherever you want. Base |&gt; uses _ but it’s more restricted (notably, it’s tied to named arguments).\n%&gt;% can do extras like creating functions from a pipeline (and other magrittr variants like %T&gt;%, %&lt;&gt;%, etc.). Base |&gt; doesn’t include those.\n%&gt;% lets you pipe into a bare function name (x %&gt;% sqrt).\nBase |&gt; generally requires a call: x |&gt; sqrt()",
+    "objectID": "coding/extras/fair_care.html#care-principles",
+    "href": "coding/extras/fair_care.html#care-principles",
+    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
+    "section": "3 🌿 CARE principles",
+    "text": "3 🌿 CARE principles\nCARE focuses on the people and communities behind data, especially when data relate to Indigenous Peoples and Indigenous Knowledge.\n\nCollective benefit: data use should support community wellbeing (not just outside interests)\nAuthority to control: communities have rights and interests in how data are collected, accessed, and used\nResponsibility: users of data must be accountable and support respectful relationships\nEthics: data use should minimize harm and align with community values and consent\n\n\n\n\n\n\n\n🧭 Key idea\n\n\n\nCARE emphasizes rights, power, relationships, and purpose—not just technical usability.",
     "crumbs": [
       "Extras",
-      "Pipe Ops"
+      "Fair & Care"
+    ]
+  },
+  {
+    "objectID": "coding/extras/fair_care.html#fair-care-together",
+    "href": "coding/extras/fair_care.html#fair-care-together",
+    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
+    "section": "4 🧩 FAIR + CARE together",
+    "text": "4 🧩 FAIR + CARE together\nFAIR and CARE answer different questions:\n\nFAIR asks: Can this dataset be found and reused properly?\nCARE asks: Should it be used this way, and who benefits or could be harmed?\n\nThey complement each other:\n\nYou can make data technically reusable (FAIR) while still respecting rights, consent, and community governance (CARE).\nA dataset can be well-organized but still inappropriate to share if it ignores authority, consent, or potential harm.\n\n\n\n\n\n\n\n⭐ Takeaway\n\n\n\nFAIR improves reusability. CARE protects people and communities.\nStrong data practice needs both.",
+    "crumbs": [
+      "Extras",
+      "Fair & Care"
+    ]
+  },
+  {
+    "objectID": "coding/extras/fair_care.html#practical-checklist-for-student-projects",
+    "href": "coding/extras/fair_care.html#practical-checklist-for-student-projects",
+    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
+    "section": "5 ✅ Practical checklist for student projects",
+    "text": "5 ✅ Practical checklist for student projects\nUse this before sharing data, code, or a repository.\n\n5.1 🔒 1) Privacy & sensitivity\n\nDoes the dataset include personal, confidential, location-based, or culturally sensitive information?\nHave you removed identifiers (when appropriate) and documented what was removed?\nAre access rules clear (open vs restricted)?\n\n\n\n\n\n\n\n⚠️ Caution\n\n\n\nEven if you remove names, small datasets + detailed locations + rare characteristics can still identify people or communities.\n\n\n\n\n5.2 ✅ 2) Integrity & trust\n\nDo you track versions of files (e.g., Git commits, file naming, or release tags)?\nCan someone reproduce your results from your code + data description?\nDid you document cleaning steps and assumptions?\n\n\n\n5.3 ✨ 3) FAIR basics\n\nIs there a clear README describing what the dataset is and how to use it?\nAre variables explained (a data dictionary)?\nAre formats standard (e.g., .csv, consistent units, consistent column names)?\nIs there a license or clear re-use statement?\n\n\n\n5.4 🌿 4) CARE basics\n\nWho does the data describe, and who should have a say in how it is used?\nDoes the project involve Indigenous data or knowledge?\nDo you have permission/consent and the right governance process for use and sharing?\nCan you explain who benefits from this work and how potential harms are reduced?",
+    "crumbs": [
+      "Extras",
+      "Fair & Care"
+    ]
+  },
+  {
+    "objectID": "coding/extras/fair_care.html#in-a-nutshell",
+    "href": "coding/extras/fair_care.html#in-a-nutshell",
+    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
+    "section": "6 🏁 In a nutshell",
+    "text": "6 🏁 In a nutshell\n\nFAIR helps others use data well. \nCARE helps ensure data use is right and respectful. \nTogether, they help protect privacy, integrity, and the value of data. 🛡️",
+    "crumbs": [
+      "Extras",
+      "Fair & Care"
+    ]
+  },
+  {
+    "objectID": "coding/extras/fair_care.html#to-think-about",
+    "href": "coding/extras/fair_care.html#to-think-about",
+    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
+    "section": "7 🗣️To think about…",
+    "text": "7 🗣️To think about…\nPick one scenario:\n\nA dataset contains farm trial results with GPS coordinates\n\nA dataset includes survey responses from a small community\n\nA dataset includes information related to Indigenous lands, communities, or knowledge\n\nConsider the following questions: - What could go wrong if the data are shared publicly? - What would you do to make the project more FAIR? - What CARE questions should be asked before publishing?\n\n\n\n\n\n\n🧠 Optional prompt\n\n\n\nWrite a 3–4 sentence “sharing decision” for your scenario:  - What will be shared?  - What will be restricted (and why)?  - How will you document access conditions and responsibilities?",
+    "crumbs": [
+      "Extras",
+      "Fair & Care"
+    ]
+  },
+  {
+    "objectID": "coding/extras/fair_care.html#suggested-reading",
+    "href": "coding/extras/fair_care.html#suggested-reading",
+    "title": "🛡️ Protecting Data Value: FAIR + CARE in Practice",
+    "section": "8 📚 Suggested reading",
+    "text": "8 📚 Suggested reading\n\n8.1 ✨ FAIR\n\nFAIR Guiding Principles (Wilkinson et al., 2016)\n\nGO FAIR overview\n\nThe Turing Way Book\n\n\n\n8.2 🌿 CARE + Indigenous Data Governance\n\nGlobal Indigenous Data Alliance (CARE): https://www.gida-global.org/care\n\nCARE principles paper (Carroll et al., 2020)\n\n\n\n8.3 🧩 FAIR + CARE together\n\nOperationalizing FAIR + CARE (Carroll et al., 2021)",
+    "crumbs": [
+      "Extras",
+      "Fair & Care"
+    ]
+  },
+  {
+    "objectID": "coding/extras/shinyapps.html",
+    "href": "coding/extras/shinyapps.html",
+    "title": "Shiny apps",
+    "section": "",
+    "text": "This note shares practical options to create Shiny apps in R, with an emphasis on choices that work well for students and reproducible workflows.\n\n\n\n\n\n\nNote\n\n\n\nShiny consists of a packages family that facilitates the creation of interactive web tools 💻 using R! (and recently Python too)\n\n\n\n\n\n\n\n\nImportant\n\n\n\nWhy is Shiny relevant to us?\nIn simple words, it can make us better data scientists by:\n\nAdding value to our research, increasing the accessibility and visibility. A published paper is great but no the end of the story.\nAllowing stakeholders to explore our results in a flexible platform at their own pace.\nOffering interactive recommendation guidelines.\n\nSee cornyield0N, DONMaiz, SoybeanVRS\n\nFacilitating the use of software development by peers (e.g. demo of R packages)\n\nSee soiltestcorr, metrica"
+  },
+  {
+    "objectID": "coding/extras/shinyapps.html#shiny-apps",
+    "href": "coding/extras/shinyapps.html#shiny-apps",
+    "title": "Shiny apps",
+    "section": "",
+    "text": "This note shares practical options to create Shiny apps in R, with an emphasis on choices that work well for students and reproducible workflows.\n\n\n\n\n\n\nNote\n\n\n\nShiny consists of a packages family that facilitates the creation of interactive web tools 💻 using R! (and recently Python too)\n\n\n\n\n\n\n\n\nImportant\n\n\n\nWhy is Shiny relevant to us?\nIn simple words, it can make us better data scientists by:\n\nAdding value to our research, increasing the accessibility and visibility. A published paper is great but no the end of the story.\nAllowing stakeholders to explore our results in a flexible platform at their own pace.\nOffering interactive recommendation guidelines.\n\nSee cornyield0N, DONMaiz, SoybeanVRS\n\nFacilitating the use of software development by peers (e.g. demo of R packages)\n\nSee soiltestcorr, metrica"
+  },
+  {
+    "objectID": "coding/extras/shinyapps.html#main-features",
+    "href": "coding/extras/shinyapps.html#main-features",
+    "title": "Shiny apps",
+    "section": "1. Main features",
+    "text": "1. Main features\nShiny has many features that make it unique. My top list is the following:\n\nThe main secret of shiny is the reactive programming. This is what if makes it easy to transform R code into an interactive platform that offers “outputs” that react to users’ “inputs”.\nA second great feature is a default design of the user interface (⚠️spoiler alert!) based on Bootstrap, which is the reason why we don’t directly need to apply HTML, CSS or Java language by ourselves, this tool does it for us.\n\nThe next special feature of shiny is a pre-built collection of widgets that make the app attractive and intuitive (e.g. sliders, check boxes, value boxes, gauges, etc.)\nThen, probably the most important for us (no web developers), is its integration with RMarkdown (& Quarto) through Flexdashboard.\nOf course, as you get more proficient, you will find there are many more features to squeeze…for more information visit https://rstudio.github.io/shiny/"
+  },
+  {
+    "objectID": "coding/extras/shinyapps.html#development-options",
+    "href": "coding/extras/shinyapps.html#development-options",
+    "title": "Shiny apps",
+    "section": "2. Development options",
+    "text": "2. Development options\n\n\n\n\n\n\nImportant\n\n\n\nToday we are going to (briefly) cover the three main development options:\n(i) Base Shiny\n(ii) Flexdashboard\n(iii) Quarto\n(iv) UI Editor\n\n\n\n(i) Base Shiny\n\nBase shiny is undoubtedly the most powerful option. However, I personally feel this as the most challenging one in terms of syntax, which is definitely its bottleneck for adoption.\nStructure.\nBase shiny apps are segregated into two main components:\n\nUser Interface (UI)\n\nit controls what and how is being displayed on the application page.\nit receives the users’ input to start with the reactive programming.\nthus, it includes the text, widgets, plots, etc…\n\nServer\n\nit controls the data that is used to produce the outcomes displayed on the UI.\nit normally contains the code to load the libraries, wrangle the data, and define plot functions.\nit borrows input values defined by the UI\n\n\nBoth UI and server could be either included into a single file (App.R) or they can be separated into two files to simplify future changes.\nLet’s see this with one example\n\n\n\n\n\n\nTip\n\n\n\n\nCreate a new project (and directory) along with a script file named “app.R\" file containing a basic app.\n\nGo to File &gt; New Project &gt; New Directory &gt; Shiny Web Application.\nFile &gt; New File &gt; R Script, or use the shortcut “Ctrl + Shift + N”\nThen add the following lines\n\n\n\n\n\n# library(shiny)\n# ui &lt;- fluidPage(\n#   \"Hello, world! We are Statasaurus!\"\n# )\n# server &lt;- function(input, output) {\n# }\n# shinyApp(ui, server)\n\n\n\nExample with base Shiny\nSHINYAPP: https://ciampittilab.shinyapps.io/soiltestcorr/\nCODE: https://github.com/adriancorrendo/Shiny_soiltestcorr\n\n\n(ii) Flexdashboard\n\nFlexdashboard is a package developed by RStudio that allows to publish interactive dashboards using R Markdown (& Quarto) syntax.\nThe main features that I personally highlight are:\n\nLayout: the easiness to specify the app skeleton using row/column based layouts.\nReport format: the Rmarkdown format allows the keep a similar format used for our data processing and analysis, so we don’t need to drastically change our usual syntax.\nWebpage: we can develop not only the shiny apps but also webpages, blogs with the shiny apps embedded on them.\nFormatting: As well as base shiny, flexdashboard can optionally apply Bootstrap and bslib to customize colors, fonts, and more.\nDisplay code in place: for teaching, the RMarkdown syntax using chunks allows us to eventually display the code within the same location on the UI.\nUI-Server: There is no need of segregating our code into UI and Server anymore.\n\n\n\n\n\n\n\nWarning\n\n\n\nAdvanced users consider that flexdashboard is limited in comparison to what one can do with base shiny (Shiny & Shinydashboard packages).\n\n\n\n# install.packages(\"flexdashboard\")\n\n\n\nExample with Flexdashboard\nLet’s see now the metrica app code using Flexdashboard\nSHINYAPP: https://ciampittilab.shinyapps.io/metrica/\nCODE: https://github.com/adriancorrendo/flexdashboard_metrica\n\n\n(iii) Quarto option (interactive documents) 📄⚡\nQuarto can be used to create interactive documents that feel like a report, but include Shiny-style inputs and reactive outputs. This is a great option when your goal is to communicate an analysis with narrative (methods + results + interpretation) while still allowing the reader to explore scenarios.\nWhen this option is a good fit - You want a “report-first” workflow (text + code + outputs) with a small amount of interactivity. - Your app is mostly a single page (or a few pages) and does not require complex navigation. - You want something that is easier to keep reproducible, because the analysis and communication live in the same .qmd file.\nTypical examples - Interactive EDA report: choose a variable, choose a site/year, and update a plot + summary table. - Recommendation demo: change a few assumptions and show how outputs change. - Teaching: demonstrate data wrangling or model behavior interactively.\n\nQuarto interactive document (Shiny runtime)\nCreate a file like interactive_report.qmd:\n---\ntitle: \"Interactive report (Quarto + Shiny)\"\nformat: html\nruntime: shiny\n---\n\n\nPros / cons (practical)\nPros - Very reproducible: narrative + code + outputs in one place. - Low friction for students already writing Quarto. - Great for “interactive report” deliverables.\nCons - For large apps (many tabs/pages, complex logic), base Shiny is usually better. - Navigation is possible (Quarto websites), but the reactive logic can get harder to manage as projects grow.\n\n\n\n\n\n\nTip\n\n\n\nRule of thumb: - If you want an interactive report, Quarto + Shiny runtime is an excellent option. - If you want a full web application, base Shiny (or a dashboard framework) will scale better.\n\n\n\n\nDeployment note 🚀\nQuarto interactive documents can be shared similarly to apps: - locally (students can run/render the document), - or hosted using the same infrastructure used for Shiny apps (depending on what your institution supports).\nIf hosting is not available for the course, students can still submit: - the .qmd file, - a rendered HTML (if allowed), - and a short README explaining how to run it.\n\n\n\n(iv) UI Editor\nThe UI Editor is a tool currently under development intended to remove barriers on the use of base shiny by non-webpage developers.\n\n# install.packages(\"remotes\")\n\n# Install using the remotes package\n# remotes::install_github(\"rstudio/shinyuieditor\")\n\nIt basically speeds up to process of creating the layout of the UI using an interactive interface. It would be a kind of Shiny App for creating Shiny Apps.\n\nCode template: the UI Editor will create the necessary code in Base Shiny syntax for us (App.R). Later we would just need to fine tune formatting, fonts, colors, etc. This feature is a claear advantage for cases when we would need advanced features into the layout where Flexdashboard could be limited.\n\nKeep tabs on this cause more resources on the UI Editor are coming soon"
+  },
+  {
+    "objectID": "coding/extras/shinyapps.html#deploying-the-shiny-app",
+    "href": "coding/extras/shinyapps.html#deploying-the-shiny-app",
+    "title": "Shiny apps",
+    "section": "3. Deploying the Shiny App",
+    "text": "3. Deploying the Shiny App\nBelieve it or not, publishing our Shiny app is quite easy! (with limitations)\nWe just need to:\n\nCreate an account on shinyapps.io (for free!).\nInstall the rsconnect package in our session.\n\n\n# install.packages(\"rsconnect\")\n\n\nAccount authorization: go to your shinyapps account and copy the TOKEN (showing the secret) provided in your dashboard and run it in your RStudio console at Tools &gt; Global Options &gt; Publishing &gt; Connect … &gt; ShinyApps.io.\n\nClick on the ‘Publish’ button at the top right corner.\nDone!"
+  },
+  {
+    "objectID": "coding/extras/shinyapps.html#resources",
+    "href": "coding/extras/shinyapps.html#resources",
+    "title": "Shiny apps",
+    "section": "4. Resources",
+    "text": "4. Resources\n\nMastering Shiny Book: https://mastering-shiny.org/\n\n\n\nOfficial User Guide: https://docs.rstudio.com/shinyapps.io/\nShiny Tutorial: https://shiny.rstudio.com/tutorial/\nShiny Gallery: https://shiny.rstudio.com/gallery/#demos\nFlexdashboard Shiny Gallery: https://pkgs.rstudio.com/flexdashboard/articles/examples.html"
+  },
+  {
+    "objectID": "coding/week_06/10_iteration.html#plotting-function",
+    "href": "coding/week_06/10_iteration.html#plotting-function",
+    "title": "Iteration in R: The Power of purrr",
+    "section": "7.1 plotting function",
+    "text": "7.1 plotting function\n\nplot_yield_vs_nitro &lt;- \n  function(data, x_var, y_var, group_var, facet_var,\n           smooth_method = \"loess\", se = FALSE, title = NULL) {\n\n  ggplot(data, aes_string(x = x_var, y = y_var)) +\n    geom_point(aes_string(color = group_var, fill = group_var, shape = group_var),\n               size = 2, alpha = 0.85) +\n    geom_smooth(aes_string(color = group_var, fill = group_var),\n                method = smooth_method, se = se) +\n    facet_wrap(as.formula(paste(\"~\", facet_var))) +\n    theme_bw() +\n    labs(\n      title = title,\n      x = x_var,\n      y = y_var,\n      color = group_var,\n      fill  = group_var,\n      shape = group_var\n    )\n}\n\nWe can also pass options for plots as vectors or list\n\nmethods &lt;- c(\"loess\", \"lm\")\nses     &lt;- c(FALSE, FALSE)\ntitles  &lt;- c(\"Yield vs nitro (LOESS), faceted by year\",\n             \"Yield vs nitro (LM), faceted by year\")",
+    "crumbs": [
+      "Lessons",
+      "10-Iteration"
     ]
   }
 ]

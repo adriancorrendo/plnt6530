@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://adriancorrendo.github.io/index.html</loc>
+    <lastmod>2026-01-04T20:55:19.406Z</lastmod>
+  </url>
+  <url>
     <loc>https://adriancorrendo.github.io/coding/extras/p_value.html</loc>
     <lastmod>2026-01-20T20:49:43.010Z</lastmod>
   </url>
   <url>
-    <loc>https://adriancorrendo.github.io/coding/extras/fair_care.html</loc>
-    <lastmod>2026-01-15T20:15:58.535Z</lastmod>
+    <loc>https://adriancorrendo.github.io/coding/extras/pipe_operator.html</loc>
+    <lastmod>2026-01-21T02:23:16.498Z</lastmod>
   </url>
   <url>
-    <loc>https://adriancorrendo.github.io/coding/week_01/essentials_01.html</loc>
-    <lastmod>2026-01-15T05:04:40.255Z</lastmod>
+    <loc>https://adriancorrendo.github.io/coding/extras/read_tabular.html</loc>
+    <lastmod>2026-01-21T04:07:41.212Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adriancorrendo.github.io/coding/week_06/10_iteration.html</loc>
+    <lastmod>2026-02-11T16:19:01.171Z</lastmod>
   </url>
   <url>
     <loc>https://adriancorrendo.github.io/coding/week_05/09_ggplot2_plus.html</loc>
-    <lastmod>2026-02-04T16:11:30.516Z</lastmod>
+    <lastmod>2026-02-11T15:05:36.859Z</lastmod>
   </url>
   <url>
     <loc>https://adriancorrendo.github.io/coding/week_02/02_fundamentals_rpackages.html</loc>
@@ -30,15 +38,11 @@
   </url>
   <url>
     <loc>https://adriancorrendo.github.io/outline/calendar.html</loc>
-    <lastmod>2026-01-30T21:35:23.703Z</lastmod>
+    <lastmod>2026-02-11T16:15:09.588Z</lastmod>
   </url>
   <url>
     <loc>https://adriancorrendo.github.io/slides/day1.html</loc>
     <lastmod>2026-01-04T20:39:29.235Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/index.html</loc>
-    <lastmod>2026-01-04T20:55:19.406Z</lastmod>
   </url>
   <url>
     <loc>https://adriancorrendo.github.io/software/software.html</loc>
@@ -69,11 +73,15 @@
     <lastmod>2026-01-09T16:01:01.400Z</lastmod>
   </url>
   <url>
-    <loc>https://adriancorrendo.github.io/coding/extras/read_tabular.html</loc>
-    <lastmod>2026-01-21T04:07:41.212Z</lastmod>
+    <loc>https://adriancorrendo.github.io/coding/week_01/essentials_01.html</loc>
+    <lastmod>2026-01-15T05:04:40.255Z</lastmod>
   </url>
   <url>
-    <loc>https://adriancorrendo.github.io/coding/extras/pipe_operator.html</loc>
-    <lastmod>2026-01-21T02:23:16.498Z</lastmod>
+    <loc>https://adriancorrendo.github.io/coding/extras/fair_care.html</loc>
+    <lastmod>2026-01-15T20:15:58.535Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adriancorrendo.github.io/coding/extras/shinyapps.html</loc>
+    <lastmod>2026-02-06T16:24:05.007Z</lastmod>
   </url>
 </urlset>

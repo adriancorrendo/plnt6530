@@ -1,0 +1,345 @@
+---
+title: "Iteration in R: The Power of `purrr`"
+author: "Dr. Adrian Correndo"
+date: "2026-02-11"
+categories: [iteration, purrr, functional programming, case study]
+format:
+  html:
+    toc: true
+    toc-location: left
+    toc-depth: 4
+    number-sections: true
+    table-class: "table table-striped table-hover"
+editor: source
+smooth-scroll: true
+---
+
+**Description** <br/>
+
+This lesson explores iteration in R, focusing on the power of the `purrr` package for functional programming. We'll compare traditional `for` loops with `purrr`'s `map()` functions to illustrate more efficient and readable approaches to iteration.
+
+![](https://purrr.tidyverse.org/logo.png){.absolute top=0 right=0 height="25%"}
+
+**Required packages for today** <br/>
+```{r setup, eval=TRUE, warning=FALSE, message=FALSE}
+library(pacman) # to install and load packages faster
+p_load(dplyr, tidyr) # data wrangling
+p_load(purrr) # iteration mapping
+p_load(ggplot2) # plots
+p_load(agridat) # data
+p_load(nlme, broom.mixed, car, performance) # mixed models work
+p_load(emmeans, multcomp, multcompView) # multiple comparisons
+p_load(ggplot2)
+```
+
+# Introduction to Iteration
+
+Iteration is a common programming task, typically used to apply a function over elements of a dataset. In R, this can be achieved using:
+
+1. **For loops** (Base R approach)
+2. **`apply()` family functions**
+3. **`purrr` package (Functional programming approach)**
+
+# Traditional `for` Loop Example
+
+The `for` loop is a straightforward way to iterate over a sequence:
+
+```{r for-loop-example}
+numbers <- c(1, 2, 3, 4, 5)
+results <- numeric(length(numbers))
+
+for (i in seq_along(numbers)) {
+  results[i] <- numbers[i]^2
+}
+
+results
+```
+
+# Using `purrr::map()` for Iteration
+
+With `purrr`, we can achieve the same result in a more elegant and functional style:
+
+```{r purrr-map-example}
+# Let's just square the numbers
+list_output <- map(numbers, ~ .x^2)  # Returns a list
+numeric_output <- map_dbl(numbers, ~ .x^2)  # Returns a numeric vector
+
+list_output  # List format
+numeric_output  # Numeric vector format
+```
+
+# Comparison of For Loops and Mapping Functions
+
+| Feature                | For Loops                               | Mapping Functions (`purrr`)       |
+|------------------------|-----------------------------------------|-----------------------------------|
+| **Ease of Use**        | Straightforward for simple tasks        | More concise, but requires learning `purrr` syntax |
+| **Readability**        | Can become messy with nested loops      | Cleaner and more functional style |
+| **Speed**              | Generally slower for large datasets     | Often faster, especially with parallelization options |
+| **Scalability**        | Less scalable, more prone to errors     | Highly scalable, especially with complex data structures |
+
+
+## Understanding the Difference Between `map()` and `map_dbl()`
+
+- **`map_dbl()`** guarantees that the output is a **numeric vector**.  
+- Similarly:
+  - **`map_chr()`** returns a **character vector**.
+  - **`map_lgl()`** produces a **logical vector**.
+  - **`map_int()`** yields an **integer vector**.  
+- **`map()`**, the most general form, returns a **list** by default.
+
+These functions are part of an iterative approach where a function is mapped over elements of a list or vector.
+
+# Using the `purrr` Package for Iteration
+
+The `purrr` package provides several mapping functions to facilitate iteration:
+
+- **`map(x, f)`**: Applies a function `f` to each element of `x`.
+- **`map2(x, y, f)`**: Applies a function `f` to corresponding elements of `x` and `y`.
+- **`pmap(list, f)`**: Applies a function `f` to multiple arguments provided as a list of vectors or data frames.
+
+## Practical Application
+
+A common workflow involves combining `group_by()` and `nest()` to create nested data frames for iteration. You can then use `mutate()` along with `map()` to apply a function to each nested data frame:
+
+```r
+library(dplyr)
+library(purrr)
+library(tidyr)
+
+data %>%
+  group_by(group_variable) %>%
+  nest() %>%
+  mutate(results = map(data, your_function))
+```
+
+This approach is very powerful for applying custom functions to subsets of data efficiently. 
+
+Let's see that in practice...
+
+# Working with the `agridat` Dataset
+
+We will use the `lasrosas.corn` dataset from `agridat` to demonstrate iteration over data frames.
+
+## Load the data
+```{r load-dataset}
+data_corn_00 <- agridat::lasrosas.corn
+head(data_corn_00)
+```
+
+## Prepare the data
+```{r}
+data_corn_01 <- data_corn_00 %>% 
+  # Select only necessary variables
+  dplyr::select(year, topo, rep, nf, yield) %>% 
+  # Group by
+  group_by(year, topo) %>% 
+  # Create nested data frames
+  nest(my_data = c(rep, nf, yield))
+
+```
+
+## Create functions
+### Rep (block) as fixed
+```{r linear_model}
+# SIMPLEST MODEL
+fit_block_fixed <- function(x){
+  lm(# Response variable
+     yield ~ 
+       # Fixed (treatment)
+       nf + 
+       # Block as fixed too
+       rep,
+     # Data
+     data = x)
+}
+```
+### Rep (block) as random
+```{r block_random}
+# RANDOM BLOCK (mixed model)
+fit_block_random <- function(x){
+  nlme::lme(# Response variable
+    yield ~
+    # Fixed
+    nf,
+    # Random
+    random = ~1|rep,
+    # Data
+    data = x)
+  }
+```
+
+## Fit models with mapping
+```{r}
+models <- data_corn_01 %>% 
+  # BLOCK as FIXED 
+  mutate(model_1 = map(my_data, fit_block_fixed)) %>% 
+  # BLOCK as RANDOM
+  mutate(model_2 = map(my_data, fit_block_random)) %>% 
+    
+  # Data wrangling
+  pivot_longer(cols = c(model_1:model_2), # show alternative 'contains' model
+               names_to = "model_id",
+               values_to = "model") %>% 
+  # Map over model column
+  mutate(results = map(model, broom.mixed::augment )) %>% 
+  # Performance
+  mutate(performance = map(model, broom.mixed::glance )) %>% 
+  # Extract AIC
+  mutate(AIC = map(performance, ~.x$AIC)) %>% 
+  ungroup()
+```
+
+## Model selection
+
+Compare models performance
+
+```{r rm_selection}
+
+# Visual model selection
+best_models <- 
+  models %>% 
+  group_by(year, topo) %>% 
+  # Use case_when to identify the best model
+  mutate(best_model = 
+           case_when(AIC == min(as.numeric(AIC)) ~ "Yes",
+                     TRUE ~ "No")) %>% 
+  ungroup()
+
+# Plot
+best_models %>% 
+  ggplot()+
+  geom_point(aes(x = model_id, y = as.numeric(AIC), 
+                 color = best_model, shape = best_model), 
+             size = 3)+
+  facet_wrap(year~topo)+
+  theme_bw()
+
+# Final models
+selected_models <- best_models %>% dplyr::filter(best_model == "Yes")
+
+```
+
+## Run ANOVA
+
+Estimate the effects of factor under study
+
+```{r rm_anova}
+
+models_effects <- 
+  selected_models %>%
+  # Type 3 Sum of Squares (Partial SS, when interactions are present)
+  mutate(ANOVA = map(model, ~Anova(., type = 3)) )
+
+# Extract ANOVAS
+models_effects$ANOVA[[1]]
+models_effects$ANOVA[[2]]
+models_effects$ANOVA[[3]]
+models_effects$ANOVA[[8]]
+
+```
+
+## Means comparison
+
+```{r rm_comparison}
+# MULTCOMPARISON
+# emmeans and cld multcomp
+# We need to specify ourselves the most important interaction to perform the comparisons
+mult_comp <- 
+  models_effects %>% 
+  # Comparisons estimates (emmeans)
+  mutate(mc_estimates = map(model, ~emmeans(., ~ nf))) %>% 
+  # Assign letters and p-value adjustment (multcomp)
+  mutate(mc_letters = 
+           map(mc_estimates, 
+               ~as.data.frame( 
+                 # By specifies a strata or level to assign the letters
+                 cld(., decreasing = TRUE, details=FALSE,
+                     reversed=TRUE, alpha=0.05,  adjust = "tukey", Letters=LETTERS))))
+
+```
+
+# Plotting
+We can also use mapping to create multiple plots at once.
+## data preparation
+```{r}
+# Unnest data
+data_plot <- data_corn_00
+```
+
+## plotting function
+```{r}
+plot_yield_vs_nitro <- 
+  function(data, x_var, y_var, group_var, facet_var,
+           smooth_method = "loess", se = FALSE, title = NULL) {
+
+  ggplot(data, aes_string(x = x_var, y = y_var)) +
+    geom_point(aes_string(color = group_var, fill = group_var, shape = group_var),
+               size = 2, alpha = 0.85) +
+    geom_smooth(aes_string(color = group_var, fill = group_var),
+                method = smooth_method, se = se) +
+    facet_wrap(as.formula(paste("~", facet_var))) +
+    theme_bw() +
+    labs(
+      title = title,
+      x = x_var,
+      y = y_var,
+      color = group_var,
+      fill  = group_var,
+      shape = group_var
+    )
+}
+```
+
+We can also pass options for plots as vectors or list
+```{r}
+methods <- c("loess", "lm")
+ses     <- c(FALSE, FALSE)
+titles  <- c("Yield vs nitro (LOESS), faceted by year",
+             "Yield vs nitro (LM), faceted by year")
+```
+
+## Create plots with `pmap()`
+```{r}
+plots <- pmap(
+  list(
+    smooth_method = methods,
+    se = ses,
+    title = titles,
+    facet_var = rep("year", length(methods)),
+    group_var = rep("topo", length(methods))
+  ),
+  function(smooth_method, se, title, facet_var, group_var) {
+    plot_yield_vs_nitro(
+      data = data_plot,
+      x_var = "nitro",
+      y_var = "yield",
+      group_var = group_var,
+      facet_var = facet_var,
+      smooth_method = smooth_method,
+      se = se,
+      title = title
+    )
+  }
+)
+
+
+```
+
+## Display plots
+```{r}
+# use walk to print them all at once
+walk(plots, print)
+
+```
+
+# Final comments
+
+Iteration is a fundamental skill in data science, and `purrr` provides an expressive, efficient, and tidy approach to iteration. By using `map()`, `map2()`, and `pmap()`, we can iterate over multiple variables seamlessly, avoiding verbose loops while improving readability and maintainability.
+
+### Further Resources
+- [R for Data Science - Iteration](https://r4ds.had.co.nz/iteration.html)
+- [purrr Package Documentation](https://purrr.tidyverse.org/)
+- [Functional Programming in R](https://adv-r.hadley.nz/functionals.html)
+- [agridat Package Documentation](https://cran.r-project.org/web/packages/agridat/agridat.pdf)
+
+Happy coding!
