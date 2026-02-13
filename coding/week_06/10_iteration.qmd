@@ -61,8 +61,9 @@ With `purrr`, we can achieve the same result in a more elegant and functional st
 
 ```{r purrr-map-example}
 # Let's just square the numbers
-list_output <- map(numbers, ~ .x^2)  # Returns a list
+list_output <- purrr::map(numbers, ~ .x^2)  # Returns a list
 numeric_output <- map_dbl(numbers, ~ .x^2)  # Returns a numeric vector
+df_output <- purrr::map_df(as.data.frame(numbers), ~ .x^2)
 
 list_output  # List format
 numeric_output  # Numeric vector format
@@ -172,10 +173,10 @@ fit_block_random <- function(x){
 ```{r}
 models <- data_corn_01 %>% 
   # BLOCK as FIXED 
-  mutate(model_1 = map(my_data, fit_block_fixed)) %>% 
+  mutate(model_1 = map(.x=my_data, .f=fit_block_fixed) ) %>% 
+
   # BLOCK as RANDOM
-  mutate(model_2 = map(my_data, fit_block_random)) %>% 
-    
+  mutate(model_2 = map(.x=my_data, .f=fit_block_random) ) %>% 
   # Data wrangling
   pivot_longer(cols = c(model_1:model_2), # show alternative 'contains' model
                names_to = "model_id",
@@ -240,21 +241,22 @@ models_effects$ANOVA[[8]]
 
 ## Means comparison
 
-```{r rm_comparison}
+```{r rm_comparison, warning=FALSE, message=FALSE}
 # MULTCOMPARISON
 # emmeans and cld multcomp
 # We need to specify ourselves the most important interaction to perform the comparisons
 mult_comp <- 
   models_effects %>% 
+  dplyr::filter(topo == "HT") %>% 
   # Comparisons estimates (emmeans)
-  mutate(mc_estimates = map(model, ~emmeans(., ~ nf))) %>% 
+  mutate(mc_estimates = map(.x=model, ~emmeans(object=.x, ~ nf))) %>% 
   # Assign letters and p-value adjustment (multcomp)
   mutate(mc_letters = 
            map(mc_estimates, 
                ~as.data.frame( 
                  # By specifies a strata or level to assign the letters
-                 cld(., decreasing = TRUE, details=FALSE,
-                     reversed=TRUE, alpha=0.05,  adjust = "tukey", Letters=LETTERS))))
+                 cld(object=., decreasing = TRUE, details=FALSE,
+                     reversed=TRUE, alpha=0.05,  adjust = "tukey", Letters=letters))))
 
 ```
 
@@ -277,6 +279,8 @@ plot_yield_vs_nitro <-
                size = 2, alpha = 0.85) +
     geom_smooth(aes_string(color = group_var, fill = group_var),
                 method = smooth_method, se = se) +
+    scale_color_brewer(palette = "Set1") +
+    scale_fill_brewer(palette = "Set1") +
     facet_wrap(as.formula(paste("~", facet_var))) +
     theme_bw() +
     labs(
@@ -293,9 +297,9 @@ plot_yield_vs_nitro <-
 We can also pass options for plots as vectors or list
 ```{r}
 methods <- c("loess", "lm")
-ses     <- c(FALSE, FALSE)
-titles  <- c("Yield vs nitro (LOESS), faceted by year",
-             "Yield vs nitro (LM), faceted by year")
+ses     <- c(TRUE, FALSE)
+titles  <- c("LOESS model, faceted by year",
+             "LM model, faceted by year")
 ```
 
 ## Create plots with `pmap()`
@@ -322,13 +326,12 @@ plots <- pmap(
   }
 )
 
-
 ```
 
 ## Display plots
 ```{r}
 # use walk to print them all at once
-walk(plots, print)
+walk(.x=plots, .f=print)
 
 ```
 

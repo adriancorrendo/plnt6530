@@ -249,3 +249,47 @@ We just need to:
 4.  Shiny Tutorial: <https://shiny.rstudio.com/tutorial/>
 5.  Shiny Gallery: <https://shiny.rstudio.com/gallery/#demos>
 6.  Flexdashboard Shiny Gallery: <https://pkgs.rstudio.com/flexdashboard/articles/examples.html>
+
+## Examples and links from the UoG Cropping Systems Lab:
+
+These are web interfaces designed to facilitate the implementation of my packages, and to translate my research into decision-support tools.
+
+::::: columns
+::: {.column width="50%"}
+#### [Agrow](http://uogcrops.shinyapps.io/agrow/)
+
+[![](images/shiny_agrow.png){fig-align="left" width="300" height="200"}](http://uogcrops.shinyapps.io/agrow/)
+
+#### [Ontario N Corn Explorer](https://uogcrops.shinyapps.io/onncorn/)
+
+[![](images/shiny_onncorn.png){fig-align="left" width="300" height="200"}](https://uogcrops.shinyapps.io/onncorn/)
+
+#### [Ontario Corn N Calculator](http://uogcrops.shinyapps.io/ocnc/)
+
+[![](images/shiny_ocnc.png){fig-align="left" width="300" height="200"}](http://uogcrops.shinyapps.io/ocnc/)
+
+#### [Cornyield0N](https://ciampittilab.shinyapps.io/cornyield0N/)
+
+[![](images/shiny_corny0.png){fig-align="left" width="300"}](https://ciampittilab.shinyapps.io/cornyield0N/)
+
+:::
+
+::: {.column width="50%"}
+#### [Metrica](https://ciampittilab.shinyapps.io/metrica/)
+
+[![](images/shiny_metrica.png){fig-align="left" width="300" height="200"}](https://ciampittilab.shinyapps.io/metrica/)
+
+#### [DONMaiz](https://ciampittilab.shinyapps.io/DONMaiz/)
+
+[![](images/shiny_donmaiz.png){fig-align="left" width="300" height="200"}](https://ciampittilab.shinyapps.io/DONMaiz/)
+
+#### [Soiltestcorr](https://ciampittilab.shinyapps.io/soiltestcorr/)
+
+[![](images/shiny_soiltestcorr.png){fig-align="left" width="300" height="200"}](https://ciampittilab.shinyapps.io/soiltestcorr/)
+
+#### [Soybean Var. Seed Rate Simulator](https://analytics.iasoybeans.com/cool-apps/SoybeanVRSsimulator/)
+
+[![](images/shiny_soyvrs.png){fig-align="left" width="300" height="200"}](https://analytics.iasoybeans.com/cool-apps/SoybeanVRSsimulator/)
+
+:::
+:::::

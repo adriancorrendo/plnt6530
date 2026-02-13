@@ -39,7 +39,7 @@ The course runs on Wednesdays and Fridays from 1:00 PM to 2:20 PM. Below is the 
 |  | Jan 30 | Data Viz I: ggplot2 basics | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_04/07_ggplot2_01.html) | [🎥](https://zoom.us/rec/share/3q6PHdrPYgi6P1gfqLZXkLFg2yy0GamQDijrx9EP76Fz4aEbSvo5SVN2Hj96EyF1.Ge__6wLoHAPdPr0x?startTime=1769790667000) |
 | 5 | Feb 04 | Data Viz II: Multiple plots | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_05/08_ggplot2_adv.html) | [🎥](https://zoom.us/rec/share/DwuC9oy-FTdXZLffC2uKTHbzbhEHAJnXi2EAMlvFZa7UQLHehNoDFcKS8Rm8zp94.n9lhcGt_d_OZggHa?startTime=1770222684000) |
 |  | Feb 06 | Data Viz III: Advanced plots, maps | 🌐 | [🎥](https://zoom.us/rec/share/_bcS19dpGf8WB1g4OHBTVWjqQHo_gUMvw4qhTOPHyTOdMxppRxl7KFHNKGILvk6C.dMGRalvSDSSjzD1o?startTime=1770395429000) |
-| 6 | Feb 11 | Iteration: Loops & Mapping | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_05/09_ggplot2_plus.html) | 🎥 |
+| 6 | Feb 11 | Iteration: Loops & Mapping | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_06/10_iteration.html) | [🎥](https://zoom.us/rec/share/-dw_gRgfxLBbc0Fz0pHHCHlHob-xFXf6eQZEOxEQ89GO_du-X3pVh1oAbUaM8GUX.2wqjUVcfqsWDYHet?startTime=1770827561000) |
 |  | Feb 13 | Weather Data: Retrieving & Processing | 🌐 | 🎥 |
 |  |  | *Winter Break begins after the end of class* |  |  |
 | 7 | Feb 25 | Models I: TBD | 🌐 | 🎥 |

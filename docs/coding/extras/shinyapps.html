@@ -65,6 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
+<link href="../../outline/calendar.html" rel="next">
+<link href="../../coding/extras/p_value.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -170,7 +172,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Shiny apps</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../coding/quarto/quarto.html">Extras</a></li><li class="breadcrumb-item"><a href="../../coding/extras/shinyapps.html">shinyapps</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -307,17 +309,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">10-Iteration</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_06/11_weather.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">11-Weather data</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
  <span class="menu-text">Extras</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../coding/quarto/quarto.html" class="sidebar-item-text sidebar-link">
@@ -346,6 +354,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../../coding/extras/p_value.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">p-value</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/shinyapps.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">shinyapps</span></a>
   </div>
 </li>
       </ul>
@@ -407,13 +421,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#deploying-the-shiny-app" id="toc-deploying-the-shiny-app" class="nav-link" data-scroll-target="#deploying-the-shiny-app">3. Deploying the Shiny App</a></li>
   <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">4. Resources</a></li>
+  <li><a href="#examples-and-links-from-the-uog-cropping-systems-lab" id="toc-examples-and-links-from-the-uog-cropping-systems-lab" class="nav-link" data-scroll-target="#examples-and-links-from-the-uog-cropping-systems-lab">Examples and links from the UoG Cropping Systems Lab:</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../coding/quarto/quarto.html">Extras</a></li><li class="breadcrumb-item"><a href="../../coding/extras/shinyapps.html">shinyapps</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Shiny apps</h1>
 <p class="subtitle lead">Creating interactive web applications with R</p>
@@ -700,6 +715,79 @@ Tip
 <li>Shiny Gallery: <a href="https://shiny.rstudio.com/gallery/#demos" class="uri">https://shiny.rstudio.com/gallery/#demos</a></li>
 <li>Flexdashboard Shiny Gallery: <a href="https://pkgs.rstudio.com/flexdashboard/articles/examples.html" class="uri">https://pkgs.rstudio.com/flexdashboard/articles/examples.html</a></li>
 </ol>
+</section>
+<section id="examples-and-links-from-the-uog-cropping-systems-lab" class="level2">
+<h2 class="anchored" data-anchor-id="examples-and-links-from-the-uog-cropping-systems-lab">Examples and links from the UoG Cropping Systems Lab:</h2>
+<p>These are web interfaces designed to facilitate the implementation of my packages, and to translate my research into decision-support tools.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<section id="agrow" class="level4">
+<h4 class="anchored" data-anchor-id="agrow"><a href="http://uogcrops.shinyapps.io/agrow/">Agrow</a></h4>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><a href="http://uogcrops.shinyapps.io/agrow/"><img src="images/shiny_agrow.png" class="quarto-figure quarto-figure-left figure-img" width="300" height="200"></a></p>
+</figure>
+</div>
+</section>
+<section id="ontario-n-corn-explorer" class="level4">
+<h4 class="anchored" data-anchor-id="ontario-n-corn-explorer"><a href="https://uogcrops.shinyapps.io/onncorn/">Ontario N Corn Explorer</a></h4>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><a href="https://uogcrops.shinyapps.io/onncorn/"><img src="images/shiny_onncorn.png" class="quarto-figure quarto-figure-left figure-img" width="300" height="200"></a></p>
+</figure>
+</div>
+</section>
+<section id="ontario-corn-n-calculator" class="level4">
+<h4 class="anchored" data-anchor-id="ontario-corn-n-calculator"><a href="http://uogcrops.shinyapps.io/ocnc/">Ontario Corn N Calculator</a></h4>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><a href="http://uogcrops.shinyapps.io/ocnc/"><img src="images/shiny_ocnc.png" class="quarto-figure quarto-figure-left figure-img" width="300" height="200"></a></p>
+</figure>
+</div>
+</section>
+<section id="cornyield0n" class="level4">
+<h4 class="anchored" data-anchor-id="cornyield0n"><a href="https://ciampittilab.shinyapps.io/cornyield0N/">Cornyield0N</a></h4>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><a href="https://ciampittilab.shinyapps.io/cornyield0N/"><img src="images/shiny_corny0.png" class="img-fluid quarto-figure quarto-figure-left figure-img" width="300"></a></p>
+</figure>
+</div>
+</section>
+</div><div class="column" style="width:50%;">
+<section id="metrica" class="level4">
+<h4 class="anchored" data-anchor-id="metrica"><a href="https://ciampittilab.shinyapps.io/metrica/">Metrica</a></h4>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><a href="https://ciampittilab.shinyapps.io/metrica/"><img src="images/shiny_metrica.png" class="quarto-figure quarto-figure-left figure-img" width="300" height="200"></a></p>
+</figure>
+</div>
+</section>
+<section id="donmaiz" class="level4">
+<h4 class="anchored" data-anchor-id="donmaiz"><a href="https://ciampittilab.shinyapps.io/DONMaiz/">DONMaiz</a></h4>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><a href="https://ciampittilab.shinyapps.io/DONMaiz/"><img src="images/shiny_donmaiz.png" class="quarto-figure quarto-figure-left figure-img" width="300" height="200"></a></p>
+</figure>
+</div>
+</section>
+<section id="soiltestcorr" class="level4">
+<h4 class="anchored" data-anchor-id="soiltestcorr"><a href="https://ciampittilab.shinyapps.io/soiltestcorr/">Soiltestcorr</a></h4>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><a href="https://ciampittilab.shinyapps.io/soiltestcorr/"><img src="images/shiny_soiltestcorr.png" class="quarto-figure quarto-figure-left figure-img" width="300" height="200"></a></p>
+</figure>
+</div>
+</section>
+<section id="soybean-var.-seed-rate-simulator" class="level4">
+<h4 class="anchored" data-anchor-id="soybean-var.-seed-rate-simulator"><a href="https://analytics.iasoybeans.com/cool-apps/SoybeanVRSsimulator/">Soybean Var. Seed Rate Simulator</a></h4>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><a href="https://analytics.iasoybeans.com/cool-apps/SoybeanVRSsimulator/"><img src="images/shiny_soyvrs.png" class="quarto-figure quarto-figure-left figure-img" width="300" height="200"></a></p>
+</figure>
+</div>
+</section>
+</div>
+</div>
 
 
 </section>
@@ -1266,6 +1354,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../coding/extras/p_value.html" class="pagination-link" aria-label="p-value">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">p-value</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../outline/calendar.html" class="pagination-link" aria-label="Schedule">
+        <span class="nav-page-text">Schedule</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">

@@ -1,0 +1,464 @@
+---
+title: "Statistical Models with R: I - Essentials"
+author: "Dr. Adrian Correndo"
+date: "2026-02-13"
+categories: [statistical modelling, R, agriculture, agridat, agricolae]
+format:
+  html:
+    toc: true
+    toc-location: left
+    toc-depth: 4
+    number-sections: true
+    table-class: "table table-striped table-hover"
+editor: source
+execute:
+  echo: true
+  warning: false
+  message: false
+smooth-scroll: true
+---
+
+## Introduction
+
+Statistical modeling is a process of developing and analyzing mathematical models to represent real-world phenomena. In agricultural research, statistical modeling plays a crucial role in understanding the relationships between environmental variables, management practices, and crop responses. By leveraging statistical models, researchers can make informed decisions about optimizing yield, improving resource efficiency, and enhancing sustainability in agriculture.
+
+In this lesson, we focus on the essentials of statistical modeling using R, with examples relevant to ag-data science. We will explore the use of statistical models to analyze field experiments, evaluate treatment effects, and understand interactions between genotype, environment, and management practices. The examples will utilize a fake dataset of corn response to N across site and years, and introduce key functions from `stats`, `nlme`, `lme4`, `car`, `multcomp`, and `agricolae`.
+
+
+::: {.callout-note title="Learning objectives"}
+By the end of this lesson, students should be able to:
+
+- Identify **response** vs **predictors** (numeric vs factor) in an agricultural dataset  
+- Write model formulas using `response ~ predictors` (including interactions)  
+- Fit a simple **linear model** with `lm()` and interpret the main output (estimates, standard errors, p-values)  
+- Explain (at a high level) when you might choose an **LM**, **GLM**, or **mixed-effects model**  
+:::
+
+### Statistical Modeling Process
+
+1. **Data Collection and Exploratory Data Analysis (EDA)**
+   - Statistical modeling starts with data collection and EDA. In agricultural experiments, this involves gathering data on yield, soil properties, weather conditions, and management practices. EDA helps identify patterns, trends, and relationships between variables while detecting outliers or anomalies.
+
+2. **Types of Statistical Models**
+   - In agricultural research, common models include:
+     - **Regression Models**: For predicting continuous outcomes like crop yield based on variables such as soil nutrients or precipitation.
+     - **Time Series Models**: To analyze temporal data like seasonal growth patterns or yield trends over years.
+     - **Mixed-Effects Models**: Ideal for experimental designs with hierarchical structures, such as split-plot designs or repeated measures.
+
+3. **Model Selection and Assumptions**
+   - The choice of model depends on the data type, research question, and assumptions about the data. For example:
+     - **Linear Regression** assumes a linear relationship between predictors and outcome, suitable for continuous variables like yield or biomass. We call it linear because we are basically comparing "lines", where the lines represent the "means".
+     - **Generalized Linear Models (GLM)** are used for non-normal distributions, such as count data (e.g., pest counts) or binary outcomes (e.g., disease presence).
+
+4. **Model Evaluation**
+   - Evaluating model performance is crucial to ensure accurate predictions and inferences. In agricultural modeling, common metrics include:
+     - **R-squared (R²)**: Measures the proportion of variation explained by the model. But it is NOT always recommended as a criterion the "select models".
+     - **Mean Squared Error (MSE)** and **Root Mean Squared Error (RMSE)**: Assess prediction accuracy.
+     - **AIC and BIC**: For model comparison and selection. These two are recommended when selecting a model.
+
+5. **Application in Agricultural Research**
+   - Statistical models provide insights into complex agricultural systems, enabling researchers to:
+     - **Identify Key Drivers**: Determine which factors most influence crop performance, such as genotype-environment interactions.
+     - **Predict Future Trends**: Forecast yield potential under different climate scenarios or management practices.
+     - **Optimize Inputs**: Inform decision-making for fertilizer application, irrigation scheduling, or pest management.
+
+## Essential R Packages
+```{r}
+library(pacman)
+p_load(dplyr, tidyr) # data wrangling
+p_load(ggplot2) # figures
+p_load(nlme, lme4, car) # models
+p_load(performance) # model diagnostics
+p_load(emmeans, multcomp) # mean comparisons
+
+```
+## Data
+This is a synthetic dataset of corn yield response to nitrogen fertilizer across two sites and three years with contrasting weather. The dataset includes the following variables:
+```{r}
+# Read CSV file
+cornn_data <- read.csv("data/cornn_data.csv")
+
+# Check data structure and variables
+glimpse(cornn_data)
+```
+## EDA
+```{r}
+# Plot boxplots faceted by site and year
+cornn_data %>%
+  ggplot(aes(x = nrate_kgha, y = yield_kgha)) +
+  geom_boxplot(aes(fill = n_trt)) +
+  scale_fill_brewer(palette = "Set3") +
+  facet_grid(site ~ year) +
+  labs(title = "Exploratory plot",
+       x = "Nitrogen rate",
+       y = "Corn yield (kg/ha)") +
+  theme_bw()
+```
+
+
+
+## Key Statistical Models
+
+### Linear Models (LM)
+
+Linear regression models are fundamental for analyzing relationships between variables. The term "regression" could be confusing because it means we are working with a "continous response variable", but it could also mean we using a "continuous covariate" (or independent / or explanatory variable) (e.g. a "regressor").
+
+
+::: {.callout-tip title="Key terms (keep these straight!)"}
+- **Response / outcome**: the variable you want to explain or predict (often written as *Y*), e.g., `yield_kgha`
+- **Predictor / explanatory variable**: variables used to explain variation in the response (often *X*), e.g., `n_trt`, `nrate_kgha`, `site`, `year`
+- **Factor predictor**: categorical variable (treatments, genotype, site). Effects are interpreted as *differences among levels*.
+- **Numeric predictor**: continuous variable (e.g., N rate). Effects are interpreted as *change in response per unit change in X*.
+- **Fixed vs random effects (preview)**: fixed effects estimate specific level differences you care about; random effects represent grouping/cluster structure (blocks, farms, years) and help get appropriate uncertainty.
+:::
+
+#### Categorical covariate/s as independent variable/s
+```{r}
+# Complete Randomized (but is it the case?)
+lm_fit_01 <- lm(yield_kgha ~ n_trt, data = cornn_data)
+# See summary
+summary(lm_fit_01)
+
+# Model diagnostics (using the performance package)
+# This creates a compact set of checks/plots for key assumptions:
+# linearity, normality of residuals, homoscedasticity, influential points, etc.
+# performance::check_model(model=lm_fit_01)
+```
+# Alternative models
+```{r}
+# Blocks (as fixed)
+lm_fit_02 <- lm(yield_kgha ~ n_trt + block , data = cornn_data)
+# Add year (as fixed)
+lm_fit_03 <- lm(yield_kgha ~ n_trt + block + year, data = cornn_data)
+# Add site (as fixed)
+lm_fit_04 <- lm(yield_kgha ~ n_trt + block + year + site, data = cornn_data)
+# Different order 
+lm_fit_05 <- lm(yield_kgha ~ n_trt + year + site + block, data = cornn_data)
+```
+
+#### Continuous covariate/s as independent variable/s
+```{r}
+# Nitrogen (independent variable) as continuous predictor
+lm_reg_01 <- lm(yield_kgha ~ nrate_kgha, data = cornn_data)
+# See summary
+summary(lm_reg_01)
+
+# Compare to N as a categorical variable
+summary(lm_fit_01)
+
+```
+
+### Generalized Linear Models (GLM)
+
+GLMs extend linear models to handle non-normal response distributions. In agricultural research, they are useful for modeling yield data with non-constant variance or non-normal residuals.
+
+#### Example using GLM as an LM
+
+lm() is just a special case of glm where the distribution of error is assumed to be Gaussian (i.e. normal)
+```{r}
+glm_fit_01 <- glm(yield_kgha ~ n_trt + block, data = cornn_data, family = gaussian)
+# See summary
+summary(glm_fit_01)
+
+# Compare to lm
+summary(lm_fit_02)
+
+```
+
+#### Example using the Gaussian family with log link:
+
+These approaches are particularly useful when yield data exhibit heteroscedasticity or skewness.
+
+- For this first approach, the model assumes a multiplicative relationship between predictors and yield, modeling the expected value as an exponential function. 
+
+Thus, the underlying model is:  
+$$E(Y) = \exp(X\beta)$$ , 
+where the expected value of yield, $E(Y)$, is modeled as an exponential function of the predictors $\exp(X\beta)$.
+
+If you believe the relationship between predictors and the expected value of yield is multiplicative, use this approach.
+
+```{r}
+# Using log link without manually transforming yield
+glm_fit_02 <- glm(yield_kgha ~ n_trt + block, data = cornn_data, 
+                  family = gaussian(link = "log"))
+summary(glm_fit_02)
+
+# Is the model any better? Let's compare AICs
+AIC(glm_fit_01, glm_fit_02)
+
+```
+
+
+::: {.callout-tip title="How to interpret coefficients with a log link"}
+With `family = gaussian(link = "log")`, effects are **multiplicative** on the original yield scale.
+
+- A coefficient of **0.05** implies approximately a **5% increase** in the expected yield (holding other predictors constant).
+- You can exponentiate coefficients to interpret them as ratios:
+
+```{r}
+exp(coef(glm_fit_02))
+
+```
+:::
+
+
+Alternatively, you may want to manually log-transform the response:
+
+- For this second approach, the log-transformed yield is modeled as a linear function of the predictors, stabilizing variance or normalizing residuals. 
+
+In the second case, the model is:  
+$$\log(Y) = X\beta + \epsilon $$, 
+
+which is a linear model $X\beta + \epsilon$ on the log-transformed outcome, $\log(Y)$.
+
+If you want to stabilize variance or normalize the residuals, use this second approach.
+
+```{r}
+# Manually log-transforming yield
+glm_fit_03 <- glm(log(yield_kgha) ~ n_trt + block, data = cornn_data, 
+                  family = gaussian(link = "identity"))
+summary(glm_fit_03)
+
+```
+::: {.callout-warning title="Important note on model comparison"}
+We may be tempted to compare AIC between glm_fit_02 and glm_fit_03, but they are not directly comparable because they model different response variables units (yield vs log(yield)).
+:::
+
+```{r}
+# Is the model any better? Let's compare AICs
+AIC(glm_fit_01, glm_fit_02, glm_fit_03)
+```
+
+
+### Mixed-Effects Models
+
+
+Mixed-effects models are especially useful when observations are **grouped** (e.g., blocks, fields, farms, years).  
+Adding random effects helps you:
+
+- Account for **non-independence** within groups (better uncertainty / standard errors)
+- Model **baseline differences** among blocks/fields/years (partial pooling)
+- Extend models to more realistic experimental structures (nested or repeated measures)
+
+Mixed-effects models account for both fixed and random effects, often used in agricultural experiments.
+
+Using `nlme`:
+
+```{r}
+lme_fit <- lme(yield_kgha ~ n_trt, random = ~1 | block, data = cornn_data)
+summary(lme_fit)
+
+```
+
+Using `lme4`:
+
+```{r}
+lmer_fit <- lmer(yield_kgha ~ n_trt + (1 | block), data = cornn_data)
+summary(lmer_fit)
+
+```
+
+### Choosing Between `nlme` and `lme4`
+- **nlme**: Suitable for models that are linear and nonlinear mixed-effects models. It provides robust tools for analyzing data with nested random effects and handling different types of correlation structures within the data. It can handle heterogeneous variance models.
+
+- **lme4**: Best for fitting large linear mixed-effects models. It does not handle nonlinear mixed-effects models or autoregressive correlation structures but is highly efficient with large datasets and complex random effects structures. It does not directly support residual variance structures (e.g., `varIdent`) the way `nlme` does.
+
+### Analysis of Variance (ANOVA)
+
+Analysis of Variance (ANOVA) is widely used in agricultural research to compare the means of multiple groups and to understand the influence of categorical factors on continuous outcomes, such as yield or biomass. In R, there are multiple ways to perform ANOVA:
+
+- `anova()`: Sequential (Type I) ANOVA
+- `aov()`: Similar for balanced designs
+- `car::Anova()`: Flexible ANOVA with options for Type II and Type III Sum of Squares
+
+#### Using `anova()`
+
+`anova()` performs Type I Sum of Squares (sequential). It tests each term sequentially, considering the order of the terms in the model.
+
+```{r}
+lm_fit <- lm(yield_kgha ~ block + n_trt + year + site, data = cornn_data)
+anova(lm_fit)  # Type I Sum of Squares
+
+```
+
+#### Using `aov()`
+
+`aov()` is similar to `lm()` but is designed for balanced experimental designs. It also uses Type I Sum of Squares.
+
+```{r}
+aov_fit <- aov(yield_kgha ~ n_trt + year + site + block, data = cornn_data)
+summary(aov_fit)  # Type I Sum of Squares
+
+```
+
+#### Using `car::Anova()`
+
+The `Anova()` function from the `car` package allows for Type II and Type III Sum of Squares:
+
+- **Type II**: Assumes no interaction between factors and tests each main effect after the other main effects.
+- **Type III**: Tests each main effect and interaction/s after all other terms.
+
+```{r}
+car::Anova(lm_fit, type = 2)  # Type II Sum of Squares
+car::Anova(lm_fit, type = 3)  # Type III Sum of Squares
+
+```
+
+#### Comparison of anova() vs. Anova()
+```{r}
+# For the anova(), the order of factors matter
+anova(lm_fit_01)
+anova(lm_fit_02)
+anova(lm_fit_03)
+anova(lm_fit_04)
+anova(lm_fit_05)
+
+# For the Anova(type=3), the order of factors doesn't matter
+car::Anova(lm_fit_01, type = 3)
+car::Anova(lm_fit_02, type = 3)
+car::Anova(lm_fit_03, type = 3)
+car::Anova(lm_fit_04, type = 3)
+car::Anova(lm_fit_05, type = 3)
+
+```
+
+In agricultural research, Type III Sum of Squares is particularly useful for unbalanced designs, such as field trials with missing data or unequal replications.
+
+### Post-hoc Tests
+
+After detecting significant differences with ANOVA, post-hoc tests can be conducted to identify specific group differences.
+
+Using `emmeans` and `multcomp` for multiple comparisons:
+
+- `emmeans` (estimated marginal means) computes model-based means for each treatment level, adjusted for the other terms in the model (i.e., “means on the model scale,” not raw averages).
+
+- It’s the recommended workflow for post-hoc comparisons after aov()/lm()/lmer() because it works consistently across many model types.
+
+- `pairs()` gives pairwise contrasts (e.g., Tukey-adjusted), and cld() summarizes the results with grouping letters (levels sharing a letter are not significantly different at the chosen alpha).
+
+- `multcomp` is an older but still-valid toolkit for general linear hypotheses, where `glht()` can test custom contrasts and multiple-comparison procedures (e.g., Tukey via `mcp()`).
+
+- In practice, glht() can be finicky with model objects, factor names, or missing levels, and the output is less “teaching-friendly.”
+
+- For this course, we’ll prefer `emmeans` package for post-hoc comparisons because it provides a consistent, readable workflow across `aov()`, `lm()`, and many mixed models, and integrates cleanly with compact letter displays via `cld()`.
+
+```{r}
+# Pairwise comparisons using emmeans (Tukey-adjusted)
+
+emm_trt <- emmeans(aov_fit, ~ n_trt)
+pairs(emm_trt, adjust = "tukey")
+
+# Compact letter display (grouping letters)
+cld_trt <- as_tibble( cld(emm_trt, adjust = "tukey", Letters = letters,
+               reverse = FALSE, decreasing = TRUE) )
+cld_trt
+
+```
+
+### Nonlinear Models
+
+Nonlinear models are useful when the relationship between the predictor and response variables is not linear. In agricultural research, these models are commonly used to model yield response to inputs, such as nitrogen fertilizer.
+
+For nonlinear relationships, we could use `nls()`. Let's see an example using a couple of functions:
+#### linear-plateau
+```{r fit_lp}
+# nls for linear-plateau regression
+lp_fit <- nls(formula = yield_kgha ~
+                a + b * pmin(nrate_kgha, x0),
+              data = cornn_data,
+              start = list(a = 5000, b = 50, x0 = 150))
+
+summary(lp_fit)
+
+```
+
+#### quadratic-plateau
+```{r fit_qp}
+# nls for a quadratic plateau regression
+qp_fit <- nls(formula = yield_kgha ~ 
+                  ifelse(nrate_kgha <= x0,
+                         a + b*nrate_kgha + c*nrate_kgha^2,
+                         a + b*x0 + c*x0^2), 
+    data = cornn_data, 
+    start = list(a = 5000, b = 50, c = -0.1, x0=150))
+
+summary(qp_fit)
+
+```
+
+#### mitscherlich 
+```{r fit_mits}
+# Alternative exponential model
+mitscherlich_fit <- nls(formula = yield_kgha ~ a * (1 - exp(-c *(nrate_kgha + b))), 
+                        data = cornn_data, 
+                        start = list(a = 6000, b = 0.05, c = 0.01) )
+
+summary(mitscherlich_fit)
+
+# Compare models using AIC
+model_comparison <- data.frame(
+  Model = c("Linear-Plateau", "Quadratic-Plateau", "Mitscherlich"),
+  AIC = c(AIC(lp_fit), AIC(qp_fit), AIC(mitscherlich_fit)) )
+
+model_comparison
+
+```
+
+Visualizing the model's predictions can help in understanding the fitted curve and the data's behavior.
+#### Plot
+```{r plot_nls}
+# Add predictions to data frame with predictions
+cornn_data <- cornn_data %>% 
+  mutate(lp_pred = predict(lp_fit),
+         qp_pred = predict(qp_fit),
+         mits_pred = predict(mitscherlich_fit))
+
+# Plotting observed vs. predicted yield
+cornn_data %>% 
+ggplot(aes(x = nrate_kgha, y = yield_kgha)) +
+  geom_point(shape = 21, fill = "#e9c46a", color = "grey15",size = 2) +  # Observed data
+  geom_line(aes(y = lp_pred, color = "Linear-Plateau"), 
+            color = "#3d405b", linewidth = 2) +  # Fitted curve
+  # geom_line(aes(y = qp_pred, color = "Quadratic-Plateau"), 
+  #            color = "#c1121f", linewidth = 1) +  # Fitted curve"), 
+  scale_y_continuous(limits = c(0,17000), breaks = seq(0,16000,by=2000)) +
+  scale_x_continuous(limits = c(0,300), breaks = seq(0,300,by=50)) +
+  theme_bw()
+
+```
+
+But sometimes, a good fit may not be enough, and we may want to see how the model performs across different sites and years. In that case, we can facet the plot by site and year to visualize the model's performance in different environments.
+```{r plot_nls_facet}
+cornn_data %>% 
+ggplot(aes(x = nrate_kgha, y = yield_kgha)) +
+  geom_point(shape = 21, fill = "#e9c46a", color = "grey15",size = 2) +  # Observed data
+  geom_line(aes(y = lp_pred, color = "Linear-Plateau"), 
+            color = "#3d405b", linewidth = 2) +  # Fitted curve
+  scale_y_continuous(limits = c(0,17000), breaks = seq(0,16000,by=2000)) +
+  scale_x_continuous(limits = c(0,300), breaks = seq(0,300,by=50)) +
+  facet_grid(site ~ year) +
+  theme_bw()
+
+
+```
+
+
+
+
+## Conclusion
+
+This lesson introduced essential statistical models in R for agricultural research, providing practical code examples.
+
+**Key takeaways**
+- Start by clearly defining **response** vs **predictors** and their types (numeric vs factor).
+- Use the R formula workflow `response ~ predictors` as the common interface across model families.
+- `lm()` is a great default for continuous outcomes when assumptions are reasonable; `glm()` generalizes this framework.
+- Mixed-effects models add random effects to better represent common field-experiment structures (blocks, sites, years).
+
+In the next session, we will delve deeper into model diagnostics and interpretation.
+
+
+
+
+
+

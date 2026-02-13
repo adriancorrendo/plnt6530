@@ -73,6 +73,8 @@ website:
             text: "09-Data Viz III"
           - href: coding/week_06/10_iteration.qmd
             text: "10-Iteration"
+          - href: coding/week_06/11_models01.qmd
+            text: "11-Models I"
       - section: "Extras"
         contents:
           - href: coding/quarto/quarto.qmd
@@ -85,6 +87,10 @@ website:
             text: "Fair & Care"
           - href: coding/extras/p_value.qmd
             text: "p-value"
+          - href: coding/extras/weather_data.qmd
+            text: "Weather data"
+          - href: coding/extras/shinyapps.qmd
+            text: "Shinyapps in R"
       - section: "Calendar"
         contents:
           - href: outline/calendar.qmd
