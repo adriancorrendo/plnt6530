@@ -76,7 +76,11 @@ p_load(emmeans, multcomp) # mean comparisons
 This is a synthetic dataset of corn yield response to nitrogen fertilizer across two sites and three years with contrasting weather. The dataset includes the following variables:
 ```{r}
 # Read CSV file
-cornn_data <- read.csv("data/cornn_data.csv")
+cornn_data <- read.csv("data/cornn_data.csv") %>% 
+  mutate(n_trt = factor(n_trt, levels = c("N0","N60","N90","N120","N180","N240","N300")),
+         block = factor(block),
+         site = factor(site),
+         year = factor(year))
 
 # Check data structure and variables
 glimpse(cornn_data)
@@ -84,15 +88,22 @@ glimpse(cornn_data)
 ## EDA
 ```{r}
 # Plot boxplots faceted by site and year
-cornn_data %>%
+eda_plot <- cornn_data %>%
   ggplot(aes(x = nrate_kgha, y = yield_kgha)) +
   geom_boxplot(aes(fill = n_trt)) +
   scale_fill_brewer(palette = "Set3") +
-  facet_grid(site ~ year) +
+  #facet_grid(site ~ year) +
   labs(title = "Exploratory plot",
        x = "Nitrogen rate",
        y = "Corn yield (kg/ha)") +
   theme_bw()
+
+eda_plot
+
+# Add facet by year and site
+eda_plot +
+  facet_grid(site ~ year)
+  
 ```
 
 
@@ -119,6 +130,10 @@ lm_fit_01 <- lm(yield_kgha ~ n_trt, data = cornn_data)
 # See summary
 summary(lm_fit_01)
 
+lm_noint <- lm(yield_kgha ~ 0 + n_trt, data = cornn_data)
+
+summary(lm_noint)
+
 # Model diagnostics (using the performance package)
 # This creates a compact set of checks/plots for key assumptions:
 # linearity, normality of residuals, homoscedasticity, influential points, etc.
@@ -134,6 +149,9 @@ lm_fit_03 <- lm(yield_kgha ~ n_trt + block + year, data = cornn_data)
 lm_fit_04 <- lm(yield_kgha ~ n_trt + block + year + site, data = cornn_data)
 # Different order 
 lm_fit_05 <- lm(yield_kgha ~ n_trt + year + site + block, data = cornn_data)
+
+summary(lm_fit_04)
+summary(lm_fit_05)
 ```
 
 #### Continuous covariate/s as independent variable/s
@@ -145,6 +163,43 @@ summary(lm_reg_01)
 
 # Compare to N as a categorical variable
 summary(lm_fit_01)
+
+## Plot both models
+# Treatment means for the categorical model (ANOVA model)
+trt_means <- cornn_data %>% group_by(nrate_kgha,n_trt) %>% summarise(mean_yield = mean(yield_kgha))
+
+cornn_data %>%
+  ggplot(aes(x = nrate_kgha, y = yield_kgha)) +
+  geom_point(size = 0.25) +
+  # Add overall mean as a horizontal line (benchmark for error)
+  geom_smooth(aes(color = "1. Overall Mean (benchmark for error)"),
+              method = "lm", formula = y ~ 1, se = FALSE,
+              linetype = "solid", linewidth = 1.2) +
+  # Add treatment means as horizontal segments
+  geom_segment(data = trt_means,
+               aes(x = nrate_kgha - 15, xend = nrate_kgha + 15,
+                   y = mean_yield, yend = mean_yield,
+                   color = "2. Treatment Means"),
+               linetype = "solid", linewidth = 1.0) +
+  # Add linear regression line
+  geom_smooth(aes(color = "3. Linear Reg Model"),
+              method = "lm", formula = y ~ x, se = FALSE,
+              linetype = "dashed", linewidth = 1.0) +
+  # Show legends
+  scale_color_manual(
+    name = "",
+    values = c("1. Overall Mean (benchmark for error)" = "red",
+               "2. Treatment Means" = "forestgreen",
+               "3. Linear Reg Model" = "blue" )  ) +
+  # Adjust Y axis scale
+  scale_y_continuous(limits = c(0, 17000), breaks = seq(0, 16000, by = 2000)) +
+  labs(title = "Linear Models on the data",
+       x = "Nitrogen rate",
+       y = "Corn yield (kg/ha)") +
+  theme_classic()+
+  theme(legend.position = "top",
+        legend.text = element_text(size = 10),
+        legend.title = element_text(size = 11, face = "bold") )
 
 ```
 

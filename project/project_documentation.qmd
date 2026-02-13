@@ -1,0 +1,120 @@
+---
+title: "Semester Project"
+subtitle: "Documentation using Github Issues"
+author: "Dr. Adrian Correndo"
+date: "2026-02-13"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    toc-location: left
+    code-tools: true
+editor: source
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+## Announcement 📣 Semester Project – Next Steps
+
+Thanks for submitting your **Semester Project Proposal**. Your next steps are focused on setting up a clean, reproducible workflow and making progress visible over the semester.
+
+------------------------------------------------------------------------
+
+## 1) Create a GitHub repository 🔒
+
+Each group must create a  **PRIVATE** GitHub repository for the semester project.
+
+### Requirements
+- Repository is **PRIVATE**
+- Repository includes all group members as collaborators
+- Invite the instructor as a collaborator:
+
+**Instructor GitHub username:** `adriancorrendo`
+
+------------------------------------------------------------------------
+
+## 2) Use **GitHub Issues** to document weekly progress ✅
+
+Once the repository is created, start an **Issues** workflow. Issues are how you will document progress and responsibilities during the semester.
+
+### What to do
+- Create a set of Issues that reflect your project tasks, for example:
+  - “Import raw data + check structure”
+  - “Define data dictionary (variable definitions + units)”
+  - “Data cleaning: missing values + outliers”
+  - “Wrangling: merge files / reshape tables”
+  - “EDA: key plots + summary tables”
+  - “Modeling plan + first model”
+  - “Draft report outline (Quarto)”
+  - “Finalize results tables/figures”
+- For each Issue, include:
+  - a short description of what needs to be done
+  - a checklist of subtasks (optional but recommended)
+  - notes on decisions made (e.g., what cleaning rules you used)
+
+### Assign responsibility 👤
+GitHub lets you assign an Issue to someone.
+
+- Use **Assignees** to indicate who is responsible for that Issue.
+- You can also add Labels (e.g., `data-cleaning`, `analysis`, `writing`, `bug`).
+
+### Weekly expectation 📅
+Every week, your repository should show progress:
+- closing at least one Issue **or**
+- moving an Issue forward with comments, commits, or partial deliverables
+
+Even small steps count (e.g., “created data dictionary draft”, “import script created”, “renamed variables”, “EDA plots started”).
+
+------------------------------------------------------------------------
+
+## 3) Everyone must commit + push at least once (and ideally weekly) 🔁
+
+All members must contribute to the repository by:
+- making at least **one commit** with a meaningful message
+- **pushing** to GitHub
+
+Use the course GitHub lesson as your guide:
+https://adriancorrendo.github.io/plnt6530/coding/week_02/03_versioncontrol.html
+
+### Commit messages matter ✍️
+Use clear messages like:
+- “Import raw dataset and save as CSV”
+- “Clean variable names and define units”
+- “Add EDA plots for yield and defoliation”
+- “Create Quarto report skeleton + outline”
+
+------------------------------------------------------------------------
+
+## 4) Schedule 30-minute office hours before end of February 🗓️
+
+Each group must schedule a **30-minute meeting** with the instructor to discuss:
+- scope and feasibility
+- data plan and cleaning steps
+- analysis plan
+- reproducibility workflow and repo organization
+
+Meeting format:
+- In-person or Zoom (both OK)
+
+To schedule: email the instructor at
+
+**acorrend@uoguelph.ca**
+
+Please include:
+- your group name
+- 2–3 possible time windows
+- whether you prefer in-person or Zoom
+
+------------------------------------------------------------------------
+
+## Quick checklist ✅
+
+- [ ] Private GitHub repo created
+- [ ] Instructor invited: `adriancorrendo`
+- [ ] Issues created for major tasks
+- [ ] Issues assigned to team members
+- [ ] Evidence of weekly progress (Issues + commits)
+- [ ] Each member commits + pushes at least once
+- [ ] Office hours scheduled before end of February (email `acorrend@uoguelph.ca`)

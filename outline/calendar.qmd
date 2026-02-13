@@ -40,17 +40,18 @@ The course runs on Wednesdays and Fridays from 1:00 PM to 2:20 PM. Below is the 
 | 5 | Feb 04 | Data Viz II: Multiple plots | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_05/08_ggplot2_adv.html) | [🎥](https://zoom.us/rec/share/DwuC9oy-FTdXZLffC2uKTHbzbhEHAJnXi2EAMlvFZa7UQLHehNoDFcKS8Rm8zp94.n9lhcGt_d_OZggHa?startTime=1770222684000) |
 |  | Feb 06 | Data Viz III: Advanced plots, maps | 🌐 | [🎥](https://zoom.us/rec/share/_bcS19dpGf8WB1g4OHBTVWjqQHo_gUMvw4qhTOPHyTOdMxppRxl7KFHNKGILvk6C.dMGRalvSDSSjzD1o?startTime=1770395429000) |
 | 6 | Feb 11 | Iteration: Loops & Mapping | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_06/10_iteration.html) | [🎥](https://zoom.us/rec/share/-dw_gRgfxLBbc0Fz0pHHCHlHob-xFXf6eQZEOxEQ89GO_du-X3pVh1oAbUaM8GUX.2wqjUVcfqsWDYHet?startTime=1770827561000) |
-|  | Feb 13 | Weather Data: Retrieving & Processing | 🌐 | 🎥 |
+|  | Feb 13 | Weather Data: Retrieving & Processing | [🌐](https://adriancorrendo.github.io/plnt6530/coding/extras/weather_data.html) |  |
+|  | Feb 13 | Models I: introduction to models | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_06/11_models01.html) | [🎥](https://zoom.us/rec/share/kUkksbCX9bdHB-kLGCibRx6KJnfy_4lVrLd9U3BhAw8PMwP7wGQT8cJTLF96FNzE.WPg6ksgFjWGKYGiR?startTime=1771000876000) |
 |  |  | *Winter Break begins after the end of class* |  |  |
-| 7 | Feb 25 | Models I: TBD | 🌐 | 🎥 |
-|  | Feb 27 | Models II: TBD | 🌐 | 🎥 |
-| 8 | Mar 04 | Models III: TBD | 🌐 | 🎥 |
-|  | Mar 06 | Models IV: TBD | 🌐 | 🎥 |
-| 9 | Mar 11 | Models V: TBD | 🌐 | 🎥 |
-|  | Mar 13 | Models VI: TBD | 🌐 | 🎥 |
-| 10 | Mar 18 | Models VII: TBD | 🌐 | 🎥 |
-|  | Mar 20 | Models VIII: TBD | 🌐 | 🎥 |
-| 11 | Mar 25 | Models IX: TBD | 🌐 | 🎥 |
+| 7 | Feb 25 | Models II: TBD | 🌐 | 🎥 |
+|  | Feb 27 | Models III: TBD | 🌐 | 🎥 |
+| 8 | Mar 04 | Models IV: TBD | 🌐 | 🎥 |
+|  | Mar 06 | Models V: TBD | 🌐 | 🎥 |
+| 9 | Mar 11 | Models VI: TBD | 🌐 | 🎥 |
+|  | Mar 13 | Models VII: TBD | 🌐 | 🎥 |
+| 10 | Mar 18 | Models VIII: TBD | 🌐 | 🎥 |
+|  | Mar 20 | Models IX: TBD | 🌐 | 🎥 |
+| 11 | Mar 25 | Models X: TBD | 🌐 | 🎥 |
 |  | Mar 27 | General Review class | 🌐 | 🎥 |
 | 12 | Apr 01 | Semester Projects Presentations I | 🌐 |  |
 |  | Apr 03 | Semester Projects Presentations II | 🌐 |  |

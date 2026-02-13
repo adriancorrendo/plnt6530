@@ -91,6 +91,10 @@ website:
             text: "Weather data"
           - href: coding/extras/shinyapps.qmd
             text: "Shinyapps in R"
+      - section: "Semester Project"
+        contents: 
+          - href: project/project_documentation.qmd
+            text: "Project documentation"
       - section: "Calendar"
         contents:
           - href: outline/calendar.qmd

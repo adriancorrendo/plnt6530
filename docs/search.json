@@ -57,7 +57,7 @@
     "href": "coding/week_06/11_models01.html#data",
     "title": "Statistical Models with R: I - Essentials",
     "section": "0.3 Data",
-    "text": "0.3 Data\nThis is a synthetic dataset of corn yield response to nitrogen fertilizer across two sites and three years with contrasting weather. The dataset includes the following variables:\n\n# Read CSV file\ncornn_data &lt;- read.csv(\"data/cornn_data.csv\")\n\n# Check data structure and variables\nglimpse(cornn_data)\n\nRows: 168\nColumns: 7\n$ site       &lt;chr&gt; \"A\", \"A\", \"A\", \"A\", \"A\", \"A\", \"A\", \"A\", \"A\", \"A\", \"A\", \"A\",…\n$ year       &lt;int&gt; 2004, 2004, 2004, 2004, 2004, 2004, 2004, 2004, 2004, 2004,…\n$ block      &lt;int&gt; 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4,…\n$ n_trt      &lt;chr&gt; \"N0\", \"N0\", \"N0\", \"N0\", \"N60\", \"N60\", \"N60\", \"N60\", \"N90\", …\n$ nrate_kgha &lt;int&gt; 0, 0, 0, 0, 60, 60, 60, 60, 90, 90, 90, 90, 120, 120, 120, …\n$ yield_kgha &lt;int&gt; 6860, 7048, 8083, 8194, 10010, 9568, 10256, 10939, 11959, 1…\n$ weather    &lt;chr&gt; \"normal\", \"normal\", \"normal\", \"normal\", \"normal\", \"normal\",…",
+    "text": "0.3 Data\nThis is a synthetic dataset of corn yield response to nitrogen fertilizer across two sites and three years with contrasting weather. The dataset includes the following variables:\n\n# Read CSV file\ncornn_data &lt;- read.csv(\"data/cornn_data.csv\") %&gt;% \n  mutate(n_trt = factor(n_trt, levels = c(\"N0\",\"N60\",\"N90\",\"N120\",\"N180\",\"N240\",\"N300\")),\n         block = factor(block),\n         site = factor(site),\n         year = factor(year))\n\n# Check data structure and variables\nglimpse(cornn_data)\n\nRows: 168\nColumns: 7\n$ site       &lt;fct&gt; A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A,…\n$ year       &lt;fct&gt; 2004, 2004, 2004, 2004, 2004, 2004, 2004, 2004, 2004, 2004,…\n$ block      &lt;fct&gt; 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4,…\n$ n_trt      &lt;fct&gt; N0, N0, N0, N0, N60, N60, N60, N60, N90, N90, N90, N90, N12…\n$ nrate_kgha &lt;int&gt; 0, 0, 0, 0, 60, 60, 60, 60, 90, 90, 90, 90, 120, 120, 120, …\n$ yield_kgha &lt;int&gt; 6860, 7048, 8083, 8194, 10010, 9568, 10256, 10939, 11959, 1…\n$ weather    &lt;chr&gt; \"normal\", \"normal\", \"normal\", \"normal\", \"normal\", \"normal\",…",
     "crumbs": [
       "Lessons",
       "11-Models I"
@@ -68,7 +68,7 @@
     "href": "coding/week_06/11_models01.html#eda",
     "title": "Statistical Models with R: I - Essentials",
     "section": "0.4 EDA",
-    "text": "0.4 EDA\n\n# Plot boxplots faceted by site and year\ncornn_data %&gt;%\n  ggplot(aes(x = nrate_kgha, y = yield_kgha)) +\n  geom_boxplot(aes(fill = n_trt)) +\n  scale_fill_brewer(palette = \"Set3\") +\n  facet_grid(site ~ year) +\n  labs(title = \"Exploratory plot\",\n       x = \"Nitrogen rate\",\n       y = \"Corn yield (kg/ha)\") +\n  theme_bw()",
+    "text": "0.4 EDA\n\n# Plot boxplots faceted by site and year\neda_plot &lt;- cornn_data %&gt;%\n  ggplot(aes(x = nrate_kgha, y = yield_kgha)) +\n  geom_boxplot(aes(fill = n_trt)) +\n  scale_fill_brewer(palette = \"Set3\") +\n  #facet_grid(site ~ year) +\n  labs(title = \"Exploratory plot\",\n       x = \"Nitrogen rate\",\n       y = \"Corn yield (kg/ha)\") +\n  theme_bw()\n\neda_plot\n\n\n\n\n\n\n\n# Add facet by year and site\neda_plot +\n  facet_grid(site ~ year)",
     "crumbs": [
       "Lessons",
       "11-Models I"
@@ -79,7 +79,7 @@
     "href": "coding/week_06/11_models01.html#key-statistical-models",
     "title": "Statistical Models with R: I - Essentials",
     "section": "0.5 Key Statistical Models",
-    "text": "0.5 Key Statistical Models\n\n0.5.1 Linear Models (LM)\nLinear regression models are fundamental for analyzing relationships between variables. The term “regression” could be confusing because it means we are working with a “continous response variable”, but it could also mean we using a “continuous covariate” (or independent / or explanatory variable) (e.g. a “regressor”).\n\n\n\n\n\n\nKey terms (keep these straight!)\n\n\n\n\nResponse / outcome: the variable you want to explain or predict (often written as Y), e.g., yield_kgha\nPredictor / explanatory variable: variables used to explain variation in the response (often X), e.g., n_trt, nrate_kgha, site, year\nFactor predictor: categorical variable (treatments, genotype, site). Effects are interpreted as differences among levels.\nNumeric predictor: continuous variable (e.g., N rate). Effects are interpreted as change in response per unit change in X.\nFixed vs random effects (preview): fixed effects estimate specific level differences you care about; random effects represent grouping/cluster structure (blocks, farms, years) and help get appropriate uncertainty.\n\n\n\n\n0.5.1.1 Categorical covariate/s as independent variable/s\n\n# Complete Randomized (but is it the case?)\nlm_fit_01 &lt;- lm(yield_kgha ~ n_trt, data = cornn_data)\n# See summary\nsummary(lm_fit_01)\n\n\nCall:\nlm(formula = yield_kgha ~ n_trt, data = cornn_data)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-5035.1 -2806.3   428.8  2515.1  5380.8 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)   5996.4      612.8   9.785  &lt; 2e-16 ***\nn_trtN120     5542.7      866.6   6.396 1.66e-09 ***\nn_trtN180     6049.9      866.6   6.981 7.27e-11 ***\nn_trtN240     6396.8      866.6   7.381 7.91e-12 ***\nn_trtN300     6324.4      866.6   7.298 1.26e-11 ***\nn_trtN60      2520.7      866.6   2.909  0.00414 ** \nn_trtN90      4257.5      866.6   4.913 2.19e-06 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 3002 on 161 degrees of freedom\nMultiple R-squared:  0.3641,    Adjusted R-squared:  0.3404 \nF-statistic: 15.37 on 6 and 161 DF,  p-value: 6.913e-14\n\n# Model diagnostics (using the performance package)\n# This creates a compact set of checks/plots for key assumptions:\n# linearity, normality of residuals, homoscedasticity, influential points, etc.\n# performance::check_model(model=lm_fit_01)",
+    "text": "0.5 Key Statistical Models\n\n0.5.1 Linear Models (LM)\nLinear regression models are fundamental for analyzing relationships between variables. The term “regression” could be confusing because it means we are working with a “continous response variable”, but it could also mean we using a “continuous covariate” (or independent / or explanatory variable) (e.g. a “regressor”).\n\n\n\n\n\n\nKey terms (keep these straight!)\n\n\n\n\nResponse / outcome: the variable you want to explain or predict (often written as Y), e.g., yield_kgha\nPredictor / explanatory variable: variables used to explain variation in the response (often X), e.g., n_trt, nrate_kgha, site, year\nFactor predictor: categorical variable (treatments, genotype, site). Effects are interpreted as differences among levels.\nNumeric predictor: continuous variable (e.g., N rate). Effects are interpreted as change in response per unit change in X.\nFixed vs random effects (preview): fixed effects estimate specific level differences you care about; random effects represent grouping/cluster structure (blocks, farms, years) and help get appropriate uncertainty.\n\n\n\n\n0.5.1.1 Categorical covariate/s as independent variable/s\n\n# Complete Randomized (but is it the case?)\nlm_fit_01 &lt;- lm(yield_kgha ~ n_trt, data = cornn_data)\n# See summary\nsummary(lm_fit_01)\n\n\nCall:\nlm(formula = yield_kgha ~ n_trt, data = cornn_data)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-5035.1 -2806.3   428.7  2515.1  5380.8 \n\nCoefficients:\n            Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)   5996.4      612.8   9.785  &lt; 2e-16 ***\nn_trtN60      2520.7      866.6   2.909  0.00414 ** \nn_trtN90      4257.5      866.6   4.913 2.19e-06 ***\nn_trtN120     5542.7      866.6   6.396 1.66e-09 ***\nn_trtN180     6049.9      866.6   6.981 7.27e-11 ***\nn_trtN240     6396.7      866.6   7.381 7.91e-12 ***\nn_trtN300     6324.4      866.6   7.298 1.26e-11 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 3002 on 161 degrees of freedom\nMultiple R-squared:  0.3641,    Adjusted R-squared:  0.3404 \nF-statistic: 15.37 on 6 and 161 DF,  p-value: 6.913e-14\n\nlm_noint &lt;- lm(yield_kgha ~ 0 + n_trt, data = cornn_data)\n\nsummary(lm_noint)\n\n\nCall:\nlm(formula = yield_kgha ~ 0 + n_trt, data = cornn_data)\n\nResiduals:\n    Min      1Q  Median      3Q     Max \n-5035.1 -2806.3   428.7  2515.1  5380.8 \n\nCoefficients:\n          Estimate Std. Error t value Pr(&gt;|t|)    \nn_trtN0     5996.4      612.8   9.785   &lt;2e-16 ***\nn_trtN60    8517.1      612.8  13.899   &lt;2e-16 ***\nn_trtN90   10253.9      612.8  16.733   &lt;2e-16 ***\nn_trtN120  11539.1      612.8  18.831   &lt;2e-16 ***\nn_trtN180  12046.3      612.8  19.658   &lt;2e-16 ***\nn_trtN240  12393.2      612.8  20.224   &lt;2e-16 ***\nn_trtN300  12320.8      612.8  20.106   &lt;2e-16 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 3002 on 161 degrees of freedom\nMultiple R-squared:  0.9295,    Adjusted R-squared:  0.9265 \nF-statistic: 303.3 on 7 and 161 DF,  p-value: &lt; 2.2e-16\n\n# Model diagnostics (using the performance package)\n# This creates a compact set of checks/plots for key assumptions:\n# linearity, normality of residuals, homoscedasticity, influential points, etc.\n# performance::check_model(model=lm_fit_01)",
     "crumbs": [
       "Lessons",
       "11-Models I"
@@ -1454,7 +1454,7 @@
     "href": "outline/calendar.html#calendar",
     "title": "PLNT6530|01 - Calendar",
     "section": "Calendar",
-    "text": "Calendar\nThe course runs on Wednesdays and Fridays from 1:00 PM to 2:20 PM. Below is the tentative schedule. Please, note the schedule may vary depending on the progress of the class.\n\n\n\nWeek\nDate\nTopic\nMaterial\nLesson\n\n\n\n\n1\nJan 7\nIntroductions, Reproducibility\n🌐\n🎥\n\n\n\nJan 09\nEssentials of Quarto and R\n🌐\n🎥\n\n\n2\nJan 14\nFundamentals of R packages\n🌐\n🎥\n\n\n\nJan 16\nBasics of version control & GitHub\n🌐\n🎥\n\n\n3\nJan 21\nData Wrangling I\n🌐\n🎥\n\n\n\nJan 23\nData Wrangling II\n🌐\n🎥\n\n\n4\nJan 28\nData Wrangling III\n🌐\n🎥\n\n\n\nJan 30\nData Viz I: ggplot2 basics\n🌐\n🎥\n\n\n5\nFeb 04\nData Viz II: Multiple plots\n🌐\n🎥\n\n\n\nFeb 06\nData Viz III: Advanced plots, maps\n🌐\n🎥\n\n\n6\nFeb 11\nIteration: Loops & Mapping\n🌐\n🎥\n\n\n\nFeb 13\nWeather Data: Retrieving & Processing\n🌐\n🎥\n\n\n\n\nWinter Break begins after the end of class\n\n\n\n\n7\nFeb 25\nModels I: TBD\n🌐\n🎥\n\n\n\nFeb 27\nModels II: TBD\n🌐\n🎥\n\n\n8\nMar 04\nModels III: TBD\n🌐\n🎥\n\n\n\nMar 06\nModels IV: TBD\n🌐\n🎥\n\n\n9\nMar 11\nModels V: TBD\n🌐\n🎥\n\n\n\nMar 13\nModels VI: TBD\n🌐\n🎥\n\n\n10\nMar 18\nModels VII: TBD\n🌐\n🎥\n\n\n\nMar 20\nModels VIII: TBD\n🌐\n🎥\n\n\n11\nMar 25\nModels IX: TBD\n🌐\n🎥\n\n\n\nMar 27\nGeneral Review class\n🌐\n🎥\n\n\n12\nApr 01\nSemester Projects Presentations I\n🌐\n\n\n\n\nApr 03\nSemester Projects Presentations II\n🌐\n\n\n\n13\nApr 10\nFinal Exam Due (11.59 pm)\n🌐",
+    "text": "Calendar\nThe course runs on Wednesdays and Fridays from 1:00 PM to 2:20 PM. Below is the tentative schedule. Please, note the schedule may vary depending on the progress of the class.\n\n\n\nWeek\nDate\nTopic\nMaterial\nLesson\n\n\n\n\n1\nJan 7\nIntroductions, Reproducibility\n🌐\n🎥\n\n\n\nJan 09\nEssentials of Quarto and R\n🌐\n🎥\n\n\n2\nJan 14\nFundamentals of R packages\n🌐\n🎥\n\n\n\nJan 16\nBasics of version control & GitHub\n🌐\n🎥\n\n\n3\nJan 21\nData Wrangling I\n🌐\n🎥\n\n\n\nJan 23\nData Wrangling II\n🌐\n🎥\n\n\n4\nJan 28\nData Wrangling III\n🌐\n🎥\n\n\n\nJan 30\nData Viz I: ggplot2 basics\n🌐\n🎥\n\n\n5\nFeb 04\nData Viz II: Multiple plots\n🌐\n🎥\n\n\n\nFeb 06\nData Viz III: Advanced plots, maps\n🌐\n🎥\n\n\n6\nFeb 11\nIteration: Loops & Mapping\n🌐\n🎥\n\n\n\nFeb 13\nWeather Data: Retrieving & Processing\n🌐\n\n\n\n\nFeb 13\nModels I: introduction to models\n🌐\n🎥\n\n\n\n\nWinter Break begins after the end of class\n\n\n\n\n7\nFeb 25\nModels II: TBD\n🌐\n🎥\n\n\n\nFeb 27\nModels III: TBD\n🌐\n🎥\n\n\n8\nMar 04\nModels IV: TBD\n🌐\n🎥\n\n\n\nMar 06\nModels V: TBD\n🌐\n🎥\n\n\n9\nMar 11\nModels VI: TBD\n🌐\n🎥\n\n\n\nMar 13\nModels VII: TBD\n🌐\n🎥\n\n\n10\nMar 18\nModels VIII: TBD\n🌐\n🎥\n\n\n\nMar 20\nModels IX: TBD\n🌐\n🎥\n\n\n11\nMar 25\nModels X: TBD\n🌐\n🎥\n\n\n\nMar 27\nGeneral Review class\n🌐\n🎥\n\n\n12\nApr 01\nSemester Projects Presentations I\n🌐\n\n\n\n\nApr 03\nSemester Projects Presentations II\n🌐\n\n\n\n13\nApr 10\nFinal Exam Due (11.59 pm)\n🌐",
     "crumbs": [
       "Calendar",
       "Schedule"
@@ -2701,6 +2701,94 @@
     "crumbs": [
       "Extras",
       "p-value"
+    ]
+  },
+  {
+    "objectID": "project/project_documentation.html",
+    "href": "project/project_documentation.html",
+    "title": "Semester Project",
+    "section": "",
+    "text": "Thanks for submitting your Semester Project Proposal. Your next steps are focused on setting up a clean, reproducible workflow and making progress visible over the semester.",
+    "crumbs": [
+      "Semester Project",
+      "Project documentation"
+    ]
+  },
+  {
+    "objectID": "project/project_documentation.html#announcement-semester-project-next-steps",
+    "href": "project/project_documentation.html#announcement-semester-project-next-steps",
+    "title": "Semester Project",
+    "section": "",
+    "text": "Thanks for submitting your Semester Project Proposal. Your next steps are focused on setting up a clean, reproducible workflow and making progress visible over the semester.",
+    "crumbs": [
+      "Semester Project",
+      "Project documentation"
+    ]
+  },
+  {
+    "objectID": "project/project_documentation.html#create-a-private-github-repository",
+    "href": "project/project_documentation.html#create-a-private-github-repository",
+    "title": "Semester Project",
+    "section": "1) Create a PRIVATE GitHub repository 🔒",
+    "text": "1) Create a PRIVATE GitHub repository 🔒\nEach group must create one private GitHub repository for the semester project.\n\nRequirements\n\nRepository is PRIVATE\nRepository includes all group members as collaborators\nInvite the instructor as a collaborator:\n\nInstructor GitHub username: adriancorrendo",
+    "crumbs": [
+      "Semester Project",
+      "Project documentation"
+    ]
+  },
+  {
+    "objectID": "project/project_documentation.html#use-github-issues-to-document-weekly-progress",
+    "href": "project/project_documentation.html#use-github-issues-to-document-weekly-progress",
+    "title": "Semester Project",
+    "section": "2) Use GitHub Issues to document weekly progress ✅",
+    "text": "2) Use GitHub Issues to document weekly progress ✅\nOnce the repository is created, start an Issues workflow. Issues are how you will document progress and responsibilities during the semester.\n\nWhat to do\n\nCreate a set of Issues that reflect your project tasks, for example:\n\n“Import raw data + check structure”\n“Define data dictionary (variable definitions + units)”\n“Data cleaning: missing values + outliers”\n“Wrangling: merge files / reshape tables”\n“EDA: key plots + summary tables”\n“Modeling plan + first model”\n“Draft report outline (Quarto)”\n“Finalize results tables/figures”\n\nFor each Issue, include:\n\na short description of what needs to be done\na checklist of subtasks (optional but recommended)\nnotes on decisions made (e.g., what cleaning rules you used)\n\n\n\n\nAssign responsibility 👤\nGitHub lets you assign an Issue to someone.\n\nUse Assignees to indicate who is responsible for that Issue.\nYou can also add Labels (e.g., data-cleaning, analysis, writing, bug).\n\n\n\nWeekly expectation 📅\nEvery week, your repository should show progress: - closing at least one Issue or - moving an Issue forward with comments, commits, or partial deliverables\nEven small steps count (e.g., “created data dictionary draft”, “import script created”, “renamed variables”, “EDA plots started”).",
+    "crumbs": [
+      "Semester Project",
+      "Project documentation"
+    ]
+  },
+  {
+    "objectID": "project/project_documentation.html#everyone-must-commit-push-at-least-once-and-ideally-weekly",
+    "href": "project/project_documentation.html#everyone-must-commit-push-at-least-once-and-ideally-weekly",
+    "title": "Semester Project",
+    "section": "3) Everyone must commit + push at least once (and ideally weekly) 🔁",
+    "text": "3) Everyone must commit + push at least once (and ideally weekly) 🔁\nAll members must contribute to the repository by: - making at least one commit with a meaningful message - pushing to GitHub\nUse the course GitHub lesson as your guide: https://adriancorrendo.github.io/plnt6530/coding/week_02/03_versioncontrol.html\n\nCommit messages matter ✍️\nUse clear messages like: - “Import raw dataset and save as CSV” - “Clean variable names and define units” - “Add EDA plots for yield and defoliation” - “Create Quarto report skeleton + outline”",
+    "crumbs": [
+      "Semester Project",
+      "Project documentation"
+    ]
+  },
+  {
+    "objectID": "project/project_documentation.html#schedule-30-minute-office-hours-before-end-of-february",
+    "href": "project/project_documentation.html#schedule-30-minute-office-hours-before-end-of-february",
+    "title": "Semester Project",
+    "section": "4) Schedule 30-minute office hours before end of February 🗓️",
+    "text": "4) Schedule 30-minute office hours before end of February 🗓️\nEach group must schedule a 30-minute meeting with the instructor to discuss: - scope and feasibility - data plan and cleaning steps - analysis plan - reproducibility workflow and repo organization\nMeeting format: - In-person or Zoom (both OK)\nTo schedule: email the instructor at\nacorrend@uoguelph.ca\nPlease include: - your group name - 2–3 possible time windows - whether you prefer in-person or Zoom",
+    "crumbs": [
+      "Semester Project",
+      "Project documentation"
+    ]
+  },
+  {
+    "objectID": "project/project_documentation.html#quick-checklist",
+    "href": "project/project_documentation.html#quick-checklist",
+    "title": "Semester Project",
+    "section": "Quick checklist ✅",
+    "text": "Quick checklist ✅\n\nPrivate GitHub repo created\nInstructor invited: adriancorrendo\nIssues created for major tasks\nIssues assigned to team members\nEvidence of weekly progress (Issues + commits)\nEach member commits + pushes at least once\nOffice hours scheduled before end of February (email acorrend@uoguelph.ca)",
+    "crumbs": [
+      "Semester Project",
+      "Project documentation"
+    ]
+  },
+  {
+    "objectID": "project/project_documentation.html#create-a-github-repository",
+    "href": "project/project_documentation.html#create-a-github-repository",
+    "title": "Semester Project",
+    "section": "1) Create a GitHub repository 🔒",
+    "text": "1) Create a GitHub repository 🔒\nEach group must create a PRIVATE GitHub repository for the semester project.\n\nRequirements\n\nRepository is PRIVATE\nRepository includes all group members as collaborators\nInvite the instructor as a collaborator:\n\nInstructor GitHub username: adriancorrendo",
+    "crumbs": [
+      "Semester Project",
+      "Project documentation"
     ]
   }
 ]
