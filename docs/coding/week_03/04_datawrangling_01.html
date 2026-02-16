@@ -1,0 +1,2740 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Dr.&nbsp;Adrian Correndo">
+<meta name="dcterms.date" content="2026-01-21">
+
+<title>Transforming Ag data with dplyr – PLNT6530 - Winter 2026</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../coding/week_03/05_datawrangling_02.html" rel="next">
+<link href="../../coding/week_02/03_versioncontrol.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-f2a1071e85750ec973bbb8a8f120da0f.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-f2a1071e85750ec973bbb8a8f120da0f.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-336ca817ef159df84c7e018e0d356059.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-5ccce6f18d703cb4568c738a25a74289.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="Transforming Ag data with dplyr – PLNT6530 - Winter 2026">
+<meta property="og:description" content="Reproducible Data Science for Agriculture">
+<meta property="og:image" content="https://adriancorrendo.github.io/coding/week_03/images/cover.png">
+<meta property="og:site_name" content="PLNT6530 - Winter 2026">
+<meta property="og:image:height" content="750">
+<meta property="og:image:width" content="500">
+<meta name="twitter:title" content="Transforming Ag data with dplyr – PLNT6530 - Winter 2026">
+<meta name="twitter:description" content="Reproducible Data Science for Agriculture">
+<meta name="twitter:image" content="https://adriancorrendo.github.io/coding/week_03/images/cover.png">
+<meta name="twitter:creator" content="@aacorrendo">
+<meta name="twitter:image-height" content="750">
+<meta name="twitter:image-width" content="500">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">PLNT6530 - Winter 2026</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://adriancorrendo.github.io/"> <i class="bi bi-globe" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/adriancorrendo/plnt6530/"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/aacorrendo"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/adriancorrendo/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../coding/week_01/essentials_01.html">Lessons</a></li><li class="breadcrumb-item"><a href="../../coding/week_03/04_datawrangling_01.html">04-Data Wrangling I</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="../../index.html" class="sidebar-logo-link">
+      <img src="../../images/2026_logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+      <div class="sidebar-tools-main">
+    <a href="https://github.com/adriancorrendo/" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+</div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Slides</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../slides/day1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reproducibility</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Software</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../software/software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instructions</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Lessons</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_01/essentials_01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">01-Essentials of R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_02/02_fundamentals_rpackages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">02-Fundamentals of packages</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_02/03_versioncontrol.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">03-Git &amp; GitHub</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_03/04_datawrangling_01.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">04-Data Wrangling I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_03/05_datawrangling_02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">05-Data Wrangling II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_04/06_datawrangling_03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">06-Data Wrangling III</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_04/07_ggplot2_01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">07-Data Viz I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_05/08_ggplot2_adv.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">08-Data Viz II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_05/09_ggplot2_plus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">09-Data Viz III</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_06/10_iteration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">10-Iteration</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_06/11_models01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">11-Models I</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Extras</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/quarto/quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Quarto Basics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/pipe_operator.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pipe Ops</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/read_tabular.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Read Tabular Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/fair_care.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fair &amp; Care</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/p_value.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">p-value</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/weather_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weather data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/shinyapps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Shinyapps in R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/outliers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Outliers</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Semester Project</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../project/project_documentation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Project documentation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Calendar</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../outline/calendar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Schedule</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Course Outline</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../outline/outline.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Outline</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Content</h2>
+   
+  <ul>
+  <li><a href="#description" id="toc-description" class="nav-link active" data-scroll-target="#description"><span class="header-section-number">1</span> Description</a>
+  <ul>
+  <li><a href="#required-packages-for-today" id="toc-required-packages-for-today" class="nav-link" data-scroll-target="#required-packages-for-today"><span class="header-section-number">1.1</span> Required packages for today</a></li>
+  </ul></li>
+  <li><a href="#why-tidy" id="toc-why-tidy" class="nav-link" data-scroll-target="#why-tidy"><span class="header-section-number">2</span> Why TIDY?</a>
+  <ul>
+  <li><a href="#free-html-books" id="toc-free-html-books" class="nav-link" data-scroll-target="#free-html-books"><span class="header-section-number">2.0.1</span> Free HTML books</a></li>
+  <li><a href="#what-is-a-data-frame" id="toc-what-is-a-data-frame" class="nav-link" data-scroll-target="#what-is-a-data-frame"><span class="header-section-number">2.1</span> What is a Data Frame?</a>
+  <ul class="collapse">
+  <li><a href="#open-a-data-frame" id="toc-open-a-data-frame" class="nav-link" data-scroll-target="#open-a-data-frame"><span class="header-section-number">2.1.1</span> open a data frame</a></li>
+  </ul></li>
+  <li><a href="#what-is-a-tibble" id="toc-what-is-a-tibble" class="nav-link" data-scroll-target="#what-is-a-tibble"><span class="header-section-number">2.2</span> What is a Tibble?</a>
+  <ul class="collapse">
+  <li><a href="#create-a-tibble" id="toc-create-a-tibble" class="nav-link" data-scroll-target="#create-a-tibble"><span class="header-section-number">2.2.1</span> create a tibble</a></li>
+  </ul></li>
+  <li><a href="#iii.-key-differences-between-data-frames-and-tibbles" id="toc-iii.-key-differences-between-data-frames-and-tibbles" class="nav-link" data-scroll-target="#iii.-key-differences-between-data-frames-and-tibbles"><span class="header-section-number">2.3</span> iii. Key Differences between Data Frames and Tibbles</a>
+  <ul class="collapse">
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example"><span class="header-section-number">2.3.1</span> Example:</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#a-package-for-data-manipulation" id="toc-a-package-for-data-manipulation" class="nav-link" data-scroll-target="#a-package-for-data-manipulation"><span class="header-section-number">3</span> A package for data manipulation…🚀</a>
+  <ul>
+  <li><a href="#why-using-r-packages" id="toc-why-using-r-packages" class="nav-link" data-scroll-target="#why-using-r-packages"><span class="header-section-number">3.1</span> Why using R Packages? 💡</a></li>
+  <li><a href="#example-1-mutate" id="toc-example-1-mutate" class="nav-link" data-scroll-target="#example-1-mutate"><span class="header-section-number">3.2</span> Example 1: mutate()</a>
+  <ul class="collapse">
+  <li><a href="#base-r-version" id="toc-base-r-version" class="nav-link" data-scroll-target="#base-r-version"><span class="header-section-number">3.2.0.1</span> Base R version</a></li>
+  <li><a href="#dplyr-package-tidyverse" id="toc-dplyr-package-tidyverse" class="nav-link" data-scroll-target="#dplyr-package-tidyverse"><span class="header-section-number">3.2.0.2</span> dplyr package (Tidyverse)</a></li>
+  </ul></li>
+  <li><a href="#example-2-filter" id="toc-example-2-filter" class="nav-link" data-scroll-target="#example-2-filter"><span class="header-section-number">3.3</span> Example 2: filter()</a>
+  <ul class="collapse">
+  <li><a href="#base-r-version-1" id="toc-base-r-version-1" class="nav-link" data-scroll-target="#base-r-version-1"><span class="header-section-number">3.3.0.1</span> Base R version</a></li>
+  <li><a href="#dplyr-package-tidyverse-1" id="toc-dplyr-package-tidyverse-1" class="nav-link" data-scroll-target="#dplyr-package-tidyverse-1"><span class="header-section-number">3.3.0.2</span> dplyr package (Tidyverse)</a></li>
+  </ul></li>
+  <li><a href="#example-3-select" id="toc-example-3-select" class="nav-link" data-scroll-target="#example-3-select"><span class="header-section-number">3.4</span> Example 3: select()</a>
+  <ul class="collapse">
+  <li><a href="#base-r-version-2" id="toc-base-r-version-2" class="nav-link" data-scroll-target="#base-r-version-2"><span class="header-section-number">3.4.0.1</span> Base R version</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#corn-dataset" id="toc-corn-dataset" class="nav-link" data-scroll-target="#corn-dataset"><span class="header-section-number">4</span> Corn Dataset:</a>
+  <ul>
+  <li><a href="#inspect-data" id="toc-inspect-data" class="nav-link" data-scroll-target="#inspect-data"><span class="header-section-number">4.1</span> Inspect data</a>
+  <ul class="collapse">
+  <li><a href="#glimpse" id="toc-glimpse" class="nav-link" data-scroll-target="#glimpse"><span class="header-section-number">4.1.1</span> glimpse</a></li>
+  <li><a href="#skim" id="toc-skim" class="nav-link" data-scroll-target="#skim"><span class="header-section-number">4.1.2</span> skim</a></li>
+  </ul></li>
+  <li><a href="#adding-new-variables-with-mutate" id="toc-adding-new-variables-with-mutate" class="nav-link" data-scroll-target="#adding-new-variables-with-mutate"><span class="header-section-number">4.2</span> Adding New Variables with <code>mutate()</code></a></li>
+  <li><a href="#filtering-data" id="toc-filtering-data" class="nav-link" data-scroll-target="#filtering-data"><span class="header-section-number">4.3</span> Filtering Data</a></li>
+  <li><a href="#selecting-columns" id="toc-selecting-columns" class="nav-link" data-scroll-target="#selecting-columns"><span class="header-section-number">4.4</span> Selecting columns</a></li>
+  <li><a href="#renaming-columns" id="toc-renaming-columns" class="nav-link" data-scroll-target="#renaming-columns"><span class="header-section-number">4.5</span> Renaming columns</a></li>
+  <li><a href="#arranging-data" id="toc-arranging-data" class="nav-link" data-scroll-target="#arranging-data"><span class="header-section-number">4.6</span> Arranging data</a></li>
+  <li><a href="#finding-unique-values" id="toc-finding-unique-values" class="nav-link" data-scroll-target="#finding-unique-values"><span class="header-section-number">4.7</span> Finding unique values</a></li>
+  <li><a href="#counting" id="toc-counting" class="nav-link" data-scroll-target="#counting"><span class="header-section-number">4.8</span> Counting</a></li>
+  <li><a href="#summarizing-data" id="toc-summarizing-data" class="nav-link" data-scroll-target="#summarizing-data"><span class="header-section-number">4.9</span> Summarizing Data</a></li>
+  </ul></li>
+  <li><a href="#hands-on-exercise" id="toc-hands-on-exercise" class="nav-link" data-scroll-target="#hands-on-exercise"><span class="header-section-number">5</span> Hands-On Exercise</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">6</span> Conclusion</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../coding/week_01/essentials_01.html">Lessons</a></li><li class="breadcrumb-item"><a href="../../coding/week_03/04_datawrangling_01.html">04-Data Wrangling I</a></li></ol></nav>
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Transforming Ag data with dplyr</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+  <div class="quarto-categories">
+    <div class="quarto-category">dplyr</div>
+    <div class="quarto-category">data wrangling</div>
+    <div class="quarto-category">mutate</div>
+    <div class="quarto-category">filter</div>
+    <div class="quarto-category">select</div>
+    <div class="quarto-category">arrange</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr.&nbsp;Adrian Correndo </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 21, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="description" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Description</h1>
+<p>This lesson introduces the concept of tidy data, and a few basic data wrangling techniques using <code>dplyr</code> package. Today, we are using <code>dplyr</code> and datasets from the <code>agridat</code> package. If you don’t have them installed, you can do so by running:</p>
+<section id="required-packages-for-today" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="required-packages-for-today"><span class="header-section-number">1.1</span> Required packages for today</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pacman)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(agridat) <span class="co"># Agridat datasets</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(dplyr) <span class="co"># dplyr for data wrangling</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(skimr) <span class="co"># skimr for quick exploration of the data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="why-tidy" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Why TIDY?</h1>
+<p>Well, from the hand of <a href="https://www.tidyverse.org/">Tidyverse</a>, the “tidy data” framework changed the way we code and work in R for data science. Tidy datasets are easy to manipulate, model and visualize, and have a specific structure <span class="citation" data-cites="wickham2014">(<a href="#ref-wickham2014" role="doc-biblioref">Wickham 2014</a>)</span>:</p>
+<ul>
+<li><p>Each variable is a column,</p></li>
+<li><p>Each observation is a row, and</p></li>
+<li><p>Each value have its own cell.</p></li>
+</ul>
+<p><img src="images/tidy-1.png" class="img-fluid"> <strong>Tidy-data structure</strong>. Following three rules makes a dataset tidy: variables are in columns, observations are in rows, and values are in cells. Source: <span class="citation" data-cites="Wickham2017R">(<a href="#ref-Wickham2017R" role="doc-biblioref">Wickham and Grolemund 2017</a>)</span>.</p>
+<p>Example of tidy data:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of tidy data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>tidy_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">subject =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">gender =</span> <span class="fu">c</span>(<span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"F"</span>),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">score =</span> <span class="fu">c</span>(<span class="dv">90</span>, <span class="dv">95</span>, <span class="dv">88</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>tidy_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  subject gender score
+1       1      M    90
+2       2      F    95
+3       3      F    88</code></pre>
+</div>
+</div>
+<section id="free-html-books" class="level3" data-number="2.0.1">
+<h3 data-number="2.0.1" class="anchored" data-anchor-id="free-html-books"><span class="header-section-number">2.0.1</span> Free HTML books</h3>
+<div>
+
+</div>
+<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><a href="https://r4ds.had.co.nz/"><img src="images/cover.png" class="img-fluid"></a></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><a href="https://www.tmwr.org/"><img src="images/cover-01.png" class="img-fluid"></a></p>
+</div>
+</div>
+</div>
+</section>
+<section id="what-is-a-data-frame" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="what-is-a-data-frame"><span class="header-section-number">2.1</span> What is a Data Frame?</h2>
+<p>A data frame is a two-dimensional table-like structure in R, where columns can contain different types of data (e.g., numeric, character). It is the default structure for datasets loaded from CSV files or data packages.</p>
+<section id="open-a-data-frame" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="open-a-data-frame"><span class="header-section-number">2.1.1</span> open a data frame</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the wheat dataset from agricolae (which is a data frame)</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>wheat_data <span class="ot">&lt;-</span> agridat<span class="sc">::</span>payne.wheat</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the structure of the data frame</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(wheat_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   480 obs. of  4 variables:
+ $ rotation: Factor w/ 6 levels "AB","AF","Lc3",..: 1 1 1 1 2 2 2 2 5 5 ...
+ $ nitro   : int  0 70 140 210 0 70 140 210 0 70 ...
+ $ year    : int  1981 1981 1981 1981 1981 1981 1981 1981 1981 1981 ...
+ $ yield   : num  3.84 6.59 7.49 7.39 3.06 6.32 7.61 7.78 5.82 7.52 ...</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="what-is-a-tibble" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="what-is-a-tibble"><span class="header-section-number">2.2</span> What is a Tibble?</h2>
+<p>A tibble is a modern version of a data frame, introduced by the tibble package. It offers several improvements:</p>
+<pre><code>•   Tibbles don’t convert characters to factors by default.
+•   Printing is more concise and doesn’t overwhelm you with too much data.
+•   Tibbles are more explicit with column types when printed.</code></pre>
+<section id="create-a-tibble" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="create-a-tibble"><span class="header-section-number">2.2.1</span> create a tibble</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the wheat data frame to a tibble</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>wheat_tibble <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(wheat_data)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the structure of the tibble</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>wheat_tibble</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 480 × 4
+   rotation nitro  year yield
+   &lt;fct&gt;    &lt;int&gt; &lt;int&gt; &lt;dbl&gt;
+ 1 AB           0  1981  3.84
+ 2 AB          70  1981  6.59
+ 3 AB         140  1981  7.49
+ 4 AB         210  1981  7.39
+ 5 AF           0  1981  3.06
+ 6 AF          70  1981  6.32
+ 7 AF         140  1981  7.61
+ 8 AF         210  1981  7.78
+ 9 Ln3          0  1981  5.82
+10 Ln3         70  1981  7.52
+# ℹ 470 more rows</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="iii.-key-differences-between-data-frames-and-tibbles" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="iii.-key-differences-between-data-frames-and-tibbles"><span class="header-section-number">2.3</span> iii. Key Differences between Data Frames and Tibbles</h2>
+<pre><code>1.  **Printing**:</code></pre>
+<p>• Data Frames print the entire dataset unless you limit the number of rows. No information about column types is displayed. • Tibbles print only the first 10 rows and automatically show column types.</p>
+<section id="example" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="example"><span class="header-section-number">2.3.1</span> Example:</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the entire data frame</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(wheat_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    rotation nitro year yield
+1         AB     0 1981  3.84
+2         AB    70 1981  6.59
+3         AB   140 1981  7.49
+4         AB   210 1981  7.39
+5         AF     0 1981  3.06
+6         AF    70 1981  6.32
+7         AF   140 1981  7.61
+8         AF   210 1981  7.78
+9        Ln3     0 1981  5.82
+10       Ln3    70 1981  7.52
+11       Ln3   140 1981  8.12
+12       Ln3   210 1981  7.40
+13       Ln8     0 1981  4.71
+14       Ln8    70 1981  6.52
+15       Ln8   140 1981  8.03
+16       Ln8   210 1981  7.83
+17       Lc3     0 1981  5.35
+18       Lc3    70 1981  6.70
+19       Lc3   140 1981  7.69
+20       Lc3   210 1981  7.53
+21       Lc8     0 1981  6.47
+22       Lc8    70 1981  7.84
+23       Lc8   140 1981  7.98
+24       Lc8   210 1981  7.68
+25        AB     0 1982  4.47
+26        AB    70 1982  6.38
+27        AB   140 1982  7.82
+28        AB   210 1982  8.13
+29        AF     0 1982  4.30
+30        AF    70 1982  6.82
+31        AF   140 1982  8.16
+32        AF   210 1982  8.52
+33       Ln3     0 1982  5.37
+34       Ln3    70 1982  7.91
+35       Ln3   140 1982  7.53
+36       Ln3   210 1982  8.46
+37       Ln8     0 1982  5.55
+38       Ln8    70 1982  8.04
+39       Ln8   140 1982  8.27
+40       Ln8   210 1982  7.31
+41       Lc3     0 1982  5.16
+42       Lc3    70 1982  7.81
+43       Lc3   140 1982  8.38
+44       Lc3   210 1982  7.40
+45       Lc8     0 1982  6.56
+46       Lc8    70 1982  8.36
+47       Lc8   140 1982  8.60
+48       Lc8   210 1982  8.41
+49        AB     0 1983  4.11
+50        AB    70 1983  6.28
+51        AB   140 1983  8.70
+52        AB   210 1983  8.17
+53        AF     0 1983  3.76
+54        AF    70 1983  6.79
+55        AF   140 1983  8.50
+56        AF   210 1983  9.43
+57       Ln3     0 1983  3.86
+58       Ln3    70 1983  7.05
+59       Ln3   140 1983  8.06
+60       Ln3   210 1983  8.28
+61       Ln8     0 1983  4.45
+62       Ln8    70 1983  7.23
+63       Ln8   140 1983  7.48
+64       Ln8   210 1983  6.93
+65       Lc3     0 1983  6.36
+66       Lc3    70 1983  9.67
+67       Lc3   140 1983  9.34
+68       Lc3   210 1983  8.40
+69       Lc8     0 1983  7.39
+70       Lc8    70 1983  9.64
+71       Lc8   140 1983  8.80
+72       Lc8   210 1983  8.66
+73        AB     0 1984  3.66
+74        AB    70 1984  6.56
+75        AB   140 1984  7.74
+76        AB   210 1984  9.41
+77        AF     0 1984  4.28
+78        AF    70 1984  8.94
+79        AF   140 1984  9.12
+80        AF   210 1984  9.35
+81       Ln3     0 1984  4.92
+82       Ln3    70 1984  7.66
+83       Ln3   140 1984  9.75
+84       Ln3   210 1984 10.35
+85       Ln8     0 1984  5.46
+86       Ln8    70 1984  8.68
+87       Ln8   140 1984  9.20
+88       Ln8   210 1984 10.33
+89       Lc3     0 1984  7.18
+90       Lc3    70 1984 11.06
+91       Lc3   140 1984 10.52
+92       Lc3   210 1984  9.88
+93       Lc8     0 1984  7.51
+94       Lc8    70 1984  9.66
+95       Lc8   140 1984 11.04
+96       Lc8   210 1984  9.36
+97        AB     0 1985  2.39
+98        AB    70 1985  5.90
+99        AB   140 1985  7.76
+100       AB   210 1985  8.62
+101       AF     0 1985  2.03
+102       AF    70 1985  5.46
+103       AF   140 1985  7.72
+104       AF   210 1985  9.20
+105      Ln3     0 1985  4.24
+106      Ln3    70 1985  7.26
+107      Ln3   140 1985  8.26
+108      Ln3   210 1985  9.69
+109      Ln8     0 1985  4.07
+110      Ln8    70 1985  6.98
+111      Ln8   140 1985  8.39
+112      Ln8   210 1985  8.55
+113      Lc3     0 1985  4.97
+114      Lc3    70 1985  7.64
+115      Lc3   140 1985  9.57
+116      Lc3   210 1985  8.84
+117      Lc8     0 1985  4.44
+118      Lc8    70 1985  8.08
+119      Lc8   140 1985  8.76
+120      Lc8   210 1985 10.19
+121       AB     0 1986  4.17
+122       AB    70 1986  6.91
+123       AB   140 1986  7.21
+124       AB   210 1986  8.53
+125       AF     0 1986  4.08
+126       AF    70 1986  5.08
+127       AF   140 1986  6.32
+128       AF   210 1986  7.88
+129      Ln3     0 1986  3.36
+130      Ln3    70 1986  5.65
+131      Ln3   140 1986  6.62
+132      Ln3   210 1986  6.05
+133      Ln8     0 1986  4.68
+134      Ln8    70 1986  6.55
+135      Ln8   140 1986  7.20
+136      Ln8   210 1986  6.84
+137      Lc3     0 1986  6.14
+138      Lc3    70 1986  7.15
+139      Lc3   140 1986  6.89
+140      Lc3   210 1986  6.20
+141      Lc8     0 1986  6.09
+142      Lc8    70 1986  7.31
+143      Lc8   140 1986  6.85
+144      Lc8   210 1986  6.75
+145       AB     0 1987  4.39
+146       AB    70 1987  6.18
+147       AB   140 1987  6.75
+148       AB   210 1987  7.84
+149       AF     0 1987  3.02
+150       AF    70 1987  5.56
+151       AF   140 1987  6.60
+152       AF   210 1987  6.43
+153      Ln3     0 1987  4.41
+154      Ln3    70 1987  6.55
+155      Ln3   140 1987  7.59
+156      Ln3   210 1987  7.13
+157      Ln8     0 1987  4.80
+158      Ln8    70 1987  6.74
+159      Ln8   140 1987  7.86
+160      Ln8   210 1987  7.00
+161      Lc3     0 1987  5.51
+162      Lc3    70 1987  7.24
+163      Lc3   140 1987  7.74
+164      Lc3   210 1987  7.61
+165      Lc8     0 1987  5.26
+166      Lc8    70 1987  7.48
+167      Lc8   140 1987  8.31
+168      Lc8   210 1987  8.13
+169       AB     0 1988  2.98
+170       AB    70 1988  6.28
+171       AB   140 1988  6.77
+172       AB   210 1988  6.20
+173       AF     0 1988  3.09
+174       AF    70 1988  6.60
+175       AF   140 1988  6.63
+176       AF   210 1988  6.61
+177      Ln3     0 1988  4.01
+178      Ln3    70 1988  6.77
+179      Ln3   140 1988  7.12
+180      Ln3   210 1988  6.14
+181      Ln8     0 1988  4.34
+182      Ln8    70 1988  6.73
+183      Ln8   140 1988  7.46
+184      Ln8   210 1988  7.23
+185      Lc3     0 1988  5.68
+186      Lc3    70 1988  7.39
+187      Lc3   140 1988  7.54
+188      Lc3   210 1988  7.51
+189      Lc8     0 1988  5.26
+190      Lc8    70 1988  7.87
+191      Lc8   140 1988  6.94
+192      Lc8   210 1988  7.06
+193       AB     0 1989  1.16
+194       AB    70 1989  3.94
+195       AB   140 1989  4.58
+196       AB   210 1989  4.74
+197       AF     0 1989  2.80
+198       AF    70 1989  4.92
+199       AF   140 1989  5.17
+200       AF   210 1989  5.82
+201      Ln3     0 1989  4.04
+202      Ln3    70 1989  5.94
+203      Ln3   140 1989  6.10
+204      Ln3   210 1989  6.04
+205      Ln8     0 1989  3.77
+206      Ln8    70 1989  5.58
+207      Ln8   140 1989  5.56
+208      Ln8   210 1989  4.91
+209      Lc3     0 1989  5.45
+210      Lc3    70 1989  6.28
+211      Lc3   140 1989  6.12
+212      Lc3   210 1989  5.81
+213      Lc8     0 1989  4.91
+214      Lc8    70 1989  6.69
+215      Lc8   140 1989  6.39
+216      Lc8   210 1989  5.06
+217       AB     0 1990  1.47
+218       AB    70 1990  4.94
+219       AB   140 1990  5.83
+220       AB   210 1990  6.33
+221       AF     0 1990  1.38
+222       AF    70 1990  5.72
+223       AF   140 1990  6.30
+224       AF   210 1990  5.18
+225      Ln3     0 1990  1.73
+226      Ln3    70 1990  4.94
+227      Ln3   140 1990  5.43
+228      Ln3   210 1990  6.17
+229      Ln8     0 1990  2.62
+230      Ln8    70 1990  5.79
+231      Ln8   140 1990  5.08
+232      Ln8   210 1990  5.25
+233      Lc3     0 1990  3.59
+234      Lc3    70 1990  6.06
+235      Lc3   140 1990  7.20
+236      Lc3   210 1990  6.42
+237      Lc8     0 1990  3.31
+238      Lc8    70 1990  6.51
+239      Lc8   140 1990  6.65
+240      Lc8   210 1990  6.99
+241       AB     0 1991  4.48
+242       AB    70 1991  8.56
+243       AB   140 1991  9.94
+244       AB   210 1991 10.23
+245       AF     0 1991  3.46
+246       AF    70 1991  8.00
+247       AF   140 1991  9.75
+248       AF   210 1991 10.57
+249      Ln3     0 1991  6.75
+250      Ln3    70 1991  8.85
+251      Ln3   140 1991  9.96
+252      Ln3   210 1991 10.41
+253      Ln8     0 1991  5.94
+254      Ln8    70 1991  8.83
+255      Ln8   140 1991  9.64
+256      Ln8   210 1991  9.75
+257      Lc3     0 1991  6.47
+258      Lc3    70 1991  9.37
+259      Lc3   140 1991 10.46
+260      Lc3   210 1991 10.48
+261      Lc8     0 1991  6.08
+262      Lc8    70 1991  8.81
+263      Lc8   140 1991  9.63
+264      Lc8   210 1991 10.10
+265       AB     0 1992  6.31
+266       AB    70 1992  7.84
+267       AB   140 1992  7.21
+268       AB   210 1992  6.81
+269       AF     0 1992  3.82
+270       AF    70 1992  8.05
+271       AF   140 1992  8.21
+272       AF   210 1992  7.59
+273      Ln3     0 1992  2.73
+274      Ln3    70 1992  6.47
+275      Ln3   140 1992  7.49
+276      Ln3   210 1992  7.26
+277      Ln8     0 1992  4.19
+278      Ln8    70 1992  7.17
+279      Ln8   140 1992  7.54
+280      Ln8   210 1992  6.67
+281      Lc3     0 1992  6.33
+282      Lc3    70 1992  7.48
+283      Lc3   140 1992  6.13
+284      Lc3   210 1992  4.79
+285      Lc8     0 1992  7.11
+286      Lc8    70 1992  6.65
+287      Lc8   140 1992  6.45
+288      Lc8   210 1992  6.14
+289       AB     0 1993  3.11
+290       AB    70 1993  5.92
+291       AB   140 1993  5.89
+292       AB   210 1993  6.63
+293       AF     0 1993  2.86
+294       AF    70 1993  5.79
+295       AF   140 1993  6.72
+296       AF   210 1993  7.37
+297      Ln3     0 1993  3.13
+298      Ln3    70 1993  5.40
+299      Ln3   140 1993  6.60
+300      Ln3   210 1993  6.52
+301      Ln8     0 1993  3.42
+302      Ln8    70 1993  5.16
+303      Ln8   140 1993  6.47
+304      Ln8   210 1993  6.55
+305      Lc3     0 1993  5.58
+306      Lc3    70 1993  7.01
+307      Lc3   140 1993  7.69
+308      Lc3   210 1993  7.91
+309      Lc8     0 1993  6.08
+310      Lc8    70 1993  7.03
+311      Lc8   140 1993  7.20
+312      Lc8   210 1993  7.69
+313       AB     0 1994  0.93
+314       AB    70 1994  3.94
+315       AB   140 1994  4.04
+316       AB   210 1994  3.51
+317       AF     0 1994  1.80
+318       AF    70 1994  5.32
+319       AF   140 1994  8.08
+320       AF   210 1994  8.55
+321      Ln3     0 1994  4.76
+322      Ln3    70 1994  6.16
+323      Ln3   140 1994  7.35
+324      Ln3   210 1994  7.14
+325      Ln8     0 1994  3.64
+326      Ln8    70 1994  5.14
+327      Ln8   140 1994  7.00
+328      Ln8   210 1994  7.16
+329      Lc3     0 1994  5.06
+330      Lc3    70 1994  6.00
+331      Lc3   140 1994  6.28
+332      Lc3   210 1994  7.50
+333      Lc8     0 1994  3.46
+334      Lc8    70 1994  6.48
+335      Lc8   140 1994  6.07
+336      Lc8   210 1994  7.53
+337       AB     0 1995  1.30
+338       AB    70 1995  4.21
+339       AB   140 1995  4.35
+340       AB   210 1995  4.35
+341       AF     0 1995  1.27
+342       AF    70 1995  3.82
+343       AF   140 1995  4.60
+344       AF   210 1995  4.96
+345      Ln3     0 1995  2.17
+346      Ln3    70 1995  5.01
+347      Ln3   140 1995  5.39
+348      Ln3   210 1995  5.79
+349      Ln8     0 1995  2.52
+350      Ln8    70 1995  5.71
+351      Ln8   140 1995  5.36
+352      Ln8   210 1995  6.53
+353      Lc3     0 1995  2.57
+354      Lc3    70 1995  5.70
+355      Lc3   140 1995  6.46
+356      Lc3   210 1995  5.78
+357      Lc8     0 1995  3.52
+358      Lc8    70 1995  6.60
+359      Lc8   140 1995  6.36
+360      Lc8   210 1995  6.14
+361       AB     0 1996  1.19
+362       AB    70 1996  7.24
+363       AB   140 1996  7.80
+364       AB   210 1996  8.43
+365       AF     0 1996  0.65
+366       AF    70 1996  6.60
+367       AF   140 1996  7.69
+368       AF   210 1996  7.79
+369      Ln3     0 1996  3.82
+370      Ln3    70 1996  7.19
+371      Ln3   140 1996  7.15
+372      Ln3   210 1996  8.41
+373      Ln8     0 1996  6.37
+374      Ln8    70 1996  8.23
+375      Ln8   140 1996  8.77
+376      Ln8   210 1996  8.46
+377      Lc3     0 1996  5.23
+378      Lc3    70 1996  7.76
+379      Lc3   140 1996  8.19
+380      Lc3   210 1996  8.67
+381      Lc8     0 1996  5.73
+382      Lc8    70 1996  7.97
+383      Lc8   140 1996  8.48
+384      Lc8   210 1996  8.28
+385       AB     0 1997  1.58
+386       AB    70 1997  5.73
+387       AB   140 1997  7.37
+388       AB   210 1997  7.88
+389       AF     0 1997  2.40
+390       AF    70 1997  6.52
+391       AF   140 1997  9.25
+392       AF   210 1997  9.24
+393      Ln3     0 1997  1.74
+394      Ln3    70 1997  3.83
+395      Ln3   140 1997  5.15
+396      Ln3   210 1997  5.02
+397      Ln8     0 1997  2.53
+398      Ln8    70 1997  6.20
+399      Ln8   140 1997  6.93
+400      Ln8   210 1997  7.25
+401      Lc3     0 1997  4.40
+402      Lc3    70 1997  7.70
+403      Lc3   140 1997  8.01
+404      Lc3   210 1997  8.30
+405      Lc8     0 1997  4.10
+406      Lc8    70 1997  6.78
+407      Lc8   140 1997  7.36
+408      Lc8   210 1997  7.43
+409       AB     0 1998  3.21
+410       AB    70 1998  6.70
+411       AB   140 1998  9.35
+412       AB   210 1998 10.26
+413       AF     0 1998  2.52
+414       AF    70 1998  6.35
+415       AF   140 1998  8.80
+416       AF   210 1998  9.72
+417      Ln3     0 1998  3.77
+418      Ln3    70 1998  7.13
+419      Ln3   140 1998  8.67
+420      Ln3   210 1998  9.62
+421      Ln8     0 1998  4.97
+422      Ln8    70 1998  7.77
+423      Ln8   140 1998  9.21
+424      Ln8   210 1998  9.24
+425      Lc3     0 1998  4.78
+426      Lc3    70 1998  7.48
+427      Lc3   140 1998  8.50
+428      Lc3   210 1998  8.75
+429      Lc8     0 1998  4.11
+430      Lc8    70 1998  7.55
+431      Lc8   140 1998  9.01
+432      Lc8   210 1998  8.98
+433       AB     0 1999  0.00
+434       AB    70 1999  1.97
+435       AB   140 1999  3.44
+436       AB   210 1999  2.28
+437       AF     0 1999  0.52
+438       AF    70 1999  6.55
+439       AF   140 1999  7.53
+440       AF   210 1999  8.48
+441      Ln3     0 1999  1.69
+442      Ln3    70 1999  6.58
+443      Ln3   140 1999  7.58
+444      Ln3   210 1999  7.83
+445      Ln8     0 1999  3.42
+446      Ln8    70 1999  6.59
+447      Ln8   140 1999  8.26
+448      Ln8   210 1999  6.51
+449      Lc3     0 1999  4.42
+450      Lc3    70 1999  7.27
+451      Lc3   140 1999  8.65
+452      Lc3   210 1999  9.54
+453      Lc8     0 1999  1.79
+454      Lc8    70 1999  4.65
+455      Lc8   140 1999  5.54
+456      Lc8   210 1999  4.95
+457       AB     0 2000  1.45
+458       AB    70 2000  4.54
+459       AB   140 2000  4.52
+460       AB   210 2000  5.53
+461       AF     0 2000  0.96
+462       AF    70 2000  4.87
+463       AF   140 2000  6.28
+464       AF   210 2000  7.39
+465      Ln3     0 2000  3.40
+466      Ln3    70 2000  7.06
+467      Ln3   140 2000  8.64
+468      Ln3   210 2000  8.71
+469      Ln8     0 2000  3.42
+470      Ln8    70 2000  6.58
+471      Ln8   140 2000  7.22
+472      Ln8   210 2000  7.49
+473      Lc3     0 2000  5.05
+474      Lc3    70 2000  8.24
+475      Lc3   140 2000  8.96
+476      Lc3   210 2000 10.33
+477      Lc8     0 2000  4.31
+478      Lc8    70 2000  7.47
+479      Lc8   140 2000  8.95
+480      Lc8   210 2000  9.65</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the tibble (shows only first 10 rows and column types)</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(wheat_tibble)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 480 × 4
+   rotation nitro  year yield
+   &lt;fct&gt;    &lt;int&gt; &lt;int&gt; &lt;dbl&gt;
+ 1 AB           0  1981  3.84
+ 2 AB          70  1981  6.59
+ 3 AB         140  1981  7.49
+ 4 AB         210  1981  7.39
+ 5 AF           0  1981  3.06
+ 6 AF          70  1981  6.32
+ 7 AF         140  1981  7.61
+ 8 AF         210  1981  7.78
+ 9 Ln3          0  1981  5.82
+10 Ln3         70  1981  7.52
+# ℹ 470 more rows</code></pre>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="a-package-for-data-manipulation" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> A package for data manipulation…🚀</h1>
+<p><img src="https://dplyr.tidyverse.org/logo.png" class="absolute" style="height:30.0%" data-top="0" data-right="0"></p>
+<p>The <code>dplyr</code> package in R provides powerful tools for transforming and analyzing data. In this tutorial, we’ll use an agricultural dataset to explore some common <code>dplyr</code> functions like <code>filter()</code>, <code>mutate()</code>, <code>summarize()</code>, and <code>group_by()</code>.</p>
+<section id="why-using-r-packages" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="why-using-r-packages"><span class="header-section-number">3.1</span> Why using R Packages? 💡</h2>
+<ul>
+<li><strong>Efficiency</strong>: Avoid rewriting code for common tasks.</li>
+<li><strong>Consistency</strong>: Standardized code structure and naming conventions.</li>
+<li><strong>Reproducibility</strong>: Ensures that your work is easier to share and reproduce.</li>
+<li><strong>Intuitive</strong>: R packages use functions with intuitive names of functions, so you can spend less time learning the code &amp; more time learning to solve practical problems.</li>
+</ul>
+</section>
+<section id="example-1-mutate" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="example-1-mutate"><span class="header-section-number">3.2</span> Example 1: mutate()</h2>
+<div class="column" style="width:65%;">
+<p>Packages like <code>dplyr</code> simplify tasks by providing clean, concise code for data manipulation.</p>
+</div>
+<div class="fragment">
+<div class="column" style="width:65%;">
+<p><strong>1. Create a new column</strong>: <code>total</code>, which is the sum of two existing columns (<code>var1</code> and <code>var2</code>).</p>
+</div>
+</div>
+<section id="base-r-version" class="level4" data-number="3.2.0.1">
+<h4 data-number="3.2.0.1" class="anchored" data-anchor-id="base-r-version"><span class="header-section-number">3.2.0.1</span> Base R version</h4>
+<div class="fragment">
+<div class="column" style="width:80%;">
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample data</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">var1 =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">var2 =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>))</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Adding a new column using base R</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>total <span class="ot">&lt;-</span> df<span class="sc">$</span>var1 <span class="sc">+</span> df<span class="sc">$</span>var2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<div class="fragment">
+<section id="dplyr-package-tidyverse" class="level4" data-number="3.2.0.2">
+<h4 data-number="3.2.0.2" class="anchored" data-anchor-id="dplyr-package-tidyverse"><span class="header-section-number">3.2.0.2</span> dplyr package (Tidyverse)</h4>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Using mutate to add a new column</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">total =</span> var1 <span class="sc">+</span> var2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</div>
+</section>
+<section id="example-2-filter" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="example-2-filter"><span class="header-section-number">3.3</span> Example 2: filter()</h2>
+<div class="fragment">
+<p><strong>2. Filtering</strong>: get values of <code>var1</code> greater than 2.</p>
+</div>
+<div class="fragment">
+<section id="base-r-version-1" class="level4" data-number="3.3.0.1">
+<h4 data-number="3.3.0.1" class="anchored" data-anchor-id="base-r-version-1"><span class="header-section-number">3.3.0.1</span> Base R version</h4>
+<div class="column" style="width:65%;">
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows using base R</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="ot">&lt;-</span> df[df<span class="sc">$</span>var1 <span class="sc">&gt;</span> <span class="dv">2</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</div>
+<div class="fragment">
+<section id="dplyr-package-tidyverse-1" class="level4" data-number="3.3.0.2">
+<h4 data-number="3.3.0.2" class="anchored" data-anchor-id="dplyr-package-tidyverse-1"><span class="header-section-number">3.3.0.2</span> dplyr package (Tidyverse)</h4>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows using dplyr</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="ot">&lt;-</span> <span class="fu">filter</span>(<span class="at">data =</span> df, var1 <span class="sc">&gt;</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</div>
+</section>
+<section id="example-3-select" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="example-3-select"><span class="header-section-number">3.4</span> Example 3: select()</h2>
+<div class="fragment">
+<p><strong>3. Select specific variables</strong>: get <code>var1</code> and <code>var3</code>.</p>
+</div>
+<p><br></p>
+<div class="fragment">
+<section id="base-r-version-2" class="level4" data-number="3.4.0.1">
+<h4 data-number="3.4.0.1" class="anchored" data-anchor-id="base-r-version-2"><span class="header-section-number">3.4.0.1</span> Base R version</h4>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select columns using base R</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>selected_df <span class="ot">&lt;-</span> df[ , <span class="fu">c</span>(<span class="st">"var1"</span>,<span class="st">"var3"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</div>
+<div class="fragment">
+<p><br></p>
+<section id="dplyr-package-tidyverse-2" class="level4" data-number="3.4.0.2">
+<h4 data-number="3.4.0.2" class="anchored" data-anchor-id="dplyr-package-tidyverse-2"><span class="header-section-number">3.4.0.2</span> dplyr package (Tidyverse)</h4>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows using dplyr</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="ot">&lt;-</span> <span class="fu">select</span>(<span class="at">data =</span> df, var1, var3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</div>
+</section>
+</section>
+<section id="corn-dataset" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Corn Dataset:</h1>
+<p>For this tutorial, we’ll use the <code>lasrosas.corn</code> dataset from the ‘agridat’ package, which contains information on corn varieties, yields, and topographical features. First, let’s load the required packages and inspect the dataset: ## Read data</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load dataset</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"lasrosas.corn"</span>) <span class="co"># This creates an object with the name of the dataset "lasrosas.corn"</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Store the data with another name</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>corn_data <span class="ot">&lt;-</span> lasrosas.corn</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="inspect-data" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="inspect-data"><span class="header-section-number">4.1</span> Inspect data</h2>
+<section id="glimpse" class="level3" data-number="4.1.1">
+<h3 data-number="4.1.1" class="anchored" data-anchor-id="glimpse"><span class="header-section-number">4.1.1</span> glimpse</h3>
+<p>The <code>glimpse()</code> function provides an overview of the dataset, including variable names and data types.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect the dataset</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(corn_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 3,443
+Columns: 9
+$ year  &lt;int&gt; 1999, 1999, 1999, 1999, 1999, 1999, 1999, 1999, 1999, 1999, 1999…
+$ lat   &lt;dbl&gt; -33.05113, -33.05115, -33.05116, -33.05117, -33.05118, -33.05120…
+$ long  &lt;dbl&gt; -63.84886, -63.84879, -63.84872, -63.84865, -63.84858, -63.84851…
+$ yield &lt;dbl&gt; 72.14, 73.79, 77.25, 76.35, 75.55, 70.24, 76.17, 69.17, 69.77, 6…
+$ nitro &lt;dbl&gt; 131.5, 131.5, 131.5, 131.5, 131.5, 131.5, 131.5, 131.5, 131.5, 1…
+$ topo  &lt;fct&gt; W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W, W…
+$ bv    &lt;dbl&gt; 162.60, 170.49, 168.39, 176.68, 171.46, 170.56, 172.94, 171.86, …
+$ rep   &lt;fct&gt; R1, R1, R1, R1, R1, R1, R1, R1, R1, R1, R1, R1, R1, R1, R1, R1, …
+$ nf    &lt;fct&gt; N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, N5, …</code></pre>
+</div>
+</div>
+</section>
+<section id="skim" class="level3" data-number="4.1.2">
+<h3 data-number="4.1.2" class="anchored" data-anchor-id="skim"><span class="header-section-number">4.1.2</span> skim</h3>
+<p>The <code>skim()</code> function from the ‘skimr’ allows to take a deeper look to all the variables (columns), creating a quick summary that reports the presence of missing values, etc., etc.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>skimr<span class="sc">::</span><span class="fu">skim</span>(corn_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Name</td>
+<td style="text-align: left;">corn_data</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Number of rows</td>
+<td style="text-align: left;">3443</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Number of columns</td>
+<td style="text-align: left;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">_______________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Column type frequency:</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">factor</td>
+<td style="text-align: left;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">________________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Group variables</td>
+<td style="text-align: left;">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: factor</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 11%">
+<col style="width: 15%">
+<col style="width: 8%">
+<col style="width: 10%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: left;">ordered</th>
+<th style="text-align: right;">n_unique</th>
+<th style="text-align: left;">top_counts</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">topo</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">W: 1043, LO: 885, HT: 785, E: 730</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">rep</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">R3: 1149, R1: 1147, R2: 1147</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nf</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">FALSE</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">N1: 577, N3: 575, N5: 575, N0: 573</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 10%">
+<col style="width: 14%">
+<col style="width: 8%">
+<col style="width: 6%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">p0</th>
+<th style="text-align: right;">p25</th>
+<th style="text-align: right;">p50</th>
+<th style="text-align: right;">p75</th>
+<th style="text-align: right;">p100</th>
+<th style="text-align: left;">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">year</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1999.99</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">1999.00</td>
+<td style="text-align: right;">1999.00</td>
+<td style="text-align: right;">1999.00</td>
+<td style="text-align: right;">2001.00</td>
+<td style="text-align: right;">2001.00</td>
+<td style="text-align: left;">▇▁▁▁▇</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lat</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-33.05</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">-33.05</td>
+<td style="text-align: right;">-33.05</td>
+<td style="text-align: right;">-33.05</td>
+<td style="text-align: right;">-33.05</td>
+<td style="text-align: right;">-33.05</td>
+<td style="text-align: left;">▃▇▆▃▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">long</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-63.85</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">-63.85</td>
+<td style="text-align: right;">-63.85</td>
+<td style="text-align: right;">-63.85</td>
+<td style="text-align: right;">-63.84</td>
+<td style="text-align: right;">-63.84</td>
+<td style="text-align: left;">▇▇▇▇▇</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">yield</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">69.83</td>
+<td style="text-align: right;">19.83</td>
+<td style="text-align: right;">12.66</td>
+<td style="text-align: right;">54.54</td>
+<td style="text-align: right;">66.63</td>
+<td style="text-align: right;">84.68</td>
+<td style="text-align: right;">117.90</td>
+<td style="text-align: left;">▁▅▇▃▃</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nitro</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">64.57</td>
+<td style="text-align: right;">42.60</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">29.00</td>
+<td style="text-align: right;">66.00</td>
+<td style="text-align: right;">106.00</td>
+<td style="text-align: right;">131.50</td>
+<td style="text-align: left;">▅▇▇▂▇</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">bv</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">174.42</td>
+<td style="text-align: right;">9.68</td>
+<td style="text-align: right;">91.74</td>
+<td style="text-align: right;">168.48</td>
+<td style="text-align: right;">173.08</td>
+<td style="text-align: right;">179.39</td>
+<td style="text-align: right;">213.82</td>
+<td style="text-align: left;">▁▁▁▇▁</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</section>
+<section id="adding-new-variables-with-mutate" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="adding-new-variables-with-mutate"><span class="header-section-number">4.2</span> Adding New Variables with <code>mutate()</code></h2>
+<p>You can add new columns to your dataset with <code>mutate()</code>. Let’s calculate the yield in tons per hectare (assuming the current yield is in kilograms):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a column for yield in tons</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>corn_data <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span> </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># New column, `yield_tons`, with the transformed yield values.</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">yield_tons =</span> yield <span class="sc">/</span> <span class="dv">1000</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(corn_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  year       lat      long yield nitro topo     bv rep nf yield_tons
+1 1999 -33.05113 -63.84886 72.14 131.5    W 162.60  R1 N5    0.07214
+2 1999 -33.05115 -63.84879 73.79 131.5    W 170.49  R1 N5    0.07379
+3 1999 -33.05116 -63.84872 77.25 131.5    W 168.39  R1 N5    0.07725
+4 1999 -33.05117 -63.84865 76.35 131.5    W 176.68  R1 N5    0.07635
+5 1999 -33.05118 -63.84858 75.55 131.5    W 171.46  R1 N5    0.07555
+6 1999 -33.05120 -63.84851 70.24 131.5    W 170.56  R1 N5    0.07024</code></pre>
+</div>
+</div>
+</section>
+<section id="filtering-data" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="filtering-data"><span class="header-section-number">4.3</span> Filtering Data</h2>
+<p>To focus on specific data, we can use <code>filter()</code>. For example, let’s filter the data to include only rows where the nitrogen applied (<code>nitro</code>) is greater than 100:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows with nitro &gt; 100</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>high_nitro <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># only rows where the `nitro` column has values greater than 100.</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(nitro <span class="sc">&gt;</span> <span class="dv">100</span>)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(high_nitro)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  year       lat      long yield nitro topo     bv rep nf yield_tons
+1 1999 -33.05113 -63.84886 72.14 131.5    W 162.60  R1 N5    0.07214
+2 1999 -33.05115 -63.84879 73.79 131.5    W 170.49  R1 N5    0.07379
+3 1999 -33.05116 -63.84872 77.25 131.5    W 168.39  R1 N5    0.07725
+4 1999 -33.05117 -63.84865 76.35 131.5    W 176.68  R1 N5    0.07635
+5 1999 -33.05118 -63.84858 75.55 131.5    W 171.46  R1 N5    0.07555
+6 1999 -33.05120 -63.84851 70.24 131.5    W 170.56  R1 N5    0.07024</code></pre>
+</div>
+</div>
+</section>
+<section id="selecting-columns" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="selecting-columns"><span class="header-section-number">4.4</span> Selecting columns</h2>
+<p>To select specific variables, we use <code>select()</code>, which selects specific columns from the dataset.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select specific columns</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>selected_data <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span> <span class="fu">select</span>(yield, nitro, topo)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(selected_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  yield nitro topo
+1 72.14 131.5    W
+2 73.79 131.5    W
+3 77.25 131.5    W
+4 76.35 131.5    W
+5 75.55 131.5    W
+6 70.24 131.5    W</code></pre>
+</div>
+</div>
+</section>
+<section id="renaming-columns" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="renaming-columns"><span class="header-section-number">4.5</span> Renaming columns</h2>
+<p>When we need to change names of columns, we can use <code>rename()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename a column</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>renamed_data <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="at">Nitrogen =</span> nitro)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(renamed_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  year       lat      long yield Nitrogen topo     bv rep nf yield_tons
+1 1999 -33.05113 -63.84886 72.14    131.5    W 162.60  R1 N5    0.07214
+2 1999 -33.05115 -63.84879 73.79    131.5    W 170.49  R1 N5    0.07379
+3 1999 -33.05116 -63.84872 77.25    131.5    W 168.39  R1 N5    0.07725
+4 1999 -33.05117 -63.84865 76.35    131.5    W 176.68  R1 N5    0.07635
+5 1999 -33.05118 -63.84858 75.55    131.5    W 171.46  R1 N5    0.07555
+6 1999 -33.05120 -63.84851 70.24    131.5    W 170.56  R1 N5    0.07024</code></pre>
+</div>
+</div>
+</section>
+<section id="arranging-data" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="arranging-data"><span class="header-section-number">4.6</span> Arranging data</h2>
+<p>To reorder the data based on specific criteria, we can use <code>arrange()</code>, which will arrange rows by a variable in ascending or descending order.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Arrange data by yield in descending order</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>arranged_data <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(yield))</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(arranged_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  year       lat      long  yield nitro topo     bv rep nf yield_tons
+1 2001 -33.05086 -63.84317 117.90  99.8   LO 162.17  R3 N4    0.11790
+2 2001 -33.05125 -63.84245 117.19 124.6   LO 165.81  R3 N5    0.11719
+3 2001 -33.05181 -63.84323 116.64 124.6   LO 159.75  R1 N5    0.11664
+4 2001 -33.05084 -63.84324 114.94  99.8   LO 166.27  R3 N4    0.11494
+5 2001 -33.05134 -63.84299 114.46  99.8   LO 164.58  R2 N4    0.11446
+6 2001 -33.05127 -63.84238 114.08 124.6   LO 170.94  R3 N5    0.11408</code></pre>
+</div>
+</div>
+</section>
+<section id="finding-unique-values" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="finding-unique-values"><span class="header-section-number">4.7</span> Finding unique values</h2>
+<p>To find out what are the unique values of a variable, we can use <code>distinct()</code>, which will return the unique values within a column.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Unique values in topo</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>unique_topo <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span> <span class="fu">distinct</span>(topo)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>unique_topo</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  topo
+1    W
+2   HT
+3    E
+4   LO</code></pre>
+</div>
+</div>
+</section>
+<section id="counting" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="counting"><span class="header-section-number">4.8</span> Counting</h2>
+<p>The function <code>count()</code> counts the number of observations within a group.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count observations by topo</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>topo_count <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span> <span class="fu">count</span>(topo)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>topo_count</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  topo    n
+1    E  730
+2   HT  785
+3   LO  885
+4    W 1043</code></pre>
+</div>
+</div>
+</section>
+<section id="summarizing-data" class="level2" data-number="4.9">
+<h2 data-number="4.9" class="anchored" data-anchor-id="summarizing-data"><span class="header-section-number">4.9</span> Summarizing Data</h2>
+<p>To get a quick overview of your data, you can use <code>summarize()</code> in combination with <code>group_by()</code>. For example, let’s calculate the average yield for each topographical category (<code>topo</code>):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Average yield by topography</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>average_yield_topo <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(topo) <span class="sc">%&gt;%</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_yield =</span> <span class="fu">mean</span>(yield, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>average_yield_topo</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 2
+  topo  avg_yield
+  &lt;fct&gt;     &lt;dbl&gt;
+1 E          78.7
+2 HT         48.6
+3 LO         84.9
+4 W          66.8</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Average yield by year and topography</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>average_yield_topoyear <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year, topo) <span class="sc">%&gt;%</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_yield =</span> <span class="fu">mean</span>(yield, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'year'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>average_yield_topoyear</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 3
+# Groups:   year [2]
+   year topo  avg_yield
+  &lt;int&gt; &lt;fct&gt;     &lt;dbl&gt;
+1  1999 E          64.8
+2  1999 HT         53.4
+3  1999 LO         71.2
+4  1999 W          66.0
+5  2001 E          92.7
+6  2001 HT         44.7
+7  2001 LO         99.9
+8  2001 W          67.7</code></pre>
+</div>
+</div>
+<p>This groups the data by <code>topo</code> and calculates the mean yield for each group.</p>
+</section>
+</section>
+<section id="hands-on-exercise" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Hands-On Exercise</h1>
+<p>Try the following tasks using the <code>lasrosas.corn</code> dataset:</p>
+<ol type="1">
+<li>Filter the data to include only rows where the yield is greater than 6000.</li>
+<li>Add a new column that calculates yield per kilogram of nitrogen applied.</li>
+<li>Summarize the data to find the total yield for each <code>topo</code> category.</li>
+<li>Arrange the data by <code>nitro</code> in ascending order.</li>
+<li>Use <code>select()</code> to create a dataset with only the <code>yield</code>, <code>topo</code>, and <code>nitro</code> columns.</li>
+</ol>
+<p>Submit your code and results to the class discussion forum. Happy coding!</p>
+</section>
+<section id="conclusion" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Conclusion</h1>
+<p>The <code>dplyr</code> package simplifies data transformation and analysis tasks, making it easier to work with agricultural datasets like the one in this tutorial. Use these functions and try the hands-on exercise to deepen your understanding.</p>
+<p>Happy coding!</p>
+
+
+<!-- -->
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-wickham2014" class="csl-entry" role="listitem">
+Wickham, Hadley. 2014. <span>“Tidy Data.”</span> <em>Journal of Statistical Software</em> 59 (10). <a href="https://doi.org/10.18637/jss.v059.i10">https://doi.org/10.18637/jss.v059.i10</a>.
+</div>
+<div id="ref-Wickham2017R" class="csl-entry" role="listitem">
+Wickham, Hadley, and Garrett Grolemund. 2017. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. 1st ed. Paperback; O’Reilly Media. <a href="http://r4ds.had.co.nz/">http://r4ds.had.co.nz/</a>.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/adriancorrendo\.github\.io\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../coding/week_02/03_versioncontrol.html" class="pagination-link" aria-label="03-Git &amp; GitHub">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">03-Git &amp; GitHub</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../coding/week_03/05_datawrangling_02.html" class="pagination-link" aria-label="05-Data Wrangling II">
+        <span class="nav-page-text">05-Data Wrangling II</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb44" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Transforming Ag data with dplyr"</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Dr. Adrian Correndo"</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2026-01-21"</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> [dplyr, data wrangling, mutate, filter, select, arrange]</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-location: left</span></span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 4</span></span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a><span class="co">    table-class: "table table-striped table-hover"</span></span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a><span class="an">editor:</span><span class="co"> source</span></span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a><span class="an">smooth-scroll:</span><span class="co"> true</span></span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> ../../references.bib</span></span>
+<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a><span class="an">link-citations:</span><span class="co"> TRUE</span></span>
+<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a><span class="fu"># Description</span></span>
+<span id="cb44-21"><a href="#cb44-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-22"><a href="#cb44-22" aria-hidden="true" tabindex="-1"></a>This lesson introduces the concept of tidy data, and a few basic data wrangling techniques using <span class="in">`dplyr`</span> package. Today, we are using <span class="in">`dplyr`</span> and datasets from the <span class="in">`agridat`</span> package. If you don't have them installed, you can do so by running:</span>
+<span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-24"><a href="#cb44-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## Required packages for today</span></span>
+<span id="cb44-25"><a href="#cb44-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-26"><a href="#cb44-26" aria-hidden="true" tabindex="-1"></a><span class="in">```{r eval=FALSE}</span></span>
+<span id="cb44-27"><a href="#cb44-27" aria-hidden="true" tabindex="-1"></a><span class="in">library(pacman)</span></span>
+<span id="cb44-28"><a href="#cb44-28" aria-hidden="true" tabindex="-1"></a><span class="in">p_load(agridat) # Agridat datasets</span></span>
+<span id="cb44-29"><a href="#cb44-29" aria-hidden="true" tabindex="-1"></a><span class="in">p_load(dplyr) # dplyr for data wrangling</span></span>
+<span id="cb44-30"><a href="#cb44-30" aria-hidden="true" tabindex="-1"></a><span class="in">p_load(skimr) # skimr for quick exploration of the data</span></span>
+<span id="cb44-31"><a href="#cb44-31" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-32"><a href="#cb44-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-33"><a href="#cb44-33" aria-hidden="true" tabindex="-1"></a><span class="in">```{r eval=TRUE, include=FALSE}</span></span>
+<span id="cb44-34"><a href="#cb44-34" aria-hidden="true" tabindex="-1"></a><span class="in">library(pacman)</span></span>
+<span id="cb44-35"><a href="#cb44-35" aria-hidden="true" tabindex="-1"></a><span class="in">p_load(agridat) # Agridat datasets</span></span>
+<span id="cb44-36"><a href="#cb44-36" aria-hidden="true" tabindex="-1"></a><span class="in">p_load(dplyr) # dplyr for data wrangling</span></span>
+<span id="cb44-37"><a href="#cb44-37" aria-hidden="true" tabindex="-1"></a><span class="in">p_load(skimr) # skimr for quick exploration of the data</span></span>
+<span id="cb44-38"><a href="#cb44-38" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-39"><a href="#cb44-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-40"><a href="#cb44-40" aria-hidden="true" tabindex="-1"></a><span class="fu"># Why TIDY?</span></span>
+<span id="cb44-41"><a href="#cb44-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-42"><a href="#cb44-42" aria-hidden="true" tabindex="-1"></a>Well, from the hand of <span class="co">[</span><span class="ot">Tidyverse</span><span class="co">](https://www.tidyverse.org/)</span>, the "tidy data" framework changed the way we code and work in R for data science. Tidy datasets are easy to manipulate, model and visualize, and have a specific structure <span class="co">[</span><span class="ot">@wickham2014</span><span class="co">]</span>:</span>
+<span id="cb44-43"><a href="#cb44-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-44"><a href="#cb44-44" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Each variable is a column,</span>
+<span id="cb44-45"><a href="#cb44-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-46"><a href="#cb44-46" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Each observation is a row, and</span>
+<span id="cb44-47"><a href="#cb44-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-48"><a href="#cb44-48" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Each value have its own cell.</span>
+<span id="cb44-49"><a href="#cb44-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-50"><a href="#cb44-50" aria-hidden="true" tabindex="-1"></a><span class="al">![](images/tidy-1.png)</span> **Tidy-data structure**. Following three rules makes a dataset tidy: variables are in columns, observations are in rows, and values are in cells. Source: <span class="co">[</span><span class="ot">@Wickham2017R</span><span class="co">]</span>.</span>
+<span id="cb44-51"><a href="#cb44-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-52"><a href="#cb44-52" aria-hidden="true" tabindex="-1"></a>Example of tidy data:</span>
+<span id="cb44-53"><a href="#cb44-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-56"><a href="#cb44-56" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-57"><a href="#cb44-57" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of tidy data</span></span>
+<span id="cb44-58"><a href="#cb44-58" aria-hidden="true" tabindex="-1"></a>tidy_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb44-59"><a href="#cb44-59" aria-hidden="true" tabindex="-1"></a>  <span class="at">subject =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>),</span>
+<span id="cb44-60"><a href="#cb44-60" aria-hidden="true" tabindex="-1"></a>  <span class="at">gender =</span> <span class="fu">c</span>(<span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"F"</span>),</span>
+<span id="cb44-61"><a href="#cb44-61" aria-hidden="true" tabindex="-1"></a>  <span class="at">score =</span> <span class="fu">c</span>(<span class="dv">90</span>, <span class="dv">95</span>, <span class="dv">88</span>)</span>
+<span id="cb44-62"><a href="#cb44-62" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb44-63"><a href="#cb44-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-64"><a href="#cb44-64" aria-hidden="true" tabindex="-1"></a>tidy_data</span>
+<span id="cb44-65"><a href="#cb44-65" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-66"><a href="#cb44-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-67"><a href="#cb44-67" aria-hidden="true" tabindex="-1"></a><span class="fu">### Free HTML books</span></span>
+<span id="cb44-68"><a href="#cb44-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-69"><a href="#cb44-69" aria-hidden="true" tabindex="-1"></a>::: {layout-ncol="2"}</span>
+<span id="cb44-70"><a href="#cb44-70" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![](images/cover.png)</span><span class="ot">{height="300"}</span><span class="co">](https://r4ds.had.co.nz/)</span></span>
+<span id="cb44-71"><a href="#cb44-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-72"><a href="#cb44-72" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="al">![](images/cover-01.png)</span><span class="ot">{height="300"}</span><span class="co">](https://www.tmwr.org/)</span></span>
+<span id="cb44-73"><a href="#cb44-73" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-74"><a href="#cb44-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-75"><a href="#cb44-75" aria-hidden="true" tabindex="-1"></a><span class="fu">## What is a Data Frame?</span></span>
+<span id="cb44-76"><a href="#cb44-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-77"><a href="#cb44-77" aria-hidden="true" tabindex="-1"></a>A data frame is a two-dimensional table-like structure in R, where columns can contain different types of data (e.g., numeric, character). It is the default structure for datasets loaded from CSV files or data packages.</span>
+<span id="cb44-78"><a href="#cb44-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-79"><a href="#cb44-79" aria-hidden="true" tabindex="-1"></a><span class="fu">### open a data frame</span></span>
+<span id="cb44-80"><a href="#cb44-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-83"><a href="#cb44-83" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-84"><a href="#cb44-84" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the wheat dataset from agricolae (which is a data frame)</span></span>
+<span id="cb44-85"><a href="#cb44-85" aria-hidden="true" tabindex="-1"></a>wheat_data <span class="ot">&lt;-</span> agridat<span class="sc">::</span>payne.wheat</span>
+<span id="cb44-86"><a href="#cb44-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-87"><a href="#cb44-87" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the structure of the data frame</span></span>
+<span id="cb44-88"><a href="#cb44-88" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(wheat_data)</span>
+<span id="cb44-89"><a href="#cb44-89" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-90"><a href="#cb44-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-91"><a href="#cb44-91" aria-hidden="true" tabindex="-1"></a><span class="fu">## What is a Tibble?</span></span>
+<span id="cb44-92"><a href="#cb44-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-93"><a href="#cb44-93" aria-hidden="true" tabindex="-1"></a>A tibble is a modern version of a data frame, introduced by the tibble package. It offers several improvements:</span>
+<span id="cb44-94"><a href="#cb44-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-95"><a href="#cb44-95" aria-hidden="true" tabindex="-1"></a><span class="in">```         </span></span>
+<span id="cb44-96"><a href="#cb44-96" aria-hidden="true" tabindex="-1"></a><span class="in">•   Tibbles don’t convert characters to factors by default.</span></span>
+<span id="cb44-97"><a href="#cb44-97" aria-hidden="true" tabindex="-1"></a><span class="in">•   Printing is more concise and doesn’t overwhelm you with too much data.</span></span>
+<span id="cb44-98"><a href="#cb44-98" aria-hidden="true" tabindex="-1"></a><span class="in">•   Tibbles are more explicit with column types when printed.</span></span>
+<span id="cb44-99"><a href="#cb44-99" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-100"><a href="#cb44-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-101"><a href="#cb44-101" aria-hidden="true" tabindex="-1"></a><span class="fu">### create a tibble</span></span>
+<span id="cb44-102"><a href="#cb44-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-105"><a href="#cb44-105" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-106"><a href="#cb44-106" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the wheat data frame to a tibble</span></span>
+<span id="cb44-107"><a href="#cb44-107" aria-hidden="true" tabindex="-1"></a>wheat_tibble <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(wheat_data)</span>
+<span id="cb44-108"><a href="#cb44-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-109"><a href="#cb44-109" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the structure of the tibble</span></span>
+<span id="cb44-110"><a href="#cb44-110" aria-hidden="true" tabindex="-1"></a>wheat_tibble</span>
+<span id="cb44-111"><a href="#cb44-111" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-112"><a href="#cb44-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-113"><a href="#cb44-113" aria-hidden="true" tabindex="-1"></a><span class="fu">## iii. Key Differences between Data Frames and Tibbles</span></span>
+<span id="cb44-114"><a href="#cb44-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-115"><a href="#cb44-115" aria-hidden="true" tabindex="-1"></a><span class="in">```         </span></span>
+<span id="cb44-116"><a href="#cb44-116" aria-hidden="true" tabindex="-1"></a><span class="in">1.  **Printing**:</span></span>
+<span id="cb44-117"><a href="#cb44-117" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-118"><a href="#cb44-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-119"><a href="#cb44-119" aria-hidden="true" tabindex="-1"></a>• Data Frames print the entire dataset unless you limit the number of rows. No information about column types is displayed. • Tibbles print only the first 10 rows and automatically show column types.</span>
+<span id="cb44-120"><a href="#cb44-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-121"><a href="#cb44-121" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example:</span></span>
+<span id="cb44-122"><a href="#cb44-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-125"><a href="#cb44-125" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-126"><a href="#cb44-126" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the entire data frame</span></span>
+<span id="cb44-127"><a href="#cb44-127" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(wheat_data)</span>
+<span id="cb44-128"><a href="#cb44-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-129"><a href="#cb44-129" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the tibble (shows only first 10 rows and column types)</span></span>
+<span id="cb44-130"><a href="#cb44-130" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(wheat_tibble)</span>
+<span id="cb44-131"><a href="#cb44-131" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-132"><a href="#cb44-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-133"><a href="#cb44-133" aria-hidden="true" tabindex="-1"></a><span class="fu"># A package for data manipulation...🚀</span></span>
+<span id="cb44-134"><a href="#cb44-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-135"><a href="#cb44-135" aria-hidden="true" tabindex="-1"></a><span class="al">![](https://dplyr.tidyverse.org/logo.png)</span>{.absolute top="0" right="0" height="30%"}</span>
+<span id="cb44-136"><a href="#cb44-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-137"><a href="#cb44-137" aria-hidden="true" tabindex="-1"></a>The <span class="in">`dplyr`</span> package in R provides powerful tools for transforming and analyzing data. In this tutorial, we'll use an agricultural dataset to explore some common <span class="in">`dplyr`</span> functions like <span class="in">`filter()`</span>, <span class="in">`mutate()`</span>, <span class="in">`summarize()`</span>, and <span class="in">`group_by()`</span>.</span>
+<span id="cb44-138"><a href="#cb44-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-139"><a href="#cb44-139" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why using R Packages? 💡</span></span>
+<span id="cb44-140"><a href="#cb44-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-141"><a href="#cb44-141" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Efficiency**: Avoid rewriting code for common tasks.</span>
+<span id="cb44-142"><a href="#cb44-142" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Consistency**: Standardized code structure and naming conventions.</span>
+<span id="cb44-143"><a href="#cb44-143" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Reproducibility**: Ensures that your work is easier to share and reproduce.</span>
+<span id="cb44-144"><a href="#cb44-144" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Intuitive**: R packages use functions with intuitive names of functions, so you can spend less time learning the code &amp; more time learning to solve practical problems.</span>
+<span id="cb44-145"><a href="#cb44-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-146"><a href="#cb44-146" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 1: mutate()</span></span>
+<span id="cb44-147"><a href="#cb44-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-148"><a href="#cb44-148" aria-hidden="true" tabindex="-1"></a>::: {.column width="65%"}</span>
+<span id="cb44-149"><a href="#cb44-149" aria-hidden="true" tabindex="-1"></a>Packages like <span class="in">`dplyr`</span> simplify tasks by providing clean, concise code for data manipulation.</span>
+<span id="cb44-150"><a href="#cb44-150" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-151"><a href="#cb44-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-152"><a href="#cb44-152" aria-hidden="true" tabindex="-1"></a>:::: fragment</span>
+<span id="cb44-153"><a href="#cb44-153" aria-hidden="true" tabindex="-1"></a>::: {.column width="65%"}</span>
+<span id="cb44-154"><a href="#cb44-154" aria-hidden="true" tabindex="-1"></a>**1. Create a new column**: <span class="in">`total`</span>, which is the sum of two existing columns (<span class="in">`var1`</span> and <span class="in">`var2`</span>).</span>
+<span id="cb44-155"><a href="#cb44-155" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-156"><a href="#cb44-156" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb44-157"><a href="#cb44-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-158"><a href="#cb44-158" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Base R version</span></span>
+<span id="cb44-159"><a href="#cb44-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-160"><a href="#cb44-160" aria-hidden="true" tabindex="-1"></a>:::: fragment</span>
+<span id="cb44-161"><a href="#cb44-161" aria-hidden="true" tabindex="-1"></a>::: {.column width="80%"}</span>
+<span id="cb44-162"><a href="#cb44-162" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb44-163"><a href="#cb44-163" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample data</span></span>
+<span id="cb44-164"><a href="#cb44-164" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">var1 =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">var2 =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>))</span>
+<span id="cb44-165"><a href="#cb44-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-166"><a href="#cb44-166" aria-hidden="true" tabindex="-1"></a><span class="co"># Adding a new column using base R</span></span>
+<span id="cb44-167"><a href="#cb44-167" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>total <span class="ot">&lt;-</span> df<span class="sc">$</span>var1 <span class="sc">+</span> df<span class="sc">$</span>var2</span>
+<span id="cb44-168"><a href="#cb44-168" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-169"><a href="#cb44-169" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-170"><a href="#cb44-170" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb44-171"><a href="#cb44-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-172"><a href="#cb44-172" aria-hidden="true" tabindex="-1"></a>::: fragment</span>
+<span id="cb44-173"><a href="#cb44-173" aria-hidden="true" tabindex="-1"></a><span class="fu">#### dplyr package (Tidyverse)</span></span>
+<span id="cb44-174"><a href="#cb44-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-175"><a href="#cb44-175" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb44-176"><a href="#cb44-176" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb44-177"><a href="#cb44-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-178"><a href="#cb44-178" aria-hidden="true" tabindex="-1"></a><span class="co"># Using mutate to add a new column</span></span>
+<span id="cb44-179"><a href="#cb44-179" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb44-180"><a href="#cb44-180" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">total =</span> var1 <span class="sc">+</span> var2)</span>
+<span id="cb44-181"><a href="#cb44-181" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-182"><a href="#cb44-182" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-183"><a href="#cb44-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-184"><a href="#cb44-184" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 2: filter()</span></span>
+<span id="cb44-185"><a href="#cb44-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-186"><a href="#cb44-186" aria-hidden="true" tabindex="-1"></a>::: fragment</span>
+<span id="cb44-187"><a href="#cb44-187" aria-hidden="true" tabindex="-1"></a>**2. Filtering**: get values of <span class="in">`var1`</span> greater than 2.</span>
+<span id="cb44-188"><a href="#cb44-188" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-189"><a href="#cb44-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-190"><a href="#cb44-190" aria-hidden="true" tabindex="-1"></a>:::: fragment</span>
+<span id="cb44-191"><a href="#cb44-191" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Base R version</span></span>
+<span id="cb44-192"><a href="#cb44-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-193"><a href="#cb44-193" aria-hidden="true" tabindex="-1"></a>::: {.column width="65%"}</span>
+<span id="cb44-194"><a href="#cb44-194" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb44-195"><a href="#cb44-195" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows using base R</span></span>
+<span id="cb44-196"><a href="#cb44-196" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="ot">&lt;-</span> df[df<span class="sc">$</span>var1 <span class="sc">&gt;</span> <span class="dv">2</span>, ]</span>
+<span id="cb44-197"><a href="#cb44-197" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-198"><a href="#cb44-198" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-199"><a href="#cb44-199" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb44-200"><a href="#cb44-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-201"><a href="#cb44-201" aria-hidden="true" tabindex="-1"></a>::: fragment</span>
+<span id="cb44-202"><a href="#cb44-202" aria-hidden="true" tabindex="-1"></a><span class="fu">#### dplyr package (Tidyverse)</span></span>
+<span id="cb44-203"><a href="#cb44-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-204"><a href="#cb44-204" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb44-205"><a href="#cb44-205" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows using dplyr</span></span>
+<span id="cb44-206"><a href="#cb44-206" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="ot">&lt;-</span> <span class="fu">filter</span>(<span class="at">data =</span> df, var1 <span class="sc">&gt;</span> <span class="dv">2</span>)</span>
+<span id="cb44-207"><a href="#cb44-207" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-208"><a href="#cb44-208" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-209"><a href="#cb44-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-210"><a href="#cb44-210" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 3: select()</span></span>
+<span id="cb44-211"><a href="#cb44-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-212"><a href="#cb44-212" aria-hidden="true" tabindex="-1"></a>::: fragment</span>
+<span id="cb44-213"><a href="#cb44-213" aria-hidden="true" tabindex="-1"></a>**3. Select specific variables**: get <span class="in">`var1`</span> and <span class="in">`var3`</span>.</span>
+<span id="cb44-214"><a href="#cb44-214" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-215"><a href="#cb44-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-216"><a href="#cb44-216" aria-hidden="true" tabindex="-1"></a>&lt;br/&gt;</span>
+<span id="cb44-217"><a href="#cb44-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-218"><a href="#cb44-218" aria-hidden="true" tabindex="-1"></a>::: fragment</span>
+<span id="cb44-219"><a href="#cb44-219" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Base R version</span></span>
+<span id="cb44-220"><a href="#cb44-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-221"><a href="#cb44-221" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb44-222"><a href="#cb44-222" aria-hidden="true" tabindex="-1"></a><span class="co"># Select columns using base R</span></span>
+<span id="cb44-223"><a href="#cb44-223" aria-hidden="true" tabindex="-1"></a>selected_df <span class="ot">&lt;-</span> df[ , <span class="fu">c</span>(<span class="st">"var1"</span>,<span class="st">"var3"</span>)]</span>
+<span id="cb44-224"><a href="#cb44-224" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-225"><a href="#cb44-225" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-226"><a href="#cb44-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-227"><a href="#cb44-227" aria-hidden="true" tabindex="-1"></a>::: fragment</span>
+<span id="cb44-228"><a href="#cb44-228" aria-hidden="true" tabindex="-1"></a>&lt;br/&gt;</span>
+<span id="cb44-229"><a href="#cb44-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-230"><a href="#cb44-230" aria-hidden="true" tabindex="-1"></a><span class="fu">#### dplyr package (Tidyverse)</span></span>
+<span id="cb44-231"><a href="#cb44-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-232"><a href="#cb44-232" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
+<span id="cb44-233"><a href="#cb44-233" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows using dplyr</span></span>
+<span id="cb44-234"><a href="#cb44-234" aria-hidden="true" tabindex="-1"></a>filtered_df <span class="ot">&lt;-</span> <span class="fu">select</span>(<span class="at">data =</span> df, var1, var3)</span>
+<span id="cb44-235"><a href="#cb44-235" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-236"><a href="#cb44-236" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb44-237"><a href="#cb44-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-238"><a href="#cb44-238" aria-hidden="true" tabindex="-1"></a><span class="fu"># Corn Dataset:</span></span>
+<span id="cb44-239"><a href="#cb44-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-240"><a href="#cb44-240" aria-hidden="true" tabindex="-1"></a>For this tutorial, we'll use the <span class="in">`lasrosas.corn`</span> dataset from the 'agridat' package, which contains information on corn varieties, yields, and topographical features. First, let's load the required packages and inspect the dataset: <span class="sc">\#</span># Read data</span>
+<span id="cb44-241"><a href="#cb44-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-244"><a href="#cb44-244" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-245"><a href="#cb44-245" aria-hidden="true" tabindex="-1"></a><span class="co"># Load dataset</span></span>
+<span id="cb44-246"><a href="#cb44-246" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"lasrosas.corn"</span>) <span class="co"># This creates an object with the name of the dataset "lasrosas.corn"</span></span>
+<span id="cb44-247"><a href="#cb44-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-248"><a href="#cb44-248" aria-hidden="true" tabindex="-1"></a><span class="co"># Store the data with another name</span></span>
+<span id="cb44-249"><a href="#cb44-249" aria-hidden="true" tabindex="-1"></a>corn_data <span class="ot">&lt;-</span> lasrosas.corn</span>
+<span id="cb44-250"><a href="#cb44-250" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-251"><a href="#cb44-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-252"><a href="#cb44-252" aria-hidden="true" tabindex="-1"></a><span class="fu">## Inspect data</span></span>
+<span id="cb44-253"><a href="#cb44-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-254"><a href="#cb44-254" aria-hidden="true" tabindex="-1"></a><span class="fu">### glimpse</span></span>
+<span id="cb44-255"><a href="#cb44-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-256"><a href="#cb44-256" aria-hidden="true" tabindex="-1"></a>The <span class="in">`glimpse()`</span> function provides an overview of the dataset, including variable names and data types.</span>
+<span id="cb44-257"><a href="#cb44-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-260"><a href="#cb44-260" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-261"><a href="#cb44-261" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect the dataset</span></span>
+<span id="cb44-262"><a href="#cb44-262" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(corn_data)</span>
+<span id="cb44-263"><a href="#cb44-263" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-264"><a href="#cb44-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-265"><a href="#cb44-265" aria-hidden="true" tabindex="-1"></a><span class="fu">### skim</span></span>
+<span id="cb44-266"><a href="#cb44-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-267"><a href="#cb44-267" aria-hidden="true" tabindex="-1"></a>The <span class="in">`skim()`</span> function from the 'skimr' allows to take a deeper look to all the variables (columns), creating a quick summary that reports the presence of missing values, etc., etc.</span>
+<span id="cb44-268"><a href="#cb44-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-271"><a href="#cb44-271" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-272"><a href="#cb44-272" aria-hidden="true" tabindex="-1"></a>skimr<span class="sc">::</span><span class="fu">skim</span>(corn_data)</span>
+<span id="cb44-273"><a href="#cb44-273" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-274"><a href="#cb44-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-275"><a href="#cb44-275" aria-hidden="true" tabindex="-1"></a><span class="fu">## Adding New Variables with `mutate()`</span></span>
+<span id="cb44-276"><a href="#cb44-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-277"><a href="#cb44-277" aria-hidden="true" tabindex="-1"></a>You can add new columns to your dataset with <span class="in">`mutate()`</span>. Let's calculate the yield in tons per hectare (assuming the current yield is in kilograms):</span>
+<span id="cb44-278"><a href="#cb44-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-281"><a href="#cb44-281" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-282"><a href="#cb44-282" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a column for yield in tons</span></span>
+<span id="cb44-283"><a href="#cb44-283" aria-hidden="true" tabindex="-1"></a>corn_data <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span> </span>
+<span id="cb44-284"><a href="#cb44-284" aria-hidden="true" tabindex="-1"></a>  <span class="co"># New column, `yield_tons`, with the transformed yield values.</span></span>
+<span id="cb44-285"><a href="#cb44-285" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">yield_tons =</span> yield <span class="sc">/</span> <span class="dv">1000</span>)</span>
+<span id="cb44-286"><a href="#cb44-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-287"><a href="#cb44-287" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(corn_data)</span>
+<span id="cb44-288"><a href="#cb44-288" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-289"><a href="#cb44-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-290"><a href="#cb44-290" aria-hidden="true" tabindex="-1"></a><span class="fu">## Filtering Data</span></span>
+<span id="cb44-291"><a href="#cb44-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-292"><a href="#cb44-292" aria-hidden="true" tabindex="-1"></a>To focus on specific data, we can use <span class="in">`filter()`</span>. For example, let's filter the data to include only rows where the nitrogen applied (<span class="in">`nitro`</span>) is greater than 100:</span>
+<span id="cb44-293"><a href="#cb44-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-296"><a href="#cb44-296" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-297"><a href="#cb44-297" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter rows with nitro &gt; 100</span></span>
+<span id="cb44-298"><a href="#cb44-298" aria-hidden="true" tabindex="-1"></a>high_nitro <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span></span>
+<span id="cb44-299"><a href="#cb44-299" aria-hidden="true" tabindex="-1"></a>  <span class="co"># only rows where the `nitro` column has values greater than 100.</span></span>
+<span id="cb44-300"><a href="#cb44-300" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(nitro <span class="sc">&gt;</span> <span class="dv">100</span>)</span>
+<span id="cb44-301"><a href="#cb44-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-302"><a href="#cb44-302" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(high_nitro)</span>
+<span id="cb44-303"><a href="#cb44-303" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-304"><a href="#cb44-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-305"><a href="#cb44-305" aria-hidden="true" tabindex="-1"></a><span class="fu">## Selecting columns</span></span>
+<span id="cb44-306"><a href="#cb44-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-307"><a href="#cb44-307" aria-hidden="true" tabindex="-1"></a>To select specific variables, we use <span class="in">`select()`</span>, which selects specific columns from the dataset.</span>
+<span id="cb44-308"><a href="#cb44-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-311"><a href="#cb44-311" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-312"><a href="#cb44-312" aria-hidden="true" tabindex="-1"></a><span class="co"># Select specific columns</span></span>
+<span id="cb44-313"><a href="#cb44-313" aria-hidden="true" tabindex="-1"></a>selected_data <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span> <span class="fu">select</span>(yield, nitro, topo)</span>
+<span id="cb44-314"><a href="#cb44-314" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(selected_data)</span>
+<span id="cb44-315"><a href="#cb44-315" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-316"><a href="#cb44-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-317"><a href="#cb44-317" aria-hidden="true" tabindex="-1"></a><span class="fu">## Renaming columns</span></span>
+<span id="cb44-318"><a href="#cb44-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-319"><a href="#cb44-319" aria-hidden="true" tabindex="-1"></a>When we need to change names of columns, we can use <span class="in">`rename()`</span>:</span>
+<span id="cb44-320"><a href="#cb44-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-323"><a href="#cb44-323" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-324"><a href="#cb44-324" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename a column</span></span>
+<span id="cb44-325"><a href="#cb44-325" aria-hidden="true" tabindex="-1"></a>renamed_data <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="at">Nitrogen =</span> nitro)</span>
+<span id="cb44-326"><a href="#cb44-326" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(renamed_data)</span>
+<span id="cb44-327"><a href="#cb44-327" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-328"><a href="#cb44-328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-329"><a href="#cb44-329" aria-hidden="true" tabindex="-1"></a><span class="fu">## Arranging data</span></span>
+<span id="cb44-330"><a href="#cb44-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-331"><a href="#cb44-331" aria-hidden="true" tabindex="-1"></a>To reorder the data based on specific criteria, we can use <span class="in">`arrange()`</span>, which will arrange rows by a variable in ascending or descending order.</span>
+<span id="cb44-332"><a href="#cb44-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-335"><a href="#cb44-335" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-336"><a href="#cb44-336" aria-hidden="true" tabindex="-1"></a><span class="co"># Arrange data by yield in descending order</span></span>
+<span id="cb44-337"><a href="#cb44-337" aria-hidden="true" tabindex="-1"></a>arranged_data <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(yield))</span>
+<span id="cb44-338"><a href="#cb44-338" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(arranged_data)</span>
+<span id="cb44-339"><a href="#cb44-339" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-340"><a href="#cb44-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-341"><a href="#cb44-341" aria-hidden="true" tabindex="-1"></a><span class="fu">## Finding unique values</span></span>
+<span id="cb44-342"><a href="#cb44-342" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-343"><a href="#cb44-343" aria-hidden="true" tabindex="-1"></a>To find out what are the unique values of a variable, we can use <span class="in">`distinct()`</span>, which will return the unique values within a column.</span>
+<span id="cb44-344"><a href="#cb44-344" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-347"><a href="#cb44-347" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-348"><a href="#cb44-348" aria-hidden="true" tabindex="-1"></a><span class="co"># Unique values in topo</span></span>
+<span id="cb44-349"><a href="#cb44-349" aria-hidden="true" tabindex="-1"></a>unique_topo <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span> <span class="fu">distinct</span>(topo)</span>
+<span id="cb44-350"><a href="#cb44-350" aria-hidden="true" tabindex="-1"></a>unique_topo</span>
+<span id="cb44-351"><a href="#cb44-351" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-352"><a href="#cb44-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-353"><a href="#cb44-353" aria-hidden="true" tabindex="-1"></a><span class="fu">## Counting</span></span>
+<span id="cb44-354"><a href="#cb44-354" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-355"><a href="#cb44-355" aria-hidden="true" tabindex="-1"></a>The function <span class="in">`count()`</span> counts the number of observations within a group.</span>
+<span id="cb44-356"><a href="#cb44-356" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-359"><a href="#cb44-359" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-360"><a href="#cb44-360" aria-hidden="true" tabindex="-1"></a><span class="co"># Count observations by topo</span></span>
+<span id="cb44-361"><a href="#cb44-361" aria-hidden="true" tabindex="-1"></a>topo_count <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span> <span class="fu">count</span>(topo)</span>
+<span id="cb44-362"><a href="#cb44-362" aria-hidden="true" tabindex="-1"></a>topo_count</span>
+<span id="cb44-363"><a href="#cb44-363" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-364"><a href="#cb44-364" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-365"><a href="#cb44-365" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summarizing Data</span></span>
+<span id="cb44-366"><a href="#cb44-366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-367"><a href="#cb44-367" aria-hidden="true" tabindex="-1"></a>To get a quick overview of your data, you can use <span class="in">`summarize()`</span> in combination with <span class="in">`group_by()`</span>. For example, let's calculate the average yield for each topographical category (<span class="in">`topo`</span>):</span>
+<span id="cb44-368"><a href="#cb44-368" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-371"><a href="#cb44-371" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb44-372"><a href="#cb44-372" aria-hidden="true" tabindex="-1"></a><span class="co"># Average yield by topography</span></span>
+<span id="cb44-373"><a href="#cb44-373" aria-hidden="true" tabindex="-1"></a>average_yield_topo <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span></span>
+<span id="cb44-374"><a href="#cb44-374" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(topo) <span class="sc">%&gt;%</span></span>
+<span id="cb44-375"><a href="#cb44-375" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_yield =</span> <span class="fu">mean</span>(yield, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb44-376"><a href="#cb44-376" aria-hidden="true" tabindex="-1"></a>average_yield_topo</span>
+<span id="cb44-377"><a href="#cb44-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-378"><a href="#cb44-378" aria-hidden="true" tabindex="-1"></a><span class="co"># Average yield by year and topography</span></span>
+<span id="cb44-379"><a href="#cb44-379" aria-hidden="true" tabindex="-1"></a>average_yield_topoyear <span class="ot">&lt;-</span> corn_data <span class="sc">%&gt;%</span></span>
+<span id="cb44-380"><a href="#cb44-380" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year, topo) <span class="sc">%&gt;%</span></span>
+<span id="cb44-381"><a href="#cb44-381" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">avg_yield =</span> <span class="fu">mean</span>(yield, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb44-382"><a href="#cb44-382" aria-hidden="true" tabindex="-1"></a>average_yield_topoyear</span>
+<span id="cb44-383"><a href="#cb44-383" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb44-384"><a href="#cb44-384" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-385"><a href="#cb44-385" aria-hidden="true" tabindex="-1"></a>This groups the data by <span class="in">`topo`</span> and calculates the mean yield for each group.</span>
+<span id="cb44-386"><a href="#cb44-386" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-387"><a href="#cb44-387" aria-hidden="true" tabindex="-1"></a><span class="fu"># Hands-On Exercise</span></span>
+<span id="cb44-388"><a href="#cb44-388" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-389"><a href="#cb44-389" aria-hidden="true" tabindex="-1"></a>Try the following tasks using the <span class="in">`lasrosas.corn`</span> dataset:</span>
+<span id="cb44-390"><a href="#cb44-390" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-391"><a href="#cb44-391" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Filter the data to include only rows where the yield is greater than 6000.</span>
+<span id="cb44-392"><a href="#cb44-392" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Add a new column that calculates yield per kilogram of nitrogen applied.</span>
+<span id="cb44-393"><a href="#cb44-393" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Summarize the data to find the total yield for each <span class="in">`topo`</span> category.</span>
+<span id="cb44-394"><a href="#cb44-394" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>Arrange the data by <span class="in">`nitro`</span> in ascending order.</span>
+<span id="cb44-395"><a href="#cb44-395" aria-hidden="true" tabindex="-1"></a><span class="ss">5.  </span>Use <span class="in">`select()`</span> to create a dataset with only the <span class="in">`yield`</span>, <span class="in">`topo`</span>, and <span class="in">`nitro`</span> columns.</span>
+<span id="cb44-396"><a href="#cb44-396" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-397"><a href="#cb44-397" aria-hidden="true" tabindex="-1"></a>Submit your code and results to the class discussion forum. Happy coding!</span>
+<span id="cb44-398"><a href="#cb44-398" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-399"><a href="#cb44-399" aria-hidden="true" tabindex="-1"></a><span class="fu"># Conclusion</span></span>
+<span id="cb44-400"><a href="#cb44-400" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-401"><a href="#cb44-401" aria-hidden="true" tabindex="-1"></a>The <span class="in">`dplyr`</span> package simplifies data transformation and analysis tasks, making it easier to work with agricultural datasets like the one in this tutorial. Use these functions and try the hands-on exercise to deepen your understanding.</span>
+<span id="cb44-402"><a href="#cb44-402" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-403"><a href="#cb44-403" aria-hidden="true" tabindex="-1"></a>Happy coding!</span>
+</code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p><span> Developed by Adrian Correndo with <a href="https://quarto.org/">Quarto</a>. License: <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>. </span></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
