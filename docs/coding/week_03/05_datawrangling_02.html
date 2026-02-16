@@ -368,12 +368,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
- <span class="menu-text">Calendar</span></a>
+ <span class="menu-text">Semester Project</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../project/project_documentation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Project documentation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Calendar</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../outline/calendar.html" class="sidebar-item-text sidebar-link">
@@ -384,13 +401,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
  <span class="menu-text">Course Outline</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../outline/outline.html" class="sidebar-item-text sidebar-link">
@@ -598,9 +615,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(random_rows)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  year       lat      long yield nitro topo     bv rep nf
-1 1999 -33.05050 -63.84642 55.53    29   HT 166.30  R3 N1
-2 2001 -33.05039 -63.84672 43.69     0    W 179.72  R1 N0
-3 1999 -33.05219 -63.84233 74.68    66   LO 171.86  R1 N3</code></pre>
+1 2001 -33.05185 -63.84193 99.83 124.6   LO 167.20  R2 N5
+2 1999 -33.05139 -63.84590 52.24  53.0   HT 184.92  R1 N2
+3 2001 -33.05180 -63.84207 97.56 124.6   LO 169.84  R2 N5</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Selecting every 2nd row</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>every_second_row <span class="ot">&lt;-</span> data_corn <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">n</span>(), <span class="at">by =</span> <span class="dv">2</span>))</span>
@@ -1567,216 +1584,228 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb56-22"><a href="#cb56-22" aria-hidden="true" tabindex="-1"></a>This lesson builds on our previous session by introducing more advanced data wrangling techniques using <span class="in">`tidyr`</span>, <span class="in">`stringr`</span>, and <span class="in">`forcats`</span>. We will explore how to manipulate and transform data for efficient analysis. Additionally, we introduce <span class="in">`lubridate`</span> for handling dates effectively.</span>
 <span id="cb56-23"><a href="#cb56-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb56-24"><a href="#cb56-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## Required packages for today</span></span>
-<span id="cb56-25"><a href="#cb56-25" aria-hidden="true" tabindex="-1"></a><span class="in">```{r eval=TRUE, warning=FALSE, message=FALSE}</span></span>
-<span id="cb56-26"><a href="#cb56-26" aria-hidden="true" tabindex="-1"></a><span class="in">library(pacman)</span></span>
-<span id="cb56-27"><a href="#cb56-27" aria-hidden="true" tabindex="-1"></a><span class="in">p_load(agridat, dplyr, tidyr, stringr, forcats, skimr, lubridate)</span></span>
-<span id="cb56-28"><a href="#cb56-28" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb56-29"><a href="#cb56-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-30"><a href="#cb56-30" aria-hidden="true" tabindex="-1"></a><span class="fu"># Advanced `dplyr` Functions</span></span>
-<span id="cb56-31"><a href="#cb56-31" aria-hidden="true" tabindex="-1"></a><span class="al">![](https://dplyr.tidyverse.org/logo.png)</span>{.absolute top=0 right=0 height="25%"}</span>
+<span id="cb56-25"><a href="#cb56-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-26"><a href="#cb56-26" aria-hidden="true" tabindex="-1"></a><span class="in">```{r eval=TRUE, warning=FALSE, message=FALSE}</span></span>
+<span id="cb56-27"><a href="#cb56-27" aria-hidden="true" tabindex="-1"></a><span class="in">library(pacman)</span></span>
+<span id="cb56-28"><a href="#cb56-28" aria-hidden="true" tabindex="-1"></a><span class="in">p_load(agridat, dplyr, tidyr, stringr, forcats, skimr, lubridate)</span></span>
+<span id="cb56-29"><a href="#cb56-29" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-30"><a href="#cb56-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-31"><a href="#cb56-31" aria-hidden="true" tabindex="-1"></a><span class="fu"># Advanced `dplyr` Functions</span></span>
 <span id="cb56-32"><a href="#cb56-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-33"><a href="#cb56-33" aria-hidden="true" tabindex="-1"></a><span class="fu">## Aggregation with `group_by()` and `summarize()`</span></span>
-<span id="cb56-36"><a href="#cb56-36" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb56-37"><a href="#cb56-37" aria-hidden="true" tabindex="-1"></a>data_corn <span class="ot">&lt;-</span> agridat<span class="sc">::</span>lasrosas.corn</span>
-<span id="cb56-38"><a href="#cb56-38" aria-hidden="true" tabindex="-1"></a>summary_data <span class="ot">&lt;-</span> data_corn <span class="sc">%&gt;%</span> </span>
-<span id="cb56-39"><a href="#cb56-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(topo, year) <span class="sc">%&gt;%</span> </span>
-<span id="cb56-40"><a href="#cb56-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_yield =</span> <span class="fu">mean</span>(yield, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
-<span id="cb56-41"><a href="#cb56-41" aria-hidden="true" tabindex="-1"></a>summary_data</span>
-<span id="cb56-42"><a href="#cb56-42" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb56-43"><a href="#cb56-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-44"><a href="#cb56-44" aria-hidden="true" tabindex="-1"></a><span class="fu">## Applying Functions to Multiple Columns using `across()`</span></span>
-<span id="cb56-47"><a href="#cb56-47" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb56-48"><a href="#cb56-48" aria-hidden="true" tabindex="-1"></a>data_across <span class="ot">&lt;-</span> data_corn <span class="sc">%&gt;%</span> </span>
-<span id="cb56-49"><a href="#cb56-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(lat, long), <span class="sc">~</span> <span class="fu">round</span>(.x, <span class="at">digits=</span><span class="dv">1</span>), <span class="at">.names =</span> <span class="st">"rounded_{.col}"</span>)) <span class="co"># Rounding values to 1 decimal place for better readability</span></span>
-<span id="cb56-50"><a href="#cb56-50" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_across)</span>
-<span id="cb56-51"><a href="#cb56-51" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb56-52"><a href="#cb56-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-53"><a href="#cb56-53" aria-hidden="true" tabindex="-1"></a><span class="fu">## Creating Conditional Columns with `case_when()`</span></span>
-<span id="cb56-56"><a href="#cb56-56" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb56-57"><a href="#cb56-57" aria-hidden="true" tabindex="-1"></a>data_casewhen <span class="ot">&lt;-</span> data_corn <span class="sc">%&gt;%</span> </span>
-<span id="cb56-58"><a href="#cb56-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">yield_category =</span> <span class="fu">case_when</span>(</span>
-<span id="cb56-59"><a href="#cb56-59" aria-hidden="true" tabindex="-1"></a>    yield <span class="sc">&gt;</span> <span class="dv">10</span> <span class="sc">~</span> <span class="st">"High"</span>,</span>
-<span id="cb56-60"><a href="#cb56-60" aria-hidden="true" tabindex="-1"></a>    yield <span class="sc">&gt;</span> <span class="dv">5</span> <span class="sc">~</span> <span class="st">"Medium"</span>,</span>
-<span id="cb56-61"><a href="#cb56-61" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Low"</span></span>
-<span id="cb56-62"><a href="#cb56-62" aria-hidden="true" tabindex="-1"></a>  ))</span>
-<span id="cb56-63"><a href="#cb56-63" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_casewhen)</span>
-<span id="cb56-64"><a href="#cb56-64" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb56-65"><a href="#cb56-65" aria-hidden="true" tabindex="-1"></a><span class="fu">## Slicing data with `slice()`:</span></span>
-<span id="cb56-68"><a href="#cb56-68" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb56-69"><a href="#cb56-69" aria-hidden="true" tabindex="-1"></a><span class="co"># Selecting the first 3 rows</span></span>
-<span id="cb56-70"><a href="#cb56-70" aria-hidden="true" tabindex="-1"></a>first_rows <span class="ot">&lt;-</span> data_corn <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
-<span id="cb56-71"><a href="#cb56-71" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(first_rows)</span>
+<span id="cb56-33"><a href="#cb56-33" aria-hidden="true" tabindex="-1"></a><span class="al">![](https://dplyr.tidyverse.org/logo.png)</span>{.absolute top="0" right="0" height="25%"}</span>
+<span id="cb56-34"><a href="#cb56-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-35"><a href="#cb56-35" aria-hidden="true" tabindex="-1"></a><span class="fu">## Aggregation with `group_by()` and `summarize()`</span></span>
+<span id="cb56-36"><a href="#cb56-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-39"><a href="#cb56-39" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-40"><a href="#cb56-40" aria-hidden="true" tabindex="-1"></a>data_corn <span class="ot">&lt;-</span> agridat<span class="sc">::</span>lasrosas.corn</span>
+<span id="cb56-41"><a href="#cb56-41" aria-hidden="true" tabindex="-1"></a>summary_data <span class="ot">&lt;-</span> data_corn <span class="sc">%&gt;%</span> </span>
+<span id="cb56-42"><a href="#cb56-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(topo, year) <span class="sc">%&gt;%</span> </span>
+<span id="cb56-43"><a href="#cb56-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_yield =</span> <span class="fu">mean</span>(yield, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb56-44"><a href="#cb56-44" aria-hidden="true" tabindex="-1"></a>summary_data</span>
+<span id="cb56-45"><a href="#cb56-45" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-46"><a href="#cb56-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-47"><a href="#cb56-47" aria-hidden="true" tabindex="-1"></a><span class="fu">## Applying Functions to Multiple Columns using `across()`</span></span>
+<span id="cb56-48"><a href="#cb56-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-51"><a href="#cb56-51" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-52"><a href="#cb56-52" aria-hidden="true" tabindex="-1"></a>data_across <span class="ot">&lt;-</span> data_corn <span class="sc">%&gt;%</span> </span>
+<span id="cb56-53"><a href="#cb56-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(lat, long), <span class="sc">~</span> <span class="fu">round</span>(.x, <span class="at">digits=</span><span class="dv">1</span>), <span class="at">.names =</span> <span class="st">"rounded_{.col}"</span>)) <span class="co"># Rounding values to 1 decimal place for better readability</span></span>
+<span id="cb56-54"><a href="#cb56-54" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_across)</span>
+<span id="cb56-55"><a href="#cb56-55" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-56"><a href="#cb56-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-57"><a href="#cb56-57" aria-hidden="true" tabindex="-1"></a><span class="fu">## Creating Conditional Columns with `case_when()`</span></span>
+<span id="cb56-58"><a href="#cb56-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-61"><a href="#cb56-61" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-62"><a href="#cb56-62" aria-hidden="true" tabindex="-1"></a>data_casewhen <span class="ot">&lt;-</span> data_corn <span class="sc">%&gt;%</span> </span>
+<span id="cb56-63"><a href="#cb56-63" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">yield_category =</span> <span class="fu">case_when</span>(</span>
+<span id="cb56-64"><a href="#cb56-64" aria-hidden="true" tabindex="-1"></a>    yield <span class="sc">&gt;</span> <span class="dv">10</span> <span class="sc">~</span> <span class="st">"High"</span>,</span>
+<span id="cb56-65"><a href="#cb56-65" aria-hidden="true" tabindex="-1"></a>    yield <span class="sc">&gt;</span> <span class="dv">5</span> <span class="sc">~</span> <span class="st">"Medium"</span>,</span>
+<span id="cb56-66"><a href="#cb56-66" aria-hidden="true" tabindex="-1"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Low"</span></span>
+<span id="cb56-67"><a href="#cb56-67" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb56-68"><a href="#cb56-68" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_casewhen)</span>
+<span id="cb56-69"><a href="#cb56-69" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-70"><a href="#cb56-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-71"><a href="#cb56-71" aria-hidden="true" tabindex="-1"></a><span class="fu">## Slicing data with `slice()`:</span></span>
 <span id="cb56-72"><a href="#cb56-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-73"><a href="#cb56-73" aria-hidden="true" tabindex="-1"></a><span class="co"># Selecting the last 3 rows</span></span>
-<span id="cb56-74"><a href="#cb56-74" aria-hidden="true" tabindex="-1"></a>last_rows <span class="ot">&lt;-</span> data_corn <span class="sc">%&gt;%</span> <span class="fu">slice_tail</span>(<span class="at">n =</span> <span class="dv">3</span>)</span>
-<span id="cb56-75"><a href="#cb56-75" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(last_rows)</span>
-<span id="cb56-76"><a href="#cb56-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-77"><a href="#cb56-77" aria-hidden="true" tabindex="-1"></a><span class="co"># Selecting 3 random rows</span></span>
-<span id="cb56-78"><a href="#cb56-78" aria-hidden="true" tabindex="-1"></a>random_rows <span class="ot">&lt;-</span> data_corn <span class="sc">%&gt;%</span> <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">3</span>)</span>
-<span id="cb56-79"><a href="#cb56-79" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(random_rows)</span>
-<span id="cb56-80"><a href="#cb56-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-81"><a href="#cb56-81" aria-hidden="true" tabindex="-1"></a><span class="co"># Selecting every 2nd row</span></span>
-<span id="cb56-82"><a href="#cb56-82" aria-hidden="true" tabindex="-1"></a>every_second_row <span class="ot">&lt;-</span> data_corn <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">n</span>(), <span class="at">by =</span> <span class="dv">2</span>))</span>
-<span id="cb56-83"><a href="#cb56-83" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(every_second_row)</span>
-<span id="cb56-84"><a href="#cb56-84" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb56-85"><a href="#cb56-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-86"><a href="#cb56-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-75"><a href="#cb56-75" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-76"><a href="#cb56-76" aria-hidden="true" tabindex="-1"></a><span class="co"># Selecting the first 3 rows</span></span>
+<span id="cb56-77"><a href="#cb56-77" aria-hidden="true" tabindex="-1"></a>first_rows <span class="ot">&lt;-</span> data_corn <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
+<span id="cb56-78"><a href="#cb56-78" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(first_rows)</span>
+<span id="cb56-79"><a href="#cb56-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-80"><a href="#cb56-80" aria-hidden="true" tabindex="-1"></a><span class="co"># Selecting the last 3 rows</span></span>
+<span id="cb56-81"><a href="#cb56-81" aria-hidden="true" tabindex="-1"></a>last_rows <span class="ot">&lt;-</span> data_corn <span class="sc">%&gt;%</span> <span class="fu">slice_tail</span>(<span class="at">n =</span> <span class="dv">3</span>)</span>
+<span id="cb56-82"><a href="#cb56-82" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(last_rows)</span>
+<span id="cb56-83"><a href="#cb56-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-84"><a href="#cb56-84" aria-hidden="true" tabindex="-1"></a><span class="co"># Selecting 3 random rows</span></span>
+<span id="cb56-85"><a href="#cb56-85" aria-hidden="true" tabindex="-1"></a>random_rows <span class="ot">&lt;-</span> data_corn <span class="sc">%&gt;%</span> <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">3</span>)</span>
+<span id="cb56-86"><a href="#cb56-86" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(random_rows)</span>
 <span id="cb56-87"><a href="#cb56-87" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-88"><a href="#cb56-88" aria-hidden="true" tabindex="-1"></a><span class="fu">## Working with Time-Series Data: `lead()` and `lag()`</span></span>
-<span id="cb56-91"><a href="#cb56-91" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb56-92"><a href="#cb56-92" aria-hidden="true" tabindex="-1"></a>data_lag <span class="ot">&lt;-</span> data_corn <span class="sc">%&gt;%</span> </span>
-<span id="cb56-93"><a href="#cb56-93" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year, topo) <span class="sc">%&gt;%</span> </span>
-<span id="cb56-94"><a href="#cb56-94" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">yield_change =</span> yield <span class="sc">-</span> <span class="fu">lag</span>(yield))</span>
-<span id="cb56-95"><a href="#cb56-95" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_lag)</span>
-<span id="cb56-96"><a href="#cb56-96" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb56-97"><a href="#cb56-97" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-98"><a href="#cb56-98" aria-hidden="true" tabindex="-1"></a><span class="fu"># Data Tidying with `tidyr`</span></span>
-<span id="cb56-99"><a href="#cb56-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-100"><a href="#cb56-100" aria-hidden="true" tabindex="-1"></a><span class="al">![](https://tidyr.tidyverse.org/logo.png)</span>{.absolute top=0 right=0 height="25%"}</span>
-<span id="cb56-101"><a href="#cb56-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-102"><a href="#cb56-102" aria-hidden="true" tabindex="-1"></a><span class="in">`tidyr`</span> helps reshape data into a tidy format. Some key functions:</span>
+<span id="cb56-88"><a href="#cb56-88" aria-hidden="true" tabindex="-1"></a><span class="co"># Selecting every 2nd row</span></span>
+<span id="cb56-89"><a href="#cb56-89" aria-hidden="true" tabindex="-1"></a>every_second_row <span class="ot">&lt;-</span> data_corn <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">n</span>(), <span class="at">by =</span> <span class="dv">2</span>))</span>
+<span id="cb56-90"><a href="#cb56-90" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(every_second_row)</span>
+<span id="cb56-91"><a href="#cb56-91" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-92"><a href="#cb56-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-93"><a href="#cb56-93" aria-hidden="true" tabindex="-1"></a><span class="fu">## Working with Time-Series Data: `lead()` and `lag()`</span></span>
+<span id="cb56-94"><a href="#cb56-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-97"><a href="#cb56-97" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-98"><a href="#cb56-98" aria-hidden="true" tabindex="-1"></a>data_lag <span class="ot">&lt;-</span> data_corn <span class="sc">%&gt;%</span> </span>
+<span id="cb56-99"><a href="#cb56-99" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year, topo) <span class="sc">%&gt;%</span> </span>
+<span id="cb56-100"><a href="#cb56-100" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">yield_change =</span> yield <span class="sc">-</span> <span class="fu">lag</span>(yield))</span>
+<span id="cb56-101"><a href="#cb56-101" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_lag)</span>
+<span id="cb56-102"><a href="#cb56-102" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb56-103"><a href="#cb56-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-104"><a href="#cb56-104" aria-hidden="true" tabindex="-1"></a><span class="fu">## Gathering and Spreading Data</span></span>
-<span id="cb56-107"><a href="#cb56-107" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb56-108"><a href="#cb56-108" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert from wide to long format using pivot_longer</span></span>
-<span id="cb56-109"><a href="#cb56-109" aria-hidden="true" tabindex="-1"></a>long_data <span class="ot">&lt;-</span> data_corn <span class="sc">%&gt;%</span> </span>
-<span id="cb56-110"><a href="#cb56-110" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(yield, nitro), </span>
-<span id="cb56-111"><a href="#cb56-111" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"measurement"</span>, <span class="co"># name of the column with description</span></span>
-<span id="cb56-112"><a href="#cb56-112" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"value"</span>) <span class="co"># name of the column with values</span></span>
-<span id="cb56-113"><a href="#cb56-113" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(long_data)</span>
-<span id="cb56-114"><a href="#cb56-114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-115"><a href="#cb56-115" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert back from long to wide format using pivot_wider</span></span>
-<span id="cb56-116"><a href="#cb56-116" aria-hidden="true" tabindex="-1"></a>wide_data <span class="ot">&lt;-</span> long_data <span class="sc">%&gt;%</span> </span>
-<span id="cb56-117"><a href="#cb56-117" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> measurement, </span>
-<span id="cb56-118"><a href="#cb56-118" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_from =</span> value)</span>
-<span id="cb56-119"><a href="#cb56-119" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wide_data)</span>
-<span id="cb56-120"><a href="#cb56-120" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-104"><a href="#cb56-104" aria-hidden="true" tabindex="-1"></a><span class="fu"># Data Tidying with `tidyr`</span></span>
+<span id="cb56-105"><a href="#cb56-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-106"><a href="#cb56-106" aria-hidden="true" tabindex="-1"></a><span class="al">![](https://tidyr.tidyverse.org/logo.png)</span>{.absolute top="0" right="0" height="25%"}</span>
+<span id="cb56-107"><a href="#cb56-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-108"><a href="#cb56-108" aria-hidden="true" tabindex="-1"></a><span class="in">`tidyr`</span> helps reshape data into a tidy format. Some key functions:</span>
+<span id="cb56-109"><a href="#cb56-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-110"><a href="#cb56-110" aria-hidden="true" tabindex="-1"></a><span class="fu">## Gathering and Spreading Data</span></span>
+<span id="cb56-111"><a href="#cb56-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-114"><a href="#cb56-114" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-115"><a href="#cb56-115" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert from wide to long format using pivot_longer</span></span>
+<span id="cb56-116"><a href="#cb56-116" aria-hidden="true" tabindex="-1"></a>long_data <span class="ot">&lt;-</span> data_corn <span class="sc">%&gt;%</span> </span>
+<span id="cb56-117"><a href="#cb56-117" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(yield, nitro), </span>
+<span id="cb56-118"><a href="#cb56-118" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"measurement"</span>, <span class="co"># name of the column with description</span></span>
+<span id="cb56-119"><a href="#cb56-119" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"value"</span>) <span class="co"># name of the column with values</span></span>
+<span id="cb56-120"><a href="#cb56-120" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(long_data)</span>
 <span id="cb56-121"><a href="#cb56-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-122"><a href="#cb56-122" aria-hidden="true" tabindex="-1"></a><span class="fu">## Separating and Uniting Columns</span></span>
-<span id="cb56-125"><a href="#cb56-125" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb56-126"><a href="#cb56-126" aria-hidden="true" tabindex="-1"></a><span class="co"># Example dataset with a combined column</span></span>
-<span id="cb56-127"><a href="#cb56-127" aria-hidden="true" tabindex="-1"></a>example_data <span class="ot">&lt;-</span> data_corn <span class="sc">%&gt;%</span> </span>
-<span id="cb56-128"><a href="#cb56-128" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">topo_year =</span> <span class="fu">paste</span>(topo, year, <span class="at">sep =</span> <span class="st">"_"</span>))</span>
-<span id="cb56-129"><a href="#cb56-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-130"><a href="#cb56-130" aria-hidden="true" tabindex="-1"></a><span class="co"># Splitting 'topo_year' into two columns</span></span>
-<span id="cb56-131"><a href="#cb56-131" aria-hidden="true" tabindex="-1"></a>separated_data <span class="ot">&lt;-</span> example_data <span class="sc">%&gt;%</span> </span>
-<span id="cb56-132"><a href="#cb56-132" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(topo_year, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"topo"</span>, <span class="st">"year"</span>), <span class="at">sep =</span> <span class="st">"_"</span>)</span>
-<span id="cb56-133"><a href="#cb56-133" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(separated_data)</span>
-<span id="cb56-134"><a href="#cb56-134" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-135"><a href="#cb56-135" aria-hidden="true" tabindex="-1"></a><span class="co"># Combining 'topo' and 'year' back into a single column</span></span>
-<span id="cb56-136"><a href="#cb56-136" aria-hidden="true" tabindex="-1"></a>united_data <span class="ot">&lt;-</span> separated_data <span class="sc">%&gt;%</span> </span>
-<span id="cb56-137"><a href="#cb56-137" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unite</span>(<span class="st">"topo_year"</span>, topo, year, <span class="at">sep =</span> <span class="st">"-"</span>)</span>
-<span id="cb56-138"><a href="#cb56-138" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(united_data)</span>
-<span id="cb56-139"><a href="#cb56-139" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb56-140"><a href="#cb56-140" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-141"><a href="#cb56-141" aria-hidden="true" tabindex="-1"></a><span class="fu">## Nesting and Unnesting Data</span></span>
-<span id="cb56-144"><a href="#cb56-144" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb56-145"><a href="#cb56-145" aria-hidden="true" tabindex="-1"></a>nested_data <span class="ot">&lt;-</span> data_corn <span class="sc">%&gt;%</span> </span>
-<span id="cb56-146"><a href="#cb56-146" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(topo) <span class="sc">%&gt;%</span> </span>
-<span id="cb56-147"><a href="#cb56-147" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>()</span>
-<span id="cb56-148"><a href="#cb56-148" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(nested_data)</span>
-<span id="cb56-149"><a href="#cb56-149" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-150"><a href="#cb56-150" aria-hidden="true" tabindex="-1"></a>unnested_data <span class="ot">&lt;-</span> nested_data <span class="sc">%&gt;%</span> </span>
-<span id="cb56-151"><a href="#cb56-151" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(<span class="at">cols =</span> <span class="fu">c</span>(data))</span>
-<span id="cb56-152"><a href="#cb56-152" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(unnested_data)</span>
-<span id="cb56-153"><a href="#cb56-153" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb56-154"><a href="#cb56-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-155"><a href="#cb56-155" aria-hidden="true" tabindex="-1"></a><span class="fu"># String Manipulation with `stringr`</span></span>
-<span id="cb56-156"><a href="#cb56-156" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-157"><a href="#cb56-157" aria-hidden="true" tabindex="-1"></a><span class="al">![](https://stringr.tidyverse.org/logo.png)</span>{.absolute top=0 right=0 height="25%"}</span>
+<span id="cb56-122"><a href="#cb56-122" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert back from long to wide format using pivot_wider</span></span>
+<span id="cb56-123"><a href="#cb56-123" aria-hidden="true" tabindex="-1"></a>wide_data <span class="ot">&lt;-</span> long_data <span class="sc">%&gt;%</span> </span>
+<span id="cb56-124"><a href="#cb56-124" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> measurement, </span>
+<span id="cb56-125"><a href="#cb56-125" aria-hidden="true" tabindex="-1"></a>              <span class="at">values_from =</span> value)</span>
+<span id="cb56-126"><a href="#cb56-126" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wide_data)</span>
+<span id="cb56-127"><a href="#cb56-127" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-128"><a href="#cb56-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-129"><a href="#cb56-129" aria-hidden="true" tabindex="-1"></a><span class="fu">## Separating and Uniting Columns</span></span>
+<span id="cb56-130"><a href="#cb56-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-133"><a href="#cb56-133" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-134"><a href="#cb56-134" aria-hidden="true" tabindex="-1"></a><span class="co"># Example dataset with a combined column</span></span>
+<span id="cb56-135"><a href="#cb56-135" aria-hidden="true" tabindex="-1"></a>example_data <span class="ot">&lt;-</span> data_corn <span class="sc">%&gt;%</span> </span>
+<span id="cb56-136"><a href="#cb56-136" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">topo_year =</span> <span class="fu">paste</span>(topo, year, <span class="at">sep =</span> <span class="st">"_"</span>))</span>
+<span id="cb56-137"><a href="#cb56-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-138"><a href="#cb56-138" aria-hidden="true" tabindex="-1"></a><span class="co"># Splitting 'topo_year' into two columns</span></span>
+<span id="cb56-139"><a href="#cb56-139" aria-hidden="true" tabindex="-1"></a>separated_data <span class="ot">&lt;-</span> example_data <span class="sc">%&gt;%</span> </span>
+<span id="cb56-140"><a href="#cb56-140" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(topo_year, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"topo"</span>, <span class="st">"year"</span>), <span class="at">sep =</span> <span class="st">"_"</span>)</span>
+<span id="cb56-141"><a href="#cb56-141" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(separated_data)</span>
+<span id="cb56-142"><a href="#cb56-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-143"><a href="#cb56-143" aria-hidden="true" tabindex="-1"></a><span class="co"># Combining 'topo' and 'year' back into a single column</span></span>
+<span id="cb56-144"><a href="#cb56-144" aria-hidden="true" tabindex="-1"></a>united_data <span class="ot">&lt;-</span> separated_data <span class="sc">%&gt;%</span> </span>
+<span id="cb56-145"><a href="#cb56-145" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unite</span>(<span class="st">"topo_year"</span>, topo, year, <span class="at">sep =</span> <span class="st">"-"</span>)</span>
+<span id="cb56-146"><a href="#cb56-146" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(united_data)</span>
+<span id="cb56-147"><a href="#cb56-147" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-148"><a href="#cb56-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-149"><a href="#cb56-149" aria-hidden="true" tabindex="-1"></a><span class="fu">## Nesting and Unnesting Data</span></span>
+<span id="cb56-150"><a href="#cb56-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-153"><a href="#cb56-153" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-154"><a href="#cb56-154" aria-hidden="true" tabindex="-1"></a>nested_data <span class="ot">&lt;-</span> data_corn <span class="sc">%&gt;%</span> </span>
+<span id="cb56-155"><a href="#cb56-155" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(topo) <span class="sc">%&gt;%</span> </span>
+<span id="cb56-156"><a href="#cb56-156" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nest</span>()</span>
+<span id="cb56-157"><a href="#cb56-157" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(nested_data)</span>
 <span id="cb56-158"><a href="#cb56-158" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-159"><a href="#cb56-159" aria-hidden="true" tabindex="-1"></a>The <span class="in">`stringr`</span> package provides a consistent way to work with character strings.</span>
-<span id="cb56-160"><a href="#cb56-160" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-161"><a href="#cb56-161" aria-hidden="true" tabindex="-1"></a><span class="fu">## Detecting and Extracting Strings</span></span>
-<span id="cb56-164"><a href="#cb56-164" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb56-165"><a href="#cb56-165" aria-hidden="true" tabindex="-1"></a>names <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Wheat Field"</span>, <span class="st">"Corn Field"</span>, <span class="st">"Soybean Farm"</span>)</span>
-<span id="cb56-166"><a href="#cb56-166" aria-hidden="true" tabindex="-1"></a><span class="fu">str_detect</span>(names, <span class="st">"Field"</span>) <span class="co"># Check if 'Field' is present</span></span>
-<span id="cb56-167"><a href="#cb56-167" aria-hidden="true" tabindex="-1"></a><span class="fu">str_subset</span>(names, <span class="st">"Corn"</span>) <span class="co"># Extract values containing 'Corn'</span></span>
-<span id="cb56-168"><a href="#cb56-168" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-159"><a href="#cb56-159" aria-hidden="true" tabindex="-1"></a>unnested_data <span class="ot">&lt;-</span> nested_data <span class="sc">%&gt;%</span> </span>
+<span id="cb56-160"><a href="#cb56-160" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(<span class="at">cols =</span> <span class="fu">c</span>(data))</span>
+<span id="cb56-161"><a href="#cb56-161" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(unnested_data)</span>
+<span id="cb56-162"><a href="#cb56-162" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-163"><a href="#cb56-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-164"><a href="#cb56-164" aria-hidden="true" tabindex="-1"></a><span class="fu"># String Manipulation with `stringr`</span></span>
+<span id="cb56-165"><a href="#cb56-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-166"><a href="#cb56-166" aria-hidden="true" tabindex="-1"></a><span class="al">![](https://stringr.tidyverse.org/logo.png)</span>{.absolute top="0" right="0" height="25%"}</span>
+<span id="cb56-167"><a href="#cb56-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-168"><a href="#cb56-168" aria-hidden="true" tabindex="-1"></a>The <span class="in">`stringr`</span> package provides a consistent way to work with character strings.</span>
 <span id="cb56-169"><a href="#cb56-169" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-170"><a href="#cb56-170" aria-hidden="true" tabindex="-1"></a><span class="fu">## Modifying Strings</span></span>
-<span id="cb56-173"><a href="#cb56-173" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb56-174"><a href="#cb56-174" aria-hidden="true" tabindex="-1"></a>names <span class="ot">&lt;-</span> <span class="fu">str_replace</span>(names, <span class="st">"Field"</span>, <span class="st">"Plot"</span>)</span>
-<span id="cb56-175"><a href="#cb56-175" aria-hidden="true" tabindex="-1"></a>names</span>
-<span id="cb56-176"><a href="#cb56-176" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-177"><a href="#cb56-177" aria-hidden="true" tabindex="-1"></a>capitalized_names <span class="ot">&lt;-</span> <span class="fu">str_to_title</span>(names)</span>
-<span id="cb56-178"><a href="#cb56-178" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(capitalized_names)</span>
+<span id="cb56-170"><a href="#cb56-170" aria-hidden="true" tabindex="-1"></a><span class="fu">## Detecting and Extracting Strings</span></span>
+<span id="cb56-171"><a href="#cb56-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-174"><a href="#cb56-174" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-175"><a href="#cb56-175" aria-hidden="true" tabindex="-1"></a>names <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Wheat Field"</span>, <span class="st">"Corn Field"</span>, <span class="st">"Soybean Farm"</span>)</span>
+<span id="cb56-176"><a href="#cb56-176" aria-hidden="true" tabindex="-1"></a><span class="fu">str_detect</span>(names, <span class="st">"Field"</span>) <span class="co"># Check if 'Field' is present</span></span>
+<span id="cb56-177"><a href="#cb56-177" aria-hidden="true" tabindex="-1"></a><span class="fu">str_subset</span>(names, <span class="st">"Corn"</span>) <span class="co"># Extract values containing 'Corn'</span></span>
+<span id="cb56-178"><a href="#cb56-178" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb56-179"><a href="#cb56-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-180"><a href="#cb56-180" aria-hidden="true" tabindex="-1"></a>data_clean <span class="ot">&lt;-</span> data_corn <span class="sc">%&gt;%</span> </span>
-<span id="cb56-181"><a href="#cb56-181" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">topo_clean =</span> <span class="fu">str_replace_all</span>(topo, <span class="st">"[^a-zA-Z0-9]"</span>, <span class="st">"_"</span>))</span>
-<span id="cb56-182"><a href="#cb56-182" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-183"><a href="#cb56-183" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_clean)</span>
-<span id="cb56-184"><a href="#cb56-184" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-185"><a href="#cb56-185" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb56-186"><a href="#cb56-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-187"><a href="#cb56-187" aria-hidden="true" tabindex="-1"></a><span class="fu">## Splitting Strings</span></span>
-<span id="cb56-190"><a href="#cb56-190" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb56-191"><a href="#cb56-191" aria-hidden="true" tabindex="-1"></a>words <span class="ot">&lt;-</span> <span class="st">"Wheat,Corn,Soybean"</span></span>
-<span id="cb56-192"><a href="#cb56-192" aria-hidden="true" tabindex="-1"></a>split_words <span class="ot">&lt;-</span> <span class="fu">str_split</span>(words, <span class="st">","</span>)</span>
-<span id="cb56-193"><a href="#cb56-193" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(split_words)</span>
-<span id="cb56-194"><a href="#cb56-194" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-180"><a href="#cb56-180" aria-hidden="true" tabindex="-1"></a><span class="fu">## Modifying Strings</span></span>
+<span id="cb56-181"><a href="#cb56-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-184"><a href="#cb56-184" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-185"><a href="#cb56-185" aria-hidden="true" tabindex="-1"></a>names <span class="ot">&lt;-</span> <span class="fu">str_replace</span>(names, <span class="st">"Field"</span>, <span class="st">"Plot"</span>)</span>
+<span id="cb56-186"><a href="#cb56-186" aria-hidden="true" tabindex="-1"></a>names</span>
+<span id="cb56-187"><a href="#cb56-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-188"><a href="#cb56-188" aria-hidden="true" tabindex="-1"></a>capitalized_names <span class="ot">&lt;-</span> <span class="fu">str_to_title</span>(names)</span>
+<span id="cb56-189"><a href="#cb56-189" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(capitalized_names)</span>
+<span id="cb56-190"><a href="#cb56-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-191"><a href="#cb56-191" aria-hidden="true" tabindex="-1"></a>data_clean <span class="ot">&lt;-</span> data_corn <span class="sc">%&gt;%</span> </span>
+<span id="cb56-192"><a href="#cb56-192" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">topo_clean =</span> <span class="fu">str_replace_all</span>(topo, <span class="st">"[^a-zA-Z0-9]"</span>, <span class="st">"_"</span>))</span>
+<span id="cb56-193"><a href="#cb56-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-194"><a href="#cb56-194" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_clean)</span>
 <span id="cb56-195"><a href="#cb56-195" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-196"><a href="#cb56-196" aria-hidden="true" tabindex="-1"></a><span class="fu"># Factor Handling with `forcats`</span></span>
+<span id="cb56-196"><a href="#cb56-196" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb56-197"><a href="#cb56-197" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-198"><a href="#cb56-198" aria-hidden="true" tabindex="-1"></a><span class="al">![](https://forcats.tidyverse.org/logo.png)</span>{.absolute top=0 right=0 height="25%"}</span>
-<span id="cb56-199"><a href="#cb56-199" aria-hidden="true" tabindex="-1"></a><span class="in">`forcats`</span> provides tools to manipulate categorical data effectively.</span>
-<span id="cb56-200"><a href="#cb56-200" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-201"><a href="#cb56-201" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reordering Factors</span></span>
-<span id="cb56-204"><a href="#cb56-204" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb56-205"><a href="#cb56-205" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forcats)</span>
-<span id="cb56-206"><a href="#cb56-206" aria-hidden="true" tabindex="-1"></a>crops <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"soybean"</span>, <span class="st">"corn"</span>, <span class="st">"wheat"</span>), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"wheat"</span>, <span class="st">"corn"</span>, <span class="st">"soybean"</span>))</span>
-<span id="cb56-207"><a href="#cb56-207" aria-hidden="true" tabindex="-1"></a>crops <span class="ot">&lt;-</span> <span class="fu">fct_relevel</span>(crops, <span class="st">"corn"</span>) <span class="co"># Moves 'corn' to first position</span></span>
-<span id="cb56-208"><a href="#cb56-208" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(crops)</span>
-<span id="cb56-209"><a href="#cb56-209" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb56-210"><a href="#cb56-210" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-211"><a href="#cb56-211" aria-hidden="true" tabindex="-1"></a><span class="fu">## Lump Rare Categories Together</span></span>
-<span id="cb56-214"><a href="#cb56-214" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb56-215"><a href="#cb56-215" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb56-216"><a href="#cb56-216" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">crop =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"corn"</span>, <span class="st">"soybean"</span>, <span class="st">"wheat"</span>, <span class="st">"barley"</span>, <span class="st">"oats"</span>), <span class="dv">20</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb56-217"><a href="#cb56-217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-218"><a href="#cb56-218" aria-hidden="true" tabindex="-1"></a><span class="co"># Using mutate() to lump rare categories together</span></span>
-<span id="cb56-219"><a href="#cb56-219" aria-hidden="true" tabindex="-1"></a>factor_data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
-<span id="cb56-220"><a href="#cb56-220" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">crop_lumped =</span> <span class="fu">fct_lump_n</span>(crop, <span class="at">n =</span> <span class="dv">3</span>)) <span class="co"># Keep top 3 categories, lump others into 'Other'</span></span>
-<span id="cb56-221"><a href="#cb56-221" aria-hidden="true" tabindex="-1"></a>factor_data</span>
+<span id="cb56-198"><a href="#cb56-198" aria-hidden="true" tabindex="-1"></a><span class="fu">## Splitting Strings</span></span>
+<span id="cb56-199"><a href="#cb56-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-202"><a href="#cb56-202" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-203"><a href="#cb56-203" aria-hidden="true" tabindex="-1"></a>words <span class="ot">&lt;-</span> <span class="st">"Wheat,Corn,Soybean"</span></span>
+<span id="cb56-204"><a href="#cb56-204" aria-hidden="true" tabindex="-1"></a>split_words <span class="ot">&lt;-</span> <span class="fu">str_split</span>(words, <span class="st">","</span>)</span>
+<span id="cb56-205"><a href="#cb56-205" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(split_words)</span>
+<span id="cb56-206"><a href="#cb56-206" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-207"><a href="#cb56-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-208"><a href="#cb56-208" aria-hidden="true" tabindex="-1"></a><span class="fu"># Factor Handling with `forcats`</span></span>
+<span id="cb56-209"><a href="#cb56-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-210"><a href="#cb56-210" aria-hidden="true" tabindex="-1"></a><span class="al">![](https://forcats.tidyverse.org/logo.png)</span>{.absolute top="0" right="0" height="25%"} <span class="in">`forcats`</span> provides tools to manipulate categorical data effectively.</span>
+<span id="cb56-211"><a href="#cb56-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-212"><a href="#cb56-212" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reordering Factors</span></span>
+<span id="cb56-213"><a href="#cb56-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-216"><a href="#cb56-216" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-217"><a href="#cb56-217" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forcats)</span>
+<span id="cb56-218"><a href="#cb56-218" aria-hidden="true" tabindex="-1"></a>crops <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"soybean"</span>, <span class="st">"corn"</span>, <span class="st">"wheat"</span>), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"wheat"</span>, <span class="st">"corn"</span>, <span class="st">"soybean"</span>))</span>
+<span id="cb56-219"><a href="#cb56-219" aria-hidden="true" tabindex="-1"></a>crops <span class="ot">&lt;-</span> <span class="fu">fct_relevel</span>(crops, <span class="st">"corn"</span>) <span class="co"># Moves 'corn' to first position</span></span>
+<span id="cb56-220"><a href="#cb56-220" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(crops)</span>
+<span id="cb56-221"><a href="#cb56-221" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb56-222"><a href="#cb56-222" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-223"><a href="#cb56-223" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-223"><a href="#cb56-223" aria-hidden="true" tabindex="-1"></a><span class="fu">## Lump Rare Categories Together</span></span>
 <span id="cb56-224"><a href="#cb56-224" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-225"><a href="#cb56-225" aria-hidden="true" tabindex="-1"></a><span class="fu"># Date Handling with `lubridate`</span></span>
-<span id="cb56-226"><a href="#cb56-226" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-227"><a href="#cb56-227" aria-hidden="true" tabindex="-1"></a><span class="al">![](https://lubridate.tidyverse.org/logo.png)</span>{.absolute top=0 right=0 height="25%"}</span>
-<span id="cb56-228"><a href="#cb56-228" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-229"><a href="#cb56-229" aria-hidden="true" tabindex="-1"></a>The <span class="in">`lubridate`</span> package simplifies working with dates and times in R.</span>
+<span id="cb56-227"><a href="#cb56-227" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-228"><a href="#cb56-228" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb56-229"><a href="#cb56-229" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">crop =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"corn"</span>, <span class="st">"soybean"</span>, <span class="st">"wheat"</span>, <span class="st">"barley"</span>, <span class="st">"oats"</span>), <span class="dv">20</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb56-230"><a href="#cb56-230" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-231"><a href="#cb56-231" aria-hidden="true" tabindex="-1"></a><span class="fu">### Parsing Dates</span></span>
-<span id="cb56-234"><a href="#cb56-234" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb56-235"><a href="#cb56-235" aria-hidden="true" tabindex="-1"></a>dates <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"2023-06-15"</span>, <span class="st">"2024-01-20"</span>, <span class="st">"2025-07-04"</span>)</span>
-<span id="cb56-236"><a href="#cb56-236" aria-hidden="true" tabindex="-1"></a>parsed_dates <span class="ot">&lt;-</span> <span class="fu">ymd</span>(dates)</span>
-<span id="cb56-237"><a href="#cb56-237" aria-hidden="true" tabindex="-1"></a>parsed_dates</span>
-<span id="cb56-238"><a href="#cb56-238" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-231"><a href="#cb56-231" aria-hidden="true" tabindex="-1"></a><span class="co"># Using mutate() to lump rare categories together</span></span>
+<span id="cb56-232"><a href="#cb56-232" aria-hidden="true" tabindex="-1"></a>factor_data <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb56-233"><a href="#cb56-233" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">crop_lumped =</span> <span class="fu">fct_lump_n</span>(crop, <span class="at">n =</span> <span class="dv">3</span>)) <span class="co"># Keep top 3 categories, lump others into 'Other'</span></span>
+<span id="cb56-234"><a href="#cb56-234" aria-hidden="true" tabindex="-1"></a>factor_data</span>
+<span id="cb56-235"><a href="#cb56-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-236"><a href="#cb56-236" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-237"><a href="#cb56-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-238"><a href="#cb56-238" aria-hidden="true" tabindex="-1"></a><span class="fu"># Date Handling with `lubridate`</span></span>
 <span id="cb56-239"><a href="#cb56-239" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-240"><a href="#cb56-240" aria-hidden="true" tabindex="-1"></a><span class="fu">## Extracting Date Components</span></span>
-<span id="cb56-243"><a href="#cb56-243" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb56-244"><a href="#cb56-244" aria-hidden="true" tabindex="-1"></a><span class="fu">year</span>(parsed_dates)</span>
-<span id="cb56-245"><a href="#cb56-245" aria-hidden="true" tabindex="-1"></a><span class="fu">month</span>(parsed_dates)</span>
-<span id="cb56-246"><a href="#cb56-246" aria-hidden="true" tabindex="-1"></a><span class="fu">day</span>(parsed_dates)</span>
-<span id="cb56-247"><a href="#cb56-247" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb56-248"><a href="#cb56-248" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-249"><a href="#cb56-249" aria-hidden="true" tabindex="-1"></a><span class="fu">## Parsing and Extracting Date Components</span></span>
-<span id="cb56-252"><a href="#cb56-252" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb56-253"><a href="#cb56-253" aria-hidden="true" tabindex="-1"></a>dates_corn <span class="ot">&lt;-</span> data_corn <span class="sc">%&gt;%</span> </span>
-<span id="cb56-254"><a href="#cb56-254" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">ymd</span>(<span class="fu">paste</span>(year, <span class="st">"01"</span>, <span class="st">"01"</span>, <span class="at">sep =</span> <span class="st">"-"</span>)))</span>
-<span id="cb56-255"><a href="#cb56-255" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dates_corn)</span>
-<span id="cb56-256"><a href="#cb56-256" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb56-257"><a href="#cb56-257" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-258"><a href="#cb56-258" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary</span></span>
-<span id="cb56-259"><a href="#cb56-259" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-260"><a href="#cb56-260" aria-hidden="true" tabindex="-1"></a>Today, we explored:</span>
-<span id="cb56-261"><a href="#cb56-261" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`tidyr`</span> for reshaping and tidying data, including <span class="in">`nest()`</span> and <span class="in">`unnest()`</span>.</span>
-<span id="cb56-262"><a href="#cb56-262" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`stringr`</span> for working with text data.</span>
-<span id="cb56-263"><a href="#cb56-263" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`forcats`</span> for handling categorical variables.</span>
-<span id="cb56-264"><a href="#cb56-264" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`lubridate`</span> for working with date data.</span>
+<span id="cb56-240"><a href="#cb56-240" aria-hidden="true" tabindex="-1"></a><span class="al">![](https://lubridate.tidyverse.org/logo.png)</span>{.absolute top="0" right="0" height="25%"}</span>
+<span id="cb56-241"><a href="#cb56-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-242"><a href="#cb56-242" aria-hidden="true" tabindex="-1"></a>The <span class="in">`lubridate`</span> package simplifies working with dates and times in R.</span>
+<span id="cb56-243"><a href="#cb56-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-244"><a href="#cb56-244" aria-hidden="true" tabindex="-1"></a><span class="fu">### Parsing Dates</span></span>
+<span id="cb56-245"><a href="#cb56-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-248"><a href="#cb56-248" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-249"><a href="#cb56-249" aria-hidden="true" tabindex="-1"></a>dates <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"2023-06-15"</span>, <span class="st">"2024-01-20"</span>, <span class="st">"2025-07-04"</span>)</span>
+<span id="cb56-250"><a href="#cb56-250" aria-hidden="true" tabindex="-1"></a>parsed_dates <span class="ot">&lt;-</span> <span class="fu">ymd</span>(dates)</span>
+<span id="cb56-251"><a href="#cb56-251" aria-hidden="true" tabindex="-1"></a>parsed_dates</span>
+<span id="cb56-252"><a href="#cb56-252" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-253"><a href="#cb56-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-254"><a href="#cb56-254" aria-hidden="true" tabindex="-1"></a><span class="fu">## Extracting Date Components</span></span>
+<span id="cb56-255"><a href="#cb56-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-258"><a href="#cb56-258" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-259"><a href="#cb56-259" aria-hidden="true" tabindex="-1"></a><span class="fu">year</span>(parsed_dates)</span>
+<span id="cb56-260"><a href="#cb56-260" aria-hidden="true" tabindex="-1"></a><span class="fu">month</span>(parsed_dates)</span>
+<span id="cb56-261"><a href="#cb56-261" aria-hidden="true" tabindex="-1"></a><span class="fu">day</span>(parsed_dates)</span>
+<span id="cb56-262"><a href="#cb56-262" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-263"><a href="#cb56-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-264"><a href="#cb56-264" aria-hidden="true" tabindex="-1"></a><span class="fu">## Parsing and Extracting Date Components</span></span>
 <span id="cb56-265"><a href="#cb56-265" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-266"><a href="#cb56-266" aria-hidden="true" tabindex="-1"></a>These functions will help you work efficiently with real-world agricultural data. Next session, we will integrate these skills into a full data processing workflow!</span>
+<span id="cb56-268"><a href="#cb56-268" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb56-269"><a href="#cb56-269" aria-hidden="true" tabindex="-1"></a>dates_corn <span class="ot">&lt;-</span> data_corn <span class="sc">%&gt;%</span> </span>
+<span id="cb56-270"><a href="#cb56-270" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">ymd</span>(<span class="fu">paste</span>(year, <span class="st">"01"</span>, <span class="st">"01"</span>, <span class="at">sep =</span> <span class="st">"-"</span>)))</span>
+<span id="cb56-271"><a href="#cb56-271" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dates_corn)</span>
+<span id="cb56-272"><a href="#cb56-272" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb56-273"><a href="#cb56-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-274"><a href="#cb56-274" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summary</span></span>
+<span id="cb56-275"><a href="#cb56-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-276"><a href="#cb56-276" aria-hidden="true" tabindex="-1"></a>Today, we explored: - <span class="in">`tidyr`</span> for reshaping and tidying data, including <span class="in">`nest()`</span> and <span class="in">`unnest()`</span>. - <span class="in">`stringr`</span> for working with text data. - <span class="in">`forcats`</span> for handling categorical variables. - <span class="in">`lubridate`</span> for working with date data.</span>
+<span id="cb56-277"><a href="#cb56-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-278"><a href="#cb56-278" aria-hidden="true" tabindex="-1"></a>These functions will help you work efficiently with real-world agricultural data. Next session, we will integrate these skills into a full data processing workflow!</span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

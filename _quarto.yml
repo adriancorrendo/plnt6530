@@ -91,6 +91,8 @@ website:
             text: "Weather data"
           - href: coding/extras/shinyapps.qmd
             text: "Shinyapps in R"
+          - href: coding/extras/outliers.qmd
+            text: "Outliers"
       - section: "Semester Project"
         contents: 
           - href: project/project_documentation.qmd

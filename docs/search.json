@@ -805,7 +805,7 @@
     "href": "coding/week_03/05_datawrangling_02.html#slicing-data-with-slice",
     "title": "Transforming Ag data in R II",
     "section": "2.4 Slicing data with slice():",
-    "text": "2.4 Slicing data with slice():\n\n# Selecting the first 3 rows\nfirst_rows &lt;- data_corn %&gt;% slice(1:3)\nhead(first_rows)\n\n  year       lat      long yield nitro topo     bv rep nf\n1 1999 -33.05113 -63.84886 72.14 131.5    W 162.60  R1 N5\n2 1999 -33.05115 -63.84879 73.79 131.5    W 170.49  R1 N5\n3 1999 -33.05116 -63.84872 77.25 131.5    W 168.39  R1 N5\n\n# Selecting the last 3 rows\nlast_rows &lt;- data_corn %&gt;% slice_tail(n = 3)\nhead(last_rows)\n\n  year       lat      long yield nitro topo     bv rep nf\n1 2001 -33.05110 -63.84189 92.33    39   LO 166.75  R3 N1\n2 2001 -33.05112 -63.84182 88.98    39   LO 163.59  R3 N1\n3 2001 -33.05115 -63.84175 85.74    39   LO 163.48  R3 N1\n\n# Selecting 3 random rows\nrandom_rows &lt;- data_corn %&gt;% slice_sample(n = 3)\nhead(random_rows)\n\n  year       lat      long yield nitro topo     bv rep nf\n1 1999 -33.05050 -63.84642 55.53    29   HT 166.30  R3 N1\n2 2001 -33.05039 -63.84672 43.69     0    W 179.72  R1 N0\n3 1999 -33.05219 -63.84233 74.68    66   LO 171.86  R1 N3\n\n# Selecting every 2nd row\nevery_second_row &lt;- data_corn %&gt;% slice(seq(1, n(), by = 2))\nhead(every_second_row)\n\n  year       lat      long yield nitro topo     bv rep nf\n1 1999 -33.05113 -63.84886 72.14 131.5    W 162.60  R1 N5\n2 1999 -33.05116 -63.84872 77.25 131.5    W 168.39  R1 N5\n3 1999 -33.05118 -63.84858 75.55 131.5    W 171.46  R1 N5\n4 1999 -33.05121 -63.84844 76.17 131.5    W 172.94  R1 N5\n5 1999 -33.05123 -63.84830 69.77 131.5    W 171.88  R1 N5\n6 1999 -33.05126 -63.84816 71.05 131.5    W 173.02  R1 N5",
+    "text": "2.4 Slicing data with slice():\n\n# Selecting the first 3 rows\nfirst_rows &lt;- data_corn %&gt;% slice(1:3)\nhead(first_rows)\n\n  year       lat      long yield nitro topo     bv rep nf\n1 1999 -33.05113 -63.84886 72.14 131.5    W 162.60  R1 N5\n2 1999 -33.05115 -63.84879 73.79 131.5    W 170.49  R1 N5\n3 1999 -33.05116 -63.84872 77.25 131.5    W 168.39  R1 N5\n\n# Selecting the last 3 rows\nlast_rows &lt;- data_corn %&gt;% slice_tail(n = 3)\nhead(last_rows)\n\n  year       lat      long yield nitro topo     bv rep nf\n1 2001 -33.05110 -63.84189 92.33    39   LO 166.75  R3 N1\n2 2001 -33.05112 -63.84182 88.98    39   LO 163.59  R3 N1\n3 2001 -33.05115 -63.84175 85.74    39   LO 163.48  R3 N1\n\n# Selecting 3 random rows\nrandom_rows &lt;- data_corn %&gt;% slice_sample(n = 3)\nhead(random_rows)\n\n  year       lat      long yield nitro topo     bv rep nf\n1 2001 -33.05185 -63.84193 99.83 124.6   LO 167.20  R2 N5\n2 1999 -33.05139 -63.84590 52.24  53.0   HT 184.92  R1 N2\n3 2001 -33.05180 -63.84207 97.56 124.6   LO 169.84  R2 N5\n\n# Selecting every 2nd row\nevery_second_row &lt;- data_corn %&gt;% slice(seq(1, n(), by = 2))\nhead(every_second_row)\n\n  year       lat      long yield nitro topo     bv rep nf\n1 1999 -33.05113 -63.84886 72.14 131.5    W 162.60  R1 N5\n2 1999 -33.05116 -63.84872 77.25 131.5    W 168.39  R1 N5\n3 1999 -33.05118 -63.84858 75.55 131.5    W 171.46  R1 N5\n4 1999 -33.05121 -63.84844 76.17 131.5    W 172.94  R1 N5\n5 1999 -33.05123 -63.84830 69.77 131.5    W 171.88  R1 N5\n6 1999 -33.05126 -63.84816 71.05 131.5    W 173.02  R1 N5",
     "crumbs": [
       "Lessons",
       "05-Data Wrangling II"
@@ -2708,7 +2708,7 @@
     "href": "project/project_documentation.html",
     "title": "Semester Project",
     "section": "",
-    "text": "Thanks for submitting your Semester Project Proposal. Your next steps are focused on setting up a clean, reproducible workflow and making progress visible over the semester.",
+    "text": "Next steps are focused on setting up a clean, reproducible workflow and making progress visible over the semester.",
     "crumbs": [
       "Semester Project",
       "Project documentation"
@@ -2719,7 +2719,7 @@
     "href": "project/project_documentation.html#announcement-semester-project-next-steps",
     "title": "Semester Project",
     "section": "",
-    "text": "Thanks for submitting your Semester Project Proposal. Your next steps are focused on setting up a clean, reproducible workflow and making progress visible over the semester.",
+    "text": "Next steps are focused on setting up a clean, reproducible workflow and making progress visible over the semester.",
     "crumbs": [
       "Semester Project",
       "Project documentation"
@@ -2741,7 +2741,7 @@
     "href": "project/project_documentation.html#use-github-issues-to-document-weekly-progress",
     "title": "Semester Project",
     "section": "2) Use GitHub Issues to document weekly progress ✅",
-    "text": "2) Use GitHub Issues to document weekly progress ✅\nOnce the repository is created, start an Issues workflow. Issues are how you will document progress and responsibilities during the semester.\n\nWhat to do\n\nCreate a set of Issues that reflect your project tasks, for example:\n\n“Import raw data + check structure”\n“Define data dictionary (variable definitions + units)”\n“Data cleaning: missing values + outliers”\n“Wrangling: merge files / reshape tables”\n“EDA: key plots + summary tables”\n“Modeling plan + first model”\n“Draft report outline (Quarto)”\n“Finalize results tables/figures”\n\nFor each Issue, include:\n\na short description of what needs to be done\na checklist of subtasks (optional but recommended)\nnotes on decisions made (e.g., what cleaning rules you used)\n\n\n\n\nAssign responsibility 👤\nGitHub lets you assign an Issue to someone.\n\nUse Assignees to indicate who is responsible for that Issue.\nYou can also add Labels (e.g., data-cleaning, analysis, writing, bug).\n\n\n\nWeekly expectation 📅\nEvery week, your repository should show progress: - closing at least one Issue or - moving an Issue forward with comments, commits, or partial deliverables\nEven small steps count (e.g., “created data dictionary draft”, “import script created”, “renamed variables”, “EDA plots started”).",
+    "text": "2) Use GitHub Issues to document weekly progress ✅\nOnce the repository is created, start an Issues workflow. Issues are how you will document progress and responsibilities during the semester.\n\nWhat to do\n\nCreate a set of Issues that reflect your project tasks, for example:\n\n“Import raw data + check structure” \n“Define data dictionary (variable definitions + units)” \n“Data cleaning: missing values + outliers” \n“Wrangling: merge files / reshape tables” \n“EDA: key plots + summary tables” \n“Modeling plan + first model” \n“Draft report outline (Quarto)” \n“Finalize results tables/figures” \n\nFor each Issue, include:\n\na short description of what needs to be done \na checklist of subtasks (optional but recommended) \nnotes on decisions made (e.g., what cleaning rules you used) \n\n\n\n\nAssign responsibility 👤\nGitHub lets you assign an Issue to someone.\n\nUse Assignees to indicate who is responsible for that Issue. \nYou can also add labels (e.g., data-cleaning, analysis, writing, bug). \n\n\n\nWeekly expectation 📅\nEvery week, your repository should show progress: - closing at least one Issue or  - moving an Issue forward with comments, commits, or partial deliverables \nEven small steps count (e.g., “created data dictionary draft”, “import script created”, “renamed variables”, “EDA plots started”).",
     "crumbs": [
       "Semester Project",
       "Project documentation"
@@ -2752,7 +2752,7 @@
     "href": "project/project_documentation.html#everyone-must-commit-push-at-least-once-and-ideally-weekly",
     "title": "Semester Project",
     "section": "3) Everyone must commit + push at least once (and ideally weekly) 🔁",
-    "text": "3) Everyone must commit + push at least once (and ideally weekly) 🔁\nAll members must contribute to the repository by: - making at least one commit with a meaningful message - pushing to GitHub\nUse the course GitHub lesson as your guide: https://adriancorrendo.github.io/plnt6530/coding/week_02/03_versioncontrol.html\n\nCommit messages matter ✍️\nUse clear messages like: - “Import raw dataset and save as CSV” - “Clean variable names and define units” - “Add EDA plots for yield and defoliation” - “Create Quarto report skeleton + outline”",
+    "text": "3) Everyone must commit + push at least once (and ideally weekly) 🔁\nAll members must contribute to the repository by:\n- making at least one commit with a meaningful message  - pushing to GitHub \nUse the course GitHub lesson as your guide: https://adriancorrendo.github.io/plnt6530/coding/week_02/03_versioncontrol.html\n\nCommit messages matter ✍️\nUse clear messages like: - “Import raw dataset and save as CSV”  - “Clean variable names and define units”  - “Add EDA plots for yield and defoliation”  - “Create Quarto report skeleton + outline”",
     "crumbs": [
       "Semester Project",
       "Project documentation"
@@ -2763,7 +2763,7 @@
     "href": "project/project_documentation.html#schedule-30-minute-office-hours-before-end-of-february",
     "title": "Semester Project",
     "section": "4) Schedule 30-minute office hours before end of February 🗓️",
-    "text": "4) Schedule 30-minute office hours before end of February 🗓️\nEach group must schedule a 30-minute meeting with the instructor to discuss: - scope and feasibility - data plan and cleaning steps - analysis plan - reproducibility workflow and repo organization\nMeeting format: - In-person or Zoom (both OK)\nTo schedule: email the instructor at\nacorrend@uoguelph.ca\nPlease include: - your group name - 2–3 possible time windows - whether you prefer in-person or Zoom",
+    "text": "4) Schedule 30-minute office hours before end of February 🗓️\nEach group must schedule a 30-minute meeting with the instructor to discuss: - scope and feasibility  - data plan and cleaning steps  - analysis plan  - reproducibility workflow and repo organization \nMeeting format: - In-person or Zoom (both OK) \nTo schedule: email the instructor at\nacorrend@uoguelph.ca\nPlease include: - your group name  - 2–3 possible time windows  - whether you prefer in-person or Zoom",
     "crumbs": [
       "Semester Project",
       "Project documentation"
@@ -2774,7 +2774,7 @@
     "href": "project/project_documentation.html#quick-checklist",
     "title": "Semester Project",
     "section": "Quick checklist ✅",
-    "text": "Quick checklist ✅\n\nPrivate GitHub repo created\nInstructor invited: adriancorrendo\nIssues created for major tasks\nIssues assigned to team members\nEvidence of weekly progress (Issues + commits)\nEach member commits + pushes at least once\nOffice hours scheduled before end of February (email acorrend@uoguelph.ca)",
+    "text": "Quick checklist ✅\n\nPrivate GitHub repo created \nInstructor invited: adriancorrendo \nIssues created for major tasks \nIssues assigned to team members \nEvidence of weekly progress (Issues + commits) \nEach member commits + pushes at least once \nOffice hours scheduled before end of February (email acorrend@uoguelph.ca)",
     "crumbs": [
       "Semester Project",
       "Project documentation"
@@ -2785,7 +2785,226 @@
     "href": "project/project_documentation.html#create-a-github-repository",
     "title": "Semester Project",
     "section": "1) Create a GitHub repository 🔒",
-    "text": "1) Create a GitHub repository 🔒\nEach group must create a PRIVATE GitHub repository for the semester project.\n\nRequirements\n\nRepository is PRIVATE\nRepository includes all group members as collaborators\nInvite the instructor as a collaborator:\n\nInstructor GitHub username: adriancorrendo",
+    "text": "1) Create a GitHub repository 🔒\nEach group must create a PRIVATE GitHub repository for the semester project.\n\nRequirements\n\nRepository is PRIVATE (not public) \nRepository includes all group members as collaborators \nInvite the instructor as a collaborator: \n\nInstructor GitHub username: adriancorrendo \n\n\n\n\n\n\nWarning\n\n\n\nIMPORTANT: you need to use RStudio on your local machines (not PositCloud) for editing the repository files and pushing to the remote version of the repo. If you need help with GitHub, please check with the instructor as soon as possible.",
+    "crumbs": [
+      "Semester Project",
+      "Project documentation"
+    ]
+  },
+  {
+    "objectID": "coding/extras/outliers.html",
+    "href": "coding/extras/outliers.html",
+    "title": "Data Outliers",
+    "section": "",
+    "text": "During exploratory data analysis (EDA), you will often see observations that look unusual (very high/low yield, odd nutrient values, a point far from the trend). A common impulse is to delete them before modeling.\nIn agronomy and most sciences, automatic deletion at EDA is not a good default. Unusual values can be caused by:\n\nError (data entry, unit mismatch, sensor failure, mislabeling) 🧾\nReality (true variability: soil/drainage gradients, pest/disease, stand loss, weather, management differences) 🌱🌦️\nModel mismatch (a simple model misses structure) 🧠",
+    "crumbs": [
+      "Extras",
+      "Outliers"
+    ]
+  },
+  {
+    "objectID": "coding/extras/outliers.html#why-this-matters",
+    "href": "coding/extras/outliers.html#why-this-matters",
+    "title": "Data Outliers",
+    "section": "",
+    "text": "During exploratory data analysis (EDA), you will often see observations that look unusual (very high/low yield, odd nutrient values, a point far from the trend). A common impulse is to delete them before modeling.\nIn agronomy and most sciences, automatic deletion at EDA is not a good default. Unusual values can be caused by:\n\nError (data entry, unit mismatch, sensor failure, mislabeling) 🧾\nReality (true variability: soil/drainage gradients, pest/disease, stand loss, weather, management differences) 🌱🌦️\nModel mismatch (a simple model misses structure) 🧠",
+    "crumbs": [
+      "Extras",
+      "Outliers"
+    ]
+  },
+  {
+    "objectID": "coding/extras/outliers.html#core-principle",
+    "href": "coding/extras/outliers.html#core-principle",
+    "title": "Data Outliers",
+    "section": "2 Core principle ✅",
+    "text": "2 Core principle ✅\n\n“Outlier” ≠ “bad data.”\nEDA is the stage to flag and investigate, not to “optimize” the dataset.",
+    "crumbs": [
+      "Extras",
+      "Outliers"
+    ]
+  },
+  {
+    "objectID": "coding/extras/outliers.html#a-practical-workflow",
+    "href": "coding/extras/outliers.html#a-practical-workflow",
+    "title": "Data Outliers",
+    "section": "3 A practical workflow 🔎➡️📈",
+    "text": "3 A practical workflow 🔎➡️📈\n\n\n\n\n\n\n\n\n\nStep\nGoal\nWhat to do\nTypical output\n\n\n\n\n1. Screen\nCatch obvious issues\nRange checks, missingness, duplicates, unit checks\nA list of flagged rows\n\n\n2. Investigate\nDecide what’s wrong vs real\nCompare against field notes/metadata; check plausibility; cross-check related variables\nClassification + notes\n\n\n3. Model\nFit and diagnose\nFit model; inspect residual patterns; check influence\nDiagnostics and influence flags\n\n\n4. Sensitivity\nTest robustness\nRefit with documented exclusions / influential points removed; compare estimates\n“Do conclusions change?”\n\n\n5. Report\nBe transparent\nDocument rules; keep raw data; report primary + sensitivity results\nReproducible decisions",
+    "crumbs": [
+      "Extras",
+      "Outliers"
+    ]
+  },
+  {
+    "objectID": "coding/extras/outliers.html#how-to-classify-unusual-observations",
+    "href": "coding/extras/outliers.html#how-to-classify-unusual-observations",
+    "title": "Data Outliers",
+    "section": "4 How to classify unusual observations 🧩",
+    "text": "4 How to classify unusual observations 🧩\n\n\n\n\n\n\nThree categories to keep straight\n\n\n\n\nConfirmed errors 🧾\n\nwrong units (lbs/ac recorded as kg/ha), decimal shift, impossible values, duplicates, corrupted rows \n\nProtocol deviations 🚜\n\nplot not harvested, mislabeled sample, equipment failure, known flooding/animal damage \n\nRare but plausible values 🌾\n\nextreme but possible outcomes due to real field variability",
+    "crumbs": [
+      "Extras",
+      "Outliers"
+    ]
+  },
+  {
+    "objectID": "coding/extras/outliers.html#when-is-deletion-justified",
+    "href": "coding/extras/outliers.html#when-is-deletion-justified",
+    "title": "Data Outliers",
+    "section": "5 When is deletion justified? 🗂️",
+    "text": "5 When is deletion justified? 🗂️\n\n\n\n\n\n\nDeletion is justified when you can defend it with evidence\n\n\n\nReasonable reasons include:  - Impossible values (e.g., negative yield)  - Unit/entry mistakes confirmed by checks  - Duplicate records  - Confirmed protocol violations documented in metadata/field notes \nBest practice  - Keep a raw dataset unchanged  - Create a cleaned dataset with explicit rules  - Record what changed in a data-cleaning log",
+    "crumbs": [
+      "Extras",
+      "Outliers"
+    ]
+  },
+  {
+    "objectID": "coding/extras/outliers.html#when-should-you-not-delete",
+    "href": "coding/extras/outliers.html#when-should-you-not-delete",
+    "title": "Data Outliers",
+    "section": "6 When should you NOT delete? ⚠️",
+    "text": "6 When should you NOT delete? ⚠️\n\n\n\n\n\n\nAvoid deleting points just because they look extreme\n\n\n\nDo not remove observations because:\n\nthey are “far from the mean” \nthey reduce significance or worsen model fit \nthey are hard to explain \nthey might represent true field variability (common in agronomy) \n\nIf removing one or two points flips your conclusion, the key message is usually: &gt; the inference is fragile (design/model/measurement may need improvement), not that the data should be “fixed.”",
+    "crumbs": [
+      "Extras",
+      "Outliers"
+    ]
+  },
+  {
+    "objectID": "coding/extras/outliers.html#influence-vs-outliers-model-based-thinking",
+    "href": "coding/extras/outliers.html#influence-vs-outliers-model-based-thinking",
+    "title": "Data Outliers",
+    "section": "7 Influence vs outliers (model-based thinking) 🎯",
+    "text": "7 Influence vs outliers (model-based thinking) 🎯\nAn observation can be unusual without changing conclusions. What often matters more is whether it is influential.\n\n\n\n\n\n\nKey ideas\n\n\n\n\nLarge residual: unusual Y given X\nHigh leverage: unusual X (predictor pattern)\nInfluence: strongly changes fitted coefficients/predictions",
+    "crumbs": [
+      "Extras",
+      "Outliers"
+    ]
+  },
+  {
+    "objectID": "coding/extras/outliers.html#studentized-residuals-outliers-in-y-given-x",
+    "href": "coding/extras/outliers.html#studentized-residuals-outliers-in-y-given-x",
+    "title": "Data Outliers",
+    "section": "8 Studentized residuals (outliers in Y given X) 📏",
+    "text": "8 Studentized residuals (outliers in Y given X) 📏\nA residual is \\(e_i = y_i - \\hat{y}_i\\). To compare residuals across observations, we standardize them.\nStudentized residuals account for differences in residual variability and leverage. In practice, the most common diagnostic in R is the externally studentized residual:\n\nrstudent(fit) returns the studentized residual for each observation (computed leaving that observation out of the residual SD estimate).\n\n\n\n\n\n\n\nInterpretation\n\n\n\nLarge absolute studentized residuals indicate observations whose Y value is unusually far from the model expectation, given their X values.\n\n\n\n\n\n\n\n\nRules of thumb (for flagging, not automatic deletion)\n\n\n\n\n\\(|r_i| &gt; 2\\): potentially unusual\n\\(|r_i| &gt; 3\\): strongly unusual (worth investigating)\n\nWith large datasets, some points will exceed these cutoffs by chance, so treat them as screens.",
+    "crumbs": [
+      "Extras",
+      "Outliers"
+    ]
+  },
+  {
+    "objectID": "coding/extras/outliers.html#cooks-distance-influential-observations",
+    "href": "coding/extras/outliers.html#cooks-distance-influential-observations",
+    "title": "Data Outliers",
+    "section": "9 Cook’s distance (influential observations) 🍳",
+    "text": "9 Cook’s distance (influential observations) 🍳\nCook’s distance measures how much the fitted model would change if observation (i) were removed. It combines:\n\nhow unusual the point is in Y (residual size) and\nhow unusual the point is in X (leverage)\n\nIn R: - cooks.distance(fit) computes Cook’s distance for each observation.\n\n\n\n\n\n\nInterpretation\n\n\n\nA large Cook’s distance means: &gt; “This observation can have a strong impact on the fitted coefficients and the conclusions.”\n\n\n\n\n\n\n\n\nRules of thumb (for flagging)\n\n\n\nCommon cutoffs used for screening include:\n\n\\(D_i &gt; \\frac{4}{n}\\) (simple and widely used)\n\\(D_i &gt; 1\\) (often considered very influential, especially in smaller datasets)\n\nThese are not universal thresholds. They are starting points for investigation.",
+    "crumbs": [
+      "Extras",
+      "Outliers"
+    ]
+  },
+  {
+    "objectID": "coding/extras/outliers.html#recommended-reporting-practice",
+    "href": "coding/extras/outliers.html#recommended-reporting-practice",
+    "title": "Data Outliers",
+    "section": "10 Recommended reporting practice 🧾✅",
+    "text": "10 Recommended reporting practice 🧾✅\n\n\n\n\n\n\nA simple, defensible template\n\n\n\n\nPrimary analysis: model fitted on the full dataset (after correcting confirmed errors).\n\nSensitivity analysis: refit after excluding\n\nconfirmed errors/protocol violations (documented), and optionally\n\nhighly influential points (diagnostic only)\n\n\nCompare: key coefficients, standard errors, treatment differences, and conclusions.",
+    "crumbs": [
+      "Extras",
+      "Outliers"
+    ]
+  },
+  {
+    "objectID": "coding/extras/outliers.html#practical-r-checks-example",
+    "href": "coding/extras/outliers.html#practical-r-checks-example",
+    "title": "Data Outliers",
+    "section": "11 Practical R checks (example) 💻",
+    "text": "11 Practical R checks (example) 💻\n\n11.1 pacakges\n\nlibrary(pacman)\np_load(dplyr, tidyr) # data wrangling\np_load(ggplot2) # figures\np_load(broom, performance)\n\n\n\n\n\n\n\nDiagnostics and influence checks (typical for lm/aov)\n\n\n\n\n11.2 data\n\n# Example:\ncornn_data &lt;- read.csv(\"../week_06/data/cornn_data.csv\") %&gt;% \n  mutate(n_trt = factor(n_trt, levels = c(\"N0\",\"N60\",\"N90\",\"N120\",\"N180\",\"N240\",\"N300\")),\n         block = factor(block),\n         site = factor(site),\n         year = factor(year))\n\n\n\n11.3 model fit\n\n# Fit model\nfit &lt;- lm(yield_kgha ~ n_trt, data = cornn_data)\n\n\n\n11.4 Residuals table\n\n###\n# Create table with residuals and flag suspicious observations\ndiag_tbl &lt;- augment(fit, data = cornn_data) %&gt;%\n  # .std.resid = standardized residuals (broom)\n  mutate(\n    stud_resid = rstudent(fit),           # studentized residuals (externally studentized)\n    cooks_d    = .cooksd,                 # Cook's distance from broom\n    flag_stud  = abs(stud_resid) &gt; 3,\n    flag_cook  = cooks_d &gt; 4 / n(),\n    flagged    = flag_stud | flag_cook\n  ) %&gt;%\n  arrange(desc(flagged), desc(cooks_d), desc(abs(stud_resid)))\n\n# View only flagged observations (tidy table)\ndiag_tbl %&gt;%\n  filter(flagged) %&gt;%\n  select(everything())\n\n# A tibble: 1 × 18\n  site  year  block n_trt nrate_kgha yield_kgha weather .fitted .resid   .hat\n  &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt;      &lt;int&gt;      &lt;int&gt; &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;\n1 A     2004  4     N300         300       5000 normal   11957. -6957. 0.0417\n# ℹ 8 more variables: .sigma &lt;dbl&gt;, .cooksd &lt;dbl&gt;, .std.resid &lt;dbl&gt;,\n#   stud_resid &lt;dbl&gt;, cooks_d &lt;dbl&gt;, flag_stud &lt;lgl&gt;, flag_cook &lt;lgl&gt;,\n#   flagged &lt;lgl&gt;\n\n\n\n\n11.5 Plots\n\n11.5.1 i. studentizided residuals\n\n# plot outliers\ndiag_tbl %&gt;%\n  ggplot(aes(x = .fitted, y = stud_resid)) +\n  geom_hline(yintercept = c(-2, 2), linetype = \"dashed\") +\n  geom_hline(yintercept = 0)+\n  geom_point(aes(shape = flagged, fill = flagged), alpha = 0.7) +\n  scale_shape_manual(values = c(21,24))+\n  scale_fill_brewer(type = \"qual\", palette = 2, direction = 1)+\n  geom_text(data = diag_tbl %&gt;% filter(flagged),\n      aes(label = block), # use block as label\n          vjust = -0.7,\n              size = 3) +\n  labs(title = \"Potential outliers\",\n      x = \"Fitted values\",\n      y = \"Studentized residuals\",\n      shape = \"flagged\"\n  ) +\n  theme_classic()\n\n\n\n\n\n\n\n\n\n\n11.5.2 ii. Cook’s distance\n\ndiag_tbl %&gt;%\n  mutate(cook_cut = 4 / n()) %&gt;%\n  ggplot(aes(x = seq_along(cooks_d), y = cooks_d)) +\n  geom_hline(aes(yintercept = cook_cut), linetype = \"dashed\") +\n  geom_point(aes(shape = flagged, fill = flagged), alpha = 0.7) +\n  scale_shape_manual(values = c(21,24))+\n  scale_fill_brewer(type = \"qual\", palette = 2, direction = 1)+\n  geom_text(data = diag_tbl %&gt;% filter(flagged),\n      aes(label = block), # use block as label\n          vjust = -0.7,\n              size = 3) +\n  labs(title = \"Potential influence\",\n      subtitle = \"Cook's distance\",\n      x = \"Observation index\",\n      y = \"Cook's distance\",\n      shape = \"flagged\"\n  ) +\n  theme_classic()\n\n\n\n\n\n\n\n\n\n\n11.5.3 iii. Hybrid option\n\ndiag_tbl %&gt;%\n  ggplot(aes(x = .hat, y = stud_resid)) +\n  geom_hline(yintercept = c(-2, 2), linetype = \"dashed\") +\n  geom_hline(aes(yintercept = 0), linetype = \"solid\") +\n  geom_point(aes(size = cooks_d, shape = flagged, fill = flagged), alpha = 0.7) +\n  scale_shape_manual(values = c(21,24))+\n  scale_fill_brewer(type = \"qual\", palette = 2, direction = 1)+\n  geom_text(data = diag_tbl %&gt;% filter(flagged),\n      aes(label = block), # use block as label\n          vjust = -0.7,\n              size = 3) +\n  labs(\n    title = \"Influence map\",\n    x = \"Leverage (hat values)\",\n    y = \"Studentized residuals\",\n    size = \"Cook's D\",\n    shape = \"Flagged\"\n  ) +\n  theme_classic()\n\n\n\n\n\n\n\n\n\n\n11.5.4 performance package\n\nperformance::check_model(model = fit, check = c(\"outliers\"))"
+  },
+  {
+    "objectID": "coding/extras/outliers.html#treatment-options-what-to-do-instead-of-deleting",
+    "href": "coding/extras/outliers.html#treatment-options-what-to-do-instead-of-deleting",
+    "title": "Data Outliers",
+    "section": "12 Treatment options (what to do instead of deleting) 🛠️",
+    "text": "12 Treatment options (what to do instead of deleting) 🛠️\n\n\n\n\n\n\nOptions in increasing order of intervention\n\n\n\n\nDo nothing (keep the point) if it is plausible and conclusions are robust\n\nFix errors (units, typos) with documentation\n\nAdd structure (block/site/year random effects, covariates, interactions) if the point reveals missing model structure\n\nModel non-constant variance or transform the response if residual spread grows with mean\n\nRobust methods if the goal is stable estimation under heavy tails (useful, but interpret carefully)"
+  },
+  {
+    "objectID": "coding/extras/outliers.html#reliable-r-packages-teaching-friendly",
+    "href": "coding/extras/outliers.html#reliable-r-packages-teaching-friendly",
+    "title": "Data Outliers",
+    "section": "13 Reliable R packages (teaching-friendly) 📦",
+    "text": "13 Reliable R packages (teaching-friendly) 📦\n\n\n\n\n\n\nGood, reliable tools for diagnostics\n\n\n\nBase R (reliable and transparent)\n- rstudent(), rstandard()\n- cooks.distance(), hatvalues(), dfbetas()\n- influence.measures()\nperformance (great for teaching)\n- performance::check_model() for a consistent diagnostic overview (and it works for many model types)\ncar (classic and widely used)\n- car::outlierTest() (Bonferroni-adjusted test for large residuals in lm)\n- car::influencePlot() (visual summary of leverage/residual/influence)\nbroom (tidy output)\n- broom::augment() to attach fitted values and residuals back to a dataset"
+  },
+  {
+    "objectID": "coding/extras/outliers.html#final-suggestion",
+    "href": "coding/extras/outliers.html#final-suggestion",
+    "title": "Data Outliers",
+    "section": "14 Final Suggestion 📌",
+    "text": "14 Final Suggestion 📌\nIn this course, we do not delete observations during EDA unless they are confirmed errors or clear protocol violations. Instead, we flag unusual points, fit models, evaluate influence, and use sensitivity analyses. Any exclusions must be documented and reproducible.",
+    "crumbs": [
+      "Extras",
+      "Outliers"
+    ]
+  },
+  {
+    "objectID": "coding/extras/outliers.html#example-in-r",
+    "href": "coding/extras/outliers.html#example-in-r",
+    "title": "Data Outliers",
+    "section": "11 Example in R 💻",
+    "text": "11 Example in R 💻\n\n11.1 pacakges\n\nlibrary(pacman)\np_load(dplyr, tidyr) # data wrangling\np_load(ggplot2) # figures\np_load(broom, performance)\n\n\n\n11.2 data\n\n# Example:\ncornn_data &lt;- read.csv(\"../week_06/data/cornn_data.csv\") %&gt;% \n  mutate(n_trt = factor(n_trt, levels = c(\"N0\",\"N60\",\"N90\",\"N120\",\"N180\",\"N240\",\"N300\")),\n         block = factor(block),\n         site = factor(site),\n         year = factor(year))\n\n\n\n11.3 model fit\n\n# Fit model\nfit &lt;- lm(yield_kgha ~ n_trt, data = cornn_data)\n\n\n\n11.4 Residuals table\n\n###\n# Create table with residuals and flag suspicious observations\ndiag_tbl &lt;- augment(fit, data = cornn_data) %&gt;%\n  # .std.resid = standardized residuals (broom)\n  mutate(\n    stud_resid = rstudent(fit),           # studentized residuals (externally studentized)\n    cooks_d    = .cooksd,                 # Cook's distance from broom\n    flag_stud  = abs(stud_resid) &gt; 3,\n    flag_cook  = cooks_d &gt; 4 / n(),\n    flagged    = flag_stud | flag_cook\n  ) %&gt;%\n  arrange(desc(flagged), desc(cooks_d), desc(abs(stud_resid)))\n\n# View only flagged observations (tidy table)\ndiag_tbl %&gt;%\n  filter(flagged) %&gt;%\n  select(everything())\n\n# A tibble: 1 × 18\n  site  year  block n_trt nrate_kgha yield_kgha weather .fitted .resid   .hat\n  &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt;      &lt;int&gt;      &lt;int&gt; &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;\n1 A     2004  4     N300         300       5000 normal   11957. -6957. 0.0417\n# ℹ 8 more variables: .sigma &lt;dbl&gt;, .cooksd &lt;dbl&gt;, .std.resid &lt;dbl&gt;,\n#   stud_resid &lt;dbl&gt;, cooks_d &lt;dbl&gt;, flag_stud &lt;lgl&gt;, flag_cook &lt;lgl&gt;,\n#   flagged &lt;lgl&gt;\n\n\n\n\n11.5 Plots\n\n11.5.1 i. studentizided residuals\n\n# plot outliers\ndiag_tbl %&gt;%\n  ggplot(aes(x = .fitted, y = stud_resid)) +\n  geom_hline(yintercept = c(-2, 2), linetype = \"dashed\") +\n  geom_hline(yintercept = 0)+\n  geom_point(aes(shape = flagged, fill = flagged), alpha = 0.7) +\n  scale_shape_manual(values = c(21,24))+\n  scale_fill_brewer(type = \"qual\", palette = 2, direction = 1)+\n  geom_text(data = diag_tbl %&gt;% filter(flagged),\n      aes(label = block), # use block as label\n          vjust = -0.7,\n              size = 3) +\n  labs(title = \"Potential outliers\",\n      x = \"Fitted values\",\n      y = \"Studentized residuals\",\n      shape = \"flagged\"\n  ) +\n  theme_classic()\n\n\n\n\n\n\n\n\n\n\n11.5.2 ii. Cook’s distance\n\ndiag_tbl %&gt;%\n  mutate(cook_cut = 4 / n()) %&gt;%\n  ggplot(aes(x = seq_along(cooks_d), y = cooks_d)) +\n  geom_hline(aes(yintercept = cook_cut), linetype = \"dashed\") +\n  geom_point(aes(shape = flagged, fill = flagged), alpha = 0.7) +\n  scale_shape_manual(values = c(21,24))+\n  scale_fill_brewer(type = \"qual\", palette = 2, direction = 1)+\n  geom_text(data = diag_tbl %&gt;% filter(flagged),\n      aes(label = block), # use block as label\n          vjust = -0.7,\n              size = 3) +\n  labs(title = \"Potential influence\",\n      subtitle = \"Cook's distance\",\n      x = \"Observation index\",\n      y = \"Cook's distance\",\n      shape = \"flagged\"\n  ) +\n  theme_classic()\n\n\n\n\n\n\n\n\n\n\n11.5.3 iii. Hybrid option\n\ndiag_tbl %&gt;%\n  ggplot(aes(x = .hat, y = stud_resid)) +\n  geom_hline(yintercept = c(-2, 2), linetype = \"dashed\") +\n  geom_hline(aes(yintercept = 0), linetype = \"solid\") +\n  geom_point(aes(size = cooks_d, shape = flagged, fill = flagged), alpha = 0.7) +\n  scale_shape_manual(values = c(21,24))+\n  scale_fill_brewer(type = \"qual\", palette = 2, direction = 1)+\n  geom_text(data = diag_tbl %&gt;% filter(flagged),\n      aes(label = block), # use block as label\n          vjust = -0.7,\n              size = 3) +\n  labs(\n    title = \"Influence map\",\n    x = \"Leverage (hat values)\",\n    y = \"Studentized residuals\",\n    size = \"Cook's D\",\n    shape = \"Flagged\"\n  ) +\n  theme_classic()\n\n\n\n\n\n\n\n\n\n\n11.5.4 other options\nThe performance package offers a variety of functions to check assumptions and for outliers/influential observations\n\nperformance::check_model(model = fit, check = c(\"outliers\"))\n\n\n\n\n\n\n\n\nThe car package also has useful functions for outlier detection and influence diagnostics such as ‘outlierTest()’ and ‘influencePlot()’:\n\ncar::outlierTest(fit)\n\nNo Studentized residuals with Bonferroni p &lt; 0.05\nLargest |rstudent|:\n   rstudent unadjusted p-value Bonferroni p\n28 -2.36159             0.0194           NA\n\ncar::influencePlot(fit)\n\n\n\n\n\n\n\n\n       StudRes        Hat       CookD\n3    0.6973319 0.04166667 0.003029990\n5    0.4985601 0.04166667 0.001551104\n28  -2.3615895 0.04166667 0.033682827\n164  1.8139050 0.04166667 0.020149711",
+    "crumbs": [
+      "Extras",
+      "Outliers"
+    ]
+  },
+  {
+    "objectID": "coding/extras/outliers.html#treatment-options",
+    "href": "coding/extras/outliers.html#treatment-options",
+    "title": "Data Outliers",
+    "section": "12 Treatment options 🛠️",
+    "text": "12 Treatment options 🛠️\nWhat to do instead of deleting\n\n\n\n\n\n\nOptions in increasing order of intervention\n\n\n\n\nDo nothing (keep the point) if it is plausible and conclusions are robust\n\nFix errors (units, typos) with documentation\n\nAdd structure (block/site/year random effects, covariates, interactions) if the point reveals missing model structure\n\nModel non-constant variance or transform the response if residual spread grows with mean\n\nRobust methods if the goal is stable estimation under heavy tails (useful, but interpret carefully)",
+    "crumbs": [
+      "Extras",
+      "Outliers"
+    ]
+  },
+  {
+    "objectID": "coding/extras/outliers.html#reliable-r-packages",
+    "href": "coding/extras/outliers.html#reliable-r-packages",
+    "title": "Data Outliers",
+    "section": "13 Reliable R packages 📦",
+    "text": "13 Reliable R packages 📦\n\n\n\n\n\n\nGood, reliable tools for diagnostics\n\n\n\nBase R (reliable and transparent)\n- rstudent(), rstandard()\n- cooks.distance(), hatvalues(), dfbetas()\n- influence.measures()\nperformance (great for teaching)\n- performance::check_model() for a consistent diagnostic overview (and it works for many model types)\ncar (classic and widely used)\n- car::outlierTest() (Bonferroni-adjusted test for large residuals in lm)\n- car::influencePlot() (visual summary of leverage/residual/influence)\nbroom (tidy output)\n- broom::augment() to attach fitted values and residuals back to a dataset",
+    "crumbs": [
+      "Extras",
+      "Outliers"
+    ]
+  },
+  {
+    "objectID": "coding/extras/outliers.html#packages-used-for-outliers-influence-diagnostics",
+    "href": "coding/extras/outliers.html#packages-used-for-outliers-influence-diagnostics",
+    "title": "Data Outliers",
+    "section": "15 Packages used for outliers & influence diagnostics 📦",
+    "text": "15 Packages used for outliers & influence diagnostics 📦\n\nbroom: provides augment() to attach observation-level diagnostics (e.g., fitted values, residuals, leverage, Cook’s distance when available) back onto your data frame for tidy workflows. https://cran.r-project.org/package=broom\nperformance: provides check_model() for a compact, teaching-friendly set of diagnostic plots (assumptions + influential observations) that works across many model classes. https://cran.r-project.org/package=performance\ncar: classic applied regression tools; includes dedicated functions commonly used for outliers/influence such as outlierTest() and influencePlot() (bubble plot of studentized residuals vs leverage with Cook’s distance). https://cran.r-project.org/package=car",
+    "crumbs": [
+      "Extras",
+      "Outliers"
+    ]
+  },
+  {
+    "objectID": "coding/extras/outliers.html#references",
+    "href": "coding/extras/outliers.html#references",
+    "title": "Data Outliers",
+    "section": "16 References 📚",
+    "text": "16 References 📚\n\nCook, R. D. (1977). Detection of influential observation in linear regression. Technometrics, 19(1), 15–18. https://doi.org/10.1080/00401706.1977.10489493\nWeisberg, S. (2014). Applied Linear Regression (4th ed.). Wiley. Chapter 9: Regression Diagnostics. https://www.stat.purdue.edu/~qfsong/teaching/525/book/Weisberg-Applied-Linear-Regression-Wiley.pdf\nJames, G., Witten, D., Hastie, T., & Tibshirani, R. (2021). An Introduction to Statistical Learning (2nd ed.). Springer. Chapter 3: Linear Regression (see the section on “Potential Problems”). https://www.statlearning.com",
+    "crumbs": [
+      "Extras",
+      "Outliers"
+    ]
+  },
+  {
+    "objectID": "project/project_documentation.html#announcement",
+    "href": "project/project_documentation.html#announcement",
+    "title": "Semester Project",
+    "section": "",
+    "text": "Next steps are focused on setting up a clean, reproducible workflow and making progress visible over the semester.",
     "crumbs": [
       "Semester Project",
       "Project documentation"

@@ -2,7 +2,7 @@
 title: "Semester Project"
 subtitle: "Documentation using Github Issues"
 author: "Dr. Adrian Correndo"
-date: "2026-02-13"
+date: "2026-02-16"
 format:
   html:
     toc: true
@@ -16,9 +16,9 @@ execute:
   message: false
 ---
 
-## Announcement 📣 Semester Project – Next Steps
+## Announcement 📣
 
-Thanks for submitting your **Semester Project Proposal**. Your next steps are focused on setting up a clean, reproducible workflow and making progress visible over the semester.
+Next steps are focused on setting up a clean, reproducible workflow and making progress visible over the semester.
 
 ------------------------------------------------------------------------
 
@@ -27,11 +27,15 @@ Thanks for submitting your **Semester Project Proposal**. Your next steps are fo
 Each group must create a  **PRIVATE** GitHub repository for the semester project.
 
 ### Requirements
-- Repository is **PRIVATE**
-- Repository includes all group members as collaborators
-- Invite the instructor as a collaborator:
+- Repository is **PRIVATE** (not public) <br/>
+- Repository includes all group members as collaborators <br/>
+- Invite the instructor as a collaborator: <br/>
 
-**Instructor GitHub username:** `adriancorrendo`
+**Instructor GitHub username:** `adriancorrendo` <br/>
+
+:::{.callout-warning}
+IMPORTANT: you need to use RStudio on your local machines (not PositCloud) for editing the repository files and pushing to the remote version of the repo. If you need help with GitHub, please check with the instructor as soon as possible. <br/>
+:::
 
 ------------------------------------------------------------------------
 
@@ -41,80 +45,81 @@ Once the repository is created, start an **Issues** workflow. Issues are how you
 
 ### What to do
 - Create a set of Issues that reflect your project tasks, for example:
-  - “Import raw data + check structure”
-  - “Define data dictionary (variable definitions + units)”
-  - “Data cleaning: missing values + outliers”
-  - “Wrangling: merge files / reshape tables”
-  - “EDA: key plots + summary tables”
-  - “Modeling plan + first model”
-  - “Draft report outline (Quarto)”
-  - “Finalize results tables/figures”
+  - “Import raw data + check structure” <br/>
+  - “Define data dictionary (variable definitions + units)” <br/>
+  - “Data cleaning: missing values + outliers” <br/>
+  - “Wrangling: merge files / reshape tables” <br/>
+  - “EDA: key plots + summary tables” <br/>
+  - “Modeling plan + first model” <br/>
+  - “Draft report outline (Quarto)” <br/>
+  - “Finalize results tables/figures” <br/>
+  
 - For each Issue, include:
-  - a short description of what needs to be done
-  - a checklist of subtasks (optional but recommended)
-  - notes on decisions made (e.g., what cleaning rules you used)
+  - a short description of what needs to be done <br/>
+  - a checklist of subtasks (optional but recommended) <br/>
+  - notes on decisions made (e.g., what cleaning rules you used) <br/>
 
 ### Assign responsibility 👤
 GitHub lets you assign an Issue to someone.
 
-- Use **Assignees** to indicate who is responsible for that Issue.
-- You can also add Labels (e.g., `data-cleaning`, `analysis`, `writing`, `bug`).
+- Use **Assignees** to indicate who is responsible for that Issue. <br/>
+- You can also add labels (e.g., `data-cleaning`, `analysis`, `writing`, `bug`). <br/>
 
 ### Weekly expectation 📅
 Every week, your repository should show progress:
-- closing at least one Issue **or**
-- moving an Issue forward with comments, commits, or partial deliverables
+- closing at least one Issue **or**  <br/>
+- moving an Issue forward with comments, commits, or partial deliverables  <br/>
 
-Even small steps count (e.g., “created data dictionary draft”, “import script created”, “renamed variables”, “EDA plots started”).
+Even small steps count (e.g., “created data dictionary draft”, “import script created”, “renamed variables”, “EDA plots started”).  <br/>
 
 ------------------------------------------------------------------------
 
 ## 3) Everyone must commit + push at least once (and ideally weekly) 🔁
 
-All members must contribute to the repository by:
-- making at least **one commit** with a meaningful message
-- **pushing** to GitHub
+All members must contribute to the repository by:  
+- making at least **one commit** with a meaningful message <br/>
+- **pushing** to GitHub <br/>
 
 Use the course GitHub lesson as your guide:
 https://adriancorrendo.github.io/plnt6530/coding/week_02/03_versioncontrol.html
 
 ### Commit messages matter ✍️
 Use clear messages like:
-- “Import raw dataset and save as CSV”
-- “Clean variable names and define units”
-- “Add EDA plots for yield and defoliation”
-- “Create Quarto report skeleton + outline”
+- “Import raw dataset and save as CSV” <br/>
+- “Clean variable names and define units” <br/>
+- “Add EDA plots for yield and defoliation” <br/>
+- “Create Quarto report skeleton + outline” <br/>
 
 ------------------------------------------------------------------------
 
 ## 4) Schedule 30-minute office hours before end of February 🗓️
 
 Each group must schedule a **30-minute meeting** with the instructor to discuss:
-- scope and feasibility
-- data plan and cleaning steps
-- analysis plan
-- reproducibility workflow and repo organization
+- scope and feasibility <br/>
+- data plan and cleaning steps <br/>
+- analysis plan <br/>
+- reproducibility workflow and repo organization <br/>
 
 Meeting format:
-- In-person or Zoom (both OK)
+- In-person or Zoom (both OK) <br/>
 
 To schedule: email the instructor at
 
 **acorrend@uoguelph.ca**
 
 Please include:
-- your group name
-- 2–3 possible time windows
-- whether you prefer in-person or Zoom
+- your group name <br/>
+- 2–3 possible time windows <br/>
+- whether you prefer in-person or Zoom <br/>
 
 ------------------------------------------------------------------------
 
 ## Quick checklist ✅
 
-- [ ] Private GitHub repo created
-- [ ] Instructor invited: `adriancorrendo`
-- [ ] Issues created for major tasks
-- [ ] Issues assigned to team members
-- [ ] Evidence of weekly progress (Issues + commits)
-- [ ] Each member commits + pushes at least once
-- [ ] Office hours scheduled before end of February (email `acorrend@uoguelph.ca`)
+- [ ] Private GitHub repo created <br/>
+- [ ] Instructor invited: `adriancorrendo` <br/>
+- [ ] Issues created for major tasks <br/>
+- [ ] Issues assigned to team members <br/>
+- [ ] Evidence of weekly progress (Issues + commits) <br/>
+- [ ] Each member commits + pushes at least once <br/>
+- [ ] Office hours scheduled before end of February (email `acorrend@uoguelph.ca`) <br/>
