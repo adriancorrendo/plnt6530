@@ -93,9 +93,9 @@ If removing one or two points flips your conclusion, the key message is usually:
 
 ---
 
-## Influence vs outliers (model-based thinking) 🎯
+## Outliers & Influence 🎯
 
-An observation can be unusual without changing conclusions. What often matters more is whether it is **influential**.
+An observation can be unusual without changing conclusions. What often matters more is whether it is **influential** or not.
 
 ::: {.callout-note title="Key ideas"}
 - **Large residual**: unusual *Y* given *X*
@@ -103,9 +103,10 @@ An observation can be unusual without changing conclusions. What often matters m
 - **Influence**: strongly changes fitted coefficients/predictions
 :::
 
----
+On this section, we explore tools to identify these cases.
 
-## Studentized residuals (outliers in Y given X) 📏
+### Studentized residuals 📏
+Outliers in Y given X 
 
 A **residual** is $e_i = y_i - \hat{y}_i$. To compare residuals across observations, we standardize them.
 
@@ -128,9 +129,9 @@ With large datasets, some points will exceed these cutoffs by chance, so treat t
 
 ---
 
-## Cook’s distance (influential observations) 🍳
+### Cook’s distance 🍳
 
-**Cook’s distance** measures how much the fitted model would change if observation \(i\) were removed. It combines:
+**Cook’s distance** measures how much the fitted model would change if observation \(i\) were removed to fit the model. It combines:
 
 - how unusual the point is in **Y** (residual size) and
 
@@ -153,20 +154,6 @@ Common cutoffs used for screening include:
 
 These are not universal thresholds. They are **starting points for investigation**.
 :::
-
----
-
-## Recommended reporting practice 🧾✅
-
-::: {.callout-tip title="A simple, defensible template"}
-1. **Primary analysis**: model fitted on the full dataset (after correcting *confirmed errors*).  
-2. **Sensitivity analysis**: refit after excluding  
-   - confirmed errors/protocol violations (documented), and optionally  
-   - highly influential points (diagnostic only)  
-3. **Compare**: key coefficients, standard errors, treatment differences, and conclusions.
-:::
-
----
 
 ## Example in R 💻
 
@@ -336,7 +323,7 @@ In this course, we do not delete observations during EDA unless they are **confi
 
 - **broom**: provides `augment()` to attach observation-level diagnostics (e.g., fitted values, residuals, leverage, Cook’s distance when available) back onto your data frame for tidy workflows. [https://cran.r-project.org/package=broom](https://cran.r-project.org/package=performance)
 
-- **performance**: provides `check_model()` for a compact, teaching-friendly set of diagnostic plots (assumptions + influential observations) that works across many model classes.  [https://cran.r-project.org/package=performance](https://cran.r-project.org/package=performance)
+- **performance**: provides `check_model()` for a compact, friendly set of diagnostic plots (assumptions + influential observations) that works across many model classes.  [https://cran.r-project.org/package=performance](https://cran.r-project.org/package=performance)
 
 - **car**: classic applied regression tools; includes dedicated functions commonly used for outliers/influence such as `outlierTest()` and `influencePlot()` (bubble plot of studentized residuals vs leverage with Cook’s distance). [https://cran.r-project.org/package=car](https://cran.r-project.org/package=car)
 

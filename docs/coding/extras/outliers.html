@@ -472,29 +472,30 @@ window.Quarto = {
   <li><a href="#how-to-classify-unusual-observations" id="toc-how-to-classify-unusual-observations" class="nav-link" data-scroll-target="#how-to-classify-unusual-observations"><span class="header-section-number">4</span> How to classify unusual observations 🧩</a></li>
   <li><a href="#when-is-deletion-justified" id="toc-when-is-deletion-justified" class="nav-link" data-scroll-target="#when-is-deletion-justified"><span class="header-section-number">5</span> When is deletion justified? 🗂️</a></li>
   <li><a href="#when-should-you-not-delete" id="toc-when-should-you-not-delete" class="nav-link" data-scroll-target="#when-should-you-not-delete"><span class="header-section-number">6</span> When should you NOT delete? ⚠️</a></li>
-  <li><a href="#influence-vs-outliers-model-based-thinking" id="toc-influence-vs-outliers-model-based-thinking" class="nav-link" data-scroll-target="#influence-vs-outliers-model-based-thinking"><span class="header-section-number">7</span> Influence vs outliers (model-based thinking) 🎯</a></li>
-  <li><a href="#studentized-residuals-outliers-in-y-given-x" id="toc-studentized-residuals-outliers-in-y-given-x" class="nav-link" data-scroll-target="#studentized-residuals-outliers-in-y-given-x"><span class="header-section-number">8</span> Studentized residuals (outliers in Y given X) 📏</a></li>
-  <li><a href="#cooks-distance-influential-observations" id="toc-cooks-distance-influential-observations" class="nav-link" data-scroll-target="#cooks-distance-influential-observations"><span class="header-section-number">9</span> Cook’s distance (influential observations) 🍳</a></li>
-  <li><a href="#recommended-reporting-practice" id="toc-recommended-reporting-practice" class="nav-link" data-scroll-target="#recommended-reporting-practice"><span class="header-section-number">10</span> Recommended reporting practice 🧾✅</a></li>
-  <li><a href="#example-in-r" id="toc-example-in-r" class="nav-link" data-scroll-target="#example-in-r"><span class="header-section-number">11</span> Example in R 💻</a>
+  <li><a href="#outliers-influence" id="toc-outliers-influence" class="nav-link" data-scroll-target="#outliers-influence"><span class="header-section-number">7</span> Outliers &amp; Influence 🎯</a>
   <ul>
-  <li><a href="#pacakges" id="toc-pacakges" class="nav-link" data-scroll-target="#pacakges"><span class="header-section-number">11.1</span> pacakges</a></li>
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="header-section-number">11.2</span> data</a></li>
-  <li><a href="#model-fit" id="toc-model-fit" class="nav-link" data-scroll-target="#model-fit"><span class="header-section-number">11.3</span> model fit</a></li>
-  <li><a href="#residuals-table" id="toc-residuals-table" class="nav-link" data-scroll-target="#residuals-table"><span class="header-section-number">11.4</span> Residuals table</a></li>
-  <li><a href="#plots" id="toc-plots" class="nav-link" data-scroll-target="#plots"><span class="header-section-number">11.5</span> Plots</a>
+  <li><a href="#studentized-residuals" id="toc-studentized-residuals" class="nav-link" data-scroll-target="#studentized-residuals"><span class="header-section-number">7.1</span> Studentized residuals 📏</a></li>
+  <li><a href="#cooks-distance" id="toc-cooks-distance" class="nav-link" data-scroll-target="#cooks-distance"><span class="header-section-number">7.2</span> Cook’s distance 🍳</a></li>
+  </ul></li>
+  <li><a href="#example-in-r" id="toc-example-in-r" class="nav-link" data-scroll-target="#example-in-r"><span class="header-section-number">8</span> Example in R 💻</a>
+  <ul>
+  <li><a href="#pacakges" id="toc-pacakges" class="nav-link" data-scroll-target="#pacakges"><span class="header-section-number">8.1</span> pacakges</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="header-section-number">8.2</span> data</a></li>
+  <li><a href="#model-fit" id="toc-model-fit" class="nav-link" data-scroll-target="#model-fit"><span class="header-section-number">8.3</span> model fit</a></li>
+  <li><a href="#residuals-table" id="toc-residuals-table" class="nav-link" data-scroll-target="#residuals-table"><span class="header-section-number">8.4</span> Residuals table</a></li>
+  <li><a href="#plots" id="toc-plots" class="nav-link" data-scroll-target="#plots"><span class="header-section-number">8.5</span> Plots</a>
   <ul class="collapse">
-  <li><a href="#i.-studentizided-residuals" id="toc-i.-studentizided-residuals" class="nav-link" data-scroll-target="#i.-studentizided-residuals"><span class="header-section-number">11.5.1</span> i. studentizided residuals</a></li>
-  <li><a href="#ii.-cooks-distance" id="toc-ii.-cooks-distance" class="nav-link" data-scroll-target="#ii.-cooks-distance"><span class="header-section-number">11.5.2</span> ii. Cook’s distance</a></li>
-  <li><a href="#iii.-hybrid-option" id="toc-iii.-hybrid-option" class="nav-link" data-scroll-target="#iii.-hybrid-option"><span class="header-section-number">11.5.3</span> iii. Hybrid option</a></li>
-  <li><a href="#other-options" id="toc-other-options" class="nav-link" data-scroll-target="#other-options"><span class="header-section-number">11.5.4</span> other options</a></li>
+  <li><a href="#i.-studentizided-residuals" id="toc-i.-studentizided-residuals" class="nav-link" data-scroll-target="#i.-studentizided-residuals"><span class="header-section-number">8.5.1</span> i. studentizided residuals</a></li>
+  <li><a href="#ii.-cooks-distance" id="toc-ii.-cooks-distance" class="nav-link" data-scroll-target="#ii.-cooks-distance"><span class="header-section-number">8.5.2</span> ii. Cook’s distance</a></li>
+  <li><a href="#iii.-hybrid-option" id="toc-iii.-hybrid-option" class="nav-link" data-scroll-target="#iii.-hybrid-option"><span class="header-section-number">8.5.3</span> iii. Hybrid option</a></li>
+  <li><a href="#other-options" id="toc-other-options" class="nav-link" data-scroll-target="#other-options"><span class="header-section-number">8.5.4</span> other options</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#treatment-options" id="toc-treatment-options" class="nav-link" data-scroll-target="#treatment-options"><span class="header-section-number">12</span> Treatment options 🛠️</a></li>
-  <li><a href="#reliable-r-packages" id="toc-reliable-r-packages" class="nav-link" data-scroll-target="#reliable-r-packages"><span class="header-section-number">13</span> Reliable R packages 📦</a></li>
-  <li><a href="#final-suggestion" id="toc-final-suggestion" class="nav-link" data-scroll-target="#final-suggestion"><span class="header-section-number">14</span> Final Suggestion 📌</a></li>
-  <li><a href="#packages-used-for-outliers-influence-diagnostics" id="toc-packages-used-for-outliers-influence-diagnostics" class="nav-link" data-scroll-target="#packages-used-for-outliers-influence-diagnostics"><span class="header-section-number">15</span> Packages used for outliers &amp; influence diagnostics 📦</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">16</span> References 📚</a></li>
+  <li><a href="#treatment-options" id="toc-treatment-options" class="nav-link" data-scroll-target="#treatment-options"><span class="header-section-number">9</span> Treatment options 🛠️</a></li>
+  <li><a href="#reliable-r-packages" id="toc-reliable-r-packages" class="nav-link" data-scroll-target="#reliable-r-packages"><span class="header-section-number">10</span> Reliable R packages 📦</a></li>
+  <li><a href="#final-suggestion" id="toc-final-suggestion" class="nav-link" data-scroll-target="#final-suggestion"><span class="header-section-number">11</span> Final Suggestion 📌</a></li>
+  <li><a href="#packages-used-for-outliers-influence-diagnostics" id="toc-packages-used-for-outliers-influence-diagnostics" class="nav-link" data-scroll-target="#packages-used-for-outliers-influence-diagnostics"><span class="header-section-number">12</span> Packages used for outliers &amp; influence diagnostics 📦</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">13</span> References 📚</a></li>
   </ul>
 </nav>
     </div>
@@ -680,9 +681,9 @@ Avoid deleting points just because they look extreme
 </div>
 <hr>
 </section>
-<section id="influence-vs-outliers-model-based-thinking" class="level2" data-number="7">
-<h2 data-number="7" class="anchored" data-anchor-id="influence-vs-outliers-model-based-thinking"><span class="header-section-number">7</span> Influence vs outliers (model-based thinking) 🎯</h2>
-<p>An observation can be unusual without changing conclusions. What often matters more is whether it is <strong>influential</strong>.</p>
+<section id="outliers-influence" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="outliers-influence"><span class="header-section-number">7</span> Outliers &amp; Influence 🎯</h2>
+<p>An observation can be unusual without changing conclusions. What often matters more is whether it is <strong>influential</strong> or not.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Key ideas">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -700,10 +701,10 @@ Key ideas
 </ul>
 </div>
 </div>
-<hr>
-</section>
-<section id="studentized-residuals-outliers-in-y-given-x" class="level2" data-number="8">
-<h2 data-number="8" class="anchored" data-anchor-id="studentized-residuals-outliers-in-y-given-x"><span class="header-section-number">8</span> Studentized residuals (outliers in Y given X) 📏</h2>
+<p>On this section, we explore tools to identify these cases.</p>
+<section id="studentized-residuals" class="level3" data-number="7.1">
+<h3 data-number="7.1" class="anchored" data-anchor-id="studentized-residuals"><span class="header-section-number">7.1</span> Studentized residuals 📏</h3>
+<p>Outliers in Y given X</p>
 <p>A <strong>residual</strong> is <span class="math inline">\(e_i = y_i - \hat{y}_i\)</span>. To compare residuals across observations, we standardize them.</p>
 <p><strong>Studentized residuals</strong> account for differences in residual variability and leverage. In practice, the most common diagnostic in R is the <em>externally studentized</em> residual:</p>
 <ul>
@@ -741,9 +742,9 @@ Rules of thumb (for flagging, not automatic deletion)
 </div>
 <hr>
 </section>
-<section id="cooks-distance-influential-observations" class="level2" data-number="9">
-<h2 data-number="9" class="anchored" data-anchor-id="cooks-distance-influential-observations"><span class="header-section-number">9</span> Cook’s distance (influential observations) 🍳</h2>
-<p><strong>Cook’s distance</strong> measures how much the fitted model would change if observation (i) were removed. It combines:</p>
+<section id="cooks-distance" class="level3" data-number="7.2">
+<h3 data-number="7.2" class="anchored" data-anchor-id="cooks-distance"><span class="header-section-number">7.2</span> Cook’s distance 🍳</h3>
+<p><strong>Cook’s distance</strong> measures how much the fitted model would change if observation (i) were removed to fit the model. It combines:</p>
 <ul>
 <li><p>how unusual the point is in <strong>Y</strong> (residual size) and</p></li>
 <li><p>how unusual the point is in <strong>X</strong> (leverage)</p></li>
@@ -780,40 +781,12 @@ Rules of thumb (for flagging)
 <p>These are not universal thresholds. They are <strong>starting points for investigation</strong>.</p>
 </div>
 </div>
-<hr>
 </section>
-<section id="recommended-reporting-practice" class="level2" data-number="10">
-<h2 data-number="10" class="anchored" data-anchor-id="recommended-reporting-practice"><span class="header-section-number">10</span> Recommended reporting practice 🧾✅</h2>
-<div class="callout callout-style-default callout-tip callout-titled" title="A simple, defensible template">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-A simple, defensible template
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li><strong>Primary analysis</strong>: model fitted on the full dataset (after correcting <em>confirmed errors</em>).<br>
-</li>
-<li><strong>Sensitivity analysis</strong>: refit after excluding
-<ul>
-<li>confirmed errors/protocol violations (documented), and optionally<br>
-</li>
-<li>highly influential points (diagnostic only)<br>
-</li>
-</ul></li>
-<li><strong>Compare</strong>: key coefficients, standard errors, treatment differences, and conclusions.</li>
-</ol>
-</div>
-</div>
-<hr>
 </section>
-<section id="example-in-r" class="level2" data-number="11">
-<h2 data-number="11" class="anchored" data-anchor-id="example-in-r"><span class="header-section-number">11</span> Example in R 💻</h2>
-<section id="pacakges" class="level3" data-number="11.1">
-<h3 data-number="11.1" class="anchored" data-anchor-id="pacakges"><span class="header-section-number">11.1</span> pacakges</h3>
+<section id="example-in-r" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="example-in-r"><span class="header-section-number">8</span> Example in R 💻</h2>
+<section id="pacakges" class="level3" data-number="8.1">
+<h3 data-number="8.1" class="anchored" data-anchor-id="pacakges"><span class="header-section-number">8.1</span> pacakges</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pacman)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(dplyr, tidyr) <span class="co"># data wrangling</span></span>
@@ -821,8 +794,8 @@ A simple, defensible template
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(broom, performance)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="data" class="level3" data-number="11.2">
-<h3 data-number="11.2" class="anchored" data-anchor-id="data"><span class="header-section-number">11.2</span> data</h3>
+<section id="data" class="level3" data-number="8.2">
+<h3 data-number="8.2" class="anchored" data-anchor-id="data"><span class="header-section-number">8.2</span> data</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example:</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>cornn_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"../week_06/data/cornn_data.csv"</span>) <span class="sc">%&gt;%</span> </span>
@@ -832,15 +805,15 @@ A simple, defensible template
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">year =</span> <span class="fu">factor</span>(year))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="model-fit" class="level3" data-number="11.3">
-<h3 data-number="11.3" class="anchored" data-anchor-id="model-fit"><span class="header-section-number">11.3</span> model fit</h3>
+<section id="model-fit" class="level3" data-number="8.3">
+<h3 data-number="8.3" class="anchored" data-anchor-id="model-fit"><span class="header-section-number">8.3</span> model fit</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit model</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(yield_kgha <span class="sc">~</span> n_trt, <span class="at">data =</span> cornn_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="residuals-table" class="level3" data-number="11.4">
-<h3 data-number="11.4" class="anchored" data-anchor-id="residuals-table"><span class="header-section-number">11.4</span> Residuals table</h3>
+<section id="residuals-table" class="level3" data-number="8.4">
+<h3 data-number="8.4" class="anchored" data-anchor-id="residuals-table"><span class="header-section-number">8.4</span> Residuals table</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">###</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Create table with residuals and flag suspicious observations</span></span>
@@ -870,10 +843,10 @@ A simple, defensible template
 </div>
 </div>
 </section>
-<section id="plots" class="level3" data-number="11.5">
-<h3 data-number="11.5" class="anchored" data-anchor-id="plots"><span class="header-section-number">11.5</span> Plots</h3>
-<section id="i.-studentizided-residuals" class="level4" data-number="11.5.1">
-<h4 data-number="11.5.1" class="anchored" data-anchor-id="i.-studentizided-residuals"><span class="header-section-number">11.5.1</span> i. studentizided residuals</h4>
+<section id="plots" class="level3" data-number="8.5">
+<h3 data-number="8.5" class="anchored" data-anchor-id="plots"><span class="header-section-number">8.5</span> Plots</h3>
+<section id="i.-studentizided-residuals" class="level4" data-number="8.5.1">
+<h4 data-number="8.5.1" class="anchored" data-anchor-id="i.-studentizided-residuals"><span class="header-section-number">8.5.1</span> i. studentizided residuals</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot outliers</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>diag_tbl <span class="sc">%&gt;%</span></span>
@@ -902,8 +875,8 @@ A simple, defensible template
 </div>
 </div>
 </section>
-<section id="ii.-cooks-distance" class="level4" data-number="11.5.2">
-<h4 data-number="11.5.2" class="anchored" data-anchor-id="ii.-cooks-distance"><span class="header-section-number">11.5.2</span> ii. Cook’s distance</h4>
+<section id="ii.-cooks-distance" class="level4" data-number="8.5.2">
+<h4 data-number="8.5.2" class="anchored" data-anchor-id="ii.-cooks-distance"><span class="header-section-number">8.5.2</span> ii. Cook’s distance</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>diag_tbl <span class="sc">%&gt;%</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cook_cut =</span> <span class="dv">4</span> <span class="sc">/</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
@@ -932,8 +905,8 @@ A simple, defensible template
 </div>
 </div>
 </section>
-<section id="iii.-hybrid-option" class="level4" data-number="11.5.3">
-<h4 data-number="11.5.3" class="anchored" data-anchor-id="iii.-hybrid-option"><span class="header-section-number">11.5.3</span> iii. Hybrid option</h4>
+<section id="iii.-hybrid-option" class="level4" data-number="8.5.3">
+<h4 data-number="8.5.3" class="anchored" data-anchor-id="iii.-hybrid-option"><span class="header-section-number">8.5.3</span> iii. Hybrid option</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>diag_tbl <span class="sc">%&gt;%</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> .hat, <span class="at">y =</span> stud_resid)) <span class="sc">+</span></span>
@@ -963,8 +936,8 @@ A simple, defensible template
 </div>
 </div>
 </section>
-<section id="other-options" class="level4" data-number="11.5.4">
-<h4 data-number="11.5.4" class="anchored" data-anchor-id="other-options"><span class="header-section-number">11.5.4</span> other options</h4>
+<section id="other-options" class="level4" data-number="8.5.4">
+<h4 data-number="8.5.4" class="anchored" data-anchor-id="other-options"><span class="header-section-number">8.5.4</span> other options</h4>
 <p>The <code>performance</code> package offers a variety of functions to check assumptions and for outliers/influential observations</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">check_model</span>(<span class="at">model =</span> fit, <span class="at">check =</span> <span class="fu">c</span>(<span class="st">"outliers"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1004,8 +977,8 @@ Largest |rstudent|:
 </section>
 </section>
 </section>
-<section id="treatment-options" class="level2" data-number="12">
-<h2 data-number="12" class="anchored" data-anchor-id="treatment-options"><span class="header-section-number">12</span> Treatment options 🛠️</h2>
+<section id="treatment-options" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="treatment-options"><span class="header-section-number">9</span> Treatment options 🛠️</h2>
 <p>What to do instead of deleting</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Options in increasing order of intervention">
 <div class="callout-header d-flex align-content-center">
@@ -1033,8 +1006,8 @@ Options in increasing order of intervention
 </div>
 <hr>
 </section>
-<section id="reliable-r-packages" class="level2" data-number="13">
-<h2 data-number="13" class="anchored" data-anchor-id="reliable-r-packages"><span class="header-section-number">13</span> Reliable R packages 📦</h2>
+<section id="reliable-r-packages" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="reliable-r-packages"><span class="header-section-number">10</span> Reliable R packages 📦</h2>
 <div class="callout callout-style-default callout-note callout-titled" title="Good, reliable tools for diagnostics">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1060,20 +1033,20 @@ Good, reliable tools for diagnostics
 </div>
 <hr>
 </section>
-<section id="final-suggestion" class="level2" data-number="14">
-<h2 data-number="14" class="anchored" data-anchor-id="final-suggestion"><span class="header-section-number">14</span> Final Suggestion 📌</h2>
+<section id="final-suggestion" class="level2" data-number="11">
+<h2 data-number="11" class="anchored" data-anchor-id="final-suggestion"><span class="header-section-number">11</span> Final Suggestion 📌</h2>
 <p>In this course, we do not delete observations during EDA unless they are <strong>confirmed errors</strong> or <strong>clear protocol violations</strong>. Instead, we flag unusual points, fit models, evaluate influence, and use sensitivity analyses. Any exclusions must be documented and reproducible.</p>
 </section>
-<section id="packages-used-for-outliers-influence-diagnostics" class="level2" data-number="15">
-<h2 data-number="15" class="anchored" data-anchor-id="packages-used-for-outliers-influence-diagnostics"><span class="header-section-number">15</span> Packages used for outliers &amp; influence diagnostics 📦</h2>
+<section id="packages-used-for-outliers-influence-diagnostics" class="level2" data-number="12">
+<h2 data-number="12" class="anchored" data-anchor-id="packages-used-for-outliers-influence-diagnostics"><span class="header-section-number">12</span> Packages used for outliers &amp; influence diagnostics 📦</h2>
 <ul>
 <li><p><strong>broom</strong>: provides <code>augment()</code> to attach observation-level diagnostics (e.g., fitted values, residuals, leverage, Cook’s distance when available) back onto your data frame for tidy workflows. <a href="https://cran.r-project.org/package=performance">https://cran.r-project.org/package=broom</a></p></li>
-<li><p><strong>performance</strong>: provides <code>check_model()</code> for a compact, teaching-friendly set of diagnostic plots (assumptions + influential observations) that works across many model classes. <a href="https://cran.r-project.org/package=performance">https://cran.r-project.org/package=performance</a></p></li>
+<li><p><strong>performance</strong>: provides <code>check_model()</code> for a compact, friendly set of diagnostic plots (assumptions + influential observations) that works across many model classes. <a href="https://cran.r-project.org/package=performance">https://cran.r-project.org/package=performance</a></p></li>
 <li><p><strong>car</strong>: classic applied regression tools; includes dedicated functions commonly used for outliers/influence such as <code>outlierTest()</code> and <code>influencePlot()</code> (bubble plot of studentized residuals vs leverage with Cook’s distance). <a href="https://cran.r-project.org/package=car">https://cran.r-project.org/package=car</a></p></li>
 </ul>
 </section>
-<section id="references" class="level2" data-number="16">
-<h2 data-number="16" class="anchored" data-anchor-id="references"><span class="header-section-number">16</span> References 📚</h2>
+<section id="references" class="level2" data-number="13">
+<h2 data-number="13" class="anchored" data-anchor-id="references"><span class="header-section-number">13</span> References 📚</h2>
 <ul>
 <li><p>Cook, R. D. (1977). <em>Detection of influential observation in linear regression</em>. <strong>Technometrics</strong>, 19(1), 15–18. <a href="https://doi.org/10.1080/00401706.1977.10489493">https://doi.org/10.1080/00401706.1977.10489493</a></p></li>
 <li><p>Weisberg, S. (2014). <em>Applied Linear Regression</em> (4th ed.). Wiley. <strong>Chapter 9: Regression Diagnostics</strong>. <a href="https://www.stat.purdue.edu/~qfsong/teaching/525/book/Weisberg-Applied-Linear-Regression-Wiley.pdf">https://www.stat.purdue.edu/~qfsong/teaching/525/book/Weisberg-Applied-Linear-Regression-Wiley.pdf</a></p></li>
@@ -1805,9 +1778,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb14-93"><a href="#cb14-93" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-94"><a href="#cb14-94" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb14-95"><a href="#cb14-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-96"><a href="#cb14-96" aria-hidden="true" tabindex="-1"></a><span class="fu">## Influence vs outliers (model-based thinking) 🎯</span></span>
+<span id="cb14-96"><a href="#cb14-96" aria-hidden="true" tabindex="-1"></a><span class="fu">## Outliers &amp; Influence 🎯</span></span>
 <span id="cb14-97"><a href="#cb14-97" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-98"><a href="#cb14-98" aria-hidden="true" tabindex="-1"></a>An observation can be unusual without changing conclusions. What often matters more is whether it is **influential**.</span>
+<span id="cb14-98"><a href="#cb14-98" aria-hidden="true" tabindex="-1"></a>An observation can be unusual without changing conclusions. What often matters more is whether it is **influential** or not.</span>
 <span id="cb14-99"><a href="#cb14-99" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-100"><a href="#cb14-100" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Key ideas"}</span>
 <span id="cb14-101"><a href="#cb14-101" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Large residual**: unusual *Y* given *X*</span>
@@ -1815,250 +1788,237 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb14-103"><a href="#cb14-103" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Influence**: strongly changes fitted coefficients/predictions</span>
 <span id="cb14-104"><a href="#cb14-104" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb14-105"><a href="#cb14-105" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-106"><a href="#cb14-106" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb14-106"><a href="#cb14-106" aria-hidden="true" tabindex="-1"></a>On this section, we explore tools to identify these cases.</span>
 <span id="cb14-107"><a href="#cb14-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-108"><a href="#cb14-108" aria-hidden="true" tabindex="-1"></a><span class="fu">## Studentized residuals (outliers in Y given X) 📏</span></span>
-<span id="cb14-109"><a href="#cb14-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-110"><a href="#cb14-110" aria-hidden="true" tabindex="-1"></a>A **residual** is $e_i = y_i - \hat{y}_i$. To compare residuals across observations, we standardize them.</span>
-<span id="cb14-111"><a href="#cb14-111" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-112"><a href="#cb14-112" aria-hidden="true" tabindex="-1"></a>**Studentized residuals** account for differences in residual variability and leverage. In practice, the most common diagnostic in R is the *externally studentized* residual:</span>
-<span id="cb14-113"><a href="#cb14-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-114"><a href="#cb14-114" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`rstudent(fit)`</span> returns the studentized residual for each observation (computed leaving that observation out of the residual SD estimate).</span>
-<span id="cb14-115"><a href="#cb14-115" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-116"><a href="#cb14-116" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Interpretation"}</span>
-<span id="cb14-117"><a href="#cb14-117" aria-hidden="true" tabindex="-1"></a>Large absolute studentized residuals indicate observations whose **Y value is unusually far from the model expectation**, given their X values.</span>
-<span id="cb14-118"><a href="#cb14-118" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb14-119"><a href="#cb14-119" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-120"><a href="#cb14-120" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title="Rules of thumb (for flagging, not automatic deletion)"}</span>
-<span id="cb14-121"><a href="#cb14-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-122"><a href="#cb14-122" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$|r_i| &gt; 2$: potentially unusual  </span>
-<span id="cb14-123"><a href="#cb14-123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-124"><a href="#cb14-124" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$|r_i| &gt; 3$: strongly unusual (worth investigating)  </span>
-<span id="cb14-125"><a href="#cb14-125" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-126"><a href="#cb14-126" aria-hidden="true" tabindex="-1"></a>With large datasets, some points will exceed these cutoffs by chance, so treat them as **screens**.</span>
-<span id="cb14-127"><a href="#cb14-127" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb14-128"><a href="#cb14-128" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-129"><a href="#cb14-129" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb14-130"><a href="#cb14-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-131"><a href="#cb14-131" aria-hidden="true" tabindex="-1"></a><span class="fu">## Cook’s distance (influential observations) 🍳</span></span>
-<span id="cb14-132"><a href="#cb14-132" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-133"><a href="#cb14-133" aria-hidden="true" tabindex="-1"></a>**Cook’s distance** measures how much the fitted model would change if observation <span class="sc">\(</span>i<span class="sc">\)</span> were removed. It combines:</span>
-<span id="cb14-134"><a href="#cb14-134" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-135"><a href="#cb14-135" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>how unusual the point is in **Y** (residual size) and</span>
-<span id="cb14-136"><a href="#cb14-136" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-137"><a href="#cb14-137" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>how unusual the point is in **X** (leverage)</span>
-<span id="cb14-138"><a href="#cb14-138" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-139"><a href="#cb14-139" aria-hidden="true" tabindex="-1"></a>In R:</span>
-<span id="cb14-140"><a href="#cb14-140" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`cooks.distance(fit)`</span> computes Cook’s distance for each observation.</span>
-<span id="cb14-141"><a href="#cb14-141" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-142"><a href="#cb14-142" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Interpretation"}</span>
-<span id="cb14-143"><a href="#cb14-143" aria-hidden="true" tabindex="-1"></a>A large Cook’s distance means:</span>
-<span id="cb14-144"><a href="#cb14-144" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; “This observation can have a strong impact on the fitted coefficients and the conclusions.”</span></span>
-<span id="cb14-145"><a href="#cb14-145" aria-hidden="true" tabindex="-1"></a><span class="at">:::</span></span>
-<span id="cb14-146"><a href="#cb14-146" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-147"><a href="#cb14-147" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title="Rules of thumb (for flagging)"}</span>
-<span id="cb14-148"><a href="#cb14-148" aria-hidden="true" tabindex="-1"></a>Common cutoffs used for screening include:</span>
-<span id="cb14-149"><a href="#cb14-149" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-150"><a href="#cb14-150" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$D_i &gt; \frac{4}{n}$ (simple and widely used)  </span>
-<span id="cb14-151"><a href="#cb14-151" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-152"><a href="#cb14-152" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$D_i &gt; 1$ (often considered very influential, especially in smaller datasets)</span>
-<span id="cb14-153"><a href="#cb14-153" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-154"><a href="#cb14-154" aria-hidden="true" tabindex="-1"></a>These are not universal thresholds. They are **starting points for investigation**.</span>
-<span id="cb14-155"><a href="#cb14-155" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb14-156"><a href="#cb14-156" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-157"><a href="#cb14-157" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb14-158"><a href="#cb14-158" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-159"><a href="#cb14-159" aria-hidden="true" tabindex="-1"></a><span class="fu">## Recommended reporting practice 🧾✅</span></span>
-<span id="cb14-160"><a href="#cb14-160" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-161"><a href="#cb14-161" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="A simple, defensible template"}</span>
-<span id="cb14-162"><a href="#cb14-162" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Primary analysis**: model fitted on the full dataset (after correcting *confirmed errors*).  </span>
-<span id="cb14-163"><a href="#cb14-163" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Sensitivity analysis**: refit after excluding  </span>
-<span id="cb14-164"><a href="#cb14-164" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>confirmed errors/protocol violations (documented), and optionally  </span>
-<span id="cb14-165"><a href="#cb14-165" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>highly influential points (diagnostic only)  </span>
-<span id="cb14-166"><a href="#cb14-166" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Compare**: key coefficients, standard errors, treatment differences, and conclusions.</span>
-<span id="cb14-167"><a href="#cb14-167" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb14-168"><a href="#cb14-168" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-169"><a href="#cb14-169" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb14-108"><a href="#cb14-108" aria-hidden="true" tabindex="-1"></a><span class="fu">### Studentized residuals 📏</span></span>
+<span id="cb14-109"><a href="#cb14-109" aria-hidden="true" tabindex="-1"></a>Outliers in Y given X </span>
+<span id="cb14-110"><a href="#cb14-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-111"><a href="#cb14-111" aria-hidden="true" tabindex="-1"></a>A **residual** is $e_i = y_i - \hat{y}_i$. To compare residuals across observations, we standardize them.</span>
+<span id="cb14-112"><a href="#cb14-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-113"><a href="#cb14-113" aria-hidden="true" tabindex="-1"></a>**Studentized residuals** account for differences in residual variability and leverage. In practice, the most common diagnostic in R is the *externally studentized* residual:</span>
+<span id="cb14-114"><a href="#cb14-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-115"><a href="#cb14-115" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`rstudent(fit)`</span> returns the studentized residual for each observation (computed leaving that observation out of the residual SD estimate).</span>
+<span id="cb14-116"><a href="#cb14-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-117"><a href="#cb14-117" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Interpretation"}</span>
+<span id="cb14-118"><a href="#cb14-118" aria-hidden="true" tabindex="-1"></a>Large absolute studentized residuals indicate observations whose **Y value is unusually far from the model expectation**, given their X values.</span>
+<span id="cb14-119"><a href="#cb14-119" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb14-120"><a href="#cb14-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-121"><a href="#cb14-121" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title="Rules of thumb (for flagging, not automatic deletion)"}</span>
+<span id="cb14-122"><a href="#cb14-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-123"><a href="#cb14-123" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$|r_i| &gt; 2$: potentially unusual  </span>
+<span id="cb14-124"><a href="#cb14-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-125"><a href="#cb14-125" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$|r_i| &gt; 3$: strongly unusual (worth investigating)  </span>
+<span id="cb14-126"><a href="#cb14-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-127"><a href="#cb14-127" aria-hidden="true" tabindex="-1"></a>With large datasets, some points will exceed these cutoffs by chance, so treat them as **screens**.</span>
+<span id="cb14-128"><a href="#cb14-128" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb14-129"><a href="#cb14-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-130"><a href="#cb14-130" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb14-131"><a href="#cb14-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-132"><a href="#cb14-132" aria-hidden="true" tabindex="-1"></a><span class="fu">### Cook’s distance 🍳</span></span>
+<span id="cb14-133"><a href="#cb14-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-134"><a href="#cb14-134" aria-hidden="true" tabindex="-1"></a>**Cook’s distance** measures how much the fitted model would change if observation <span class="sc">\(</span>i<span class="sc">\)</span> were removed to fit the model. It combines:</span>
+<span id="cb14-135"><a href="#cb14-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-136"><a href="#cb14-136" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>how unusual the point is in **Y** (residual size) and</span>
+<span id="cb14-137"><a href="#cb14-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-138"><a href="#cb14-138" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>how unusual the point is in **X** (leverage)</span>
+<span id="cb14-139"><a href="#cb14-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-140"><a href="#cb14-140" aria-hidden="true" tabindex="-1"></a>In R:</span>
+<span id="cb14-141"><a href="#cb14-141" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`cooks.distance(fit)`</span> computes Cook’s distance for each observation.</span>
+<span id="cb14-142"><a href="#cb14-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-143"><a href="#cb14-143" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Interpretation"}</span>
+<span id="cb14-144"><a href="#cb14-144" aria-hidden="true" tabindex="-1"></a>A large Cook’s distance means:</span>
+<span id="cb14-145"><a href="#cb14-145" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; “This observation can have a strong impact on the fitted coefficients and the conclusions.”</span></span>
+<span id="cb14-146"><a href="#cb14-146" aria-hidden="true" tabindex="-1"></a><span class="at">:::</span></span>
+<span id="cb14-147"><a href="#cb14-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-148"><a href="#cb14-148" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning title="Rules of thumb (for flagging)"}</span>
+<span id="cb14-149"><a href="#cb14-149" aria-hidden="true" tabindex="-1"></a>Common cutoffs used for screening include:</span>
+<span id="cb14-150"><a href="#cb14-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-151"><a href="#cb14-151" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$D_i &gt; \frac{4}{n}$ (simple and widely used)  </span>
+<span id="cb14-152"><a href="#cb14-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-153"><a href="#cb14-153" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$D_i &gt; 1$ (often considered very influential, especially in smaller datasets)</span>
+<span id="cb14-154"><a href="#cb14-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-155"><a href="#cb14-155" aria-hidden="true" tabindex="-1"></a>These are not universal thresholds. They are **starting points for investigation**.</span>
+<span id="cb14-156"><a href="#cb14-156" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb14-157"><a href="#cb14-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-158"><a href="#cb14-158" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example in R 💻</span></span>
+<span id="cb14-159"><a href="#cb14-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-160"><a href="#cb14-160" aria-hidden="true" tabindex="-1"></a><span class="fu">### pacakges</span></span>
+<span id="cb14-161"><a href="#cb14-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-164"><a href="#cb14-164" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-165"><a href="#cb14-165" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pacman)</span>
+<span id="cb14-166"><a href="#cb14-166" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(dplyr, tidyr) <span class="co"># data wrangling</span></span>
+<span id="cb14-167"><a href="#cb14-167" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(ggplot2) <span class="co"># figures</span></span>
+<span id="cb14-168"><a href="#cb14-168" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(broom, performance)</span>
+<span id="cb14-169"><a href="#cb14-169" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb14-170"><a href="#cb14-170" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-171"><a href="#cb14-171" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example in R 💻</span></span>
-<span id="cb14-172"><a href="#cb14-172" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-173"><a href="#cb14-173" aria-hidden="true" tabindex="-1"></a><span class="fu">### pacakges</span></span>
-<span id="cb14-174"><a href="#cb14-174" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-177"><a href="#cb14-177" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb14-178"><a href="#cb14-178" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pacman)</span>
-<span id="cb14-179"><a href="#cb14-179" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(dplyr, tidyr) <span class="co"># data wrangling</span></span>
-<span id="cb14-180"><a href="#cb14-180" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(ggplot2) <span class="co"># figures</span></span>
-<span id="cb14-181"><a href="#cb14-181" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(broom, performance)</span>
-<span id="cb14-182"><a href="#cb14-182" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-183"><a href="#cb14-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-184"><a href="#cb14-184" aria-hidden="true" tabindex="-1"></a><span class="fu">### data</span></span>
-<span id="cb14-187"><a href="#cb14-187" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb14-188"><a href="#cb14-188" aria-hidden="true" tabindex="-1"></a><span class="co"># Example:</span></span>
-<span id="cb14-189"><a href="#cb14-189" aria-hidden="true" tabindex="-1"></a>cornn_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"../week_06/data/cornn_data.csv"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-190"><a href="#cb14-190" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">n_trt =</span> <span class="fu">factor</span>(n_trt, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"N0"</span>,<span class="st">"N60"</span>,<span class="st">"N90"</span>,<span class="st">"N120"</span>,<span class="st">"N180"</span>,<span class="st">"N240"</span>,<span class="st">"N300"</span>)),</span>
-<span id="cb14-191"><a href="#cb14-191" aria-hidden="true" tabindex="-1"></a>         <span class="at">block =</span> <span class="fu">factor</span>(block),</span>
-<span id="cb14-192"><a href="#cb14-192" aria-hidden="true" tabindex="-1"></a>         <span class="at">site =</span> <span class="fu">factor</span>(site),</span>
-<span id="cb14-193"><a href="#cb14-193" aria-hidden="true" tabindex="-1"></a>         <span class="at">year =</span> <span class="fu">factor</span>(year))</span>
-<span id="cb14-194"><a href="#cb14-194" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-195"><a href="#cb14-195" aria-hidden="true" tabindex="-1"></a><span class="fu">### model fit</span></span>
-<span id="cb14-198"><a href="#cb14-198" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb14-199"><a href="#cb14-199" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit model</span></span>
-<span id="cb14-200"><a href="#cb14-200" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(yield_kgha <span class="sc">~</span> n_trt, <span class="at">data =</span> cornn_data)</span>
-<span id="cb14-201"><a href="#cb14-201" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-202"><a href="#cb14-202" aria-hidden="true" tabindex="-1"></a><span class="fu">### Residuals table</span></span>
-<span id="cb14-205"><a href="#cb14-205" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb14-206"><a href="#cb14-206" aria-hidden="true" tabindex="-1"></a><span class="do">###</span></span>
-<span id="cb14-207"><a href="#cb14-207" aria-hidden="true" tabindex="-1"></a><span class="co"># Create table with residuals and flag suspicious observations</span></span>
-<span id="cb14-208"><a href="#cb14-208" aria-hidden="true" tabindex="-1"></a>diag_tbl <span class="ot">&lt;-</span> <span class="fu">augment</span>(fit, <span class="at">data =</span> cornn_data) <span class="sc">%&gt;%</span></span>
-<span id="cb14-209"><a href="#cb14-209" aria-hidden="true" tabindex="-1"></a>  <span class="co"># .std.resid = standardized residuals (broom)</span></span>
-<span id="cb14-210"><a href="#cb14-210" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb14-211"><a href="#cb14-211" aria-hidden="true" tabindex="-1"></a>    <span class="at">stud_resid =</span> <span class="fu">rstudent</span>(fit),           <span class="co"># studentized residuals (externally studentized)</span></span>
-<span id="cb14-212"><a href="#cb14-212" aria-hidden="true" tabindex="-1"></a>    <span class="at">cooks_d    =</span> .cooksd,                 <span class="co"># Cook's distance from broom</span></span>
-<span id="cb14-213"><a href="#cb14-213" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_stud  =</span> <span class="fu">abs</span>(stud_resid) <span class="sc">&gt;</span> <span class="dv">3</span>,</span>
-<span id="cb14-214"><a href="#cb14-214" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_cook  =</span> cooks_d <span class="sc">&gt;</span> <span class="dv">4</span> <span class="sc">/</span> <span class="fu">n</span>(),</span>
-<span id="cb14-215"><a href="#cb14-215" aria-hidden="true" tabindex="-1"></a>    <span class="at">flagged    =</span> flag_stud <span class="sc">|</span> flag_cook</span>
-<span id="cb14-216"><a href="#cb14-216" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb14-217"><a href="#cb14-217" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(flagged), <span class="fu">desc</span>(cooks_d), <span class="fu">desc</span>(<span class="fu">abs</span>(stud_resid)))</span>
-<span id="cb14-218"><a href="#cb14-218" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-219"><a href="#cb14-219" aria-hidden="true" tabindex="-1"></a><span class="co"># View only flagged observations (tidy table)</span></span>
-<span id="cb14-220"><a href="#cb14-220" aria-hidden="true" tabindex="-1"></a>diag_tbl <span class="sc">%&gt;%</span></span>
-<span id="cb14-221"><a href="#cb14-221" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(flagged) <span class="sc">%&gt;%</span></span>
-<span id="cb14-222"><a href="#cb14-222" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">everything</span>())</span>
-<span id="cb14-223"><a href="#cb14-223" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-224"><a href="#cb14-224" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-225"><a href="#cb14-225" aria-hidden="true" tabindex="-1"></a><span class="fu">### Plots </span></span>
-<span id="cb14-226"><a href="#cb14-226" aria-hidden="true" tabindex="-1"></a><span class="fu">#### i. studentizided residuals</span></span>
-<span id="cb14-229"><a href="#cb14-229" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb14-230"><a href="#cb14-230" aria-hidden="true" tabindex="-1"></a><span class="co"># plot outliers</span></span>
-<span id="cb14-231"><a href="#cb14-231" aria-hidden="true" tabindex="-1"></a>diag_tbl <span class="sc">%&gt;%</span></span>
-<span id="cb14-232"><a href="#cb14-232" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> .fitted, <span class="at">y =</span> stud_resid)) <span class="sc">+</span></span>
-<span id="cb14-233"><a href="#cb14-233" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>), <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb14-234"><a href="#cb14-234" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>)<span class="sc">+</span></span>
-<span id="cb14-235"><a href="#cb14-235" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> flagged, <span class="at">fill =</span> flagged), <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb14-236"><a href="#cb14-236" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="dv">21</span>,<span class="dv">24</span>))<span class="sc">+</span></span>
-<span id="cb14-237"><a href="#cb14-237" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">type =</span> <span class="st">"qual"</span>, <span class="at">palette =</span> <span class="dv">2</span>, <span class="at">direction =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
-<span id="cb14-238"><a href="#cb14-238" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> diag_tbl <span class="sc">%&gt;%</span> <span class="fu">filter</span>(flagged),</span>
-<span id="cb14-239"><a href="#cb14-239" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(<span class="at">label =</span> block), <span class="co"># use block as label</span></span>
-<span id="cb14-240"><a href="#cb14-240" aria-hidden="true" tabindex="-1"></a>          <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.7</span>,</span>
-<span id="cb14-241"><a href="#cb14-241" aria-hidden="true" tabindex="-1"></a>              <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb14-242"><a href="#cb14-242" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Potential outliers"</span>,</span>
-<span id="cb14-243"><a href="#cb14-243" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Fitted values"</span>,</span>
-<span id="cb14-244"><a href="#cb14-244" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Studentized residuals"</span>,</span>
-<span id="cb14-245"><a href="#cb14-245" aria-hidden="true" tabindex="-1"></a>      <span class="at">shape =</span> <span class="st">"flagged"</span></span>
-<span id="cb14-246"><a href="#cb14-246" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb14-247"><a href="#cb14-247" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span>
-<span id="cb14-248"><a href="#cb14-248" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-249"><a href="#cb14-249" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-250"><a href="#cb14-250" aria-hidden="true" tabindex="-1"></a><span class="fu">#### ii. Cook's distance</span></span>
-<span id="cb14-253"><a href="#cb14-253" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb14-254"><a href="#cb14-254" aria-hidden="true" tabindex="-1"></a>diag_tbl <span class="sc">%&gt;%</span></span>
-<span id="cb14-255"><a href="#cb14-255" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cook_cut =</span> <span class="dv">4</span> <span class="sc">/</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb14-256"><a href="#cb14-256" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">seq_along</span>(cooks_d), <span class="at">y =</span> cooks_d)) <span class="sc">+</span></span>
-<span id="cb14-257"><a href="#cb14-257" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="fu">aes</span>(<span class="at">yintercept =</span> cook_cut), <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb14-258"><a href="#cb14-258" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> flagged, <span class="at">fill =</span> flagged), <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb14-259"><a href="#cb14-259" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="dv">21</span>,<span class="dv">24</span>))<span class="sc">+</span></span>
-<span id="cb14-260"><a href="#cb14-260" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">type =</span> <span class="st">"qual"</span>, <span class="at">palette =</span> <span class="dv">2</span>, <span class="at">direction =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
-<span id="cb14-261"><a href="#cb14-261" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> diag_tbl <span class="sc">%&gt;%</span> <span class="fu">filter</span>(flagged),</span>
-<span id="cb14-262"><a href="#cb14-262" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(<span class="at">label =</span> block), <span class="co"># use block as label</span></span>
-<span id="cb14-263"><a href="#cb14-263" aria-hidden="true" tabindex="-1"></a>          <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.7</span>,</span>
-<span id="cb14-264"><a href="#cb14-264" aria-hidden="true" tabindex="-1"></a>              <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb14-265"><a href="#cb14-265" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Potential influence"</span>,</span>
-<span id="cb14-266"><a href="#cb14-266" aria-hidden="true" tabindex="-1"></a>      <span class="at">subtitle =</span> <span class="st">"Cook's distance"</span>,</span>
-<span id="cb14-267"><a href="#cb14-267" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Observation index"</span>,</span>
-<span id="cb14-268"><a href="#cb14-268" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Cook's distance"</span>,</span>
-<span id="cb14-269"><a href="#cb14-269" aria-hidden="true" tabindex="-1"></a>      <span class="at">shape =</span> <span class="st">"flagged"</span></span>
-<span id="cb14-270"><a href="#cb14-270" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb14-271"><a href="#cb14-271" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span>
-<span id="cb14-272"><a href="#cb14-272" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-273"><a href="#cb14-273" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-274"><a href="#cb14-274" aria-hidden="true" tabindex="-1"></a><span class="fu">#### iii. Hybrid option</span></span>
-<span id="cb14-277"><a href="#cb14-277" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb14-278"><a href="#cb14-278" aria-hidden="true" tabindex="-1"></a>diag_tbl <span class="sc">%&gt;%</span></span>
-<span id="cb14-279"><a href="#cb14-279" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> .hat, <span class="at">y =</span> stud_resid)) <span class="sc">+</span></span>
-<span id="cb14-280"><a href="#cb14-280" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>), <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb14-281"><a href="#cb14-281" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="fu">aes</span>(<span class="at">yintercept =</span> <span class="dv">0</span>), <span class="at">linetype =</span> <span class="st">"solid"</span>) <span class="sc">+</span></span>
-<span id="cb14-282"><a href="#cb14-282" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size =</span> cooks_d, <span class="at">shape =</span> flagged, <span class="at">fill =</span> flagged), <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb14-283"><a href="#cb14-283" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="dv">21</span>,<span class="dv">24</span>))<span class="sc">+</span></span>
-<span id="cb14-284"><a href="#cb14-284" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">type =</span> <span class="st">"qual"</span>, <span class="at">palette =</span> <span class="dv">2</span>, <span class="at">direction =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
-<span id="cb14-285"><a href="#cb14-285" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> diag_tbl <span class="sc">%&gt;%</span> <span class="fu">filter</span>(flagged),</span>
-<span id="cb14-286"><a href="#cb14-286" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(<span class="at">label =</span> block), <span class="co"># use block as label</span></span>
-<span id="cb14-287"><a href="#cb14-287" aria-hidden="true" tabindex="-1"></a>          <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.7</span>,</span>
-<span id="cb14-288"><a href="#cb14-288" aria-hidden="true" tabindex="-1"></a>              <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb14-289"><a href="#cb14-289" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb14-290"><a href="#cb14-290" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Influence map"</span>,</span>
-<span id="cb14-291"><a href="#cb14-291" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Leverage (hat values)"</span>,</span>
-<span id="cb14-292"><a href="#cb14-292" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Studentized residuals"</span>,</span>
-<span id="cb14-293"><a href="#cb14-293" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="st">"Cook's D"</span>,</span>
-<span id="cb14-294"><a href="#cb14-294" aria-hidden="true" tabindex="-1"></a>    <span class="at">shape =</span> <span class="st">"Flagged"</span></span>
-<span id="cb14-295"><a href="#cb14-295" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb14-296"><a href="#cb14-296" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span>
-<span id="cb14-297"><a href="#cb14-297" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-298"><a href="#cb14-298" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-299"><a href="#cb14-299" aria-hidden="true" tabindex="-1"></a><span class="fu">#### other options</span></span>
-<span id="cb14-300"><a href="#cb14-300" aria-hidden="true" tabindex="-1"></a>The <span class="in">`performance`</span> package offers a variety of functions to check assumptions and for outliers/influential observations</span>
-<span id="cb14-303"><a href="#cb14-303" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb14-304"><a href="#cb14-304" aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">check_model</span>(<span class="at">model =</span> fit, <span class="at">check =</span> <span class="fu">c</span>(<span class="st">"outliers"</span>))</span>
-<span id="cb14-305"><a href="#cb14-305" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-306"><a href="#cb14-306" aria-hidden="true" tabindex="-1"></a>The <span class="in">`car`</span> package also has useful functions for outlier detection and influence diagnostics such as 'outlierTest()' and 'influencePlot()':</span>
-<span id="cb14-309"><a href="#cb14-309" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb14-310"><a href="#cb14-310" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">outlierTest</span>(fit)</span>
-<span id="cb14-311"><a href="#cb14-311" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">influencePlot</span>(fit)</span>
-<span id="cb14-312"><a href="#cb14-312" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-313"><a href="#cb14-313" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-171"><a href="#cb14-171" aria-hidden="true" tabindex="-1"></a><span class="fu">### data</span></span>
+<span id="cb14-174"><a href="#cb14-174" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-175"><a href="#cb14-175" aria-hidden="true" tabindex="-1"></a><span class="co"># Example:</span></span>
+<span id="cb14-176"><a href="#cb14-176" aria-hidden="true" tabindex="-1"></a>cornn_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"../week_06/data/cornn_data.csv"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-177"><a href="#cb14-177" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">n_trt =</span> <span class="fu">factor</span>(n_trt, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"N0"</span>,<span class="st">"N60"</span>,<span class="st">"N90"</span>,<span class="st">"N120"</span>,<span class="st">"N180"</span>,<span class="st">"N240"</span>,<span class="st">"N300"</span>)),</span>
+<span id="cb14-178"><a href="#cb14-178" aria-hidden="true" tabindex="-1"></a>         <span class="at">block =</span> <span class="fu">factor</span>(block),</span>
+<span id="cb14-179"><a href="#cb14-179" aria-hidden="true" tabindex="-1"></a>         <span class="at">site =</span> <span class="fu">factor</span>(site),</span>
+<span id="cb14-180"><a href="#cb14-180" aria-hidden="true" tabindex="-1"></a>         <span class="at">year =</span> <span class="fu">factor</span>(year))</span>
+<span id="cb14-181"><a href="#cb14-181" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-182"><a href="#cb14-182" aria-hidden="true" tabindex="-1"></a><span class="fu">### model fit</span></span>
+<span id="cb14-185"><a href="#cb14-185" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-186"><a href="#cb14-186" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit model</span></span>
+<span id="cb14-187"><a href="#cb14-187" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(yield_kgha <span class="sc">~</span> n_trt, <span class="at">data =</span> cornn_data)</span>
+<span id="cb14-188"><a href="#cb14-188" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-189"><a href="#cb14-189" aria-hidden="true" tabindex="-1"></a><span class="fu">### Residuals table</span></span>
+<span id="cb14-192"><a href="#cb14-192" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-193"><a href="#cb14-193" aria-hidden="true" tabindex="-1"></a><span class="do">###</span></span>
+<span id="cb14-194"><a href="#cb14-194" aria-hidden="true" tabindex="-1"></a><span class="co"># Create table with residuals and flag suspicious observations</span></span>
+<span id="cb14-195"><a href="#cb14-195" aria-hidden="true" tabindex="-1"></a>diag_tbl <span class="ot">&lt;-</span> <span class="fu">augment</span>(fit, <span class="at">data =</span> cornn_data) <span class="sc">%&gt;%</span></span>
+<span id="cb14-196"><a href="#cb14-196" aria-hidden="true" tabindex="-1"></a>  <span class="co"># .std.resid = standardized residuals (broom)</span></span>
+<span id="cb14-197"><a href="#cb14-197" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb14-198"><a href="#cb14-198" aria-hidden="true" tabindex="-1"></a>    <span class="at">stud_resid =</span> <span class="fu">rstudent</span>(fit),           <span class="co"># studentized residuals (externally studentized)</span></span>
+<span id="cb14-199"><a href="#cb14-199" aria-hidden="true" tabindex="-1"></a>    <span class="at">cooks_d    =</span> .cooksd,                 <span class="co"># Cook's distance from broom</span></span>
+<span id="cb14-200"><a href="#cb14-200" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_stud  =</span> <span class="fu">abs</span>(stud_resid) <span class="sc">&gt;</span> <span class="dv">3</span>,</span>
+<span id="cb14-201"><a href="#cb14-201" aria-hidden="true" tabindex="-1"></a>    <span class="at">flag_cook  =</span> cooks_d <span class="sc">&gt;</span> <span class="dv">4</span> <span class="sc">/</span> <span class="fu">n</span>(),</span>
+<span id="cb14-202"><a href="#cb14-202" aria-hidden="true" tabindex="-1"></a>    <span class="at">flagged    =</span> flag_stud <span class="sc">|</span> flag_cook</span>
+<span id="cb14-203"><a href="#cb14-203" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb14-204"><a href="#cb14-204" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(flagged), <span class="fu">desc</span>(cooks_d), <span class="fu">desc</span>(<span class="fu">abs</span>(stud_resid)))</span>
+<span id="cb14-205"><a href="#cb14-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-206"><a href="#cb14-206" aria-hidden="true" tabindex="-1"></a><span class="co"># View only flagged observations (tidy table)</span></span>
+<span id="cb14-207"><a href="#cb14-207" aria-hidden="true" tabindex="-1"></a>diag_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb14-208"><a href="#cb14-208" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(flagged) <span class="sc">%&gt;%</span></span>
+<span id="cb14-209"><a href="#cb14-209" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">everything</span>())</span>
+<span id="cb14-210"><a href="#cb14-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-211"><a href="#cb14-211" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-212"><a href="#cb14-212" aria-hidden="true" tabindex="-1"></a><span class="fu">### Plots </span></span>
+<span id="cb14-213"><a href="#cb14-213" aria-hidden="true" tabindex="-1"></a><span class="fu">#### i. studentizided residuals</span></span>
+<span id="cb14-216"><a href="#cb14-216" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-217"><a href="#cb14-217" aria-hidden="true" tabindex="-1"></a><span class="co"># plot outliers</span></span>
+<span id="cb14-218"><a href="#cb14-218" aria-hidden="true" tabindex="-1"></a>diag_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb14-219"><a href="#cb14-219" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> .fitted, <span class="at">y =</span> stud_resid)) <span class="sc">+</span></span>
+<span id="cb14-220"><a href="#cb14-220" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>), <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb14-221"><a href="#cb14-221" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>)<span class="sc">+</span></span>
+<span id="cb14-222"><a href="#cb14-222" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> flagged, <span class="at">fill =</span> flagged), <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb14-223"><a href="#cb14-223" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="dv">21</span>,<span class="dv">24</span>))<span class="sc">+</span></span>
+<span id="cb14-224"><a href="#cb14-224" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">type =</span> <span class="st">"qual"</span>, <span class="at">palette =</span> <span class="dv">2</span>, <span class="at">direction =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb14-225"><a href="#cb14-225" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> diag_tbl <span class="sc">%&gt;%</span> <span class="fu">filter</span>(flagged),</span>
+<span id="cb14-226"><a href="#cb14-226" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(<span class="at">label =</span> block), <span class="co"># use block as label</span></span>
+<span id="cb14-227"><a href="#cb14-227" aria-hidden="true" tabindex="-1"></a>          <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.7</span>,</span>
+<span id="cb14-228"><a href="#cb14-228" aria-hidden="true" tabindex="-1"></a>              <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb14-229"><a href="#cb14-229" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Potential outliers"</span>,</span>
+<span id="cb14-230"><a href="#cb14-230" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Fitted values"</span>,</span>
+<span id="cb14-231"><a href="#cb14-231" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Studentized residuals"</span>,</span>
+<span id="cb14-232"><a href="#cb14-232" aria-hidden="true" tabindex="-1"></a>      <span class="at">shape =</span> <span class="st">"flagged"</span></span>
+<span id="cb14-233"><a href="#cb14-233" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb14-234"><a href="#cb14-234" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span>
+<span id="cb14-235"><a href="#cb14-235" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-236"><a href="#cb14-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-237"><a href="#cb14-237" aria-hidden="true" tabindex="-1"></a><span class="fu">#### ii. Cook's distance</span></span>
+<span id="cb14-240"><a href="#cb14-240" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-241"><a href="#cb14-241" aria-hidden="true" tabindex="-1"></a>diag_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb14-242"><a href="#cb14-242" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cook_cut =</span> <span class="dv">4</span> <span class="sc">/</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb14-243"><a href="#cb14-243" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">seq_along</span>(cooks_d), <span class="at">y =</span> cooks_d)) <span class="sc">+</span></span>
+<span id="cb14-244"><a href="#cb14-244" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="fu">aes</span>(<span class="at">yintercept =</span> cook_cut), <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb14-245"><a href="#cb14-245" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">shape =</span> flagged, <span class="at">fill =</span> flagged), <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb14-246"><a href="#cb14-246" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="dv">21</span>,<span class="dv">24</span>))<span class="sc">+</span></span>
+<span id="cb14-247"><a href="#cb14-247" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">type =</span> <span class="st">"qual"</span>, <span class="at">palette =</span> <span class="dv">2</span>, <span class="at">direction =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb14-248"><a href="#cb14-248" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> diag_tbl <span class="sc">%&gt;%</span> <span class="fu">filter</span>(flagged),</span>
+<span id="cb14-249"><a href="#cb14-249" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(<span class="at">label =</span> block), <span class="co"># use block as label</span></span>
+<span id="cb14-250"><a href="#cb14-250" aria-hidden="true" tabindex="-1"></a>          <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.7</span>,</span>
+<span id="cb14-251"><a href="#cb14-251" aria-hidden="true" tabindex="-1"></a>              <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb14-252"><a href="#cb14-252" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Potential influence"</span>,</span>
+<span id="cb14-253"><a href="#cb14-253" aria-hidden="true" tabindex="-1"></a>      <span class="at">subtitle =</span> <span class="st">"Cook's distance"</span>,</span>
+<span id="cb14-254"><a href="#cb14-254" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Observation index"</span>,</span>
+<span id="cb14-255"><a href="#cb14-255" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Cook's distance"</span>,</span>
+<span id="cb14-256"><a href="#cb14-256" aria-hidden="true" tabindex="-1"></a>      <span class="at">shape =</span> <span class="st">"flagged"</span></span>
+<span id="cb14-257"><a href="#cb14-257" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb14-258"><a href="#cb14-258" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span>
+<span id="cb14-259"><a href="#cb14-259" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-260"><a href="#cb14-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-261"><a href="#cb14-261" aria-hidden="true" tabindex="-1"></a><span class="fu">#### iii. Hybrid option</span></span>
+<span id="cb14-264"><a href="#cb14-264" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-265"><a href="#cb14-265" aria-hidden="true" tabindex="-1"></a>diag_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb14-266"><a href="#cb14-266" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> .hat, <span class="at">y =</span> stud_resid)) <span class="sc">+</span></span>
+<span id="cb14-267"><a href="#cb14-267" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>), <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb14-268"><a href="#cb14-268" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="fu">aes</span>(<span class="at">yintercept =</span> <span class="dv">0</span>), <span class="at">linetype =</span> <span class="st">"solid"</span>) <span class="sc">+</span></span>
+<span id="cb14-269"><a href="#cb14-269" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">size =</span> cooks_d, <span class="at">shape =</span> flagged, <span class="at">fill =</span> flagged), <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb14-270"><a href="#cb14-270" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="dv">21</span>,<span class="dv">24</span>))<span class="sc">+</span></span>
+<span id="cb14-271"><a href="#cb14-271" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">type =</span> <span class="st">"qual"</span>, <span class="at">palette =</span> <span class="dv">2</span>, <span class="at">direction =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb14-272"><a href="#cb14-272" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> diag_tbl <span class="sc">%&gt;%</span> <span class="fu">filter</span>(flagged),</span>
+<span id="cb14-273"><a href="#cb14-273" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aes</span>(<span class="at">label =</span> block), <span class="co"># use block as label</span></span>
+<span id="cb14-274"><a href="#cb14-274" aria-hidden="true" tabindex="-1"></a>          <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.7</span>,</span>
+<span id="cb14-275"><a href="#cb14-275" aria-hidden="true" tabindex="-1"></a>              <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb14-276"><a href="#cb14-276" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb14-277"><a href="#cb14-277" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Influence map"</span>,</span>
+<span id="cb14-278"><a href="#cb14-278" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Leverage (hat values)"</span>,</span>
+<span id="cb14-279"><a href="#cb14-279" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Studentized residuals"</span>,</span>
+<span id="cb14-280"><a href="#cb14-280" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="st">"Cook's D"</span>,</span>
+<span id="cb14-281"><a href="#cb14-281" aria-hidden="true" tabindex="-1"></a>    <span class="at">shape =</span> <span class="st">"Flagged"</span></span>
+<span id="cb14-282"><a href="#cb14-282" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb14-283"><a href="#cb14-283" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span>
+<span id="cb14-284"><a href="#cb14-284" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-285"><a href="#cb14-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-286"><a href="#cb14-286" aria-hidden="true" tabindex="-1"></a><span class="fu">#### other options</span></span>
+<span id="cb14-287"><a href="#cb14-287" aria-hidden="true" tabindex="-1"></a>The <span class="in">`performance`</span> package offers a variety of functions to check assumptions and for outliers/influential observations</span>
+<span id="cb14-290"><a href="#cb14-290" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-291"><a href="#cb14-291" aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">check_model</span>(<span class="at">model =</span> fit, <span class="at">check =</span> <span class="fu">c</span>(<span class="st">"outliers"</span>))</span>
+<span id="cb14-292"><a href="#cb14-292" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-293"><a href="#cb14-293" aria-hidden="true" tabindex="-1"></a>The <span class="in">`car`</span> package also has useful functions for outlier detection and influence diagnostics such as 'outlierTest()' and 'influencePlot()':</span>
+<span id="cb14-296"><a href="#cb14-296" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb14-297"><a href="#cb14-297" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">outlierTest</span>(fit)</span>
+<span id="cb14-298"><a href="#cb14-298" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">influencePlot</span>(fit)</span>
+<span id="cb14-299"><a href="#cb14-299" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb14-300"><a href="#cb14-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-301"><a href="#cb14-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-302"><a href="#cb14-302" aria-hidden="true" tabindex="-1"></a><span class="fu">## Treatment options 🛠️</span></span>
+<span id="cb14-303"><a href="#cb14-303" aria-hidden="true" tabindex="-1"></a>What to do instead of deleting</span>
+<span id="cb14-304"><a href="#cb14-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-305"><a href="#cb14-305" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Options in increasing order of intervention"}</span>
+<span id="cb14-306"><a href="#cb14-306" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Do nothing** (keep the point) if it is plausible and conclusions are robust  </span>
+<span id="cb14-307"><a href="#cb14-307" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Fix errors** (units, typos) with documentation  </span>
+<span id="cb14-308"><a href="#cb14-308" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Add structure** (block/site/year random effects, covariates, interactions) if the point reveals missing model structure  </span>
+<span id="cb14-309"><a href="#cb14-309" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Model non-constant variance** or transform the response if residual spread grows with mean  </span>
+<span id="cb14-310"><a href="#cb14-310" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Robust methods** if the goal is stable estimation under heavy tails (useful, but interpret carefully)  </span>
+<span id="cb14-311"><a href="#cb14-311" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb14-312"><a href="#cb14-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-313"><a href="#cb14-313" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb14-314"><a href="#cb14-314" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-315"><a href="#cb14-315" aria-hidden="true" tabindex="-1"></a><span class="fu">## Treatment options 🛠️</span></span>
-<span id="cb14-316"><a href="#cb14-316" aria-hidden="true" tabindex="-1"></a>What to do instead of deleting</span>
-<span id="cb14-317"><a href="#cb14-317" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-318"><a href="#cb14-318" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip title="Options in increasing order of intervention"}</span>
-<span id="cb14-319"><a href="#cb14-319" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Do nothing** (keep the point) if it is plausible and conclusions are robust  </span>
-<span id="cb14-320"><a href="#cb14-320" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Fix errors** (units, typos) with documentation  </span>
-<span id="cb14-321"><a href="#cb14-321" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Add structure** (block/site/year random effects, covariates, interactions) if the point reveals missing model structure  </span>
-<span id="cb14-322"><a href="#cb14-322" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Model non-constant variance** or transform the response if residual spread grows with mean  </span>
-<span id="cb14-323"><a href="#cb14-323" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Robust methods** if the goal is stable estimation under heavy tails (useful, but interpret carefully)  </span>
-<span id="cb14-324"><a href="#cb14-324" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb14-315"><a href="#cb14-315" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reliable R packages 📦</span></span>
+<span id="cb14-316"><a href="#cb14-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-317"><a href="#cb14-317" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Good, reliable tools for diagnostics"}</span>
+<span id="cb14-318"><a href="#cb14-318" aria-hidden="true" tabindex="-1"></a>**Base R (reliable and transparent)**  </span>
+<span id="cb14-319"><a href="#cb14-319" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`rstudent()`</span>, <span class="in">`rstandard()`</span>  </span>
+<span id="cb14-320"><a href="#cb14-320" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`cooks.distance()`</span>, <span class="in">`hatvalues()`</span>, <span class="in">`dfbetas()`</span>  </span>
+<span id="cb14-321"><a href="#cb14-321" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`influence.measures()`</span>  </span>
+<span id="cb14-322"><a href="#cb14-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-323"><a href="#cb14-323" aria-hidden="true" tabindex="-1"></a>**performance** (great for teaching)  </span>
+<span id="cb14-324"><a href="#cb14-324" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`performance::check_model()`</span> for a consistent diagnostic overview (and it works for many model types)  </span>
 <span id="cb14-325"><a href="#cb14-325" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-326"><a href="#cb14-326" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb14-327"><a href="#cb14-327" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-328"><a href="#cb14-328" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reliable R packages 📦</span></span>
+<span id="cb14-326"><a href="#cb14-326" aria-hidden="true" tabindex="-1"></a>**car** (classic and widely used)  </span>
+<span id="cb14-327"><a href="#cb14-327" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`car::outlierTest()`</span> (Bonferroni-adjusted test for large residuals in <span class="in">`lm`</span>)  </span>
+<span id="cb14-328"><a href="#cb14-328" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`car::influencePlot()`</span> (visual summary of leverage/residual/influence)  </span>
 <span id="cb14-329"><a href="#cb14-329" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-330"><a href="#cb14-330" aria-hidden="true" tabindex="-1"></a>::: {.callout-note title="Good, reliable tools for diagnostics"}</span>
-<span id="cb14-331"><a href="#cb14-331" aria-hidden="true" tabindex="-1"></a>**Base R (reliable and transparent)**  </span>
-<span id="cb14-332"><a href="#cb14-332" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`rstudent()`</span>, <span class="in">`rstandard()`</span>  </span>
-<span id="cb14-333"><a href="#cb14-333" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`cooks.distance()`</span>, <span class="in">`hatvalues()`</span>, <span class="in">`dfbetas()`</span>  </span>
-<span id="cb14-334"><a href="#cb14-334" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`influence.measures()`</span>  </span>
+<span id="cb14-330"><a href="#cb14-330" aria-hidden="true" tabindex="-1"></a>**broom** (tidy output)  </span>
+<span id="cb14-331"><a href="#cb14-331" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`broom::augment()`</span> to attach fitted values and residuals back to a dataset  </span>
+<span id="cb14-332"><a href="#cb14-332" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb14-333"><a href="#cb14-333" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-334"><a href="#cb14-334" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb14-335"><a href="#cb14-335" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-336"><a href="#cb14-336" aria-hidden="true" tabindex="-1"></a>**performance** (great for teaching)  </span>
-<span id="cb14-337"><a href="#cb14-337" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`performance::check_model()`</span> for a consistent diagnostic overview (and it works for many model types)  </span>
-<span id="cb14-338"><a href="#cb14-338" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-339"><a href="#cb14-339" aria-hidden="true" tabindex="-1"></a>**car** (classic and widely used)  </span>
-<span id="cb14-340"><a href="#cb14-340" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`car::outlierTest()`</span> (Bonferroni-adjusted test for large residuals in <span class="in">`lm`</span>)  </span>
-<span id="cb14-341"><a href="#cb14-341" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`car::influencePlot()`</span> (visual summary of leverage/residual/influence)  </span>
-<span id="cb14-342"><a href="#cb14-342" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-343"><a href="#cb14-343" aria-hidden="true" tabindex="-1"></a>**broom** (tidy output)  </span>
-<span id="cb14-344"><a href="#cb14-344" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`broom::augment()`</span> to attach fitted values and residuals back to a dataset  </span>
-<span id="cb14-345"><a href="#cb14-345" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb14-346"><a href="#cb14-346" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-347"><a href="#cb14-347" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb14-348"><a href="#cb14-348" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-349"><a href="#cb14-349" aria-hidden="true" tabindex="-1"></a><span class="fu">## Final Suggestion 📌</span></span>
-<span id="cb14-350"><a href="#cb14-350" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-351"><a href="#cb14-351" aria-hidden="true" tabindex="-1"></a>In this course, we do not delete observations during EDA unless they are **confirmed errors** or **clear protocol violations**. Instead, we flag unusual points, fit models, evaluate influence, and use sensitivity analyses. Any exclusions must be documented and reproducible.  </span>
-<span id="cb14-352"><a href="#cb14-352" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-353"><a href="#cb14-353" aria-hidden="true" tabindex="-1"></a><span class="fu">## Packages used for outliers &amp; influence diagnostics 📦</span></span>
-<span id="cb14-354"><a href="#cb14-354" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-355"><a href="#cb14-355" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**broom**: provides <span class="in">`augment()`</span> to attach observation-level diagnostics (e.g., fitted values, residuals, leverage, Cook’s distance when available) back onto your data frame for tidy workflows. <span class="co">[</span><span class="ot">https://cran.r-project.org/package=broom</span><span class="co">](https://cran.r-project.org/package=performance)</span></span>
-<span id="cb14-356"><a href="#cb14-356" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-357"><a href="#cb14-357" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**performance**: provides <span class="in">`check_model()`</span> for a compact, teaching-friendly set of diagnostic plots (assumptions + influential observations) that works across many model classes.  <span class="co">[</span><span class="ot">https://cran.r-project.org/package=performance</span><span class="co">](https://cran.r-project.org/package=performance)</span></span>
-<span id="cb14-358"><a href="#cb14-358" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-359"><a href="#cb14-359" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**car**: classic applied regression tools; includes dedicated functions commonly used for outliers/influence such as <span class="in">`outlierTest()`</span> and <span class="in">`influencePlot()`</span> (bubble plot of studentized residuals vs leverage with Cook’s distance). <span class="co">[</span><span class="ot">https://cran.r-project.org/package=car</span><span class="co">](https://cran.r-project.org/package=car)</span></span>
-<span id="cb14-360"><a href="#cb14-360" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-361"><a href="#cb14-361" aria-hidden="true" tabindex="-1"></a><span class="fu">## References 📚</span></span>
-<span id="cb14-362"><a href="#cb14-362" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-363"><a href="#cb14-363" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Cook, R. D. (1977). *Detection of influential observation in linear regression*. **Technometrics**, 19(1), 15–18. <span class="co">[</span><span class="ot">https://doi.org/10.1080/00401706.1977.10489493</span><span class="co">](https://doi.org/10.1080/00401706.1977.10489493)</span></span>
-<span id="cb14-364"><a href="#cb14-364" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-365"><a href="#cb14-365" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Weisberg, S. (2014). *Applied Linear Regression* (4th ed.). Wiley. **Chapter 9: Regression Diagnostics**. <span class="co">[</span><span class="ot">https://www.stat.purdue.edu/~qfsong/teaching/525/book/Weisberg-Applied-Linear-Regression-Wiley.pdf</span><span class="co">](https://www.stat.purdue.edu/~qfsong/teaching/525/book/Weisberg-Applied-Linear-Regression-Wiley.pdf)</span></span>
-<span id="cb14-366"><a href="#cb14-366" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-367"><a href="#cb14-367" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>James, G., Witten, D., Hastie, T., &amp; Tibshirani, R. (2021). *An Introduction to Statistical Learning* (2nd ed.). Springer. **Chapter 3: Linear Regression** (see the section on “Potential Problems”). <span class="co">[</span><span class="ot">https://www.statlearning.com</span><span class="co">](https://www.statlearning.com)</span></span>
+<span id="cb14-336"><a href="#cb14-336" aria-hidden="true" tabindex="-1"></a><span class="fu">## Final Suggestion 📌</span></span>
+<span id="cb14-337"><a href="#cb14-337" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-338"><a href="#cb14-338" aria-hidden="true" tabindex="-1"></a>In this course, we do not delete observations during EDA unless they are **confirmed errors** or **clear protocol violations**. Instead, we flag unusual points, fit models, evaluate influence, and use sensitivity analyses. Any exclusions must be documented and reproducible.  </span>
+<span id="cb14-339"><a href="#cb14-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-340"><a href="#cb14-340" aria-hidden="true" tabindex="-1"></a><span class="fu">## Packages used for outliers &amp; influence diagnostics 📦</span></span>
+<span id="cb14-341"><a href="#cb14-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-342"><a href="#cb14-342" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**broom**: provides <span class="in">`augment()`</span> to attach observation-level diagnostics (e.g., fitted values, residuals, leverage, Cook’s distance when available) back onto your data frame for tidy workflows. <span class="co">[</span><span class="ot">https://cran.r-project.org/package=broom</span><span class="co">](https://cran.r-project.org/package=performance)</span></span>
+<span id="cb14-343"><a href="#cb14-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-344"><a href="#cb14-344" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**performance**: provides <span class="in">`check_model()`</span> for a compact, friendly set of diagnostic plots (assumptions + influential observations) that works across many model classes.  <span class="co">[</span><span class="ot">https://cran.r-project.org/package=performance</span><span class="co">](https://cran.r-project.org/package=performance)</span></span>
+<span id="cb14-345"><a href="#cb14-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-346"><a href="#cb14-346" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**car**: classic applied regression tools; includes dedicated functions commonly used for outliers/influence such as <span class="in">`outlierTest()`</span> and <span class="in">`influencePlot()`</span> (bubble plot of studentized residuals vs leverage with Cook’s distance). <span class="co">[</span><span class="ot">https://cran.r-project.org/package=car</span><span class="co">](https://cran.r-project.org/package=car)</span></span>
+<span id="cb14-347"><a href="#cb14-347" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-348"><a href="#cb14-348" aria-hidden="true" tabindex="-1"></a><span class="fu">## References 📚</span></span>
+<span id="cb14-349"><a href="#cb14-349" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-350"><a href="#cb14-350" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Cook, R. D. (1977). *Detection of influential observation in linear regression*. **Technometrics**, 19(1), 15–18. <span class="co">[</span><span class="ot">https://doi.org/10.1080/00401706.1977.10489493</span><span class="co">](https://doi.org/10.1080/00401706.1977.10489493)</span></span>
+<span id="cb14-351"><a href="#cb14-351" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-352"><a href="#cb14-352" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Weisberg, S. (2014). *Applied Linear Regression* (4th ed.). Wiley. **Chapter 9: Regression Diagnostics**. <span class="co">[</span><span class="ot">https://www.stat.purdue.edu/~qfsong/teaching/525/book/Weisberg-Applied-Linear-Regression-Wiley.pdf</span><span class="co">](https://www.stat.purdue.edu/~qfsong/teaching/525/book/Weisberg-Applied-Linear-Regression-Wiley.pdf)</span></span>
+<span id="cb14-353"><a href="#cb14-353" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-354"><a href="#cb14-354" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>James, G., Witten, D., Hastie, T., &amp; Tibshirani, R. (2021). *An Introduction to Statistical Learning* (2nd ed.). Springer. **Chapter 3: Linear Regression** (see the section on “Potential Problems”). <span class="co">[</span><span class="ot">https://www.statlearning.com</span><span class="co">](https://www.statlearning.com)</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
