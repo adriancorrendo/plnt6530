@@ -75,6 +75,8 @@ website:
             text: "10-Iteration"
           - href: coding/week_06/11_models01.qmd
             text: "11-Models I"
+          - href: coding/week_07/12_models02.qmd
+            text: "12-Models II"
       - section: "Extras"
         contents:
           - href: coding/quarto/quarto.qmd

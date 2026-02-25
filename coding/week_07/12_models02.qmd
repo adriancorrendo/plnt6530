@@ -1,0 +1,623 @@
+---
+title: "Models II: Linear Models in Ag-Data Science"
+author: "Dr. Adrian Correndo"
+date: "2026-02-25"
+categories: [linear models, R, statistics, agriculture]
+format:
+  html:
+    toc: true
+    toc-location: left
+    toc-depth: 4
+    number-sections: true
+    table-class: "table table-striped table-hover"
+editor: source
+execute:
+  echo: true
+  warning: false
+  message: false
+smooth-scroll: true
+---
+
+## Introduction
+
+Linear models (LMs) are the workhorse for inference in agronomy: they connect field designs (blocks, treatments, sites, years) to estimable effects, standard errors, and tests of hypotheses.
+
+That said, many agronomic datasets are not well represented by a single fixed-effect LM. Yield responses to inputs can be curved (non-linear), site-by-year variability can be large, and error structures can be non-independent (blocks, split-plots, repeated measures) or heteroscedastic. This document focuses on **linear models as a baseline**, while using plots to show where the baseline becomes too simple.
+
+:::callout-note
+## Why start with linear models?
+Even when the final model is a mixed model or a non-linear model, a well-posed linear model is still useful to:
+
+- define the estimands (means, contrasts, slopes)
+- diagnose data issues (outliers, leverage, heteroscedasticity)
+- communicate the direction and magnitude of effects
+:::
+
+## What is a Linear Model?
+
+A linear model can be written in two equivalent ways.
+
+### Scalar form
+
+$$Y_i = \beta_0 + \beta_1 X_{i1} + \beta_2 X_{i2} + \cdots + \beta_p X_{ip} + \varepsilon_i$$
+
+- $Y_i$: response for observation $i$ (for example, yield)
+- $X_{ij}$: predictor $j$ for observation $i$ (continuous values or columns created from factor levels via contrasts)
+- $\beta_j$: unknown parameters (effects) to estimate
+- $\varepsilon_i$: error term (unexplained variation)
+
+### Matrix form
+
+This is the most compact way to express a linear model and is the language behind ANOVA tables and regression.
+
+$$\mathbf{y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon}$$
+
+This representation matters in experiments because ANOVA and regression use the same linear-model framework.
+
+- **X** comes from your data table: it is the model (design) matrix containing the explanatory variables as used by the model (including columns created by factor coding, contrasts, and interactions).
+- **beta** is the vector of effects/parameters attached to those columns (for example, treatment effects, block effects, site effects).
+
+In other words, your **experimental design** determines how the explanatory variables are encoded into X, and therefore what each element of beta represents.
+
+:::callout-note
+## Linear in parameters
+A polynomial term (quadratic, cubic) changes the *shape* of the relationship but remains a linear model because the model is still linear in the parameters $\beta$.
+:::
+
+## Regression vs. ANOVA
+
+Same engine, different questions.
+
+- **Regression**: at least one explanatory variable is continuous (for example, yield vs nitrogen rate).
+- **ANOVA**: at least one predictor is categorical (for example, treatment means).
+
+Both are solved by the same least squares machinery; the main difference is **how we encode predictors** and **what we interpret** (slopes vs means/contrasts).
+
+## Packages
+
+```{r}
+# Load required packages
+library(pacman)
+
+# Data manipulation
+p_load(dplyr, tidyr)
+
+# Model summaries and inference
+p_load(broom)
+p_load(car)
+p_load(emmeans, multcomp, multcompView)
+
+# Diagnostics
+p_load(performance)
+
+# Plotting
+p_load(ggplot2)
+```
+
+## Data
+
+We will use a synthetic dataset of corn yield response to nitrogen fertilizer across two sites and three years with contrasting weather.
+
+```{r}
+# Read CSV file
+cornn_data <- read.csv("data/cornn_data.csv") %>%
+  mutate(n_trt = factor(n_trt, levels = c("N0","N60","N90","N120",
+                                          "N180","N240","N300")),
+         block = factor(block),
+         site = factor(site),
+         year = factor(year),
+         weather = factor(weather)  ) %>% 
+  mutate(yield_tha = yield_kgha / 1000)
+
+glimpse(cornn_data)
+
+```
+
+## Misc
+```{r}
+set_theme(theme_classic())
+```
+
+:::callout-note
+## Variable convention
+This document uses `block` consistently as the blocking factor. If your dataset uses `rep` instead, update the code accordingly.
+:::
+
+## Exploratory Data Analysis
+
+### Quick view
+
+Here we treat nitrogen rate as a categorical treatment and compare yield distributions across levels.
+
+```{r}
+eda_box <- cornn_data %>%
+  ggplot(aes(x = n_trt, y = yield_tha)) +
+  geom_boxplot(aes(fill = n_trt)) +
+  scale_fill_brewer(palette = "Set3") +
+  labs(title = "Yield by N treatment",
+       x = "Nitrogen treatment",
+       y = "Corn yield (Mg/ha)")+
+  scale_y_continuous(breaks = seq(0,18,by=2))
+
+eda_box
+```
+
+### Yield vs nitrogen rate
+
+Here we treat nitrogen rate as a continuous explanatory variable and visualize the average trend with a simple linear fit.
+
+```{r}
+eda_scatter <- cornn_data %>%
+  ggplot(aes(x = nrate_kgha, y = yield_kgha)) +
+  geom_point(alpha = 0.7, shape = 21, fill = "orange", size = 1.5) +
+  geom_smooth(method = "lm", se = FALSE, linetype = 2, color = "black") +
+  labs(title = "Yield response (pooled): linear fit",
+    x = "Nitrogen rate (kg/ha)",
+    y = "Corn yield (kg/ha)")+
+  scale_y_continuous(breaks = seq(0,18,by=2))+
+  scale_x_continuous(breaks = seq(0,300,by=50))+
+  ggpubr::stat_regline_equation(method = "lm", 
+                      label.x.npc = "left", label.y.npc = "top", label.sep = "\n")
+
+eda_scatter
+```
+
+### Heterogeneity across environments
+
+Here we split the data by site and year to see whether the yield response pattern changes across environments.
+
+```{r}
+eda_scatter_env <- cornn_data %>%
+  ggplot(aes(x = nrate_kgha, y = yield_tha)) +
+  geom_point(alpha = 0.7, shape = 21, fill = "orange", size = 1.5) +
+  geom_smooth(method = "lm", se = FALSE, linetype = 2, color = "black") +
+  facet_grid(site ~ weather) +
+  labs(title = "Yield response by environment (site x year): linear fits",
+    x = "Nitrogen rate (kg/ha)",
+    y = "Corn yield (Mg/ha)")+
+  scale_y_continuous(breaks = seq(0,18,by=2))+
+  scale_x_continuous(breaks = seq(0,300,by=50))
+
+eda_scatter_env
+```
+
+:::callout-note
+## What to look for in these plots
+- Different slopes by site or year (suggests interactions or varying coefficients)
+- Curvature (suggests polynomial terms or non-linear models)
+- Different spread by environment or N rate (suggests heteroscedasticity)
+:::
+
+## Model Fitting: Linear Regression and ANOVA
+
+### Simple linear regression
+
+We start with a pooled model that estimates one average slope across all environments.
+
+```{r}
+reg_fit <- lm(yield_kgha ~ 1 + nrate_kgha, data = cornn_data)
+summary(reg_fit)
+
+anova(reg_fit)
+car::Anova(reg_fit, type = 2)
+car::Anova(reg_fit, type = 3)
+```
+
+### Why a simple model can look good
+
+A statistically significant slope can still be a poor scientific summary if responses differ by environment.
+
+A single slope forces one response pattern across all sites and years.
+
+```{r}
+# Compare pooled fit vs environment-specific fits visually
+cornn_data %>%
+  ggplot(aes(x = nrate_kgha, y = yield_tha)) +
+  geom_point(alpha = 0.7, size = 1.5,
+             aes(fill=site, shape=site)) +
+  # Fit by panel
+  geom_smooth(method = "lm", se = FALSE, linetype = 2, color = "black") +
+  geom_smooth(aes(color = site), method = "lm", se = FALSE) +
+  facet_wrap(~ weather) +
+  scale_shape_manual(values = c(21, 22, 23), name = "site") +
+  scale_fill_brewer(palette = "Set2", name = "site") +
+  scale_color_brewer(palette = "Set2", name = "site") +
+  labs(title = "Pooled vs site-specific linear trends (by year)",
+    x = "Nitrogen rate (kg/ha)",
+    y = "Corn yield (Mg/ha)")+
+  scale_y_continuous(breaks = seq(0,18,by=2))+
+  scale_x_continuous(breaks = seq(0,300,by=50))
+    
+```
+
+:::callout-note
+## Interpretation
+If site-specific lines differ meaningfully from the pooled line, a single fixed slope is a poor summary of the process, even if the pooled model has significant p-values or a respectable R^2^.
+:::
+
+### Linear regression
+
+This variant forces the fitted line through the origin, which is rarely justified in agronomy.
+
+```{r}
+reg_noint <- lm(yield_kgha ~ -1 + nrate_kgha, data = cornn_data)
+summary(reg_fit)
+summary(reg_noint)
+
+anova(reg_noint)
+car::Anova(reg_noint, type = 2)
+car::Anova(reg_noint, type = 3)
+```
+
+:::callout-note
+## When does a no-intercept model make sense?
+Rarely for agronomy. It implies the expected response is exactly 0 when N rate is 0 (or when all predictors are 0). Use it only when that constraint is scientifically justified.
+:::
+
+### ANOVA
+
+Here we treat nitrogen as a categorical factor and estimate treatment means (and blocks if included).
+
+```{r}
+# CRD (ignoring blocks)
+anova_crd <- lm(yield_kgha ~ n_trt, data = cornn_data)
+
+# RCBD (blocks as fixed effect in lm)
+anova_rcbd <- lm(yield_kgha ~ n_trt + block, data = cornn_data)
+
+# Treatment by block interaction (usually not desired as a model, but shown for illustration)
+anova_trt_block <- lm(yield_kgha ~ n_trt * block, data = cornn_data)
+
+car::Anova(anova_crd, type = 3)
+car::Anova(anova_rcbd, type = 3)
+car::Anova(anova_trt_block, type = 3)
+```
+
+### ANOVA
+
+This parameterization estimates a mean for each treatment level directly (useful for interpretation), while still representing the same fitted values as the intercept model.
+
+```{r}
+anova_noint <- lm(yield_kgha ~ -1 + n_trt + block, data = cornn_data)
+car::Anova(anova_noint, type = 3)
+
+summary(anova_rcbd)
+summary(anova_noint)
+```
+
+## Model Assumptions
+
+This checklist is the standard set of assumptions behind least squares inference. Some items can be assessed with formal tests, but most are evaluated using residual plots plus knowledge of the experimental design and error structure.
+
+### 1) Linearity
+
+For continuous explanatory variables, the mean response should be approximately linear in the predictors as specified (given the terms you include in the model, such as interactions or polynomial terms).
+```{r}
+# Residual plot for regression
+plot(reg_fit, which = 1)
+```
+
+### 2) Normality of residuals
+
+```{r}
+# Normal Q-Q plot
+plot(reg_fit, which = 2)
+
+# Formal test (sensitive to large n)
+shapiro.test(resid(reg_fit))
+```
+
+### 3) Homoscedasticity
+
+Residual variance should be approximately constant across fitted values and across groups of interest.
+
+```{r eval=FALSE}
+# Levene tests are common for simple fixed-effect ANOVA settings
+car::leveneTest(yield_kgha ~ n_trt, data = cornn_data)
+
+# You can also apply Levene-type ideas to residuals from a fixed-effect lm
+car::leveneTest(resid(reg_fit) ~ cornn_data$n_trt)
+```
+
+:::callout-note
+## Practical limitations of Levene tests
+- Levene tests are most useful in simple fixed-effect ANOVA contexts (for example, one-way or two-way ANOVA).
+- In mixed models, the relevant question is often whether the **residual variance** is homogeneous after accounting for random effects and the covariance structure. A vanilla Levene test on raw data (or on lm residuals) does not answer that question.
+- Levene tests are sensitive to sample size: with large n, tiny variance differences can be statistically significant but practically irrelevant; with small n, the test can have low power.
+
+In practice, prefer combining (1) residual plots by groups and fitted values, and (2) model-based approaches (for example, specifying a variance function or group-specific residual variance in an appropriate model) when heteroscedasticity matters.
+:::
+
+### 4) Independence
+
+There is no universal "independence test" that fixes a design problem. Independence is addressed by:
+
+- the design (randomization and blocking)
+- the appropriate error structure (mixed models, repeated measures models, spatial correlation)
+
+### 5) One-stop diagnostics
+
+We can run a compact set of diagnostic checks (residual distribution, heteroscedasticity signals, influential points) using the `performance` package. Treat these plots as *screening tools* to guide what you look at next, not as a substitute for understanding the design and the error structure.
+```{r fig.width = 8, fig.height = 9}
+performance::check_model(anova_rcbd)
+```
+
+:::callout-note
+## Practical rule
+If diagnostics show strong curvature, heteroscedasticity, or environment-specific patterns, treat your LM as a baseline, not as the final model.
+:::
+
+## Model Building: Fixed-effect candidates
+
+These are all fixed-effect models. They are useful for learning and for baseline comparisons.
+
+```{r}
+# Null model
+lm_00 <- lm(yield_kgha ~ 1, data = cornn_data)
+
+# Treatment + block
+lm_01 <- lm(yield_kgha ~ n_trt + block, data = cornn_data)
+
+# Add site
+lm_02 <- lm(yield_kgha ~ n_trt + site + block, data = cornn_data)
+
+# Add weather
+lm_03 <- lm(yield_kgha ~ n_trt + weather + block, data = cornn_data)
+
+# Add site and weather
+lm_04 <- lm(yield_kgha ~ n_trt + site + weather + block, data = cornn_data)
+
+# Main effects and interactions
+lm_05 <- lm(yield_kgha ~ n_trt * site * weather + block, data = cornn_data)
+```
+
+## Model Selection: nested F-tests and information criteria
+
+We often compare multiple candidate models for the *same response variable* to balance fit and parsimony. In agronomy, model selection is not a substitute for thinking about design and biology; it is a tool to compare plausible alternatives.
+
+
+### Nested F-tests
+
+```{r}
+anova(lm_01, lm_02, lm_03, lm_04, lm_05)
+```
+
+### AIC and BIC
+
+AIC and BIC are likelihood-based criteria that trade off goodness-of-fit against model complexity.
+
+- **AIC** tends to favor models with better predictive performance (it penalizes complexity, but less strongly).
+- **BIC** penalizes complexity more strongly and tends to select simpler models as sample size increases.
+
+:::callout-note
+## Interpreting differences (rule-of-thumb)
+Use **delta** values (differences from the best, lowest-criterion model). Avoid translating deltas into simple "percent support". The useful comparison is the *magnitude of the delta* relative to the best model.
+
+A commonly cited rule-of-thumb (Anderson, 2008) is:
+
+- Δ close to 0: strong empirical support
+- Δ in the rough range 4 to 7: considerably less support
+- Δ in the fringes (about 9 to 14): relatively little support
+
+Important nuance (also emphasized by Anderson, 2008, Chapter 4): the old classroom rule "ΔAIC > 2 means dismiss the model" is too aggressive. Models with Δ around 2, 4, or even 6 to 7 can still have meaningful support and should not be automatically discarded.
+
+Where Δ is the difference from the minimum AIC (or AICc) within the candidate set.
+:::
+
+:::callout-note
+## Pros and cons in practice
+**Pros**
+- Provides a simple way to compare multiple candidate models, not only nested ones.
+- Encourages parsimony (guards against overfitting).
+
+**Cons / limitations**
+- AIC/BIC comparisons are valid only when models are fit to the **same response variable on the same scale** and using the **same data**. Do not compare models fit to different transformations (for example, yield vs log(yield)) using raw AIC/BIC values.
+- These criteria assume the likelihood is comparable across models. If you change the error model, use different variance structures, or fit models with different likelihood definitions, interpret comparisons cautiously.
+- In unbalanced multi-environment datasets, AIC/BIC may favor statistically convenient models that still miss key biological structure (for example, varying response curves by environment).
+
+Practical workflow: use AIC/BIC to rank *plausible* models, then confirm adequacy with diagnostics and scientific interpretability.
+:::
+
+```{r}
+AIC(lm_01, lm_02, lm_03, lm_04, lm_05)
+BIC(lm_01, lm_02, lm_03, lm_04, lm_05)
+
+# Optional: compute deltas relative to the best model in the set
+crit_tbl <- tibble(
+  model = c("lm_01","lm_02","lm_03","lm_04","lm_05"),
+  AIC = c(AIC(lm_01), AIC(lm_02), AIC(lm_03), AIC(lm_04), AIC(lm_05)),
+  BIC = c(BIC(lm_01), BIC(lm_02), BIC(lm_03), BIC(lm_04), BIC(lm_05))
+) %>%
+  mutate(
+    dAIC = AIC - min(AIC),
+    dBIC = BIC - min(BIC)
+  ) %>%
+  arrange(AIC)
+
+crit_tbl
+```
+
+:::callout-note
+## Caveat
+AIC/BIC comparisons depend on the likelihood assumptions. With clear heteroscedasticity or correlation, these criteria can favor models that are statistically convenient rather than scientifically adequate.
+:::
+
+## Significance of effects
+
+Type II and Type III tests answer different questions when interactions are present, so you should match the test to your inferential goal.
+
+```{r}
+car::Anova(lm_05, type = 2)
+car::Anova(lm_05, type = 3)
+```
+
+:::callout-note
+## Interpretation tip
+- Type II is commonly used for models with interactions when the goal is marginal tests of main effects (under hierarchy).
+- Type III tests each term given all other terms (including interactions), which can be useful but is more sensitive to coding and balance.
+:::
+
+## Means Comparisons with `emmeans` and `cld`
+
+### Interaction means
+
+```{r}
+emmeans(lm_05, pairwise ~ n_trt:weather) %>%
+  cld(., level = 0.05, decreasing = TRUE)
+```
+
+### Same model, different slicing
+
+```{r}
+emmeans(lm_05, pairwise ~ n_trt, by = "weather") %>%
+  cld(., level = 0.05, decreasing = TRUE, Letters = letters)
+
+LETTERS
+letters
+```
+
+## Interpreting coefficients
+
+### Regression
+
+- **Intercept ($\beta_0$)**: expected value of $Y$ when $X = 0$.
+- **Slope ($\beta_1$)**: change in expected $Y$ per unit change in $X$.
+
+```{r}
+coef(reg_fit)
+
+reg_coefs <- broom::tidy(reg_fit)
+reg_coefs
+```
+
+### ANOVA
+
+- **Intercept**: reference level mean (baseline) under the default contrasts.
+- **Factor levels**: differences relative to the reference level.
+
+```{r}
+coef(lm_05)
+
+anova_coefs <- broom::tidy(lm_05)
+anova_coefs
+```
+
+## How much variance do we explain?
+
+```{r}
+performance::r2(lm_00)
+performance::r2(lm_01)
+performance::r2(lm_02)
+performance::r2(lm_03)
+performance::r2(lm_04)
+performance::r2(lm_05)
+```
+
+:::callout-note
+## Important: do not select models based on R^2^
+R^2^ (and adjusted R^2^) describes the proportion of variance explained *within the fitted dataset*. It almost always increases when you add predictors, even if those predictors are not scientifically meaningful.
+
+Why this matters:
+
+- R^2^ does not apply a formal penalty for complexity, so it can encourage overfitting.
+- Two models can have very similar R^2^ but very different adequacy (for example, one captures the right structure across site-year, another misses it).
+- In multi-environment agronomy, a high R^2^ can be driven by large mean shifts among environments, while still failing to represent the response process (for example, slope differences, curvature, heteroscedasticity).
+
+Use R^2^ mainly as a descriptive summary (communication), and rely on a combination of scientific objectives, diagnostics, and appropriate comparison criteria (nested tests, AIC/BIC) for selection.
+:::
+
+## A plot that connects model and data
+
+Observed vs fitted plots help you see whether the model is systematically over- or under-predicting within specific environments.
+
+This is a simple visual way to see how well model prediction works.
+
+```{r}
+fit_tbl <- cornn_data %>%
+  mutate(fitted_lm01 = predict(lm_01, newdata = cornn_data),
+         fitted_lm05 = predict(lm_05, newdata = cornn_data))
+
+# Model 1
+fit_tbl %>%
+  ggplot(aes(x = yield_kgha/1000, y = fitted_lm01/1000)) +
+  geom_point(alpha = 0.7, size = 2, 
+             aes(fill = weather, shape = site)) +
+  geom_abline(intercept = 0, slope = 1) +
+  labs(title = "Fitted vs. Observed (lm_01 - Pooled)",
+    x = "Observed yield (kg/ha)",
+    y = "Fitted yield (kg/ha)")+
+  # Adjust scales
+  scale_shape_manual(values = c(21, 22), name = "site") +
+  scale_fill_brewer(palette = "Set2", name = "weather") +
+  guides( # Adjust legend to show both fill and shape clearly
+    fill  = guide_legend(override.aes = list(shape = 21, color = "black")),
+    shape = guide_legend(override.aes = list(fill = "grey90")) ) +
+  #facet_grid(site ~ weather) +
+  scale_y_continuous(limits = c(0,18), breaks = seq(0,18,by=2))+
+  scale_x_continuous(limits = c(0,18), breaks = seq(0,18,by=2))+
+  coord_equal()+
+  # Add grid lines for better visibility
+  theme(panel.grid.major = element_line(color = "gray90"),
+        panel.grid.minor = element_line(color = "gray95"))
+
+# Model 5
+fit_tbl %>%
+  ggplot(aes(x = yield_kgha/1000, y = fitted_lm05/1000)) +
+  geom_point(
+    aes(fill = weather, shape = site),
+    alpha = 0.7, size = 2,
+    color = "black", stroke = 0.3
+  ) +
+  geom_abline(intercept = 0, slope = 1) +
+  labs(
+    title = "Fitted vs. Observed (lm_05 - By site*year)",
+    x = "Observed yield (Mg/ha)",
+    y = "Fitted yield (Mg/ha)"
+  ) +
+  scale_shape_manual(values = c(21, 22), name = "site") +
+  scale_fill_brewer(palette = "Set2", name = "weather") +
+  guides( # Adjust legend to show both fill and shape clearly
+    fill  = guide_legend(override.aes = list(shape = 21, color = "black")),
+    shape = guide_legend(override.aes = list(fill = "grey90")) ) +
+  scale_y_continuous(limits = c(0,18), breaks = seq(0,18,by=2)) +
+  scale_x_continuous(limits = c(0,18), breaks = seq(0,18,by=2)) +
+  coord_equal() +
+  theme(
+    panel.grid.major = element_line(color = "gray90"),
+    panel.grid.minor = element_line(color = "gray95")
+  )
+
+```
+
+:::callout-warning
+## Caution: this is not a predictive model
+The fitted vs observed plot above is based on the same data used to fit the model, so it is not a true out-of-sample validation. It can show systematic patterns of misfit, but it does not provide an unbiased estimate of predictive performance. For a more rigorous assessment, consider using cross-validation or a separate test dataset.
+:::
+
+## Final comments
+
+Linear models are essential for agricultural research because they provide the simplest framework for estimation and inference (slopes, means, contrasts). In practice, agronomic datasets often require extensions:
+
+- mixed models for random effects (blocks, sites, years)
+- heterogeneous variances and correlation structures
+- non-linear response models for inputs (for example, N response)
+- varying coefficients by environment (site:weather, year)
+
+On the next modules, we will revisit these same questions with more complex models that may (or not) outperform simple linear models.
+
+## References
+
+Akaike, H. (1974). A new look at the statistical model identification. *IEEE Transactions on Automatic Control*, 19(6), 716–723. https://doi.org/10.1109/TAC.1974.1100705
+
+Anderson, D. R. (2008). *Model based inference in the life sciences: A primer on evidence*. Springer, New York.
+
+Brown, M. B., & Forsythe, A. B. (1974). Robust tests for the equality of variances. *Journal of the American Statistical Association*, 69(346), 364–367. https://doi.org/10.1080/01621459.1974.10482955
+
+Burnham, K. P., & Anderson, D. R. (2002). *Model selection and multimodel inference: A practical information-theoretic approach* (2nd ed.). Springer.
+
+Levene, H. (1960). Robust tests for equality of variances. In I. Olkin (Ed.), *Contributions to probability and statistics: Essays in honor of Harold Hotelling* (pp. 278–292). Stanford University Press.
+
+Schwarz, G. (1978). Estimating the dimension of a model. *The Annals of Statistics*, 6(2), 461–464. https://doi.org/10.1214/aos/1176344136
+
+Shapiro, S. S., & Wilk, M. B. (1965). An analysis of variance test for normality (complete samples). *Biometrika*, 52(3–4), 591–611. https://doi.org/10.1093/biomet/52.3-4.591
+

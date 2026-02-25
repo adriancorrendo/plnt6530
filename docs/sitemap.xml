@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://adriancorrendo.github.io/coding/week_07/12_models02.html</loc>
+    <lastmod>2026-02-25T14:15:09.850Z</lastmod>
+  </url>
+  <url>
     <loc>https://adriancorrendo.github.io/coding/extras/weather_data.html</loc>
     <lastmod>2026-02-12T22:37:21.316Z</lastmod>
   </url>
@@ -47,10 +51,6 @@
   <url>
     <loc>https://adriancorrendo.github.io/slides/day1.html</loc>
     <lastmod>2026-01-04T20:39:29.235Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/index.html</loc>
-    <lastmod>2026-01-04T20:55:19.406Z</lastmod>
   </url>
   <url>
     <loc>https://adriancorrendo.github.io/software/software.html</loc>
