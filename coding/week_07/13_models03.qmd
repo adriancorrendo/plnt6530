@@ -1,0 +1,472 @@
+---
+title: "Models III: Mixed Models I"
+author: "Dr. Adrian Correndo"
+date: "2026-02-27"
+categories: [linear models, R, statistics, agriculture]
+abstract-title: 'Summary'
+abstract: 'This tutorial provides a workflow to analyze two very common types of mixed models data in agriculture: Blocks and Split-Plots.'
+format:
+  html:
+    toc: true
+    toc-location: left
+    toc-depth: 4
+    number-sections: true
+    table-class: "table table-striped table-hover"
+editor: source
+execute:
+  echo: true
+  warning: false
+  message: false
+smooth-scroll: true
+bibliography: references.bib
+link-citations: TRUE
+---
+
+# What are Mixed Models?
+
+In simple words, the rationale behind mixed models is the simultaneous presence of components that model the EXPECTED VALUE (fixed) as well as the VARIANCE (random).
+
+Specifically, today we are going to cover LINEAR MIXED MODELS, which make the following assumptions [@Bolker_etal_2022]:
+
+- The **expected values** of the responses are **linear combinations** of the fixed predictor variables and the random effects.
+- The conditional distribution of the variable response is Gaussian (equivalently, the errors are "Normal").
+- The random effects are normally distributed. Normally, we assume that the expected value of a random effect is equal to zero, but with a positive variance.
+
+::: callout-note
+We are going to employ the most used packages and/or functions for `frequentist` LMMs:
+
+- **nlme**: nlme::lme() provides REML or ML estimation. Allows multiple nested random effects, and provides structures for modeling heteroscedastic and/or correlated errors (spoiler for repeated measures analysis). This is already part of base R. `nlme` is a very powerful package, but maybe is not as user-friendly as `lme4`.
+
+- **lme4**: lme4::lmer() provides REML or ML estimation. Allows multiple nested or crossed random effects, can compute profile confidence intervals and conduct parametric bootstrapping. However, it cannot handle heteroscedastic or correlated errors, and does not provide p-values by default (but it does via `lmerTest`). This is the most used package for LMMs in R.
+:::
+
+For more information about mixed models in R, please, check out the new [CRAN Task View: Mixed, Multilevel, and Hierarchical Models in R](https://cran.r-project.org/web/views/MixedModels.html).
+
+# Required packages for today
+
+```{r packages}
+#| echo: true
+#| collapse: true
+
+library(pacman)
+p_load("readxl") # To open/save excel files
+p_load("dplyr", "tidyr", "purrr", "forcats", "stringr") # Data wrangling
+p_load("nlme", "lme4", "lmerTest") # Mixed models libraries
+p_load("broom", "broom.mixed") # Managing models results
+p_load("performance") # Check assumptions and performance
+p_load("emmeans", "multcomp", "multcompView",
+       "car", "multilevelmod") # Aov and mult comp
+p_load("ggplot2") # Figures
+p_load("agricolae") # Miscellaneous functions
+p_load("agridat") # For data
+```
+
+# RCBDs
+
+Randomized complete block designs (RCBD) are one of the most common experimental designs in agriculture. The main characteristic of this design is that the experimental units are grouped into blocks, which are expected to be more homogeneous than the entire set of experimental units. The main purpose of blocking is to reduce the variability within treatment groups, thus increasing the precision of the experiment and allowing for more accurate comparisons among treatments. However, the presence of blocks introduces a restriction to the randomization process, and thus a new source of variability that must be accounted for in the analysis, which is the main topic of this section.
+
+## Corn Data
+
+We will again use our synthetic dataset of corn yield response to nitrogen fertilizer across two sites and three years with contrasting weather.
+
+```{r}
+# Read CSV file
+cornn_data <- read.csv("data/cornn_data.csv") %>%
+  mutate(
+    n_trt = factor(n_trt, levels = c("N0", "N60", "N90", "N120",
+                                   "N180", "N240", "N300")),
+    block = factor(block),
+    site = factor(site),
+    year = factor(year),
+    site_year = interaction(site, weather, drop = FALSE), # create interaction
+    weather = factor(weather)
+  ) %>%
+  # IMPORTANT: blocks are nested within site (Block 1 in A is not the same as Block 1 in B)
+  mutate(
+    block_in_site = interaction(site, block, drop = TRUE),
+    yield_tha = yield_kgha / 1000
+  )
+
+glimpse(cornn_data)
+```
+
+
+First, the most important step is ALWAYS to write down the model.
+
+## Block as Fixed
+
+In a traditional approach blocks are defined as fixed, affecting the mean of the expected value. Yet there is no consensus about treating blocks as fixed or as random. For more information, read @Dixon_2016.
+
+Let's define the model. For simplification (and avoid writing interaction terms), here we are going to consider that $\tau_i$ is the "treatment".
+
+$$ y_{ij} = \mu + \tau_i + \beta_j + \epsilon_{ij} $$
+
+$$ \epsilon_{ij} \sim N(0, \sigma^2_{e} )$$
+
+where $\mu$ represents the overall mean (if intercept is used), $\tau_i$ is the effect of treatment-$i$ over $\mu$, $\beta_j$ is the effect of block-$j$ over $\mu$, and $\epsilon_{ij}$ is the random error of each experimental unit.
+
+::: callout-note
+**Important design note:** in this dataset, `block` is **nested within** `site`. That means the fixed-block model must use `block_in_site` (or `site:block`), otherwise it incorrectly treats Block 1 as the same block across sites.
+
+Also, `site` is not replicated as an experimental unit (we only observe Site A and Site B once each). This means site effects are best interpreted as **conditional contrasts** among these specific sites, not a population inference about "sites" in general.
+:::
+
+```{r block_fixed}
+# Fixed blocks (nested within site)
+block_fixed <- lm(
+  yield_kgha ~
+    n_trt +
+    site_year +
+    site_year:block,
+  data = cornn_data
+)
+
+car::Anova(block_fixed, type = 3)
+```
+
+### Conditional interaction
+We may allow treatment responses to differ by site_year
+```{r block_fixed_int}
+block_fixed_int <- lm(
+  yield_kgha ~
+    n_trt * site_year +
+    site_year:block,
+  data = cornn_data
+)
+
+car::Anova(block_fixed_int, type = 3)
+
+# If interaction is present, report treatment effects within each site
+emmeans::emmeans(block_fixed_int, ~ n_trt | site_year)
+```
+
+## Block as Random
+
+An alternative approach is considering a MIXED MODEL, where blocks are considered "random". Basically, we add a term to the model that it is expected to show a "null" overall effect over the mean of the variable of interest but introduces "noise". By convention, a random effect is expected to have an expected value equal to zero but a positive variance as follows:
+
+$$ y_{ijk} = \mu + \tau_i + \alpha_k + (\tau\alpha)_{ik} + b_{j(k)} + \epsilon_{ijk} $$
+
+$$ b_{j(k)} \sim N(0, \sigma^2_{b} )$$
+
+$$ \epsilon_{ijk} \sim N(0, \sigma^2_{e} )$$
+
+where $\alpha_k$ is the site effect (treated as fixed here), $(\tau\alpha)_{ik}$ is the treatment-by-site interaction (optional), $b_{j(k)}$ is the random effect of block $j$ within site $k$, and $\epsilon_{ijk}$ is the residual error.
+
+::: callout-warning
+While some authors advocate modeling blocks as random to support inference beyond the observed blocks, with only 4 to 5 blocks the block variance component ($σ²_b$) can be estimated with limited precision. In small RCBDs, this can make variance partitioning and degrees-of-freedom adjustments less stable, so the practical impact of treating blocks as random may be limited. @vanEeuwijk_1995 is often cited as a rule-of-thumb suggesting random block effects mainly when the number of blocks is around 10 or more. In line with that, @Dixon_2016 argues that for complete blocks (as in RCBD) it is often reasonable to treat blocks as fixed unless there is a compelling reason to recover inter-block information. More recently, @Frey_2024 reiterate the “analyze as randomized” principle and discuss how block handling influences inference in designed experiments. 
+:::
+
+### nlme
+
+```{r block_random_nlme}
+# Random blocks nested within site_year
+block_random_nlme <- nlme::lme(
+  fixed = yield_kgha ~ n_trt + site_year,
+  random = ~ 1 | site_year/block,
+  data = cornn_data
+)
+
+car::Anova(block_random_nlme, type = 3)
+```
+
+### nlme + conditional intercation
+
+```{r block_random_nlme_int}
+block_random_nlme_int <- nlme::lme(
+  fixed = yield_kgha ~ n_trt * site_year,
+  random = ~ 1 | site_year/block,
+  data = cornn_data
+)
+
+# Significance
+car::Anova(block_random_nlme_int, type = 3)
+
+# Mean comparisons if interaction is present
+emmeans::emmeans(block_random_nlme_int, ~ n_trt | site_year)
+```
+
+### lme4
+
+```{r block_random_lme4}
+# Random blocks nested within site_year
+block_random_lme4 <- lme4::lmer(
+  yield_kgha ~
+    n_trt + site_year +
+    (1 | site_year:block),
+  data = cornn_data
+)
+
+car::Anova(block_random_lme4, type = 3)
+```
+
+### lme4 + conditional interaction
+
+```{r block_random_lme4_int}
+block_random_lme4_int <- lme4::lmer(
+  yield_kgha ~
+    n_trt * site_year +
+    (1 | site_year:block),
+  data = cornn_data
+)
+
+# Significance
+car::Anova(block_random_lme4_int, type = 3)
+
+# Mean comparisons if interaction is present
+emmeans::emmeans(block_random_lme4_int, ~ n_trt | site_year)
+
+```
+
+### Satterthwaite or Kenward-Roger
+
+Satterthwaite or Kenward-Roger methods are commonly used to adjust degrees of freedom in linear mixed models fitted with lme4, which does not provide p-values by default. These methods can be implemented using the `lmerTest` package, which extends lme4 to include these adjustments.
+
+Satterthwaite's method approximates the degrees of freedom for fixed effects, while Kenward-Roger's method provides a more accurate adjustment by considering both fixed and random effects. To apply these adjustments, you can use the `anova()` function from the `lmerTest` package after fitting your model with lme4.
+
+Kenward-Roger's method, instead, is more computationally intensive but can provide more accurate p-values, especially in small sample sizes or complex models. We may say that this method is more "conservative" than Satterthwaite's, as it tends to yield larger p-values, thus reducing the likelihood of Type I errors (false positives). However, the choice between these methods should be guided by the specific context of your analysis and the characteristics of your data. One note is this requires the `pbkrtest` package, so make sure to install it if you want to use that method.
+```{r}
+anova(block_random_lme4_int, type = 3, ddf = "Satterthwaite")   # default in lmerTest
+# or
+anova(block_random_lme4_int, type = 3, ddf = "Kenward-Roger")   # needs pbkrtest
+```
+
+
+# What is a SPLIT-PLOT?
+
+Split-plot arrangement is frequently used in experiments including several factors (factorial). The main characteristic is that the arrangement follows a hierarchy: there are main plots (a.k.a. whole plots) covering one of the factors, and then there are "subplots" within each level of the main that include levels of a second factor, and so on. Therefore, the main plot serves as a "block" for the subplots, and thus, we are setting boundaries to ("restricting") the randomization of the subplot factor.
+
+::: callout-important
+- **DESIGN**: We intentionally call split-plot "arrangement" because they can fit into multiple "designs" such as completely randomized (CRD), randomized complete blocks design (RCBD), or latin-squares design (LSD).
+- **INFERENCE POWER**: The main plot has less degrees of freedom than the factor at the subplot, and thus, we have more inference power at the factor in the subplot hierarchy (and the interaction).
+:::
+
+## Split-Plot as a Mixed Model
+
+When moving to a Split-Plot design, an additional source of error is introduced: Main plot error (\sigma^2_m), which accounts for variation among the whole plots within each block.
+
+$$y_{ijk} = \mu + \alpha_i + \tau_k + (\alpha\tau)_{ik} + \beta_j + \gamma_{ij} + \epsilon_{ijk}$$
+
+where: $\alpha_i$ = Fixed effect of the main-plot factor (e.g., tillage), $\tau_k$ = Fixed effect of the subplot factor (e.g., nitrogen rate), $(\alpha\tau)_{ik}$ = Fixed interaction effect between main and subplot factors, $\beta_j \sim N(0, \sigma^2_b)$ = Random effect of block, $\gamma_{ij} \sim N(0, \sigma^2_m)$ = Random effect of main plot within block (main-plot error), $\epsilon_{ijk} \sim N(0, \sigma^2_e)$ = Random error of experimental unit.
+
+Thus, three sources of variability are modeled: <br/>
+1. Block-to-block variation → $\sigma^2_b$ <br/>
+2. Main-plot variation (whole plot error) → $\sigma^2_m$ <br/>
+3. Residual variation (subplot error) → $\sigma^2_e$ <br/>
+
+## Create a design
+
+The following is just a fake data set where we have a split-splot arrangement within an RCBD (BLOCK), where at the main plot corresponds to nitrogen rate (NRATE, with 5 levels), and the subplot to wheat variety (VARIETY, with 3 levels).
+
+## Create a split-plot design
+The `agricolae` package has a cool set of functions to create experimental designs including split-plot arrangements. The function `design.split()` allows us to create a split-plot design with the desired number of blocks, main plot treatments, subplot treatments, and randomization.
+```{r agricolae}
+mainplot <- c(0,50,80,110,140)
+subplot <- c("Var_1", "Var_2", "Var_3")
+
+sp_design <- agricolae::design.split(
+  trt1 = mainplot, trt2 = subplot, 
+  design = "rcbd", r = 3, 
+  randomization = TRUE, seed = 4561
+)
+
+# sp_design$book
+```
+
+## Data
+With the design created above, I have generated a synthetic dataset of wheat yield response to nitrogen fertilizer across three varieties, three blocks, and five nitrogen rates. The data is available in the GitHub repository for this course, and you can read it directly from there using the following code:
+
+```{r split_plot_data}
+url_split <- "https://raw.githubusercontent.com/adriancorrendo/tidymixedmodelsweb/master/data/01_split_plot_data.csv"
+
+# Model
+split_plot_data <- read.csv(url_split) %>%
+  mutate(
+    BLOCK   = factor(BLOCK),
+    NRATE   = factor(NRATE),
+    VARIETY = factor(VARIETY)
+  ) %>%
+  dplyr::select(BLOCK, NRATE, VARIETY, YIELD)
+
+glimpse(split_plot_data)
+```
+
+## Explore the data
+
+```{r sp_ggplot}
+#| fig.height: 6
+#| fig.width: 8
+
+split_plot_data %>% 
+  ggplot(aes(x = NRATE, y = YIELD, fill = VARIETY)) + 
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter(width = 0.15, alpha = 0.6) +
+  scale_fill_brewer(palette = "Set2") +
+  scale_y_continuous(limits = c(0,8000), breaks = seq(0,10000, by=2000)) +
+  facet_wrap(~VARIETY) +
+  theme_bw()
+```
+
+## Models
+
+### Contrasts
+
+We use `options()` to set the default contrasts to `contr.sum` for unordered factors and `contr.poly` for ordered factors. This matters for Type 3 ANOVA tables, especially with interactions, because it avoids reference-level (treatment) coding.
+
+```{r sp_contrasts}
+op_contr <- options(contrasts = c("contr.sum", "contr.poly"))
+```
+
+### nlme::lme
+
+```{r sp_nlme_reml}
+op_contr <- options(contrasts = c("contr.sum", "contr.poly"))
+options(op_contr)
+
+no_split <- nlme::lme(
+  YIELD ~ NRATE * VARIETY,
+  random = ~1|BLOCK,
+  data = split_plot_data,
+  method = "REML"
+)
+
+split_nlme <- nlme::lme(
+  YIELD ~ NRATE * VARIETY,
+  random = ~1|BLOCK/NRATE,
+  data = split_plot_data,
+  method = "REML"
+)
+
+car::Anova(split_nlme, type = 3)
+```
+
+**REML vs ML for model comparisons**
+
+- **REML** is typically preferred for estimating variance components (and often for reporting a final model), because it reduces small-sample bias in variance estimates. <br/>
+
+- **ML** is required when comparing **models with different fixed-effects structures** using likelihood ratio tests (LRT), because REML likelihoods are not comparable across different fixed-effect specifications.
+
+```{r sp_nlme_ml_compare}
+no_split_ML   <- update(no_split,  method = "ML")
+split_nlme_ML <- update(split_nlme, method = "ML")
+anova(no_split_ML, split_nlme_ML)
+
+options(op_contr)
+```
+
+### lme4::lmer
+
+```{r sp_lme4}
+split_lme4 <- lme4::lmer(
+  YIELD ~ NRATE * VARIETY +
+    (1|BLOCK/NRATE), 
+  data = split_plot_data
+)
+
+car::Anova(split_lme4, type = 3)
+
+anova(split_lme4, type = 3, ddf = "Satterthwaite")
+
+```
+
+## Check assumptions
+
+```{r  sp_check}
+#| fig.height: 10
+#| fig.width: 6
+
+performance::check_normality(split_lme4)
+performance::check_homogeneity(split_lme4)
+performance::check_autocorrelation(split_lme4)
+performance::check_outliers(split_lme4)
+performance::check_collinearity(split_lme4)
+
+performance::check_model(split_lme4)
+```
+
+## Comparisons
+
+```{r sp_comparisons_1}
+sp_emm <- emmeans::emmeans(split_lme4, ~ NRATE * VARIETY)
+
+sp_emm %>% 
+  multcomp::cld(
+    decreasing = TRUE, details = FALSE, reversed = TRUE, 
+    alpha = 0.05, adjust = "tukey", Letters = LETTERS
+  )
+
+emmeans::emmeans(split_lme4, ~ VARIETY | NRATE) %>% 
+  pairs(adjust = "tukey")
+
+emmeans::emmeans(split_lme4, ~ NRATE | VARIETY) %>% 
+  pairs(adjust = "tukey")
+```
+
+# Split-split plot
+
+## Data
+
+```{r splitsplit_data}
+splitsplit_data <- agridat::goulden.splitsplit %>%
+  mutate(
+    block = factor(block),
+    gen   = factor(gen),
+    trt   = factor(trt),
+    inoc  = factor(inoc)
+  )
+
+glimpse(splitsplit_data)
+```
+
+## Models
+
+### nlme
+
+```{r splitsplit_nlme}
+op_contr <- options(contrasts = c("contr.sum", "contr.poly"))
+
+splitsplit_nlme <- nlme::lme(
+  yield ~ gen * trt * inoc,
+  random = ~1|block/gen/trt, 
+  data = splitsplit_data,
+  method = "REML"
+)
+
+car::Anova(splitsplit_nlme, type = 3)
+
+options(op_contr)
+```
+
+### lme4
+
+```{r splitsplit_lme4}
+op_contr <- options(contrasts = c("contr.sum", "contr.poly"))
+
+splitsplit_lme4 <- lme4::lmer(
+  yield ~ gen * trt * inoc +
+    (1|block/gen/trt), 
+  data = splitsplit_data
+)
+
+car::Anova(splitsplit_lme4, type = 3)
+
+anova(splitsplit_lme4, type = 3, ddf = "Satterthwaite")
+
+options(op_contr)
+```
+
+## Comparisons
+
+```{r sp_comparisons_2}
+ss_inoc_within_trt <- emmeans::emmeans(splitsplit_lme4, ~ inoc | trt)
+
+pairs(ss_inoc_within_trt, adjust = "tukey")
+
+ss_inoc_within_trt %>% 
+  multcomp::cld(
+    by = "trt",
+    decreasing = TRUE, details = FALSE, reversed = TRUE, 
+    alpha = 0.05, adjust = "tukey", Letters = LETTERS
+  )
+```
+
+

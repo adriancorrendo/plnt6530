@@ -240,7 +240,7 @@ If site-specific lines differ meaningfully from the pooled line, a single fixed 
 This variant forces the fitted line through the origin, which is rarely justified in agronomy.
 
 ```{r}
-reg_noint <- lm(yield_kgha ~ -1 + nrate_kgha, data = cornn_data)
+reg_noint <- lm(yield_kgha ~ 0 + nrate_kgha, data = cornn_data)
 summary(reg_fit)
 summary(reg_noint)
 
@@ -275,7 +275,7 @@ car::Anova(anova_trt_block, type = 3)
 
 ### ANOVA
 
-This parameterization estimates a mean for each treatment level directly (useful for interpretation), while still representing the same fitted values as the intercept model.
+This parameterization estimates a mean for each treatment level directly (useful for interpretation), while still representing the same fitted values as the intercept model. HOWEVER, beware the R^2^ values when you remove the intercept are WRONG! Don't use that.
 
 ```{r}
 anova_noint <- lm(yield_kgha ~ -1 + n_trt + block, data = cornn_data)

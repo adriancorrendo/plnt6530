@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../coding/quarto/quarto.html" rel="next">
+<link href="../../coding/week_07/13_models03.html" rel="next">
 <link href="../../coding/week_06/11_models01.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -349,6 +349,12 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../../coding/week_07/12_models02.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">12-Models II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_07/13_models03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">13-Models III</span></a>
   </div>
 </li>
       </ul>
@@ -914,7 +920,7 @@ Interpretation
 <h3 data-number="8.3" class="anchored" data-anchor-id="linear-regression"><span class="header-section-number">8.3</span> Linear regression</h3>
 <p>This variant forces the fitted line through the origin, which is rarely justified in agronomy.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>reg_noint <span class="ot">&lt;-</span> <span class="fu">lm</span>(yield_kgha <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> nrate_kgha, <span class="at">data =</span> cornn_data)</span>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>reg_noint <span class="ot">&lt;-</span> <span class="fu">lm</span>(yield_kgha <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> nrate_kgha, <span class="at">data =</span> cornn_data)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -940,7 +946,7 @@ F-statistic: 56.25 on 1 and 166 DF,  p-value: 3.658e-12</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-lm(formula = yield_kgha ~ -1 + nrate_kgha, data = cornn_data)
+lm(formula = yield_kgha ~ 0 + nrate_kgha, data = cornn_data)
 
 Residuals:
      Min       1Q   Median       3Q      Max 
@@ -1060,7 +1066,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </section>
 <section id="anova-1" class="level3" data-number="8.5">
 <h3 data-number="8.5" class="anchored" data-anchor-id="anova-1"><span class="header-section-number">8.5</span> ANOVA</h3>
-<p>This parameterization estimates a mean for each treatment level directly (useful for interpretation), while still representing the same fitted values as the intercept model.</p>
+<p>This parameterization estimates a mean for each treatment level directly (useful for interpretation), while still representing the same fitted values as the intercept model. HOWEVER, beware the R<sup>2</sup> values when you remove the intercept are WRONG! Don’t use that.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>anova_noint <span class="ot">&lt;-</span> <span class="fu">lm</span>(yield_kgha <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> n_trt <span class="sc">+</span> block, <span class="at">data =</span> cornn_data)</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(anova_noint, <span class="at">type =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2391,8 +2397,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../coding/quarto/quarto.html" class="pagination-link" aria-label="Quarto Basics">
-        <span class="nav-page-text">Quarto Basics</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../coding/week_07/13_models03.html" class="pagination-link" aria-label="13-Models III">
+        <span class="nav-page-text">13-Models III</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

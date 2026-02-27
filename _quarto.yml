@@ -77,6 +77,8 @@ website:
             text: "11-Models I"
           - href: coding/week_07/12_models02.qmd
             text: "12-Models II"
+          - href: coding/week_07/13_models03.qmd
+            text: "13-Models III"
       - section: "Extras"
         contents:
           - href: coding/quarto/quarto.qmd

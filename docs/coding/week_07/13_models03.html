@@ -1,0 +1,2285 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Dr.&nbsp;Adrian Correndo">
+<meta name="dcterms.date" content="2026-02-27">
+
+<title>Models III: Mixed Models I – PLNT6530 - Winter 2026</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../coding/quarto/quarto.html" rel="next">
+<link href="../../coding/week_07/12_models02.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-f2a1071e85750ec973bbb8a8f120da0f.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-f2a1071e85750ec973bbb8a8f120da0f.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-336ca817ef159df84c7e018e0d356059.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-5ccce6f18d703cb4568c738a25a74289.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="Models III: Mixed Models I – PLNT6530 - Winter 2026">
+<meta property="og:description" content="This tutorial provides a workflow to analyze two very common types of mixed models data in agriculture: Blocks and Split-Plots.">
+<meta property="og:image" content="https://adriancorrendo.github.io/coding/week_07/13_models03_files/figure-html/sp_ggplot-1.png">
+<meta property="og:site_name" content="PLNT6530 - Winter 2026">
+<meta property="og:image:height" content="1152">
+<meta property="og:image:width" content="1536">
+<meta name="twitter:title" content="Models III: Mixed Models I – PLNT6530 - Winter 2026">
+<meta name="twitter:description" content="This tutorial provides a workflow to analyze two very common types of mixed models data in agriculture: Blocks and Split-Plots.">
+<meta name="twitter:image" content="https://adriancorrendo.github.io/coding/week_07/13_models03_files/figure-html/sp_ggplot-1.png">
+<meta name="twitter:creator" content="@aacorrendo">
+<meta name="twitter:image-height" content="1152">
+<meta name="twitter:image-width" content="1536">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">PLNT6530 - Winter 2026</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://adriancorrendo.github.io/"> <i class="bi bi-globe" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/adriancorrendo/plnt6530/"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/aacorrendo"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/adriancorrendo/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../coding/week_01/essentials_01.html">Lessons</a></li><li class="breadcrumb-item"><a href="../../coding/week_07/13_models03.html">13-Models III</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="../../index.html" class="sidebar-logo-link">
+      <img src="../../images/2026_logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+      <div class="sidebar-tools-main">
+    <a href="https://github.com/adriancorrendo/" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+</div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Slides</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../slides/day1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reproducibility</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Software</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../software/software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instructions</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Lessons</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_01/essentials_01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">01-Essentials of R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_02/02_fundamentals_rpackages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">02-Fundamentals of packages</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_02/03_versioncontrol.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">03-Git &amp; GitHub</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_03/04_datawrangling_01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">04-Data Wrangling I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_03/05_datawrangling_02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">05-Data Wrangling II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_04/06_datawrangling_03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">06-Data Wrangling III</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_04/07_ggplot2_01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">07-Data Viz I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_05/08_ggplot2_adv.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">08-Data Viz II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_05/09_ggplot2_plus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">09-Data Viz III</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_06/10_iteration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">10-Iteration</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_06/11_models01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">11-Models I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_07/12_models02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">12-Models II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_07/13_models03.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">13-Models III</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Extras</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/quarto/quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Quarto Basics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/pipe_operator.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pipe Ops</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/read_tabular.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Read Tabular Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/fair_care.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fair &amp; Care</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/p_value.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">p-value</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/weather_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weather data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/shinyapps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Shinyapps in R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/outliers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Outliers</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Semester Project</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../project/project_documentation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Project documentation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Calendar</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../outline/calendar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Schedule</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Course Outline</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../outline/outline.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Outline</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Content</h2>
+   
+  <ul>
+  <li><a href="#what-are-mixed-models" id="toc-what-are-mixed-models" class="nav-link active" data-scroll-target="#what-are-mixed-models"><span class="header-section-number">1</span> What are Mixed Models?</a></li>
+  <li><a href="#required-packages-for-today" id="toc-required-packages-for-today" class="nav-link" data-scroll-target="#required-packages-for-today"><span class="header-section-number">2</span> Required packages for today</a></li>
+  <li><a href="#rcbds" id="toc-rcbds" class="nav-link" data-scroll-target="#rcbds"><span class="header-section-number">3</span> RCBDs</a>
+  <ul>
+  <li><a href="#corn-data" id="toc-corn-data" class="nav-link" data-scroll-target="#corn-data"><span class="header-section-number">3.1</span> Corn Data</a></li>
+  <li><a href="#block-as-fixed" id="toc-block-as-fixed" class="nav-link" data-scroll-target="#block-as-fixed"><span class="header-section-number">3.2</span> Block as Fixed</a>
+  <ul class="collapse">
+  <li><a href="#conditional-interaction" id="toc-conditional-interaction" class="nav-link" data-scroll-target="#conditional-interaction"><span class="header-section-number">3.2.1</span> Conditional interaction</a></li>
+  </ul></li>
+  <li><a href="#block-as-random" id="toc-block-as-random" class="nav-link" data-scroll-target="#block-as-random"><span class="header-section-number">3.3</span> Block as Random</a>
+  <ul class="collapse">
+  <li><a href="#nlme" id="toc-nlme" class="nav-link" data-scroll-target="#nlme"><span class="header-section-number">3.3.1</span> nlme</a></li>
+  <li><a href="#nlme-conditional-intercation" id="toc-nlme-conditional-intercation" class="nav-link" data-scroll-target="#nlme-conditional-intercation"><span class="header-section-number">3.3.2</span> nlme + conditional intercation</a></li>
+  <li><a href="#lme4" id="toc-lme4" class="nav-link" data-scroll-target="#lme4"><span class="header-section-number">3.3.3</span> lme4</a></li>
+  <li><a href="#lme4-conditional-interaction" id="toc-lme4-conditional-interaction" class="nav-link" data-scroll-target="#lme4-conditional-interaction"><span class="header-section-number">3.3.4</span> lme4 + conditional interaction</a></li>
+  <li><a href="#satterthwaite-or-kenward-roger" id="toc-satterthwaite-or-kenward-roger" class="nav-link" data-scroll-target="#satterthwaite-or-kenward-roger"><span class="header-section-number">3.3.5</span> Satterthwaite or Kenward-Roger</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#what-is-a-split-plot" id="toc-what-is-a-split-plot" class="nav-link" data-scroll-target="#what-is-a-split-plot"><span class="header-section-number">4</span> What is a SPLIT-PLOT?</a>
+  <ul>
+  <li><a href="#split-plot-as-a-mixed-model" id="toc-split-plot-as-a-mixed-model" class="nav-link" data-scroll-target="#split-plot-as-a-mixed-model"><span class="header-section-number">4.1</span> Split-Plot as a Mixed Model</a></li>
+  <li><a href="#create-a-design" id="toc-create-a-design" class="nav-link" data-scroll-target="#create-a-design"><span class="header-section-number">4.2</span> Create a design</a></li>
+  <li><a href="#create-a-split-plot-design" id="toc-create-a-split-plot-design" class="nav-link" data-scroll-target="#create-a-split-plot-design"><span class="header-section-number">4.3</span> Create a split-plot design</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="header-section-number">4.4</span> Data</a></li>
+  <li><a href="#explore-the-data" id="toc-explore-the-data" class="nav-link" data-scroll-target="#explore-the-data"><span class="header-section-number">4.5</span> Explore the data</a></li>
+  <li><a href="#models" id="toc-models" class="nav-link" data-scroll-target="#models"><span class="header-section-number">4.6</span> Models</a>
+  <ul class="collapse">
+  <li><a href="#contrasts" id="toc-contrasts" class="nav-link" data-scroll-target="#contrasts"><span class="header-section-number">4.6.1</span> Contrasts</a></li>
+  <li><a href="#nlmelme" id="toc-nlmelme" class="nav-link" data-scroll-target="#nlmelme"><span class="header-section-number">4.6.2</span> nlme::lme</a></li>
+  <li><a href="#lme4lmer" id="toc-lme4lmer" class="nav-link" data-scroll-target="#lme4lmer"><span class="header-section-number">4.6.3</span> lme4::lmer</a></li>
+  </ul></li>
+  <li><a href="#check-assumptions" id="toc-check-assumptions" class="nav-link" data-scroll-target="#check-assumptions"><span class="header-section-number">4.7</span> Check assumptions</a></li>
+  <li><a href="#comparisons" id="toc-comparisons" class="nav-link" data-scroll-target="#comparisons"><span class="header-section-number">4.8</span> Comparisons</a></li>
+  </ul></li>
+  <li><a href="#split-split-plot" id="toc-split-split-plot" class="nav-link" data-scroll-target="#split-split-plot"><span class="header-section-number">5</span> Split-split plot</a>
+  <ul>
+  <li><a href="#data-1" id="toc-data-1" class="nav-link" data-scroll-target="#data-1"><span class="header-section-number">5.1</span> Data</a></li>
+  <li><a href="#models-1" id="toc-models-1" class="nav-link" data-scroll-target="#models-1"><span class="header-section-number">5.2</span> Models</a>
+  <ul class="collapse">
+  <li><a href="#nlme-1" id="toc-nlme-1" class="nav-link" data-scroll-target="#nlme-1"><span class="header-section-number">5.2.1</span> nlme</a></li>
+  <li><a href="#lme4-1" id="toc-lme4-1" class="nav-link" data-scroll-target="#lme4-1"><span class="header-section-number">5.2.2</span> lme4</a></li>
+  </ul></li>
+  <li><a href="#comparisons-1" id="toc-comparisons-1" class="nav-link" data-scroll-target="#comparisons-1"><span class="header-section-number">5.3</span> Comparisons</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../coding/week_01/essentials_01.html">Lessons</a></li><li class="breadcrumb-item"><a href="../../coding/week_07/13_models03.html">13-Models III</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Models III: Mixed Models I</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">linear models</div>
+    <div class="quarto-category">R</div>
+    <div class="quarto-category">statistics</div>
+    <div class="quarto-category">agriculture</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr.&nbsp;Adrian Correndo </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 27, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+<div>
+  <div class="abstract">
+    <div class="block-title">Summary</div>
+    This tutorial provides a workflow to analyze two very common types of mixed models data in agriculture: Blocks and Split-Plots.
+  </div>
+</div>
+
+
+</header>
+
+
+<section id="what-are-mixed-models" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> What are Mixed Models?</h1>
+<p>In simple words, the rationale behind mixed models is the simultaneous presence of components that model the EXPECTED VALUE (fixed) as well as the VARIANCE (random).</p>
+<p>Specifically, today we are going to cover LINEAR MIXED MODELS, which make the following assumptions <span class="citation" data-cites="Bolker_etal_2022">(<a href="#ref-Bolker_etal_2022" role="doc-biblioref">Bolker et al. 2022</a>)</span>:</p>
+<ul>
+<li>The <strong>expected values</strong> of the responses are <strong>linear combinations</strong> of the fixed predictor variables and the random effects.</li>
+<li>The conditional distribution of the variable response is Gaussian (equivalently, the errors are “Normal”).</li>
+<li>The random effects are normally distributed. Normally, we assume that the expected value of a random effect is equal to zero, but with a positive variance.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We are going to employ the most used packages and/or functions for <code>frequentist</code> LMMs:</p>
+<ul>
+<li><p><strong>nlme</strong>: nlme::lme() provides REML or ML estimation. Allows multiple nested random effects, and provides structures for modeling heteroscedastic and/or correlated errors (spoiler for repeated measures analysis). This is already part of base R. <code>nlme</code> is a very powerful package, but maybe is not as user-friendly as <code>lme4</code>.</p></li>
+<li><p><strong>lme4</strong>: lme4::lmer() provides REML or ML estimation. Allows multiple nested or crossed random effects, can compute profile confidence intervals and conduct parametric bootstrapping. However, it cannot handle heteroscedastic or correlated errors, and does not provide p-values by default (but it does via <code>lmerTest</code>). This is the most used package for LMMs in R.</p></li>
+</ul>
+</div>
+</div>
+<p>For more information about mixed models in R, please, check out the new <a href="https://cran.r-project.org/web/views/MixedModels.html">CRAN Task View: Mixed, Multilevel, and Hierarchical Models in R</a>.</p>
+</section>
+<section id="required-packages-for-today" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Required packages for today</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pacman)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(<span class="st">"readxl"</span>) <span class="co"># To open/save excel files</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(<span class="st">"dplyr"</span>, <span class="st">"tidyr"</span>, <span class="st">"purrr"</span>, <span class="st">"forcats"</span>, <span class="st">"stringr"</span>) <span class="co"># Data wrangling</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(<span class="st">"nlme"</span>, <span class="st">"lme4"</span>, <span class="st">"lmerTest"</span>) <span class="co"># Mixed models libraries</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(<span class="st">"broom"</span>, <span class="st">"broom.mixed"</span>) <span class="co"># Managing models results</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(<span class="st">"performance"</span>) <span class="co"># Check assumptions and performance</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(<span class="st">"emmeans"</span>, <span class="st">"multcomp"</span>, <span class="st">"multcompView"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>       <span class="st">"car"</span>, <span class="st">"multilevelmod"</span>) <span class="co"># Aov and mult comp</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(<span class="st">"ggplot2"</span>) <span class="co"># Figures</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(<span class="st">"agricolae"</span>) <span class="co"># Miscellaneous functions</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(<span class="st">"agridat"</span>) <span class="co"># For data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="rcbds" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> RCBDs</h1>
+<p>Randomized complete block designs (RCBD) are one of the most common experimental designs in agriculture. The main characteristic of this design is that the experimental units are grouped into blocks, which are expected to be more homogeneous than the entire set of experimental units. The main purpose of blocking is to reduce the variability within treatment groups, thus increasing the precision of the experiment and allowing for more accurate comparisons among treatments. However, the presence of blocks introduces a restriction to the randomization process, and thus a new source of variability that must be accounted for in the analysis, which is the main topic of this section.</p>
+<section id="corn-data" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="corn-data"><span class="header-section-number">3.1</span> Corn Data</h2>
+<p>We will again use our synthetic dataset of corn yield response to nitrogen fertilizer across two sites and three years with contrasting weather.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read CSV file</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>cornn_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/cornn_data.csv"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_trt =</span> <span class="fu">factor</span>(n_trt, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"N0"</span>, <span class="st">"N60"</span>, <span class="st">"N90"</span>, <span class="st">"N120"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"N180"</span>, <span class="st">"N240"</span>, <span class="st">"N300"</span>)),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">block =</span> <span class="fu">factor</span>(block),</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">site =</span> <span class="fu">factor</span>(site),</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">year =</span> <span class="fu">factor</span>(year),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">site_year =</span> <span class="fu">interaction</span>(site, weather, <span class="at">drop =</span> <span class="cn">FALSE</span>), <span class="co"># create interaction</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">weather =</span> <span class="fu">factor</span>(weather)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># IMPORTANT: blocks are nested within site (Block 1 in A is not the same as Block 1 in B)</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">block_in_site =</span> <span class="fu">interaction</span>(site, block, <span class="at">drop =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">yield_tha =</span> yield_kgha <span class="sc">/</span> <span class="dv">1000</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(cornn_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 168
+Columns: 10
+$ site          &lt;fct&gt; A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A,…
+$ year          &lt;fct&gt; 2004, 2004, 2004, 2004, 2004, 2004, 2004, 2004, 2004, 20…
+$ block         &lt;fct&gt; 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3,…
+$ n_trt         &lt;fct&gt; N0, N0, N0, N0, N60, N60, N60, N60, N90, N90, N90, N90, …
+$ nrate_kgha    &lt;int&gt; 0, 0, 0, 0, 60, 60, 60, 60, 90, 90, 90, 90, 120, 120, 12…
+$ yield_kgha    &lt;int&gt; 6860, 7048, 8083, 8194, 10010, 9568, 10256, 10939, 11959…
+$ weather       &lt;fct&gt; normal, normal, normal, normal, normal, normal, normal, …
+$ site_year     &lt;fct&gt; A.normal, A.normal, A.normal, A.normal, A.normal, A.norm…
+$ block_in_site &lt;fct&gt; A.1, A.2, A.3, A.4, A.1, A.2, A.3, A.4, A.1, A.2, A.3, A…
+$ yield_tha     &lt;dbl&gt; 6.860, 7.048, 8.083, 8.194, 10.010, 9.568, 10.256, 10.93…</code></pre>
+</div>
+</div>
+<p>First, the most important step is ALWAYS to write down the model.</p>
+</section>
+<section id="block-as-fixed" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="block-as-fixed"><span class="header-section-number">3.2</span> Block as Fixed</h2>
+<p>In a traditional approach blocks are defined as fixed, affecting the mean of the expected value. Yet there is no consensus about treating blocks as fixed or as random. For more information, read <span class="citation" data-cites="Dixon_2016">Dixon (<a href="#ref-Dixon_2016" role="doc-biblioref">2016</a>)</span>.</p>
+<p>Let’s define the model. For simplification (and avoid writing interaction terms), here we are going to consider that <span class="math inline">\(\tau_i\)</span> is the “treatment”.</p>
+<p><span class="math display">\[ y_{ij} = \mu + \tau_i + \beta_j + \epsilon_{ij} \]</span></p>
+<p><span class="math display">\[ \epsilon_{ij} \sim N(0, \sigma^2_{e} )\]</span></p>
+<p>where <span class="math inline">\(\mu\)</span> represents the overall mean (if intercept is used), <span class="math inline">\(\tau_i\)</span> is the effect of treatment-<span class="math inline">\(i\)</span> over <span class="math inline">\(\mu\)</span>, <span class="math inline">\(\beta_j\)</span> is the effect of block-<span class="math inline">\(j\)</span> over <span class="math inline">\(\mu\)</span>, and <span class="math inline">\(\epsilon_{ij}\)</span> is the random error of each experimental unit.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Important design note:</strong> in this dataset, <code>block</code> is <strong>nested within</strong> <code>site</code>. That means the fixed-block model must use <code>block_in_site</code> (or <code>site:block</code>), otherwise it incorrectly treats Block 1 as the same block across sites.</p>
+<p>Also, <code>site</code> is not replicated as an experimental unit (we only observe Site A and Site B once each). This means site effects are best interpreted as <strong>conditional contrasts</strong> among these specific sites, not a population inference about “sites” in general.</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fixed blocks (nested within site)</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>block_fixed <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  yield_kgha <span class="sc">~</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    n_trt <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    site_year <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    site_year<span class="sc">:</span>block,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> cornn_data</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(block_fixed, <span class="at">type =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Anova Table (Type III tests)
+
+Response: yield_kgha
+                   Sum Sq  Df F value    Pr(&gt;F)    
+(Intercept)      91491209   1 49.8879 7.305e-11 ***
+n_trt           800679144   6 72.7651 &lt; 2.2e-16 ***
+site_year       320573358   5 34.9601 &lt; 2.2e-16 ***
+site_year:block  15949870  18  0.4832    0.9617    
+Residuals       253083214 138                      
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<section id="conditional-interaction" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="conditional-interaction"><span class="header-section-number">3.2.1</span> Conditional interaction</h3>
+<p>We may allow treatment responses to differ by site_year</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>block_fixed_int <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  yield_kgha <span class="sc">~</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    n_trt <span class="sc">*</span> site_year <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    site_year<span class="sc">:</span>block,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> cornn_data</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(block_fixed_int, <span class="at">type =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Anova Table (Type III tests)
+
+Response: yield_kgha
+                   Sum Sq  Df F value    Pr(&gt;F)    
+(Intercept)      97436143   1 88.2113 1.124e-15 ***
+n_trt            36106271   6  5.4480 5.900e-05 ***
+site_year        40865434   5  7.3993 5.318e-06 ***
+n_trt:site_year 133788947  30  4.0374 4.841e-08 ***
+site_year:block  15949870  18  0.8022    0.6938    
+Residuals       119294267 108                      
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If interaction is present, report treatment effects within each site</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>emmeans<span class="sc">::</span><span class="fu">emmeans</span>(block_fixed_int, <span class="sc">~</span> n_trt <span class="sc">|</span> site_year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>site_year = A.dry:
+ n_trt emmean  SE  df lower.CL upper.CL
+ N0      5414 525 108     4372     6456
+ N60     7363 525 108     6322     8405
+ N90     8509 525 108     7468     9551
+ N120    8250 525 108     7209     9292
+ N180    8402 525 108     7361     9444
+ N240    8692 525 108     7651     9734
+ N300    8995 525 108     7954    10037
+
+site_year = B.dry:
+ n_trt emmean  SE  df lower.CL upper.CL
+ N0      3755 525 108     2714     4797
+ N60     4969 525 108     3927     6011
+ N90     6274 525 108     5232     7315
+ N120    7052 525 108     6011     8094
+ N180    7898 525 108     6857     8940
+ N240    8312 525 108     7270     9354
+ N300    8420 525 108     7379     9462
+
+site_year = A.normal:
+ n_trt emmean  SE  df lower.CL upper.CL
+ N0      7546 525 108     6505     8588
+ N60    10193 525 108     9152    11235
+ N90    11764 525 108    10722    12805
+ N120   13660 525 108    12618    14701
+ N180   13444 525 108    12402    14486
+ N240   13560 525 108    12518    14601
+ N300   11053 525 108    10012    12095
+
+site_year = B.normal:
+ n_trt emmean  SE  df lower.CL upper.CL
+ N0      4560 525 108     3518     5602
+ N60     6151 525 108     5109     7193
+ N90     7836 525 108     6794     8877
+ N120   10111 525 108     9070    11153
+ N180   11050 525 108    10009    12092
+ N240   11330 525 108    10289    12372
+ N300   11572 525 108    10530    12613
+
+site_year = A.wet:
+ n_trt emmean  SE  df lower.CL upper.CL
+ N0      7194 525 108     6152     8236
+ N60    10951 525 108     9909    11992
+ N90    13764 525 108    12722    14805
+ N120   14656 525 108    13614    15697
+ N180   15607 525 108    14565    16648
+ N240   15337 525 108    14296    16379
+ N300   15075 525 108    14034    16117
+
+site_year = B.wet:
+ n_trt emmean  SE  df lower.CL upper.CL
+ N0      7509 525 108     6467     8551
+ N60    11475 525 108    10434    12517
+ N90    13378 525 108    12336    14419
+ N120   15505 525 108    14463    16547
+ N180   15876 525 108    14835    16918
+ N240   17128 525 108    16086    18169
+ N300   16626 525 108    15584    17668
+
+Results are averaged over the levels of: block 
+Confidence level used: 0.95 </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="block-as-random" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="block-as-random"><span class="header-section-number">3.3</span> Block as Random</h2>
+<p>An alternative approach is considering a MIXED MODEL, where blocks are considered “random”. Basically, we add a term to the model that it is expected to show a “null” overall effect over the mean of the variable of interest but introduces “noise”. By convention, a random effect is expected to have an expected value equal to zero but a positive variance as follows:</p>
+<p><span class="math display">\[ y_{ijk} = \mu + \tau_i + \alpha_k + (\tau\alpha)_{ik} + b_{j(k)} + \epsilon_{ijk} \]</span></p>
+<p><span class="math display">\[ b_{j(k)} \sim N(0, \sigma^2_{b} )\]</span></p>
+<p><span class="math display">\[ \epsilon_{ijk} \sim N(0, \sigma^2_{e} )\]</span></p>
+<p>where <span class="math inline">\(\alpha_k\)</span> is the site effect (treated as fixed here), <span class="math inline">\((\tau\alpha)_{ik}\)</span> is the treatment-by-site interaction (optional), <span class="math inline">\(b_{j(k)}\)</span> is the random effect of block <span class="math inline">\(j\)</span> within site <span class="math inline">\(k\)</span>, and <span class="math inline">\(\epsilon_{ijk}\)</span> is the residual error.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>While some authors advocate modeling blocks as random to support inference beyond the observed blocks, with only 4 to 5 blocks the block variance component (<span class="math inline">\(σ²_b\)</span>) can be estimated with limited precision. In small RCBDs, this can make variance partitioning and degrees-of-freedom adjustments less stable, so the practical impact of treating blocks as random may be limited. <span class="citation" data-cites="vanEeuwijk_1995">Eeuwijk (<a href="#ref-vanEeuwijk_1995" role="doc-biblioref">1995</a>)</span> is often cited as a rule-of-thumb suggesting random block effects mainly when the number of blocks is around 10 or more. In line with that, <span class="citation" data-cites="Dixon_2016">Dixon (<a href="#ref-Dixon_2016" role="doc-biblioref">2016</a>)</span> argues that for complete blocks (as in RCBD) it is often reasonable to treat blocks as fixed unless there is a compelling reason to recover inter-block information. More recently, <span class="citation" data-cites="Frey_2024">Frey et al. (<a href="#ref-Frey_2024" role="doc-biblioref">2024</a>)</span> reiterate the “analyze as randomized” principle and discuss how block handling influences inference in designed experiments.</p>
+</div>
+</div>
+<section id="nlme" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="nlme"><span class="header-section-number">3.3.1</span> nlme</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Random blocks nested within site_year</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>block_random_nlme <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">lme</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">fixed =</span> yield_kgha <span class="sc">~</span> n_trt <span class="sc">+</span> site_year,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> site_year<span class="sc">/</span>block,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> cornn_data</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(block_random_nlme, <span class="at">type =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Deviance Table (Type III tests)
+
+Response: yield_kgha
+              Chisq Df Pr(&gt;Chisq)    
+(Intercept)  22.541  1  2.057e-06 ***
+n_trt       464.277  6  &lt; 2.2e-16 ***
+site_year    87.935  5  &lt; 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</section>
+<section id="nlme-conditional-intercation" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="nlme-conditional-intercation"><span class="header-section-number">3.3.2</span> nlme + conditional intercation</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>block_random_nlme_int <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">lme</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">fixed =</span> yield_kgha <span class="sc">~</span> n_trt <span class="sc">*</span> site_year,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> site_year<span class="sc">/</span>block,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> cornn_data</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Significance</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(block_random_nlme_int, <span class="at">type =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Deviance Table (Type III tests)
+
+Response: yield_kgha
+                  Chisq Df Pr(&gt;Chisq)    
+(Intercept)      54.162  1  1.847e-13 ***
+n_trt            33.638  6  7.900e-06 ***
+site_year        25.037  5  0.0001371 ***
+n_trt:site_year 124.644 30  1.684e-13 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mean comparisons if interaction is present</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>emmeans<span class="sc">::</span><span class="fu">emmeans</span>(block_random_nlme_int, <span class="sc">~</span> n_trt <span class="sc">|</span> site_year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>site_year = A.dry:
+ n_trt emmean  SE df lower.CL upper.CL
+ N0      5414 736  5     3523     7305
+ N60     7363 736  5     5472     9254
+ N90     8509 736  5     6618    10400
+ N120    8250 736  5     6359    10142
+ N180    8402 736  5     6511    10293
+ N240    8692 736  5     6801    10583
+ N300    8995 736  5     7104    10886
+
+site_year = B.dry:
+ n_trt emmean  SE df lower.CL upper.CL
+ N0      3755 736  0      NaN      NaN
+ N60     4969 736  0      NaN      NaN
+ N90     6274 736  0      NaN      NaN
+ N120    7052 736  0      NaN      NaN
+ N180    7898 736  0      NaN      NaN
+ N240    8312 736  0      NaN      NaN
+ N300    8420 736  0      NaN      NaN
+
+site_year = A.normal:
+ n_trt emmean  SE df lower.CL upper.CL
+ N0      7546 736  0      NaN      NaN
+ N60    10193 736  0      NaN      NaN
+ N90    11764 736  0      NaN      NaN
+ N120   13660 736  0      NaN      NaN
+ N180   13444 736  0      NaN      NaN
+ N240   13560 736  0      NaN      NaN
+ N300   11053 736  0      NaN      NaN
+
+site_year = B.normal:
+ n_trt emmean  SE df lower.CL upper.CL
+ N0      4560 736  0      NaN      NaN
+ N60     6151 736  0      NaN      NaN
+ N90     7836 736  0      NaN      NaN
+ N120   10111 736  0      NaN      NaN
+ N180   11050 736  0      NaN      NaN
+ N240   11330 736  0      NaN      NaN
+ N300   11572 736  0      NaN      NaN
+
+site_year = A.wet:
+ n_trt emmean  SE df lower.CL upper.CL
+ N0      7194 736  0      NaN      NaN
+ N60    10951 736  0      NaN      NaN
+ N90    13764 736  0      NaN      NaN
+ N120   14656 736  0      NaN      NaN
+ N180   15607 736  0      NaN      NaN
+ N240   15337 736  0      NaN      NaN
+ N300   15075 736  0      NaN      NaN
+
+site_year = B.wet:
+ n_trt emmean  SE df lower.CL upper.CL
+ N0      7509 736  0      NaN      NaN
+ N60    11475 736  0      NaN      NaN
+ N90    13378 736  0      NaN      NaN
+ N120   15505 736  0      NaN      NaN
+ N180   15876 736  0      NaN      NaN
+ N240   17128 736  0      NaN      NaN
+ N300   16626 736  0      NaN      NaN
+
+Degrees-of-freedom method: containment 
+Confidence level used: 0.95 </code></pre>
+</div>
+</div>
+</section>
+<section id="lme4" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="lme4"><span class="header-section-number">3.3.3</span> lme4</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Random blocks nested within site_year</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>block_random_lme4 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  yield_kgha <span class="sc">~</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    n_trt <span class="sc">+</span> site_year <span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">|</span> site_year<span class="sc">:</span>block),</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> cornn_data</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(block_random_lme4, <span class="at">type =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Deviance Table (Type III Wald chisquare tests)
+
+Response: yield_kgha
+             Chisq Df Pr(&gt;Chisq)    
+(Intercept) 102.71  1  &lt; 2.2e-16 ***
+n_trt       464.28  6  &lt; 2.2e-16 ***
+site_year   713.43  5  &lt; 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</section>
+<section id="lme4-conditional-interaction" class="level3" data-number="3.3.4">
+<h3 data-number="3.3.4" class="anchored" data-anchor-id="lme4-conditional-interaction"><span class="header-section-number">3.3.4</span> lme4 + conditional interaction</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>block_random_lme4_int <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  yield_kgha <span class="sc">~</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    n_trt <span class="sc">*</span> site_year <span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">|</span> site_year<span class="sc">:</span>block),</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> cornn_data</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Significance</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(block_random_lme4_int, <span class="at">type =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Deviance Table (Type III Wald chisquare tests)
+
+Response: yield_kgha
+                  Chisq Df Pr(&gt;Chisq)    
+(Intercept)     109.232  1  &lt; 2.2e-16 ***
+n_trt            33.638  6  7.900e-06 ***
+site_year        50.493  5  1.098e-09 ***
+n_trt:site_year 124.644 30  1.684e-13 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mean comparisons if interaction is present</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>emmeans<span class="sc">::</span><span class="fu">emmeans</span>(block_random_lme4_int, <span class="sc">~</span> n_trt <span class="sc">|</span> site_year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>site_year = A.dry:
+ n_trt emmean  SE  df lower.CL upper.CL
+ N0      5414 518 126     4389     6439
+ N60     7363 518 126     6338     8388
+ N90     8509 518 126     7484     9534
+ N120    8250 518 126     7225     9276
+ N180    8402 518 126     7377     9427
+ N240    8692 518 126     7667     9717
+ N300    8995 518 126     7970    10020
+
+site_year = B.dry:
+ n_trt emmean  SE  df lower.CL upper.CL
+ N0      3755 518 126     2730     4780
+ N60     4969 518 126     3944     5994
+ N90     6274 518 126     5249     7299
+ N120    7052 518 126     6027     8078
+ N180    7898 518 126     6873     8923
+ N240    8312 518 126     7287     9337
+ N300    8420 518 126     7395     9445
+
+site_year = A.normal:
+ n_trt emmean  SE  df lower.CL upper.CL
+ N0      7546 518 126     6521     8571
+ N60    10193 518 126     9168    11218
+ N90    11764 518 126    10738    12789
+ N120   13660 518 126    12635    14685
+ N180   13444 518 126    12419    14469
+ N240   13560 518 126    12534    14585
+ N300   11053 518 126    10028    12078
+
+site_year = B.normal:
+ n_trt emmean  SE  df lower.CL upper.CL
+ N0      4560 518 126     3535     5585
+ N60     6151 518 126     5126     7176
+ N90     7836 518 126     6810     8861
+ N120   10111 518 126     9086    11136
+ N180   11050 518 126    10025    12075
+ N240   11330 518 126    10305    12355
+ N300   11572 518 126    10547    12597
+
+site_year = A.wet:
+ n_trt emmean  SE  df lower.CL upper.CL
+ N0      7194 518 126     6169     8219
+ N60    10951 518 126     9926    11976
+ N90    13764 518 126    12739    14789
+ N120   14656 518 126    13631    15681
+ N180   15607 518 126    14582    16632
+ N240   15337 518 126    14312    16362
+ N300   15075 518 126    14050    16100
+
+site_year = B.wet:
+ n_trt emmean  SE  df lower.CL upper.CL
+ N0      7509 518 126     6484     8534
+ N60    11475 518 126    10450    12500
+ N90    13378 518 126    12353    14403
+ N120   15505 518 126    14480    16530
+ N180   15876 518 126    14851    16901
+ N240   17128 518 126    16103    18153
+ N300   16626 518 126    15601    17651
+
+Degrees-of-freedom method: kenward-roger 
+Confidence level used: 0.95 </code></pre>
+</div>
+</div>
+</section>
+<section id="satterthwaite-or-kenward-roger" class="level3" data-number="3.3.5">
+<h3 data-number="3.3.5" class="anchored" data-anchor-id="satterthwaite-or-kenward-roger"><span class="header-section-number">3.3.5</span> Satterthwaite or Kenward-Roger</h3>
+<p>Satterthwaite or Kenward-Roger methods are commonly used to adjust degrees of freedom in linear mixed models fitted with lme4, which does not provide p-values by default. These methods can be implemented using the <code>lmerTest</code> package, which extends lme4 to include these adjustments.</p>
+<p>Satterthwaite’s method approximates the degrees of freedom for fixed effects, while Kenward-Roger’s method provides a more accurate adjustment by considering both fixed and random effects. To apply these adjustments, you can use the <code>anova()</code> function from the <code>lmerTest</code> package after fitting your model with lme4.</p>
+<p>Kenward-Roger’s method, instead, is more computationally intensive but can provide more accurate p-values, especially in small sample sizes or complex models. We may say that this method is more “conservative” than Satterthwaite’s, as it tends to yield larger p-values, thus reducing the likelihood of Type I errors (false positives). However, the choice between these methods should be guided by the specific context of your analysis and the characteristics of your data. One note is this requires the <code>pbkrtest</code> package, so make sure to install it if you want to use that method.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(block_random_lme4_int, <span class="at">type =</span> <span class="dv">3</span>, <span class="at">ddf =</span> <span class="st">"Satterthwaite"</span>)   <span class="co"># default in lmerTest</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+                npar     Sum Sq   Mean Sq  F value
+n_trt              6  800679144 133446524 124.3253
+site_year          5 1230353677 246070735 229.2514
+n_trt:site_year   30  133788947   4459632   4.1548</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># or</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(block_random_lme4_int, <span class="at">type =</span> <span class="dv">3</span>, <span class="at">ddf =</span> <span class="st">"Kenward-Roger"</span>)   <span class="co"># needs pbkrtest</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+                npar     Sum Sq   Mean Sq  F value
+n_trt              6  800679144 133446524 124.3253
+site_year          5 1230353677 246070735 229.2514
+n_trt:site_year   30  133788947   4459632   4.1548</code></pre>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="what-is-a-split-plot" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> What is a SPLIT-PLOT?</h1>
+<p>Split-plot arrangement is frequently used in experiments including several factors (factorial). The main characteristic is that the arrangement follows a hierarchy: there are main plots (a.k.a. whole plots) covering one of the factors, and then there are “subplots” within each level of the main that include levels of a second factor, and so on. Therefore, the main plot serves as a “block” for the subplots, and thus, we are setting boundaries to (“restricting”) the randomization of the subplot factor.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>DESIGN</strong>: We intentionally call split-plot “arrangement” because they can fit into multiple “designs” such as completely randomized (CRD), randomized complete blocks design (RCBD), or latin-squares design (LSD).</li>
+<li><strong>INFERENCE POWER</strong>: The main plot has less degrees of freedom than the factor at the subplot, and thus, we have more inference power at the factor in the subplot hierarchy (and the interaction).</li>
+</ul>
+</div>
+</div>
+<section id="split-plot-as-a-mixed-model" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="split-plot-as-a-mixed-model"><span class="header-section-number">4.1</span> Split-Plot as a Mixed Model</h2>
+<p>When moving to a Split-Plot design, an additional source of error is introduced: Main plot error (^2_m), which accounts for variation among the whole plots within each block.</p>
+<p><span class="math display">\[y_{ijk} = \mu + \alpha_i + \tau_k + (\alpha\tau)_{ik} + \beta_j + \gamma_{ij} + \epsilon_{ijk}\]</span></p>
+<p>where: <span class="math inline">\(\alpha_i\)</span> = Fixed effect of the main-plot factor (e.g., tillage), <span class="math inline">\(\tau_k\)</span> = Fixed effect of the subplot factor (e.g., nitrogen rate), <span class="math inline">\((\alpha\tau)_{ik}\)</span> = Fixed interaction effect between main and subplot factors, <span class="math inline">\(\beta_j \sim N(0, \sigma^2_b)\)</span> = Random effect of block, <span class="math inline">\(\gamma_{ij} \sim N(0, \sigma^2_m)\)</span> = Random effect of main plot within block (main-plot error), <span class="math inline">\(\epsilon_{ijk} \sim N(0, \sigma^2_e)\)</span> = Random error of experimental unit.</p>
+<p>Thus, three sources of variability are modeled: <br> 1. Block-to-block variation → <span class="math inline">\(\sigma^2_b\)</span> <br> 2. Main-plot variation (whole plot error) → <span class="math inline">\(\sigma^2_m\)</span> <br> 3. Residual variation (subplot error) → <span class="math inline">\(\sigma^2_e\)</span> <br></p>
+</section>
+<section id="create-a-design" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="create-a-design"><span class="header-section-number">4.2</span> Create a design</h2>
+<p>The following is just a fake data set where we have a split-splot arrangement within an RCBD (BLOCK), where at the main plot corresponds to nitrogen rate (NRATE, with 5 levels), and the subplot to wheat variety (VARIETY, with 3 levels).</p>
+</section>
+<section id="create-a-split-plot-design" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="create-a-split-plot-design"><span class="header-section-number">4.3</span> Create a split-plot design</h2>
+<p>The <code>agricolae</code> package has a cool set of functions to create experimental designs including split-plot arrangements. The function <code>design.split()</code> allows us to create a split-plot design with the desired number of blocks, main plot treatments, subplot treatments, and randomization.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>mainplot <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">50</span>,<span class="dv">80</span>,<span class="dv">110</span>,<span class="dv">140</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>subplot <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Var_1"</span>, <span class="st">"Var_2"</span>, <span class="st">"Var_3"</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>sp_design <span class="ot">&lt;-</span> agricolae<span class="sc">::</span><span class="fu">design.split</span>(</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">trt1 =</span> mainplot, <span class="at">trt2 =</span> subplot, </span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">design =</span> <span class="st">"rcbd"</span>, <span class="at">r =</span> <span class="dv">3</span>, </span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">randomization =</span> <span class="cn">TRUE</span>, <span class="at">seed =</span> <span class="dv">4561</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="co"># sp_design$book</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="data" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="data"><span class="header-section-number">4.4</span> Data</h2>
+<p>With the design created above, I have generated a synthetic dataset of wheat yield response to nitrogen fertilizer across three varieties, three blocks, and five nitrogen rates. The data is available in the GitHub repository for this course, and you can read it directly from there using the following code:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>url_split <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/adriancorrendo/tidymixedmodelsweb/master/data/01_split_plot_data.csv"</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Model</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>split_plot_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(url_split) <span class="sc">%&gt;%</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">BLOCK   =</span> <span class="fu">factor</span>(BLOCK),</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">NRATE   =</span> <span class="fu">factor</span>(NRATE),</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">VARIETY =</span> <span class="fu">factor</span>(VARIETY)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(BLOCK, NRATE, VARIETY, YIELD)</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(split_plot_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 45
+Columns: 4
+$ BLOCK   &lt;fct&gt; B1, B1, B1, B1, B1, B1, B1, B1, B1, B1, B1, B1, B1, B1, B1, B2…
+$ NRATE   &lt;fct&gt; 0, 0, 0, 50, 50, 50, 80, 80, 80, 110, 110, 110, 140, 140, 140,…
+$ VARIETY &lt;fct&gt; Var_1, Var_2, Var_3, Var_1, Var_2, Var_3, Var_1, Var_2, Var_3,…
+$ YIELD   &lt;int&gt; 1938, 3946, 4628, 2038, 4346, 5949, 3837, 4287, 6765, 3466, 49…</code></pre>
+</div>
+</div>
+</section>
+<section id="explore-the-data" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="explore-the-data"><span class="header-section-number">4.5</span> Explore the data</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>split_plot_data <span class="sc">%&gt;%</span> </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> NRATE, <span class="at">y =</span> YIELD, <span class="at">fill =</span> VARIETY)) <span class="sc">+</span> </span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.15</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">"Set2"</span>) <span class="sc">+</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">8000</span>), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">10000</span>, <span class="at">by=</span><span class="dv">2000</span>)) <span class="sc">+</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>VARIETY) <span class="sc">+</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="13_models03_files/figure-html/sp_ggplot-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="models" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="models"><span class="header-section-number">4.6</span> Models</h2>
+<section id="contrasts" class="level3" data-number="4.6.1">
+<h3 data-number="4.6.1" class="anchored" data-anchor-id="contrasts"><span class="header-section-number">4.6.1</span> Contrasts</h3>
+<p>We use <code>options()</code> to set the default contrasts to <code>contr.sum</code> for unordered factors and <code>contr.poly</code> for ordered factors. This matters for Type 3 ANOVA tables, especially with interactions, because it avoids reference-level (treatment) coding.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>op_contr <span class="ot">&lt;-</span> <span class="fu">options</span>(<span class="at">contrasts =</span> <span class="fu">c</span>(<span class="st">"contr.sum"</span>, <span class="st">"contr.poly"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="nlmelme" class="level3" data-number="4.6.2">
+<h3 data-number="4.6.2" class="anchored" data-anchor-id="nlmelme"><span class="header-section-number">4.6.2</span> nlme::lme</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>op_contr <span class="ot">&lt;-</span> <span class="fu">options</span>(<span class="at">contrasts =</span> <span class="fu">c</span>(<span class="st">"contr.sum"</span>, <span class="st">"contr.poly"</span>))</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(op_contr)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>no_split <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">lme</span>(</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  YIELD <span class="sc">~</span> NRATE <span class="sc">*</span> VARIETY,</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">random =</span> <span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>BLOCK,</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> split_plot_data,</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"REML"</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>split_nlme <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">lme</span>(</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>  YIELD <span class="sc">~</span> NRATE <span class="sc">*</span> VARIETY,</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">random =</span> <span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>BLOCK<span class="sc">/</span>NRATE,</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> split_plot_data,</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"REML"</span></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(split_nlme, <span class="at">type =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Deviance Table (Type III tests)
+
+Response: YIELD
+                 Chisq Df Pr(&gt;Chisq)    
+(Intercept)   3269.047  1  &lt; 2.2e-16 ***
+NRATE           57.345  4  1.047e-11 ***
+VARIETY        188.511  2  &lt; 2.2e-16 ***
+NRATE:VARIETY   18.117  8    0.02036 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p><strong>REML vs ML for model comparisons</strong></p>
+<ul>
+<li><p><strong>REML</strong> is typically preferred for estimating variance components (and often for reporting a final model), because it reduces small-sample bias in variance estimates. <br></p></li>
+<li><p><strong>ML</strong> is required when comparing <strong>models with different fixed-effects structures</strong> using likelihood ratio tests (LRT), because REML likelihoods are not comparable across different fixed-effect specifications.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>no_split_ML   <span class="ot">&lt;-</span> <span class="fu">update</span>(no_split,  <span class="at">method =</span> <span class="st">"ML"</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>split_nlme_ML <span class="ot">&lt;-</span> <span class="fu">update</span>(split_nlme, <span class="at">method =</span> <span class="st">"ML"</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(no_split_ML, split_nlme_ML)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              Model df      AIC      BIC    logLik   Test      L.Ratio p-value
+no_split_ML       1 17 706.5453 737.2586 -336.2726                            
+split_nlme_ML     2 18 708.5453 741.0652 -336.2726 1 vs 2 1.228955e-09       1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(op_contr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="lme4lmer" class="level3" data-number="4.6.3">
+<h3 data-number="4.6.3" class="anchored" data-anchor-id="lme4lmer"><span class="header-section-number">4.6.3</span> lme4::lmer</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>split_lme4 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  YIELD <span class="sc">~</span> NRATE <span class="sc">*</span> VARIETY <span class="sc">+</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span><span class="sc">|</span>BLOCK<span class="sc">/</span>NRATE), </span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> split_plot_data</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(split_lme4, <span class="at">type =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Deviance Table (Type III Wald chisquare tests)
+
+Response: YIELD
+                 Chisq Df Pr(&gt;Chisq)    
+(Intercept)   3269.047  1  &lt; 2.2e-16 ***
+NRATE           57.345  4  1.047e-11 ***
+VARIETY        188.511  2  &lt; 2.2e-16 ***
+NRATE:VARIETY   18.117  8    0.02036 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(split_lme4, <span class="at">type =</span> <span class="dv">3</span>, <span class="at">ddf =</span> <span class="st">"Satterthwaite"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+              npar   Sum Sq  Mean Sq F value
+NRATE            4 15589707  3897427 14.3362
+VARIETY          2 51248413 25624207 94.2555
+NRATE:VARIETY    8  4925373   615672  2.2647</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="check-assumptions" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="check-assumptions"><span class="header-section-number">4.7</span> Check assumptions</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">check_normality</span>(split_lme4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>OK: residuals appear as normally distributed (p = 0.910).</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">check_homogeneity</span>(split_lme4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>OK: There is not clear evidence for different variances across groups (Bartlett Test, p = 0.396).</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">check_autocorrelation</span>(split_lme4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>OK: Residuals appear to be independent and not autocorrelated (p = 0.410).</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">check_outliers</span>(split_lme4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>OK: No outliers detected.
+- Based on the following method and threshold: cook (0.5).
+- For variable: (Whole model)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">check_collinearity</span>(split_lme4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Check for Multicollinearity
+
+Low Correlation
+
+          Term  VIF  VIF 95% CI adj. VIF Tolerance Tolerance 95% CI
+         NRATE 1.00                 1.00      1.00                 
+       VARIETY 1.00 [1.00, Inf]     1.00      1.00     [0.00, 1.00]
+ NRATE:VARIETY 1.00                 1.00      1.00                 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">check_model</span>(split_lme4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="13_models03_files/figure-html/sp_check-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="comparisons" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="comparisons"><span class="header-section-number">4.8</span> Comparisons</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>sp_emm <span class="ot">&lt;-</span> emmeans<span class="sc">::</span><span class="fu">emmeans</span>(split_lme4, <span class="sc">~</span> NRATE <span class="sc">*</span> VARIETY)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>sp_emm <span class="sc">%&gt;%</span> </span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>  multcomp<span class="sc">::</span><span class="fu">cld</span>(</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">decreasing =</span> <span class="cn">TRUE</span>, <span class="at">details =</span> <span class="cn">FALSE</span>, <span class="at">reversed =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.05</span>, <span class="at">adjust =</span> <span class="st">"tukey"</span>, <span class="at">Letters =</span> LETTERS</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> NRATE VARIETY emmean  SE df lower.CL upper.CL .group  
+ 80    Var_3     6587 301 30     5630     7544  A      
+ 110   Var_3     6466 301 30     5509     7423  AB     
+ 50    Var_3     5904 301 30     4947     6861  ABC    
+ 140   Var_3     5359 301 30     4402     6316  ABCD   
+ 140   Var_2     5311 301 30     4354     6268  ABCD   
+ 110   Var_2     4948 301 30     3991     5905   BCDE  
+ 80    Var_2     4611 301 30     3654     5568    CDEF 
+ 0     Var_3     4501 301 30     3544     5458    CDEF 
+ 50    Var_2     4039 301 30     3082     4996     DEFG
+ 80    Var_1     3858 301 30     2901     4815     DEFG
+ 110   Var_1     3467 301 30     2510     4424      EFG
+ 0     Var_2     3186 301 30     2229     4143       FG
+ 140   Var_1     3101 301 30     2144     4058       FG
+ 50    Var_1     2787 301 30     1830     3744        G
+ 0     Var_1     2536 301 30     1579     3493        G
+
+Degrees-of-freedom method: kenward-roger 
+Confidence level used: 0.95 
+Conf-level adjustment: sidak method for 15 estimates 
+P value adjustment: tukey method for comparing a family of 15 estimates 
+significance level used: alpha = 0.05 
+NOTE: If two or more means share the same grouping symbol,
+      then we cannot show them to be different.
+      But we also did not show them to be the same. </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>emmeans<span class="sc">::</span><span class="fu">emmeans</span>(split_lme4, <span class="sc">~</span> VARIETY <span class="sc">|</span> NRATE) <span class="sc">%&gt;%</span> </span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pairs</span>(<span class="at">adjust =</span> <span class="st">"tukey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>NRATE = 0:
+ contrast      estimate  SE df t.ratio p.value
+ Var_1 - Var_2   -649.7 426 20  -1.526  0.3004
+ Var_1 - Var_3  -1965.3 426 20  -4.616  0.0005
+ Var_2 - Var_3  -1315.7 426 20  -3.090  0.0152
+
+NRATE = 50:
+ contrast      estimate  SE df t.ratio p.value
+ Var_1 - Var_2  -1252.7 426 20  -2.942  0.0210
+ Var_1 - Var_3  -3117.7 426 20  -7.323 &lt;0.0001
+ Var_2 - Var_3  -1865.0 426 20  -4.381  0.0008
+
+NRATE = 80:
+ contrast      estimate  SE df t.ratio p.value
+ Var_1 - Var_2   -753.7 426 20  -1.770  0.2049
+ Var_1 - Var_3  -2729.0 426 20  -6.410 &lt;0.0001
+ Var_2 - Var_3  -1975.3 426 20  -4.640  0.0004
+
+NRATE = 110:
+ contrast      estimate  SE df t.ratio p.value
+ Var_1 - Var_2  -1480.3 426 20  -3.477  0.0064
+ Var_1 - Var_3  -2998.3 426 20  -7.043 &lt;0.0001
+ Var_2 - Var_3  -1518.0 426 20  -3.566  0.0053
+
+NRATE = 140:
+ contrast      estimate  SE df t.ratio p.value
+ Var_1 - Var_2  -2210.7 426 20  -5.193  0.0001
+ Var_1 - Var_3  -2258.0 426 20  -5.304 &lt;0.0001
+ Var_2 - Var_3    -47.3 426 20  -0.111  0.9932
+
+Degrees-of-freedom method: kenward-roger 
+P value adjustment: tukey method for comparing a family of 3 estimates </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>emmeans<span class="sc">::</span><span class="fu">emmeans</span>(split_lme4, <span class="sc">~</span> NRATE <span class="sc">|</span> VARIETY) <span class="sc">%&gt;%</span> </span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pairs</span>(<span class="at">adjust =</span> <span class="st">"tukey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>VARIETY = Var_1:
+ contrast            estimate  SE   df t.ratio p.value
+ NRATE0 - NRATE50        -251 426 27.7  -0.589  0.9756
+ NRATE0 - NRATE80       -1322 426 27.7  -3.105  0.0326
+ NRATE0 - NRATE110       -931 426 27.7  -2.188  0.2140
+ NRATE0 - NRATE140       -565 426 27.7  -1.326  0.6776
+ NRATE50 - NRATE80      -1071 426 27.7  -2.516  0.1160
+ NRATE50 - NRATE110      -681 426 27.7  -1.599  0.5105
+ NRATE50 - NRATE140      -314 426 27.7  -0.738  0.9457
+ NRATE80 - NRATE110       390 426 27.7   0.917  0.8880
+ NRATE80 - NRATE140       757 426 27.7   1.778  0.4058
+ NRATE110 - NRATE140      367 426 27.7   0.861  0.9085
+
+VARIETY = Var_2:
+ contrast            estimate  SE   df t.ratio p.value
+ NRATE0 - NRATE50        -854 426 27.7  -2.005  0.2899
+ NRATE0 - NRATE80       -1426 426 27.7  -3.349  0.0184
+ NRATE0 - NRATE110      -1762 426 27.7  -4.139  0.0025
+ NRATE0 - NRATE140      -2126 426 27.7  -4.993  0.0003
+ NRATE50 - NRATE80       -572 426 27.7  -1.344  0.6672
+ NRATE50 - NRATE110      -908 426 27.7  -2.134  0.2348
+ NRATE50 - NRATE140     -1272 426 27.7  -2.988  0.0426
+ NRATE80 - NRATE110      -336 426 27.7  -0.790  0.9313
+ NRATE80 - NRATE140      -700 426 27.7  -1.644  0.4832
+ NRATE110 - NRATE140     -364 426 27.7  -0.854  0.9109
+
+VARIETY = Var_3:
+ contrast            estimate  SE   df t.ratio p.value
+ NRATE0 - NRATE50       -1403 426 27.7  -3.296  0.0208
+ NRATE0 - NRATE80       -2085 426 27.7  -4.898  0.0003
+ NRATE0 - NRATE110      -1964 426 27.7  -4.614  0.0007
+ NRATE0 - NRATE140       -857 426 27.7  -2.014  0.2860
+ NRATE50 - NRATE80       -682 426 27.7  -1.603  0.5081
+ NRATE50 - NRATE110      -561 426 27.7  -1.319  0.6823
+ NRATE50 - NRATE140       546 426 27.7   1.282  0.7042
+ NRATE80 - NRATE110       121 426 27.7   0.284  0.9985
+ NRATE80 - NRATE140      1228 426 27.7   2.885  0.0536
+ NRATE110 - NRATE140     1107 426 27.7   2.600  0.0979
+
+Degrees-of-freedom method: kenward-roger 
+P value adjustment: tukey method for comparing a family of 5 estimates </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="split-split-plot" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Split-split plot</h1>
+<section id="data-1" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="data-1"><span class="header-section-number">5.1</span> Data</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>splitsplit_data <span class="ot">&lt;-</span> agridat<span class="sc">::</span>goulden.splitsplit <span class="sc">%&gt;%</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">block =</span> <span class="fu">factor</span>(block),</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">gen   =</span> <span class="fu">factor</span>(gen),</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">trt   =</span> <span class="fu">factor</span>(trt),</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">inoc  =</span> <span class="fu">factor</span>(inoc)</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(splitsplit_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 160
+Columns: 9
+$ row   &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2…
+$ col   &lt;int&gt; 1, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 2, 20, 3, 4, 5, 6, 7,…
+$ yield &lt;int&gt; 64, 69, 67, 66, 71, 64, 64, 75, 70, 66, 67, 68, 65, 68, 71, 62, …
+$ inoc  &lt;fct&gt; Uninoc, Uninoc, Uninoc, Inoc, Inoc, Uninoc, Uninoc, Inoc, Inoc, …
+$ trt   &lt;fct&gt; 5, 7, 1, 1, 9, 9, 10, 10, 2, 2, 6, 5, 6, 4, 4, 3, 3, 8, 8, 7, 6,…
+$ gen   &lt;fct&gt; Marquis, Marquis, Marquis, Marquis, Marquis, Marquis, Marquis, M…
+$ dry   &lt;fct&gt; Dry, Dry, Dry, Dry, Dry, Dry, Wet, Wet, Wet, Wet, Wet, Dry, Wet,…
+$ dust  &lt;fct&gt; DuBay, Check, Ceresan, Ceresan, CaCO3, CaCO3, CaCO3, CaCO3, Cere…
+$ block &lt;fct&gt; B1, B1, B1, B1, B1, B1, B1, B1, B1, B1, B1, B1, B1, B1, B1, B1, …</code></pre>
+</div>
+</div>
+</section>
+<section id="models-1" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="models-1"><span class="header-section-number">5.2</span> Models</h2>
+<section id="nlme-1" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="nlme-1"><span class="header-section-number">5.2.1</span> nlme</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>op_contr <span class="ot">&lt;-</span> <span class="fu">options</span>(<span class="at">contrasts =</span> <span class="fu">c</span>(<span class="st">"contr.sum"</span>, <span class="st">"contr.poly"</span>))</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>splitsplit_nlme <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">lme</span>(</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>  yield <span class="sc">~</span> gen <span class="sc">*</span> trt <span class="sc">*</span> inoc,</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">random =</span> <span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>block<span class="sc">/</span>gen<span class="sc">/</span>trt, </span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> splitsplit_data,</span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"REML"</span></span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(splitsplit_nlme, <span class="at">type =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Deviance Table (Type III tests)
+
+Response: yield
+                 Chisq Df Pr(&gt;Chisq)    
+(Intercept)  2185.2683  1  &lt; 2.2e-16 ***
+gen            16.8551  1  4.035e-05 ***
+trt            58.6809  9  2.405e-09 ***
+inoc           62.7247  1  2.377e-15 ***
+gen:trt        19.6914  9  0.0199156 *  
+gen:inoc        0.0199  1  0.8878172    
+trt:inoc       30.8330  9  0.0003162 ***
+gen:trt:inoc    8.5127  9  0.4834183    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(op_contr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="lme4-1" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="lme4-1"><span class="header-section-number">5.2.2</span> lme4</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>op_contr <span class="ot">&lt;-</span> <span class="fu">options</span>(<span class="at">contrasts =</span> <span class="fu">c</span>(<span class="st">"contr.sum"</span>, <span class="st">"contr.poly"</span>))</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>splitsplit_lme4 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(</span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>  yield <span class="sc">~</span> gen <span class="sc">*</span> trt <span class="sc">*</span> inoc <span class="sc">+</span></span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span><span class="sc">|</span>block<span class="sc">/</span>gen<span class="sc">/</span>trt), </span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> splitsplit_data</span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(splitsplit_lme4, <span class="at">type =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Deviance Table (Type III Wald chisquare tests)
+
+Response: yield
+                 Chisq Df Pr(&gt;Chisq)    
+(Intercept)  2185.1892  1  &lt; 2.2e-16 ***
+gen            16.8547  1  4.035e-05 ***
+trt            58.6812  9  2.405e-09 ***
+inoc           62.7246  1  2.377e-15 ***
+gen:trt        19.6915  9  0.0199150 *  
+gen:inoc        0.0199  1  0.8878173    
+trt:inoc       30.8329  9  0.0003162 ***
+gen:trt:inoc    8.5127  9  0.4834190    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(splitsplit_lme4, <span class="at">type =</span> <span class="dv">3</span>, <span class="at">ddf =</span> <span class="st">"Satterthwaite"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+             npar Sum Sq Mean Sq F value
+gen             1 259.39  259.39 16.8547
+trt             9 903.08  100.34  6.5201
+inoc            1 965.31  965.31 62.7246
+gen:trt         9 303.04   33.67  2.1879
+gen:inoc        1   0.31    0.31  0.0199
+trt:inoc        9 474.51   52.72  3.4259
+gen:trt:inoc    9 131.01   14.56  0.9459</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(op_contr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="comparisons-1" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="comparisons-1"><span class="header-section-number">5.3</span> Comparisons</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>ss_inoc_within_trt <span class="ot">&lt;-</span> emmeans<span class="sc">::</span><span class="fu">emmeans</span>(splitsplit_lme4, <span class="sc">~</span> inoc <span class="sc">|</span> trt)</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(ss_inoc_within_trt, <span class="at">adjust =</span> <span class="st">"tukey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>trt = 1:
+ contrast      estimate   SE df t.ratio p.value
+ Inoc - Uninoc     2.25 1.96 60   1.147  0.2559
+
+trt = 2:
+ contrast      estimate   SE df t.ratio p.value
+ Inoc - Uninoc     4.62 1.96 60   2.358  0.0217
+
+trt = 3:
+ contrast      estimate   SE df t.ratio p.value
+ Inoc - Uninoc     1.38 1.96 60   0.701  0.4860
+
+trt = 4:
+ contrast      estimate   SE df t.ratio p.value
+ Inoc - Uninoc     3.12 1.96 60   1.593  0.1164
+
+trt = 5:
+ contrast      estimate   SE df t.ratio p.value
+ Inoc - Uninoc     0.50 1.96 60   0.255  0.7997
+
+trt = 6:
+ contrast      estimate   SE df t.ratio p.value
+ Inoc - Uninoc     4.00 1.96 60   2.039  0.0458
+
+trt = 7:
+ contrast      estimate   SE df t.ratio p.value
+ Inoc - Uninoc    10.12 1.96 60   5.162 &lt;0.0001
+
+trt = 8:
+ contrast      estimate   SE df t.ratio p.value
+ Inoc - Uninoc    10.50 1.96 60   5.353 &lt;0.0001
+
+trt = 9:
+ contrast      estimate   SE df t.ratio p.value
+ Inoc - Uninoc     3.75 1.96 60   1.912  0.0607
+
+trt = 10:
+ contrast      estimate   SE df t.ratio p.value
+ Inoc - Uninoc     8.88 1.96 60   4.525 &lt;0.0001
+
+Results are averaged over the levels of: gen 
+Degrees-of-freedom method: kenward-roger </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>ss_inoc_within_trt <span class="sc">%&gt;%</span> </span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>  multcomp<span class="sc">::</span><span class="fu">cld</span>(</span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="st">"trt"</span>,</span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">decreasing =</span> <span class="cn">TRUE</span>, <span class="at">details =</span> <span class="cn">FALSE</span>, <span class="at">reversed =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.05</span>, <span class="at">adjust =</span> <span class="st">"tukey"</span>, <span class="at">Letters =</span> LETTERS</span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>trt = 1:
+ inoc   emmean   SE   df lower.CL upper.CL .group
+ Inoc     66.4 2.03 11.7     61.2     71.6  A    
+ Uninoc   64.1 2.03 11.7     58.9     69.3  A    
+
+trt = 2:
+ inoc   emmean   SE   df lower.CL upper.CL .group
+ Inoc     67.2 2.03 11.7     62.0     72.5  A    
+ Uninoc   62.6 2.03 11.7     57.4     67.8   B   
+
+trt = 3:
+ inoc   emmean   SE   df lower.CL upper.CL .group
+ Inoc     66.9 2.03 11.7     61.7     72.1  A    
+ Uninoc   65.5 2.03 11.7     60.3     70.7  A    
+
+trt = 4:
+ inoc   emmean   SE   df lower.CL upper.CL .group
+ Inoc     66.9 2.03 11.7     61.7     72.1  A    
+ Uninoc   63.8 2.03 11.7     58.5     69.0  A    
+
+trt = 5:
+ inoc   emmean   SE   df lower.CL upper.CL .group
+ Inoc     66.6 2.03 11.7     61.4     71.8  A    
+ Uninoc   66.1 2.03 11.7     60.9     71.3  A    
+
+trt = 6:
+ inoc   emmean   SE   df lower.CL upper.CL .group
+ Inoc     65.1 2.03 11.7     59.9     70.3  A    
+ Uninoc   61.1 2.03 11.7     55.9     66.3   B   
+
+trt = 7:
+ inoc   emmean   SE   df lower.CL upper.CL .group
+ Inoc     77.5 2.03 11.7     72.3     82.7  A    
+ Uninoc   67.4 2.03 11.7     62.2     72.6   B   
+
+trt = 8:
+ inoc   emmean   SE   df lower.CL upper.CL .group
+ Inoc     75.1 2.03 11.7     69.9     80.3  A    
+ Uninoc   64.6 2.03 11.7     59.4     69.8   B   
+
+trt = 9:
+ inoc   emmean   SE   df lower.CL upper.CL .group
+ Inoc     71.5 2.03 11.7     66.3     76.7  A    
+ Uninoc   67.8 2.03 11.7     62.5     73.0  A    
+
+trt = 10:
+ inoc   emmean   SE   df lower.CL upper.CL .group
+ Inoc     72.5 2.03 11.7     67.3     77.7  A    
+ Uninoc   63.6 2.03 11.7     58.4     68.8   B   
+
+Results are averaged over the levels of: gen 
+Degrees-of-freedom method: kenward-roger 
+Confidence level used: 0.95 
+Conf-level adjustment: sidak method for 2 estimates 
+significance level used: alpha = 0.05 
+NOTE: If two or more means share the same grouping symbol,
+      then we cannot show them to be different.
+      But we also did not show them to be the same. </code></pre>
+</div>
+</div>
+
+
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Bolker_etal_2022" class="csl-entry" role="listitem">
+Bolker, Ben, Julia Piaskowski, Emi Tanaka, Phillip Alday, and Wolfgang Viechtbauer. 2022. <em>CRAN Task View: Mixed, Multilevel, and Hierarchical Models in r. Version 2022-10-18.</em> <a href="https://cran.r-project.org/view=MixedModels">https://cran.r-project.org/view=MixedModels</a>.
+</div>
+<div id="ref-Dixon_2016" class="csl-entry" role="listitem">
+Dixon, Philip. 2016. <span>“Should Blocks Be Fixed or Random?”</span> <em>Conference on Applied Statistics in Agriculture, May 1-3, Kansas State University</em>, 23–39. <a href="https://doi.org/10.4148/2475-7772.1474">https://doi.org/10.4148/2475-7772.1474</a>.
+</div>
+<div id="ref-vanEeuwijk_1995" class="csl-entry" role="listitem">
+Eeuwijk, Fred A. van. 1995. <span>“Linear and Bilinear Models for the Analysis of Multi-Environment Trials: I. An Inventory of Models.”</span> <em>Euphytica</em> 84 (February): 1–7. <a href="https://doi.org/10.1007/BF01677551">https://doi.org/10.1007/BF01677551</a>.
+</div>
+<div id="ref-Frey_2024" class="csl-entry" role="listitem">
+Frey, Janina, Jens Hartung, Joseph O. Ogutu, and Hans-Peter Piepho. 2024. <span>“Analyze as Randomized—Why Dropping Block Effects in Designed Experiments Is a Bad Idea.”</span> <em>Agronomy Journal</em> 116 (3): 1371–81. <a href="https://doi.org/10.1002/agj2.21570">https://doi.org/10.1002/agj2.21570</a>.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/adriancorrendo\.github\.io\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../coding/week_07/12_models02.html" class="pagination-link" aria-label="12-Models II">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">12-Models II</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../coding/quarto/quarto.html" class="pagination-link" aria-label="Quarto Basics">
+        <span class="nav-page-text">Quarto Basics</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p><span> Developed by Adrian Correndo with <a href="https://quarto.org/">Quarto</a>. License: <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>. </span></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

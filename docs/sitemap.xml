@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://adriancorrendo.github.io/coding/week_07/12_models02.html</loc>
-    <lastmod>2026-02-25T14:15:09.850Z</lastmod>
-  </url>
-  <url>
     <loc>https://adriancorrendo.github.io/coding/extras/weather_data.html</loc>
     <lastmod>2026-02-12T22:37:21.316Z</lastmod>
   </url>
@@ -23,6 +19,10 @@
   <url>
     <loc>https://adriancorrendo.github.io/coding/week_06/11_models01.html</loc>
     <lastmod>2026-02-13T23:24:45.209Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adriancorrendo.github.io/coding/week_07/12_models02.html</loc>
+    <lastmod>2026-02-25T21:23:14.728Z</lastmod>
   </url>
   <url>
     <loc>https://adriancorrendo.github.io/coding/quarto/quarto.html</loc>
@@ -53,6 +53,10 @@
     <lastmod>2026-01-04T20:39:29.235Z</lastmod>
   </url>
   <url>
+    <loc>https://adriancorrendo.github.io/index.html</loc>
+    <lastmod>2026-01-04T20:55:19.406Z</lastmod>
+  </url>
+  <url>
     <loc>https://adriancorrendo.github.io/software/software.html</loc>
     <lastmod>2025-12-07T21:39:00.752Z</lastmod>
   </url>
@@ -62,7 +66,7 @@
   </url>
   <url>
     <loc>https://adriancorrendo.github.io/outline/calendar.html</loc>
-    <lastmod>2026-02-13T22:41:33.023Z</lastmod>
+    <lastmod>2026-02-25T21:21:35.196Z</lastmod>
   </url>
   <url>
     <loc>https://adriancorrendo.github.io/coding/week_04/06_datawrangling_03.html</loc>
@@ -79,6 +83,10 @@
   <url>
     <loc>https://adriancorrendo.github.io/coding/week_05/09_ggplot2_plus.html</loc>
     <lastmod>2026-02-11T15:05:36.859Z</lastmod>
+  </url>
+  <url>
+    <loc>https://adriancorrendo.github.io/coding/week_07/13_models03.html</loc>
+    <lastmod>2026-02-27T16:02:00.203Z</lastmod>
   </url>
   <url>
     <loc>https://adriancorrendo.github.io/coding/week_06/10_iteration.html</loc>
@@ -99,9 +107,5 @@
   <url>
     <loc>https://adriancorrendo.github.io/coding/extras/p_value.html</loc>
     <lastmod>2026-01-20T20:49:43.010Z</lastmod>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/index.html</loc>
-    <lastmod>2026-01-04T20:55:19.406Z</lastmod>
   </url>
 </urlset>
