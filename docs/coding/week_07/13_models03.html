@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.6.39">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
 <meta name="author" content="Dr.&nbsp;Adrian Correndo">
 <meta name="dcterms.date" content="2026-02-27">
-
 <title>Models III: Mixed Models I – PLNT6530 - Winter 2026</title>
 <style>
 code{white-space: pre-wrap;}
@@ -78,7 +75,6 @@ div.csl-indent {
   margin-left: 2em;
 }</style>
 
-
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -97,8 +93,7 @@ div.csl-indent {
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-336ca817ef159df84c7e018e0d356059.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-5ccce6f18d703cb4568c738a25a74289.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<script id="quarto-search-options" type="application/json">{
+<link href="../../site_libs/bootstrap/bootstrap-dark-5ccce6f18d703cb4568c738a25a74289.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -124,13 +119,8 @@ div.csl-indent {
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script>
-<style>html{ scroll-behavior: smooth; }</style>
-
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
+}</script><style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
 const typesetMath = (el) => {
   if (window.MathJax) {
     // MathJax Typeset
@@ -155,9 +145,7 @@ const typesetMath = (el) => {
 window.Quarto = {
   typesetMath
 };
-</script>
-
-<link rel="stylesheet" href="../../styles.css">
+</script><link rel="stylesheet" href="../../styles.css">
 <meta property="og:title" content="Models III: Mixed Models I – PLNT6530 - Winter 2026">
 <meta property="og:description" content="This tutorial provides a workflow to analyze two very common types of mixed models data in agriculture: Blocks and Split-Plots.">
 <meta property="og:image" content="https://adriancorrendo.github.io/coding/week_07/13_models03_files/figure-html/sp_ggplot-1.png">
@@ -172,13 +160,10 @@ window.Quarto = {
 <meta name="twitter:image-width" content="1536">
 <meta name="twitter:card" content="summary_large_image">
 </head>
-
 <body class="nav-sidebar docked nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">PLNT6530 - Winter 2026</span>
@@ -190,7 +175,7 @@ window.Quarto = {
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item compact">
+<li class="nav-item compact">
     <a class="nav-link" href="https://adriancorrendo.github.io/"> <i class="bi bi-globe" role="img">
 </i> 
 <span class="menu-text"></span></a>
@@ -211,14 +196,12 @@ window.Quarto = {
 <span class="menu-text"></span></a>
   </li>  
 </ul>
-          </div> <!-- /navcollapse -->
+</div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
-    </nav>
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
+    </nav><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
@@ -229,16 +212,11 @@ window.Quarto = {
         <i class="bi bi-search"></i>
       </button>
     </div>
-  </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-center sidebar-header">
       <a href="../../index.html" class="sidebar-logo-link">
-      <img src="../../images/2026_logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
-      </a>
+      <img src="../../images/2026_logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
       <div class="sidebar-tools-main">
     <a href="https://github.com/adriancorrendo/" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
 </div>
@@ -250,7 +228,7 @@ window.Quarto = {
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
@@ -264,15 +242,15 @@ window.Quarto = {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../slides/day1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Reproducibility</span></a>
   </div>
 </li>
       </ul>
-  </li>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
@@ -281,15 +259,15 @@ window.Quarto = {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../software/software.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Instructions</span></a>
   </div>
 </li>
       </ul>
-  </li>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
@@ -298,8 +276,8 @@ window.Quarto = {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../coding/week_01/essentials_01.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">01-Essentials of R</span></a>
@@ -378,7 +356,7 @@ window.Quarto = {
   </div>
 </li>
       </ul>
-  </li>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
@@ -387,8 +365,8 @@ window.Quarto = {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../coding/quarto/quarto.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Quarto Basics</span></a>
@@ -437,7 +415,7 @@ window.Quarto = {
   </div>
 </li>
       </ul>
-  </li>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
@@ -446,15 +424,15 @@ window.Quarto = {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../project/project_documentation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Project documentation</span></a>
   </div>
 </li>
       </ul>
-  </li>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
@@ -463,15 +441,15 @@ window.Quarto = {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../outline/calendar.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Schedule</span></a>
   </div>
 </li>
       </ul>
-  </li>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
@@ -480,77 +458,85 @@ window.Quarto = {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../outline/outline.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Outline</span></a>
   </div>
 </li>
       </ul>
-  </li>
+</li>
     </ul>
-    </div>
-    <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Content</h2>
+</div>
+    <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Content</h2>
    
   <ul>
-  <li><a href="#what-are-mixed-models" id="toc-what-are-mixed-models" class="nav-link active" data-scroll-target="#what-are-mixed-models"><span class="header-section-number">1</span> What are Mixed Models?</a></li>
+<li><a href="#what-are-mixed-models" id="toc-what-are-mixed-models" class="nav-link active" data-scroll-target="#what-are-mixed-models"><span class="header-section-number">1</span> What are Mixed Models?</a></li>
   <li><a href="#required-packages-for-today" id="toc-required-packages-for-today" class="nav-link" data-scroll-target="#required-packages-for-today"><span class="header-section-number">2</span> Required packages for today</a></li>
-  <li><a href="#rcbds" id="toc-rcbds" class="nav-link" data-scroll-target="#rcbds"><span class="header-section-number">3</span> RCBDs</a>
+  <li>
+<a href="#rcbds" id="toc-rcbds" class="nav-link" data-scroll-target="#rcbds"><span class="header-section-number">3</span> RCBDs</a>
   <ul>
-  <li><a href="#corn-data" id="toc-corn-data" class="nav-link" data-scroll-target="#corn-data"><span class="header-section-number">3.1</span> Corn Data</a></li>
-  <li><a href="#block-as-fixed" id="toc-block-as-fixed" class="nav-link" data-scroll-target="#block-as-fixed"><span class="header-section-number">3.2</span> Block as Fixed</a>
+<li><a href="#corn-data" id="toc-corn-data" class="nav-link" data-scroll-target="#corn-data"><span class="header-section-number">3.1</span> Corn Data</a></li>
+  <li>
+<a href="#block-as-fixed" id="toc-block-as-fixed" class="nav-link" data-scroll-target="#block-as-fixed"><span class="header-section-number">3.2</span> Block as Fixed</a>
   <ul class="collapse">
-  <li><a href="#conditional-interaction" id="toc-conditional-interaction" class="nav-link" data-scroll-target="#conditional-interaction"><span class="header-section-number">3.2.1</span> Conditional interaction</a></li>
-  </ul></li>
-  <li><a href="#block-as-random" id="toc-block-as-random" class="nav-link" data-scroll-target="#block-as-random"><span class="header-section-number">3.3</span> Block as Random</a>
+<li><a href="#conditional-interaction" id="toc-conditional-interaction" class="nav-link" data-scroll-target="#conditional-interaction"><span class="header-section-number">3.2.1</span> Conditional interaction</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#block-as-random" id="toc-block-as-random" class="nav-link" data-scroll-target="#block-as-random"><span class="header-section-number">3.3</span> Block as Random</a>
   <ul class="collapse">
-  <li><a href="#nlme" id="toc-nlme" class="nav-link" data-scroll-target="#nlme"><span class="header-section-number">3.3.1</span> nlme</a></li>
+<li><a href="#nlme" id="toc-nlme" class="nav-link" data-scroll-target="#nlme"><span class="header-section-number">3.3.1</span> nlme</a></li>
   <li><a href="#nlme-conditional-intercation" id="toc-nlme-conditional-intercation" class="nav-link" data-scroll-target="#nlme-conditional-intercation"><span class="header-section-number">3.3.2</span> nlme + conditional intercation</a></li>
   <li><a href="#lme4" id="toc-lme4" class="nav-link" data-scroll-target="#lme4"><span class="header-section-number">3.3.3</span> lme4</a></li>
   <li><a href="#lme4-conditional-interaction" id="toc-lme4-conditional-interaction" class="nav-link" data-scroll-target="#lme4-conditional-interaction"><span class="header-section-number">3.3.4</span> lme4 + conditional interaction</a></li>
   <li><a href="#satterthwaite-or-kenward-roger" id="toc-satterthwaite-or-kenward-roger" class="nav-link" data-scroll-target="#satterthwaite-or-kenward-roger"><span class="header-section-number">3.3.5</span> Satterthwaite or Kenward-Roger</a></li>
-  </ul></li>
-  </ul></li>
-  <li><a href="#what-is-a-split-plot" id="toc-what-is-a-split-plot" class="nav-link" data-scroll-target="#what-is-a-split-plot"><span class="header-section-number">4</span> What is a SPLIT-PLOT?</a>
+  </ul>
+</li>
+  </ul>
+</li>
+  <li>
+<a href="#what-is-a-split-plot" id="toc-what-is-a-split-plot" class="nav-link" data-scroll-target="#what-is-a-split-plot"><span class="header-section-number">4</span> What is a SPLIT-PLOT?</a>
   <ul>
-  <li><a href="#split-plot-as-a-mixed-model" id="toc-split-plot-as-a-mixed-model" class="nav-link" data-scroll-target="#split-plot-as-a-mixed-model"><span class="header-section-number">4.1</span> Split-Plot as a Mixed Model</a></li>
+<li><a href="#split-plot-as-a-mixed-model" id="toc-split-plot-as-a-mixed-model" class="nav-link" data-scroll-target="#split-plot-as-a-mixed-model"><span class="header-section-number">4.1</span> Split-Plot as a Mixed Model</a></li>
   <li><a href="#create-a-design" id="toc-create-a-design" class="nav-link" data-scroll-target="#create-a-design"><span class="header-section-number">4.2</span> Create a design</a></li>
   <li><a href="#create-a-split-plot-design" id="toc-create-a-split-plot-design" class="nav-link" data-scroll-target="#create-a-split-plot-design"><span class="header-section-number">4.3</span> Create a split-plot design</a></li>
   <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="header-section-number">4.4</span> Data</a></li>
   <li><a href="#explore-the-data" id="toc-explore-the-data" class="nav-link" data-scroll-target="#explore-the-data"><span class="header-section-number">4.5</span> Explore the data</a></li>
-  <li><a href="#models" id="toc-models" class="nav-link" data-scroll-target="#models"><span class="header-section-number">4.6</span> Models</a>
+  <li>
+<a href="#models" id="toc-models" class="nav-link" data-scroll-target="#models"><span class="header-section-number">4.6</span> Models</a>
   <ul class="collapse">
-  <li><a href="#contrasts" id="toc-contrasts" class="nav-link" data-scroll-target="#contrasts"><span class="header-section-number">4.6.1</span> Contrasts</a></li>
+<li><a href="#contrasts" id="toc-contrasts" class="nav-link" data-scroll-target="#contrasts"><span class="header-section-number">4.6.1</span> Contrasts</a></li>
   <li><a href="#nlmelme" id="toc-nlmelme" class="nav-link" data-scroll-target="#nlmelme"><span class="header-section-number">4.6.2</span> nlme::lme</a></li>
   <li><a href="#lme4lmer" id="toc-lme4lmer" class="nav-link" data-scroll-target="#lme4lmer"><span class="header-section-number">4.6.3</span> lme4::lmer</a></li>
-  </ul></li>
+  </ul>
+</li>
   <li><a href="#check-assumptions" id="toc-check-assumptions" class="nav-link" data-scroll-target="#check-assumptions"><span class="header-section-number">4.7</span> Check assumptions</a></li>
   <li><a href="#comparisons" id="toc-comparisons" class="nav-link" data-scroll-target="#comparisons"><span class="header-section-number">4.8</span> Comparisons</a></li>
-  </ul></li>
-  <li><a href="#split-split-plot" id="toc-split-split-plot" class="nav-link" data-scroll-target="#split-split-plot"><span class="header-section-number">5</span> Split-split plot</a>
-  <ul>
-  <li><a href="#data-1" id="toc-data-1" class="nav-link" data-scroll-target="#data-1"><span class="header-section-number">5.1</span> Data</a></li>
-  <li><a href="#models-1" id="toc-models-1" class="nav-link" data-scroll-target="#models-1"><span class="header-section-number">5.2</span> Models</a>
-  <ul class="collapse">
-  <li><a href="#nlme-1" id="toc-nlme-1" class="nav-link" data-scroll-target="#nlme-1"><span class="header-section-number">5.2.1</span> nlme</a></li>
-  <li><a href="#lme4-1" id="toc-lme4-1" class="nav-link" data-scroll-target="#lme4-1"><span class="header-section-number">5.2.2</span> lme4</a></li>
-  </ul></li>
-  <li><a href="#comparisons-1" id="toc-comparisons-1" class="nav-link" data-scroll-target="#comparisons-1"><span class="header-section-number">5.3</span> Comparisons</a></li>
-  </ul></li>
   </ul>
-</nav>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+</li>
+  <li>
+<a href="#split-split-plot" id="toc-split-split-plot" class="nav-link" data-scroll-target="#split-split-plot"><span class="header-section-number">5</span> Split-split plot</a>
+  <ul>
+<li><a href="#data-1" id="toc-data-1" class="nav-link" data-scroll-target="#data-1"><span class="header-section-number">5.1</span> Data</a></li>
+  <li>
+<a href="#models-1" id="toc-models-1" class="nav-link" data-scroll-target="#models-1"><span class="header-section-number">5.2</span> Models</a>
+  <ul class="collapse">
+<li><a href="#nlme-1" id="toc-nlme-1" class="nav-link" data-scroll-target="#nlme-1"><span class="header-section-number">5.2.1</span> nlme</a></li>
+  <li><a href="#lme4-1" id="toc-lme4-1" class="nav-link" data-scroll-target="#lme4-1"><span class="header-section-number">5.2.2</span> lme4</a></li>
+  </ul>
+</li>
+  <li><a href="#comparisons-1" id="toc-comparisons-1" class="nav-link" data-scroll-target="#comparisons-1"><span class="header-section-number">5.3</span> Comparisons</a></li>
+  </ul>
+</li>
+  </ul></nav>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../coding/week_01/essentials_01.html">Lessons</a></li><li class="breadcrumb-item"><a href="../../coding/week_07/13_models03.html">13-Models III</a></li></ol></nav>
-<div class="quarto-title">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../coding/week_01/essentials_01.html">Lessons</a></li><li class="breadcrumb-item"><a href="../../coding/week_07/13_models03.html">13-Models III</a></li></ol></nav><div class="quarto-title">
 <h1 class="title">Models III: Mixed Models I</h1>
   <div class="quarto-categories">
     <div class="quarto-category">linear models</div>
@@ -589,11 +575,8 @@ window.Quarto = {
 </div>
 
 
-</header>
-
-
-<section id="what-are-mixed-models" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> What are Mixed Models?</h1>
+</header><section id="what-are-mixed-models" class="level1" data-number="1"><h1 data-number="1">
+<span class="header-section-number">1</span> What are Mixed Models?</h1>
 <p>In simple words, the rationale behind mixed models is the simultaneous presence of components that model the EXPECTED VALUE (fixed) as well as the VARIANCE (random).</p>
 <p>Specifically, today we are going to cover LINEAR MIXED MODELS, which make the following assumptions <span class="citation" data-cites="Bolker_etal_2022">(<a href="#ref-Bolker_etal_2022" role="doc-biblioref">Bolker et al. 2022</a>)</span>:</p>
 <ul>
@@ -619,49 +602,48 @@ Note
 </div>
 </div>
 <p>For more information about mixed models in R, please, check out the new <a href="https://cran.r-project.org/web/views/MixedModels.html">CRAN Task View: Mixed, Multilevel, and Hierarchical Models in R</a>.</p>
-</section>
-<section id="required-packages-for-today" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Required packages for today</h1>
+</section><section id="required-packages-for-today" class="level1" data-number="2"><h1 data-number="2">
+<span class="header-section-number">2</span> Required packages for today</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pacman)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(<span class="st">"readxl"</span>) <span class="co"># To open/save excel files</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(<span class="st">"dplyr"</span>, <span class="st">"tidyr"</span>, <span class="st">"purrr"</span>, <span class="st">"forcats"</span>, <span class="st">"stringr"</span>) <span class="co"># Data wrangling</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(<span class="st">"nlme"</span>, <span class="st">"lme4"</span>, <span class="st">"lmerTest"</span>) <span class="co"># Mixed models libraries</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(<span class="st">"broom"</span>, <span class="st">"broom.mixed"</span>) <span class="co"># Managing models results</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(<span class="st">"performance"</span>) <span class="co"># Check assumptions and performance</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(<span class="st">"emmeans"</span>, <span class="st">"multcomp"</span>, <span class="st">"multcompView"</span>,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>       <span class="st">"car"</span>, <span class="st">"multilevelmod"</span>) <span class="co"># Aov and mult comp</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(<span class="st">"ggplot2"</span>) <span class="co"># Figures</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(<span class="st">"agricolae"</span>) <span class="co"># Miscellaneous functions</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(<span class="st">"agridat"</span>) <span class="co"># For data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/trinker/pacman">pacman</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="st">"readxl"</span><span class="op">)</span> <span class="co"># To open/save excel files</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="st">"dplyr"</span>, <span class="st">"tidyr"</span>, <span class="st">"purrr"</span>, <span class="st">"forcats"</span>, <span class="st">"stringr"</span><span class="op">)</span> <span class="co"># Data wrangling</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="st">"nlme"</span>, <span class="st">"lme4"</span>, <span class="st">"lmerTest"</span><span class="op">)</span> <span class="co"># Mixed models libraries</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="st">"broom"</span>, <span class="st">"broom.mixed"</span><span class="op">)</span> <span class="co"># Managing models results</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="st">"performance"</span><span class="op">)</span> <span class="co"># Check assumptions and performance</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="st">"emmeans"</span>, <span class="st">"multcomp"</span>, <span class="st">"multcompView"</span>,</span>
+<span>       <span class="st">"car"</span>, <span class="st">"multilevelmod"</span><span class="op">)</span> <span class="co"># Aov and mult comp</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="st">"ggplot2"</span><span class="op">)</span> <span class="co"># Figures</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="st">"agricolae"</span><span class="op">)</span> <span class="co"># Miscellaneous functions</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="st">"agridat"</span><span class="op">)</span> <span class="co"># For data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
-</section>
-<section id="rcbds" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> RCBDs</h1>
+</section><section id="rcbds" class="level1" data-number="3"><h1 data-number="3">
+<span class="header-section-number">3</span> RCBDs</h1>
 <p>Randomized complete block designs (RCBD) are one of the most common experimental designs in agriculture. The main characteristic of this design is that the experimental units are grouped into blocks, which are expected to be more homogeneous than the entire set of experimental units. The main purpose of blocking is to reduce the variability within treatment groups, thus increasing the precision of the experiment and allowing for more accurate comparisons among treatments. However, the presence of blocks introduces a restriction to the randomization process, and thus a new source of variability that must be accounted for in the analysis, which is the main topic of this section.</p>
-<section id="corn-data" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="corn-data"><span class="header-section-number">3.1</span> Corn Data</h2>
+<section id="corn-data" class="level2" data-number="3.1"><h2 data-number="3.1" class="anchored" data-anchor-id="corn-data">
+<span class="header-section-number">3.1</span> Corn Data</h2>
 <p>We will again use our synthetic dataset of corn yield response to nitrogen fertilizer across two sites and three years with contrasting weather.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read CSV file</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>cornn_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"data/cornn_data.csv"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_trt =</span> <span class="fu">factor</span>(n_trt, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"N0"</span>, <span class="st">"N60"</span>, <span class="st">"N90"</span>, <span class="st">"N120"</span>,</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"N180"</span>, <span class="st">"N240"</span>, <span class="st">"N300"</span>)),</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">block =</span> <span class="fu">factor</span>(block),</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">site =</span> <span class="fu">factor</span>(site),</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">year =</span> <span class="fu">factor</span>(year),</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">site_year =</span> <span class="fu">interaction</span>(site, weather, <span class="at">drop =</span> <span class="cn">FALSE</span>), <span class="co"># create interaction</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">weather =</span> <span class="fu">factor</span>(weather)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># IMPORTANT: blocks are nested within site (Block 1 in A is not the same as Block 1 in B)</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">block_in_site =</span> <span class="fu">interaction</span>(site, block, <span class="at">drop =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">yield_tha =</span> yield_kgha <span class="sc">/</span> <span class="dv">1000</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(cornn_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Read CSV file</span></span>
+<span><span class="va">cornn_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"data/cornn_data.csv"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<span>    n_trt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">n_trt</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"N0"</span>, <span class="st">"N60"</span>, <span class="st">"N90"</span>, <span class="st">"N120"</span>,</span>
+<span>                                   <span class="st">"N180"</span>, <span class="st">"N240"</span>, <span class="st">"N300"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    block <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">block</span><span class="op">)</span>,</span>
+<span>    site <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">site</span><span class="op">)</span>,</span>
+<span>    year <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span>,</span>
+<span>    site_year <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/interaction.html">interaction</a></span><span class="op">(</span><span class="va">site</span>, <span class="va">weather</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>, <span class="co"># create interaction</span></span>
+<span>    weather <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">weather</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="co"># IMPORTANT: blocks are nested within site (Block 1 in A is not the same as Block 1 in B)</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<span>    block_in_site <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/interaction.html">interaction</a></span><span class="op">(</span><span class="va">site</span>, <span class="va">block</span>, drop <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    yield_tha <span class="op">=</span> <span class="va">yield_kgha</span> <span class="op">/</span> <span class="fl">1000</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu">glimpse</span><span class="op">(</span><span class="va">cornn_data</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>Rows: 168
 Columns: 10
 $ site          &lt;fct&gt; A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A,…
@@ -677,9 +659,8 @@ $ yield_tha     &lt;dbl&gt; 6.860, 7.048, 8.083, 8.194, 10.010, 9.568, 10.256, 1
 </div>
 </div>
 <p>First, the most important step is ALWAYS to write down the model.</p>
-</section>
-<section id="block-as-fixed" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="block-as-fixed"><span class="header-section-number">3.2</span> Block as Fixed</h2>
+</section><section id="block-as-fixed" class="level2" data-number="3.2"><h2 data-number="3.2" class="anchored" data-anchor-id="block-as-fixed">
+<span class="header-section-number">3.2</span> Block as Fixed</h2>
 <p>In a traditional approach blocks are defined as fixed, affecting the mean of the expected value. Yet there is no consensus about treating blocks as fixed or as random. For more information, read <span class="citation" data-cites="Dixon_2016">Dixon (<a href="#ref-Dixon_2016" role="doc-biblioref">2016</a>)</span>.</p>
 <p>Let’s define the model. For simplification (and avoid writing interaction terms), here we are going to consider that <span class="math inline">\(\tau_i\)</span> is the “treatment”.</p>
 <p><span class="math display">\[ y_{ij} = \mu + \tau_i + \beta_j + \epsilon_{ij} \]</span></p>
@@ -700,17 +681,17 @@ Note
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fixed blocks (nested within site)</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>block_fixed <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  yield_kgha <span class="sc">~</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    n_trt <span class="sc">+</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    site_year <span class="sc">+</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    site_year<span class="sc">:</span>block,</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> cornn_data</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(block_fixed, <span class="at">type =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Fixed blocks (nested within site)</span></span>
+<span><span class="va">block_fixed</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span></span>
+<span>  <span class="va">yield_kgha</span> <span class="op">~</span></span>
+<span>    <span class="va">n_trt</span> <span class="op">+</span></span>
+<span>    <span class="va">site_year</span> <span class="op">+</span></span>
+<span>    <span class="va">site_year</span><span class="op">:</span><span class="va">block</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">cornn_data</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">car</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/car/man/Anova.html">Anova</a></span><span class="op">(</span><span class="va">block_fixed</span>, type <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>Anova Table (Type III tests)
 
 Response: yield_kgha
@@ -724,19 +705,19 @@ Residuals       253083214 138
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
-<section id="conditional-interaction" class="level3" data-number="3.2.1">
-<h3 data-number="3.2.1" class="anchored" data-anchor-id="conditional-interaction"><span class="header-section-number">3.2.1</span> Conditional interaction</h3>
+<section id="conditional-interaction" class="level3" data-number="3.2.1"><h3 data-number="3.2.1" class="anchored" data-anchor-id="conditional-interaction">
+<span class="header-section-number">3.2.1</span> Conditional interaction</h3>
 <p>We may allow treatment responses to differ by site_year</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>block_fixed_int <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  yield_kgha <span class="sc">~</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    n_trt <span class="sc">*</span> site_year <span class="sc">+</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    site_year<span class="sc">:</span>block,</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> cornn_data</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(block_fixed_int, <span class="at">type =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">block_fixed_int</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span></span>
+<span>  <span class="va">yield_kgha</span> <span class="op">~</span></span>
+<span>    <span class="va">n_trt</span> <span class="op">*</span> <span class="va">site_year</span> <span class="op">+</span></span>
+<span>    <span class="va">site_year</span><span class="op">:</span><span class="va">block</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">cornn_data</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">car</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/car/man/Anova.html">Anova</a></span><span class="op">(</span><span class="va">block_fixed_int</span>, type <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>Anova Table (Type III tests)
 
 Response: yield_kgha
@@ -750,9 +731,9 @@ Residuals       119294267 108
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If interaction is present, report treatment effects within each site</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>emmeans<span class="sc">::</span><span class="fu">emmeans</span>(block_fixed_int, <span class="sc">~</span> n_trt <span class="sc">|</span> site_year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># If interaction is present, report treatment effects within each site</span></span>
+<span><span class="fu">emmeans</span><span class="fu">::</span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">block_fixed_int</span>, <span class="op">~</span> <span class="va">n_trt</span> <span class="op">|</span> <span class="va">site_year</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>site_year = A.dry:
  n_trt emmean  SE  df lower.CL upper.CL
  N0      5414 525 108     4372     6456
@@ -817,10 +798,8 @@ Results are averaged over the levels of: block
 Confidence level used: 0.95 </code></pre>
 </div>
 </div>
-</section>
-</section>
-<section id="block-as-random" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="block-as-random"><span class="header-section-number">3.3</span> Block as Random</h2>
+</section></section><section id="block-as-random" class="level2" data-number="3.3"><h2 data-number="3.3" class="anchored" data-anchor-id="block-as-random">
+<span class="header-section-number">3.3</span> Block as Random</h2>
 <p>An alternative approach is considering a MIXED MODEL, where blocks are considered “random”. Basically, we add a term to the model that it is expected to show a “null” overall effect over the mean of the variable of interest but introduces “noise”. By convention, a random effect is expected to have an expected value equal to zero but a positive variance as follows:</p>
 <p><span class="math display">\[ y_{ijk} = \mu + \tau_i + \alpha_k + (\tau\alpha)_{ik} + b_{j(k)} + \epsilon_{ijk} \]</span></p>
 <p><span class="math display">\[ b_{j(k)} \sim N(0, \sigma^2_{b} )\]</span></p>
@@ -839,18 +818,18 @@ Warning
 <p>While some authors advocate modeling blocks as random to support inference beyond the observed blocks, with only 4 to 5 blocks the block variance component (<span class="math inline">\(σ²_b\)</span>) can be estimated with limited precision. In small RCBDs, this can make variance partitioning and degrees-of-freedom adjustments less stable, so the practical impact of treating blocks as random may be limited. <span class="citation" data-cites="vanEeuwijk_1995">Eeuwijk (<a href="#ref-vanEeuwijk_1995" role="doc-biblioref">1995</a>)</span> is often cited as a rule-of-thumb suggesting random block effects mainly when the number of blocks is around 10 or more. In line with that, <span class="citation" data-cites="Dixon_2016">Dixon (<a href="#ref-Dixon_2016" role="doc-biblioref">2016</a>)</span> argues that for complete blocks (as in RCBD) it is often reasonable to treat blocks as fixed unless there is a compelling reason to recover inter-block information. More recently, <span class="citation" data-cites="Frey_2024">Frey et al. (<a href="#ref-Frey_2024" role="doc-biblioref">2024</a>)</span> reiterate the “analyze as randomized” principle and discuss how block handling influences inference in designed experiments.</p>
 </div>
 </div>
-<section id="nlme" class="level3" data-number="3.3.1">
-<h3 data-number="3.3.1" class="anchored" data-anchor-id="nlme"><span class="header-section-number">3.3.1</span> nlme</h3>
+<section id="nlme" class="level3" data-number="3.3.1"><h3 data-number="3.3.1" class="anchored" data-anchor-id="nlme">
+<span class="header-section-number">3.3.1</span> nlme</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Random blocks nested within site_year</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>block_random_nlme <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">lme</span>(</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">fixed =</span> yield_kgha <span class="sc">~</span> n_trt <span class="sc">+</span> site_year,</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> site_year<span class="sc">/</span>block,</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> cornn_data</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(block_random_nlme, <span class="at">type =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Random blocks nested within site_year</span></span>
+<span><span class="va">block_random_nlme</span> <span class="op">&lt;-</span> <span class="fu">nlme</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lme.html">lme</a></span><span class="op">(</span></span>
+<span>  fixed <span class="op">=</span> <span class="va">yield_kgha</span> <span class="op">~</span> <span class="va">n_trt</span> <span class="op">+</span> <span class="va">site_year</span>,</span>
+<span>  random <span class="op">=</span> <span class="op">~</span> <span class="fl">1</span> <span class="op">|</span> <span class="va">site_year</span><span class="op">/</span><span class="va">block</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">cornn_data</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">car</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/car/man/Anova.html">Anova</a></span><span class="op">(</span><span class="va">block_random_nlme</span>, type <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Deviance Table (Type III tests)
 
 Response: yield_kgha
@@ -862,19 +841,18 @@ site_year    87.935  5  &lt; 2.2e-16 ***
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
-</section>
-<section id="nlme-conditional-intercation" class="level3" data-number="3.3.2">
-<h3 data-number="3.3.2" class="anchored" data-anchor-id="nlme-conditional-intercation"><span class="header-section-number">3.3.2</span> nlme + conditional intercation</h3>
+</section><section id="nlme-conditional-intercation" class="level3" data-number="3.3.2"><h3 data-number="3.3.2" class="anchored" data-anchor-id="nlme-conditional-intercation">
+<span class="header-section-number">3.3.2</span> nlme + conditional intercation</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>block_random_nlme_int <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">lme</span>(</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">fixed =</span> yield_kgha <span class="sc">~</span> n_trt <span class="sc">*</span> site_year,</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> site_year<span class="sc">/</span>block,</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> cornn_data</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Significance</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(block_random_nlme_int, <span class="at">type =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">block_random_nlme_int</span> <span class="op">&lt;-</span> <span class="fu">nlme</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lme.html">lme</a></span><span class="op">(</span></span>
+<span>  fixed <span class="op">=</span> <span class="va">yield_kgha</span> <span class="op">~</span> <span class="va">n_trt</span> <span class="op">*</span> <span class="va">site_year</span>,</span>
+<span>  random <span class="op">=</span> <span class="op">~</span> <span class="fl">1</span> <span class="op">|</span> <span class="va">site_year</span><span class="op">/</span><span class="va">block</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">cornn_data</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Significance</span></span>
+<span><span class="fu">car</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/car/man/Anova.html">Anova</a></span><span class="op">(</span><span class="va">block_random_nlme_int</span>, type <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Deviance Table (Type III tests)
 
 Response: yield_kgha
@@ -886,9 +864,9 @@ n_trt:site_year 124.644 30  1.684e-13 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mean comparisons if interaction is present</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>emmeans<span class="sc">::</span><span class="fu">emmeans</span>(block_random_nlme_int, <span class="sc">~</span> n_trt <span class="sc">|</span> site_year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Mean comparisons if interaction is present</span></span>
+<span><span class="fu">emmeans</span><span class="fu">::</span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">block_random_nlme_int</span>, <span class="op">~</span> <span class="va">n_trt</span> <span class="op">|</span> <span class="va">site_year</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>site_year = A.dry:
  n_trt emmean  SE df lower.CL upper.CL
  N0      5414 736  5     3523     7305
@@ -953,20 +931,19 @@ Degrees-of-freedom method: containment
 Confidence level used: 0.95 </code></pre>
 </div>
 </div>
-</section>
-<section id="lme4" class="level3" data-number="3.3.3">
-<h3 data-number="3.3.3" class="anchored" data-anchor-id="lme4"><span class="header-section-number">3.3.3</span> lme4</h3>
+</section><section id="lme4" class="level3" data-number="3.3.3"><h3 data-number="3.3.3" class="anchored" data-anchor-id="lme4">
+<span class="header-section-number">3.3.3</span> lme4</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Random blocks nested within site_year</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>block_random_lme4 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  yield_kgha <span class="sc">~</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    n_trt <span class="sc">+</span> site_year <span class="sc">+</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">|</span> site_year<span class="sc">:</span>block),</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> cornn_data</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(block_random_lme4, <span class="at">type =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Random blocks nested within site_year</span></span>
+<span><span class="va">block_random_lme4</span> <span class="op">&lt;-</span> <span class="fu">lme4</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html">lmer</a></span><span class="op">(</span></span>
+<span>  <span class="va">yield_kgha</span> <span class="op">~</span></span>
+<span>    <span class="va">n_trt</span> <span class="op">+</span> <span class="va">site_year</span> <span class="op">+</span></span>
+<span>    <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">site_year</span><span class="op">:</span><span class="va">block</span><span class="op">)</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">cornn_data</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">car</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/car/man/Anova.html">Anova</a></span><span class="op">(</span><span class="va">block_random_lme4</span>, type <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Deviance Table (Type III Wald chisquare tests)
 
 Response: yield_kgha
@@ -978,20 +955,19 @@ site_year   713.43  5  &lt; 2.2e-16 ***
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
-</section>
-<section id="lme4-conditional-interaction" class="level3" data-number="3.3.4">
-<h3 data-number="3.3.4" class="anchored" data-anchor-id="lme4-conditional-interaction"><span class="header-section-number">3.3.4</span> lme4 + conditional interaction</h3>
+</section><section id="lme4-conditional-interaction" class="level3" data-number="3.3.4"><h3 data-number="3.3.4" class="anchored" data-anchor-id="lme4-conditional-interaction">
+<span class="header-section-number">3.3.4</span> lme4 + conditional interaction</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>block_random_lme4_int <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  yield_kgha <span class="sc">~</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    n_trt <span class="sc">*</span> site_year <span class="sc">+</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">|</span> site_year<span class="sc">:</span>block),</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> cornn_data</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Significance</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(block_random_lme4_int, <span class="at">type =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">block_random_lme4_int</span> <span class="op">&lt;-</span> <span class="fu">lme4</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html">lmer</a></span><span class="op">(</span></span>
+<span>  <span class="va">yield_kgha</span> <span class="op">~</span></span>
+<span>    <span class="va">n_trt</span> <span class="op">*</span> <span class="va">site_year</span> <span class="op">+</span></span>
+<span>    <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">site_year</span><span class="op">:</span><span class="va">block</span><span class="op">)</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">cornn_data</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Significance</span></span>
+<span><span class="fu">car</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/car/man/Anova.html">Anova</a></span><span class="op">(</span><span class="va">block_random_lme4_int</span>, type <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Deviance Table (Type III Wald chisquare tests)
 
 Response: yield_kgha
@@ -1003,9 +979,9 @@ n_trt:site_year 124.644 30  1.684e-13 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mean comparisons if interaction is present</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>emmeans<span class="sc">::</span><span class="fu">emmeans</span>(block_random_lme4_int, <span class="sc">~</span> n_trt <span class="sc">|</span> site_year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Mean comparisons if interaction is present</span></span>
+<span><span class="fu">emmeans</span><span class="fu">::</span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">block_random_lme4_int</span>, <span class="op">~</span> <span class="va">n_trt</span> <span class="op">|</span> <span class="va">site_year</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>site_year = A.dry:
  n_trt emmean  SE  df lower.CL upper.CL
  N0      5414 518 126     4389     6439
@@ -1070,24 +1046,23 @@ Degrees-of-freedom method: kenward-roger
 Confidence level used: 0.95 </code></pre>
 </div>
 </div>
-</section>
-<section id="satterthwaite-or-kenward-roger" class="level3" data-number="3.3.5">
-<h3 data-number="3.3.5" class="anchored" data-anchor-id="satterthwaite-or-kenward-roger"><span class="header-section-number">3.3.5</span> Satterthwaite or Kenward-Roger</h3>
+</section><section id="satterthwaite-or-kenward-roger" class="level3" data-number="3.3.5"><h3 data-number="3.3.5" class="anchored" data-anchor-id="satterthwaite-or-kenward-roger">
+<span class="header-section-number">3.3.5</span> Satterthwaite or Kenward-Roger</h3>
 <p>Satterthwaite or Kenward-Roger methods are commonly used to adjust degrees of freedom in linear mixed models fitted with lme4, which does not provide p-values by default. These methods can be implemented using the <code>lmerTest</code> package, which extends lme4 to include these adjustments.</p>
-<p>Satterthwaite’s method approximates the degrees of freedom for fixed effects, while Kenward-Roger’s method provides a more accurate adjustment by considering both fixed and random effects. To apply these adjustments, you can use the <code>anova()</code> function from the <code>lmerTest</code> package after fitting your model with lme4.</p>
+<p>Satterthwaite’s method approximates the degrees of freedom for fixed effects, while Kenward-Roger’s method provides a more accurate adjustment by considering both fixed and random effects. To apply these adjustments, you can use the <code><a href="https://rdrr.io/r/stats/anova.html">anova()</a></code> function from the <code>lmerTest</code> package after fitting your model with lme4.</p>
 <p>Kenward-Roger’s method, instead, is more computationally intensive but can provide more accurate p-values, especially in small sample sizes or complex models. We may say that this method is more “conservative” than Satterthwaite’s, as it tends to yield larger p-values, thus reducing the likelihood of Type I errors (false positives). However, the choice between these methods should be guided by the specific context of your analysis and the characteristics of your data. One note is this requires the <code>pbkrtest</code> package, so make sure to install it if you want to use that method.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(block_random_lme4_int, <span class="at">type =</span> <span class="dv">3</span>, <span class="at">ddf =</span> <span class="st">"Satterthwaite"</span>)   <span class="co"># default in lmerTest</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="va">block_random_lme4_int</span>, type <span class="op">=</span> <span class="fl">3</span>, ddf <span class="op">=</span> <span class="st">"Satterthwaite"</span><span class="op">)</span>   <span class="co"># default in lmerTest</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
                 npar     Sum Sq   Mean Sq  F value
 n_trt              6  800679144 133446524 124.3253
 site_year          5 1230353677 246070735 229.2514
 n_trt:site_year   30  133788947   4459632   4.1548</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># or</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(block_random_lme4_int, <span class="at">type =</span> <span class="dv">3</span>, <span class="at">ddf =</span> <span class="st">"Kenward-Roger"</span>)   <span class="co"># needs pbkrtest</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># or</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="va">block_random_lme4_int</span>, type <span class="op">=</span> <span class="fl">3</span>, ddf <span class="op">=</span> <span class="st">"Kenward-Roger"</span><span class="op">)</span>   <span class="co"># needs pbkrtest</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
                 npar     Sum Sq   Mean Sq  F value
 n_trt              6  800679144 133446524 124.3253
@@ -1095,11 +1070,8 @@ site_year          5 1230353677 246070735 229.2514
 n_trt:site_year   30  133788947   4459632   4.1548</code></pre>
 </div>
 </div>
-</section>
-</section>
-</section>
-<section id="what-is-a-split-plot" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> What is a SPLIT-PLOT?</h1>
+</section></section></section><section id="what-is-a-split-plot" class="level1" data-number="4"><h1 data-number="4">
+<span class="header-section-number">4</span> What is a SPLIT-PLOT?</h1>
 <p>Split-plot arrangement is frequently used in experiments including several factors (factorial). The main characteristic is that the arrangement follows a hierarchy: there are main plots (a.k.a. whole plots) covering one of the factors, and then there are “subplots” within each level of the main that include levels of a second factor, and so on. Therefore, the main plot serves as a “block” for the subplots, and thus, we are setting boundaries to (“restricting”) the randomization of the subplot factor.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1112,55 +1084,55 @@ Important
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li><strong>DESIGN</strong>: We intentionally call split-plot “arrangement” because they can fit into multiple “designs” such as completely randomized (CRD), randomized complete blocks design (RCBD), or latin-squares design (LSD).</li>
-<li><strong>INFERENCE POWER</strong>: The main plot has less degrees of freedom than the factor at the subplot, and thus, we have more inference power at the factor in the subplot hierarchy (and the interaction).</li>
+<li>
+<strong>DESIGN</strong>: We intentionally call split-plot “arrangement” because they can fit into multiple “designs” such as completely randomized (CRD), randomized complete blocks design (RCBD), or latin-squares design (LSD).</li>
+<li>
+<strong>INFERENCE POWER</strong>: The main plot has less degrees of freedom than the factor at the subplot, and thus, we have more inference power at the factor in the subplot hierarchy (and the interaction).</li>
 </ul>
 </div>
 </div>
-<section id="split-plot-as-a-mixed-model" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="split-plot-as-a-mixed-model"><span class="header-section-number">4.1</span> Split-Plot as a Mixed Model</h2>
+<section id="split-plot-as-a-mixed-model" class="level2" data-number="4.1"><h2 data-number="4.1" class="anchored" data-anchor-id="split-plot-as-a-mixed-model">
+<span class="header-section-number">4.1</span> Split-Plot as a Mixed Model</h2>
 <p>When moving to a Split-Plot design, an additional source of error is introduced: Main plot error (^2_m), which accounts for variation among the whole plots within each block.</p>
 <p><span class="math display">\[y_{ijk} = \mu + \alpha_i + \tau_k + (\alpha\tau)_{ik} + \beta_j + \gamma_{ij} + \epsilon_{ijk}\]</span></p>
 <p>where: <span class="math inline">\(\alpha_i\)</span> = Fixed effect of the main-plot factor (e.g., tillage), <span class="math inline">\(\tau_k\)</span> = Fixed effect of the subplot factor (e.g., nitrogen rate), <span class="math inline">\((\alpha\tau)_{ik}\)</span> = Fixed interaction effect between main and subplot factors, <span class="math inline">\(\beta_j \sim N(0, \sigma^2_b)\)</span> = Random effect of block, <span class="math inline">\(\gamma_{ij} \sim N(0, \sigma^2_m)\)</span> = Random effect of main plot within block (main-plot error), <span class="math inline">\(\epsilon_{ijk} \sim N(0, \sigma^2_e)\)</span> = Random error of experimental unit.</p>
 <p>Thus, three sources of variability are modeled: <br> 1. Block-to-block variation → <span class="math inline">\(\sigma^2_b\)</span> <br> 2. Main-plot variation (whole plot error) → <span class="math inline">\(\sigma^2_m\)</span> <br> 3. Residual variation (subplot error) → <span class="math inline">\(\sigma^2_e\)</span> <br></p>
-</section>
-<section id="create-a-design" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="create-a-design"><span class="header-section-number">4.2</span> Create a design</h2>
+</section><section id="create-a-design" class="level2" data-number="4.2"><h2 data-number="4.2" class="anchored" data-anchor-id="create-a-design">
+<span class="header-section-number">4.2</span> Create a design</h2>
 <p>The following is just a fake data set where we have a split-splot arrangement within an RCBD (BLOCK), where at the main plot corresponds to nitrogen rate (NRATE, with 5 levels), and the subplot to wheat variety (VARIETY, with 3 levels).</p>
-</section>
-<section id="create-a-split-plot-design" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="create-a-split-plot-design"><span class="header-section-number">4.3</span> Create a split-plot design</h2>
+</section><section id="create-a-split-plot-design" class="level2" data-number="4.3"><h2 data-number="4.3" class="anchored" data-anchor-id="create-a-split-plot-design">
+<span class="header-section-number">4.3</span> Create a split-plot design</h2>
 <p>The <code>agricolae</code> package has a cool set of functions to create experimental designs including split-plot arrangements. The function <code>design.split()</code> allows us to create a split-plot design with the desired number of blocks, main plot treatments, subplot treatments, and randomization.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>mainplot <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">50</span>,<span class="dv">80</span>,<span class="dv">110</span>,<span class="dv">140</span>)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>subplot <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Var_1"</span>, <span class="st">"Var_2"</span>, <span class="st">"Var_3"</span>)</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>sp_design <span class="ot">&lt;-</span> agricolae<span class="sc">::</span><span class="fu">design.split</span>(</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">trt1 =</span> mainplot, <span class="at">trt2 =</span> subplot, </span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">design =</span> <span class="st">"rcbd"</span>, <span class="at">r =</span> <span class="dv">3</span>, </span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">randomization =</span> <span class="cn">TRUE</span>, <span class="at">seed =</span> <span class="dv">4561</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="co"># sp_design$book</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mainplot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">50</span>,<span class="fl">80</span>,<span class="fl">110</span>,<span class="fl">140</span><span class="op">)</span></span>
+<span><span class="va">subplot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Var_1"</span>, <span class="st">"Var_2"</span>, <span class="st">"Var_3"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sp_design</span> <span class="op">&lt;-</span> <span class="fu">agricolae</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/agricolae/man/design.split.html">design.split</a></span><span class="op">(</span></span>
+<span>  trt1 <span class="op">=</span> <span class="va">mainplot</span>, trt2 <span class="op">=</span> <span class="va">subplot</span>, </span>
+<span>  design <span class="op">=</span> <span class="st">"rcbd"</span>, r <span class="op">=</span> <span class="fl">3</span>, </span>
+<span>  randomization <span class="op">=</span> <span class="cn">TRUE</span>, seed <span class="op">=</span> <span class="fl">4561</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># sp_design$book</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
-</section>
-<section id="data" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="data"><span class="header-section-number">4.4</span> Data</h2>
+</section><section id="data" class="level2" data-number="4.4"><h2 data-number="4.4" class="anchored" data-anchor-id="data">
+<span class="header-section-number">4.4</span> Data</h2>
 <p>With the design created above, I have generated a synthetic dataset of wheat yield response to nitrogen fertilizer across three varieties, three blocks, and five nitrogen rates. The data is available in the GitHub repository for this course, and you can read it directly from there using the following code:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>url_split <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/adriancorrendo/tidymixedmodelsweb/master/data/01_split_plot_data.csv"</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Model</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>split_plot_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(url_split) <span class="sc">%&gt;%</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">BLOCK   =</span> <span class="fu">factor</span>(BLOCK),</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">NRATE   =</span> <span class="fu">factor</span>(NRATE),</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">VARIETY =</span> <span class="fu">factor</span>(VARIETY)</span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(BLOCK, NRATE, VARIETY, YIELD)</span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(split_plot_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">url_split</span> <span class="op">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/adriancorrendo/tidymixedmodelsweb/master/data/01_split_plot_data.csv"</span></span>
+<span></span>
+<span><span class="co"># Model</span></span>
+<span><span class="va">split_plot_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="va">url_split</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<span>    BLOCK   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">BLOCK</span><span class="op">)</span>,</span>
+<span>    NRATE   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">NRATE</span><span class="op">)</span>,</span>
+<span>    VARIETY <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">VARIETY</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">BLOCK</span>, <span class="va">NRATE</span>, <span class="va">VARIETY</span>, <span class="va">YIELD</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">glimpse</span><span class="op">(</span><span class="va">split_plot_data</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>Rows: 45
 Columns: 4
 $ BLOCK   &lt;fct&gt; B1, B1, B1, B1, B1, B1, B1, B1, B1, B1, B1, B1, B1, B1, B1, B2…
@@ -1169,58 +1141,55 @@ $ VARIETY &lt;fct&gt; Var_1, Var_2, Var_3, Var_1, Var_2, Var_3, Var_1, Var_2, Va
 $ YIELD   &lt;int&gt; 1938, 3946, 4628, 2038, 4346, 5949, 3837, 4287, 6765, 3466, 49…</code></pre>
 </div>
 </div>
-</section>
-<section id="explore-the-data" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="explore-the-data"><span class="header-section-number">4.5</span> Explore the data</h2>
+</section><section id="explore-the-data" class="level2" data-number="4.5"><h2 data-number="4.5" class="anchored" data-anchor-id="explore-the-data">
+<span class="header-section-number">4.5</span> Explore the data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>split_plot_data <span class="sc">%&gt;%</span> </span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> NRATE, <span class="at">y =</span> YIELD, <span class="at">fill =</span> VARIETY)) <span class="sc">+</span> </span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.15</span>, <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">"Set2"</span>) <span class="sc">+</span></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">8000</span>), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">10000</span>, <span class="at">by=</span><span class="dv">2000</span>)) <span class="sc">+</span></span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>VARIETY) <span class="sc">+</span></span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">split_plot_data</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">NRATE</span>, y <span class="op">=</span> <span class="va">YIELD</span>, fill <span class="op">=</span> <span class="va">VARIETY</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">geom_boxplot</span><span class="op">(</span>outlier.shape <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_jitter</span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.15</span>, alpha <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_fill_brewer</span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Set2"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_y_continuous</span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">8000</span><span class="op">)</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">10000</span>, by<span class="op">=</span><span class="fl">2000</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">VARIETY</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
 <div>
-<figure class="figure">
-<p><img src="13_models03_files/figure-html/sp_ggplot-1.png" class="img-fluid figure-img" width="768"></p>
+<figure class="figure"><p><img src="13_models03_files/figure-html/sp_ggplot-1.png" class="img-fluid figure-img" width="768"></p>
 </figure>
 </div>
 </div>
 </div>
-</section>
-<section id="models" class="level2" data-number="4.6">
-<h2 data-number="4.6" class="anchored" data-anchor-id="models"><span class="header-section-number">4.6</span> Models</h2>
-<section id="contrasts" class="level3" data-number="4.6.1">
-<h3 data-number="4.6.1" class="anchored" data-anchor-id="contrasts"><span class="header-section-number">4.6.1</span> Contrasts</h3>
-<p>We use <code>options()</code> to set the default contrasts to <code>contr.sum</code> for unordered factors and <code>contr.poly</code> for ordered factors. This matters for Type 3 ANOVA tables, especially with interactions, because it avoids reference-level (treatment) coding.</p>
+</section><section id="models" class="level2" data-number="4.6"><h2 data-number="4.6" class="anchored" data-anchor-id="models">
+<span class="header-section-number">4.6</span> Models</h2>
+<section id="contrasts" class="level3" data-number="4.6.1"><h3 data-number="4.6.1" class="anchored" data-anchor-id="contrasts">
+<span class="header-section-number">4.6.1</span> Contrasts</h3>
+<p>We use <code><a href="https://rdrr.io/r/base/options.html">options()</a></code> to set the default contrasts to <code>contr.sum</code> for unordered factors and <code>contr.poly</code> for ordered factors. This matters for Type 3 ANOVA tables, especially with interactions, because it avoids reference-level (treatment) coding.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>op_contr <span class="ot">&lt;-</span> <span class="fu">options</span>(<span class="at">contrasts =</span> <span class="fu">c</span>(<span class="st">"contr.sum"</span>, <span class="st">"contr.poly"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">op_contr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>contrasts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"contr.sum"</span>, <span class="st">"contr.poly"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
-</section>
-<section id="nlmelme" class="level3" data-number="4.6.2">
-<h3 data-number="4.6.2" class="anchored" data-anchor-id="nlmelme"><span class="header-section-number">4.6.2</span> nlme::lme</h3>
+</section><section id="nlmelme" class="level3" data-number="4.6.2"><h3 data-number="4.6.2" class="anchored" data-anchor-id="nlmelme">
+<span class="header-section-number">4.6.2</span> nlme::lme</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>op_contr <span class="ot">&lt;-</span> <span class="fu">options</span>(<span class="at">contrasts =</span> <span class="fu">c</span>(<span class="st">"contr.sum"</span>, <span class="st">"contr.poly"</span>))</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(op_contr)</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>no_split <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">lme</span>(</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  YIELD <span class="sc">~</span> NRATE <span class="sc">*</span> VARIETY,</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">random =</span> <span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>BLOCK,</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> split_plot_data,</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"REML"</span></span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>split_nlme <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">lme</span>(</span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>  YIELD <span class="sc">~</span> NRATE <span class="sc">*</span> VARIETY,</span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">random =</span> <span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>BLOCK<span class="sc">/</span>NRATE,</span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> split_plot_data,</span>
-<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"REML"</span></span>
-<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(split_nlme, <span class="at">type =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">op_contr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>contrasts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"contr.sum"</span>, <span class="st">"contr.poly"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span><span class="va">op_contr</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">no_split</span> <span class="op">&lt;-</span> <span class="fu">nlme</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lme.html">lme</a></span><span class="op">(</span></span>
+<span>  <span class="va">YIELD</span> <span class="op">~</span> <span class="va">NRATE</span> <span class="op">*</span> <span class="va">VARIETY</span>,</span>
+<span>  random <span class="op">=</span> <span class="op">~</span><span class="fl">1</span><span class="op">|</span><span class="va">BLOCK</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">split_plot_data</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"REML"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">split_nlme</span> <span class="op">&lt;-</span> <span class="fu">nlme</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lme.html">lme</a></span><span class="op">(</span></span>
+<span>  <span class="va">YIELD</span> <span class="op">~</span> <span class="va">NRATE</span> <span class="op">*</span> <span class="va">VARIETY</span>,</span>
+<span>  random <span class="op">=</span> <span class="op">~</span><span class="fl">1</span><span class="op">|</span><span class="va">BLOCK</span><span class="op">/</span><span class="va">NRATE</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">split_plot_data</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"REML"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">car</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/car/man/Anova.html">Anova</a></span><span class="op">(</span><span class="va">split_nlme</span>, type <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Deviance Table (Type III tests)
 
 Response: YIELD
@@ -1239,28 +1208,28 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <li><p><strong>ML</strong> is required when comparing <strong>models with different fixed-effects structures</strong> using likelihood ratio tests (LRT), because REML likelihoods are not comparable across different fixed-effect specifications.</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>no_split_ML   <span class="ot">&lt;-</span> <span class="fu">update</span>(no_split,  <span class="at">method =</span> <span class="st">"ML"</span>)</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>split_nlme_ML <span class="ot">&lt;-</span> <span class="fu">update</span>(split_nlme, <span class="at">method =</span> <span class="st">"ML"</span>)</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(no_split_ML, split_nlme_ML)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">no_split_ML</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/update.html">update</a></span><span class="op">(</span><span class="va">no_split</span>,  method <span class="op">=</span> <span class="st">"ML"</span><span class="op">)</span></span>
+<span><span class="va">split_nlme_ML</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/update.html">update</a></span><span class="op">(</span><span class="va">split_nlme</span>, method <span class="op">=</span> <span class="st">"ML"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="va">no_split_ML</span>, <span class="va">split_nlme_ML</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>              Model df      AIC      BIC    logLik   Test      L.Ratio p-value
 no_split_ML       1 17 706.5453 737.2586 -336.2726                            
 split_nlme_ML     2 18 708.5453 741.0652 -336.2726 1 vs 2 1.228955e-09       1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(op_contr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span><span class="va">op_contr</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
-</section>
-<section id="lme4lmer" class="level3" data-number="4.6.3">
-<h3 data-number="4.6.3" class="anchored" data-anchor-id="lme4lmer"><span class="header-section-number">4.6.3</span> lme4::lmer</h3>
+</section><section id="lme4lmer" class="level3" data-number="4.6.3"><h3 data-number="4.6.3" class="anchored" data-anchor-id="lme4lmer">
+<span class="header-section-number">4.6.3</span> lme4::lmer</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>split_lme4 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  YIELD <span class="sc">~</span> NRATE <span class="sc">*</span> VARIETY <span class="sc">+</span></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span><span class="sc">|</span>BLOCK<span class="sc">/</span>NRATE), </span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> split_plot_data</span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(split_lme4, <span class="at">type =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">split_lme4</span> <span class="op">&lt;-</span> <span class="fu">lme4</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html">lmer</a></span><span class="op">(</span></span>
+<span>  <span class="va">YIELD</span> <span class="op">~</span> <span class="va">NRATE</span> <span class="op">*</span> <span class="va">VARIETY</span> <span class="op">+</span></span>
+<span>    <span class="op">(</span><span class="fl">1</span><span class="op">|</span><span class="va">BLOCK</span><span class="op">/</span><span class="va">NRATE</span><span class="op">)</span>, </span>
+<span>  data <span class="op">=</span> <span class="va">split_plot_data</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">car</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/car/man/Anova.html">Anova</a></span><span class="op">(</span><span class="va">split_lme4</span>, type <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Deviance Table (Type III Wald chisquare tests)
 
 Response: YIELD
@@ -1272,8 +1241,8 @@ NRATE:VARIETY   18.117  8    0.02036 *
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(split_lme4, <span class="at">type =</span> <span class="dv">3</span>, <span class="at">ddf =</span> <span class="st">"Satterthwaite"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="va">split_lme4</span>, type <span class="op">=</span> <span class="fl">3</span>, ddf <span class="op">=</span> <span class="st">"Satterthwaite"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
               npar   Sum Sq  Mean Sq F value
 NRATE            4 15589707  3897427 14.3362
@@ -1281,31 +1250,29 @@ VARIETY          2 51248413 25624207 94.2555
 NRATE:VARIETY    8  4925373   615672  2.2647</code></pre>
 </div>
 </div>
-</section>
-</section>
-<section id="check-assumptions" class="level2" data-number="4.7">
-<h2 data-number="4.7" class="anchored" data-anchor-id="check-assumptions"><span class="header-section-number">4.7</span> Check assumptions</h2>
+</section></section><section id="check-assumptions" class="level2" data-number="4.7"><h2 data-number="4.7" class="anchored" data-anchor-id="check-assumptions">
+<span class="header-section-number">4.7</span> Check assumptions</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">check_normality</span>(split_lme4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">performance</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/performance/reference/check_normality.html">check_normality</a></span><span class="op">(</span><span class="va">split_lme4</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>OK: residuals appear as normally distributed (p = 0.910).</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">check_homogeneity</span>(split_lme4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">performance</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/performance/reference/check_homogeneity.html">check_homogeneity</a></span><span class="op">(</span><span class="va">split_lme4</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>OK: There is not clear evidence for different variances across groups (Bartlett Test, p = 0.396).</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">check_autocorrelation</span>(split_lme4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">performance</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/performance/reference/check_autocorrelation.html">check_autocorrelation</a></span><span class="op">(</span><span class="va">split_lme4</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>OK: Residuals appear to be independent and not autocorrelated (p = 0.410).</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">check_outliers</span>(split_lme4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">performance</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/performance/reference/check_outliers.html">check_outliers</a></span><span class="op">(</span><span class="va">split_lme4</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>OK: No outliers detected.
 - Based on the following method and threshold: cook (0.5).
 - For variable: (Whole model)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">check_collinearity</span>(split_lme4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb48"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">performance</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/performance/reference/check_collinearity.html">check_collinearity</a></span><span class="op">(</span><span class="va">split_lme4</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code># Check for Multicollinearity
 
 Low Correlation
@@ -1315,27 +1282,25 @@ Low Correlation
        VARIETY 1.00 [1.00, Inf]     1.00      1.00     [0.00, 1.00]
  NRATE:VARIETY 1.00                 1.00      1.00                 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">check_model</span>(split_lme4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb50"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">performance</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/performance/reference/check_model.html">check_model</a></span><span class="op">(</span><span class="va">split_lme4</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
 <div>
-<figure class="figure">
-<p><img src="13_models03_files/figure-html/sp_check-1.png" class="img-fluid figure-img" width="576"></p>
+<figure class="figure"><p><img src="13_models03_files/figure-html/sp_check-1.png" class="img-fluid figure-img" width="576"></p>
 </figure>
 </div>
 </div>
 </div>
-</section>
-<section id="comparisons" class="level2" data-number="4.8">
-<h2 data-number="4.8" class="anchored" data-anchor-id="comparisons"><span class="header-section-number">4.8</span> Comparisons</h2>
+</section><section id="comparisons" class="level2" data-number="4.8"><h2 data-number="4.8" class="anchored" data-anchor-id="comparisons">
+<span class="header-section-number">4.8</span> Comparisons</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>sp_emm <span class="ot">&lt;-</span> emmeans<span class="sc">::</span><span class="fu">emmeans</span>(split_lme4, <span class="sc">~</span> NRATE <span class="sc">*</span> VARIETY)</span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>sp_emm <span class="sc">%&gt;%</span> </span>
-<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>  multcomp<span class="sc">::</span><span class="fu">cld</span>(</span>
-<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">decreasing =</span> <span class="cn">TRUE</span>, <span class="at">details =</span> <span class="cn">FALSE</span>, <span class="at">reversed =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.05</span>, <span class="at">adjust =</span> <span class="st">"tukey"</span>, <span class="at">Letters =</span> LETTERS</span>
-<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sp_emm</span> <span class="op">&lt;-</span> <span class="fu">emmeans</span><span class="fu">::</span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">split_lme4</span>, <span class="op">~</span> <span class="va">NRATE</span> <span class="op">*</span> <span class="va">VARIETY</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">sp_emm</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">multcomp</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/multcomp/man/cld.html">cld</a></span><span class="op">(</span></span>
+<span>    decreasing <span class="op">=</span> <span class="cn">TRUE</span>, details <span class="op">=</span> <span class="cn">FALSE</span>, reversed <span class="op">=</span> <span class="cn">TRUE</span>, </span>
+<span>    alpha <span class="op">=</span> <span class="fl">0.05</span>, adjust <span class="op">=</span> <span class="st">"tukey"</span>, Letters <span class="op">=</span> <span class="va">LETTERS</span></span>
+<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code> NRATE VARIETY emmean  SE df lower.CL upper.CL .group  
  80    Var_3     6587 301 30     5630     7544  A      
  110   Var_3     6466 301 30     5509     7423  AB     
@@ -1362,9 +1327,9 @@ NOTE: If two or more means share the same grouping symbol,
       then we cannot show them to be different.
       But we also did not show them to be the same. </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>emmeans<span class="sc">::</span><span class="fu">emmeans</span>(split_lme4, <span class="sc">~</span> VARIETY <span class="sc">|</span> NRATE) <span class="sc">%&gt;%</span> </span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pairs</span>(<span class="at">adjust =</span> <span class="st">"tukey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">emmeans</span><span class="fu">::</span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">split_lme4</span>, <span class="op">~</span> <span class="va">VARIETY</span> <span class="op">|</span> <span class="va">NRATE</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/pairs.html">pairs</a></span><span class="op">(</span>adjust <span class="op">=</span> <span class="st">"tukey"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>NRATE = 0:
  contrast      estimate  SE df t.ratio p.value
  Var_1 - Var_2   -649.7 426 20  -1.526  0.3004
@@ -1398,9 +1363,9 @@ NRATE = 140:
 Degrees-of-freedom method: kenward-roger 
 P value adjustment: tukey method for comparing a family of 3 estimates </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>emmeans<span class="sc">::</span><span class="fu">emmeans</span>(split_lme4, <span class="sc">~</span> NRATE <span class="sc">|</span> VARIETY) <span class="sc">%&gt;%</span> </span>
-<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pairs</span>(<span class="at">adjust =</span> <span class="st">"tukey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb55"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">emmeans</span><span class="fu">::</span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">split_lme4</span>, <span class="op">~</span> <span class="va">NRATE</span> <span class="op">|</span> <span class="va">VARIETY</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/pairs.html">pairs</a></span><span class="op">(</span>adjust <span class="op">=</span> <span class="st">"tukey"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>VARIETY = Var_1:
  contrast            estimate  SE   df t.ratio p.value
  NRATE0 - NRATE50        -251 426 27.7  -0.589  0.9756
@@ -1444,23 +1409,21 @@ Degrees-of-freedom method: kenward-roger
 P value adjustment: tukey method for comparing a family of 5 estimates </code></pre>
 </div>
 </div>
-</section>
-</section>
-<section id="split-split-plot" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> Split-split plot</h1>
-<section id="data-1" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="data-1"><span class="header-section-number">5.1</span> Data</h2>
+</section></section><section id="split-split-plot" class="level1" data-number="5"><h1 data-number="5">
+<span class="header-section-number">5</span> Split-split plot</h1>
+<section id="data-1" class="level2" data-number="5.1"><h2 data-number="5.1" class="anchored" data-anchor-id="data-1">
+<span class="header-section-number">5.1</span> Data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>splitsplit_data <span class="ot">&lt;-</span> agridat<span class="sc">::</span>goulden.splitsplit <span class="sc">%&gt;%</span></span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">block =</span> <span class="fu">factor</span>(block),</span>
-<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">gen   =</span> <span class="fu">factor</span>(gen),</span>
-<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">trt   =</span> <span class="fu">factor</span>(trt),</span>
-<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">inoc  =</span> <span class="fu">factor</span>(inoc)</span>
-<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(splitsplit_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb57"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">splitsplit_data</span> <span class="op">&lt;-</span> <span class="fu">agridat</span><span class="fu">::</span><span class="va"><a href="https://kwstat.github.io/agridat/reference/goulden.splitsplit.html">goulden.splitsplit</a></span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<span>    block <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">block</span><span class="op">)</span>,</span>
+<span>    gen   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">gen</span><span class="op">)</span>,</span>
+<span>    trt   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">trt</span><span class="op">)</span>,</span>
+<span>    inoc  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">inoc</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu">glimpse</span><span class="op">(</span><span class="va">splitsplit_data</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>Rows: 160
 Columns: 9
 $ row   &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2…
@@ -1474,23 +1437,22 @@ $ dust  &lt;fct&gt; DuBay, Check, Ceresan, Ceresan, CaCO3, CaCO3, CaCO3, CaCO3, 
 $ block &lt;fct&gt; B1, B1, B1, B1, B1, B1, B1, B1, B1, B1, B1, B1, B1, B1, B1, B1, …</code></pre>
 </div>
 </div>
-</section>
-<section id="models-1" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="models-1"><span class="header-section-number">5.2</span> Models</h2>
-<section id="nlme-1" class="level3" data-number="5.2.1">
-<h3 data-number="5.2.1" class="anchored" data-anchor-id="nlme-1"><span class="header-section-number">5.2.1</span> nlme</h3>
+</section><section id="models-1" class="level2" data-number="5.2"><h2 data-number="5.2" class="anchored" data-anchor-id="models-1">
+<span class="header-section-number">5.2</span> Models</h2>
+<section id="nlme-1" class="level3" data-number="5.2.1"><h3 data-number="5.2.1" class="anchored" data-anchor-id="nlme-1">
+<span class="header-section-number">5.2.1</span> nlme</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>op_contr <span class="ot">&lt;-</span> <span class="fu">options</span>(<span class="at">contrasts =</span> <span class="fu">c</span>(<span class="st">"contr.sum"</span>, <span class="st">"contr.poly"</span>))</span>
-<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>splitsplit_nlme <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">lme</span>(</span>
-<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>  yield <span class="sc">~</span> gen <span class="sc">*</span> trt <span class="sc">*</span> inoc,</span>
-<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">random =</span> <span class="sc">~</span><span class="dv">1</span><span class="sc">|</span>block<span class="sc">/</span>gen<span class="sc">/</span>trt, </span>
-<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> splitsplit_data,</span>
-<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"REML"</span></span>
-<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(splitsplit_nlme, <span class="at">type =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb59"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">op_contr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>contrasts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"contr.sum"</span>, <span class="st">"contr.poly"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">splitsplit_nlme</span> <span class="op">&lt;-</span> <span class="fu">nlme</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/nlme/man/lme.html">lme</a></span><span class="op">(</span></span>
+<span>  <span class="va">yield</span> <span class="op">~</span> <span class="va">gen</span> <span class="op">*</span> <span class="va">trt</span> <span class="op">*</span> <span class="va">inoc</span>,</span>
+<span>  random <span class="op">=</span> <span class="op">~</span><span class="fl">1</span><span class="op">|</span><span class="va">block</span><span class="op">/</span><span class="va">gen</span><span class="op">/</span><span class="va">trt</span>, </span>
+<span>  data <span class="op">=</span> <span class="va">splitsplit_data</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"REML"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">car</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/car/man/Anova.html">Anova</a></span><span class="op">(</span><span class="va">splitsplit_nlme</span>, type <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Deviance Table (Type III tests)
 
 Response: yield
@@ -1506,22 +1468,22 @@ gen:trt:inoc    8.5127  9  0.4834183
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(op_contr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb61"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span><span class="va">op_contr</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
-</section>
-<section id="lme4-1" class="level3" data-number="5.2.2">
-<h3 data-number="5.2.2" class="anchored" data-anchor-id="lme4-1"><span class="header-section-number">5.2.2</span> lme4</h3>
+</section><section id="lme4-1" class="level3" data-number="5.2.2"><h3 data-number="5.2.2" class="anchored" data-anchor-id="lme4-1">
+<span class="header-section-number">5.2.2</span> lme4</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>op_contr <span class="ot">&lt;-</span> <span class="fu">options</span>(<span class="at">contrasts =</span> <span class="fu">c</span>(<span class="st">"contr.sum"</span>, <span class="st">"contr.poly"</span>))</span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>splitsplit_lme4 <span class="ot">&lt;-</span> lme4<span class="sc">::</span><span class="fu">lmer</span>(</span>
-<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>  yield <span class="sc">~</span> gen <span class="sc">*</span> trt <span class="sc">*</span> inoc <span class="sc">+</span></span>
-<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span><span class="sc">|</span>block<span class="sc">/</span>gen<span class="sc">/</span>trt), </span>
-<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> splitsplit_data</span>
-<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">Anova</span>(splitsplit_lme4, <span class="at">type =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb62"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">op_contr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>contrasts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"contr.sum"</span>, <span class="st">"contr.poly"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">splitsplit_lme4</span> <span class="op">&lt;-</span> <span class="fu">lme4</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html">lmer</a></span><span class="op">(</span></span>
+<span>  <span class="va">yield</span> <span class="op">~</span> <span class="va">gen</span> <span class="op">*</span> <span class="va">trt</span> <span class="op">*</span> <span class="va">inoc</span> <span class="op">+</span></span>
+<span>    <span class="op">(</span><span class="fl">1</span><span class="op">|</span><span class="va">block</span><span class="op">/</span><span class="va">gen</span><span class="op">/</span><span class="va">trt</span><span class="op">)</span>, </span>
+<span>  data <span class="op">=</span> <span class="va">splitsplit_data</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">car</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/car/man/Anova.html">Anova</a></span><span class="op">(</span><span class="va">splitsplit_lme4</span>, type <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Deviance Table (Type III Wald chisquare tests)
 
 Response: yield
@@ -1537,8 +1499,8 @@ gen:trt:inoc    8.5127  9  0.4834190
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(splitsplit_lme4, <span class="at">type =</span> <span class="dv">3</span>, <span class="at">ddf =</span> <span class="st">"Satterthwaite"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb64"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/anova.html">anova</a></span><span class="op">(</span><span class="va">splitsplit_lme4</span>, type <span class="op">=</span> <span class="fl">3</span>, ddf <span class="op">=</span> <span class="st">"Satterthwaite"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
              npar Sum Sq Mean Sq F value
 gen             1 259.39  259.39 16.8547
@@ -1549,17 +1511,16 @@ gen:inoc        1   0.31    0.31  0.0199
 trt:inoc        9 474.51   52.72  3.4259
 gen:trt:inoc    9 131.01   14.56  0.9459</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(op_contr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb66"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span><span class="va">op_contr</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
-</section>
-</section>
-<section id="comparisons-1" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="comparisons-1"><span class="header-section-number">5.3</span> Comparisons</h2>
+</section></section><section id="comparisons-1" class="level2" data-number="5.3"><h2 data-number="5.3" class="anchored" data-anchor-id="comparisons-1">
+<span class="header-section-number">5.3</span> Comparisons</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>ss_inoc_within_trt <span class="ot">&lt;-</span> emmeans<span class="sc">::</span><span class="fu">emmeans</span>(splitsplit_lme4, <span class="sc">~</span> inoc <span class="sc">|</span> trt)</span>
-<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(ss_inoc_within_trt, <span class="at">adjust =</span> <span class="st">"tukey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb67"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ss_inoc_within_trt</span> <span class="op">&lt;-</span> <span class="fu">emmeans</span><span class="fu">::</span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">splitsplit_lme4</span>, <span class="op">~</span> <span class="va">inoc</span> <span class="op">|</span> <span class="va">trt</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/pairs.html">pairs</a></span><span class="op">(</span><span class="va">ss_inoc_within_trt</span>, adjust <span class="op">=</span> <span class="st">"tukey"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>trt = 1:
  contrast      estimate   SE df t.ratio p.value
  Inoc - Uninoc     2.25 1.96 60   1.147  0.2559
@@ -1603,13 +1564,13 @@ trt = 10:
 Results are averaged over the levels of: gen 
 Degrees-of-freedom method: kenward-roger </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>ss_inoc_within_trt <span class="sc">%&gt;%</span> </span>
-<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>  multcomp<span class="sc">::</span><span class="fu">cld</span>(</span>
-<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="st">"trt"</span>,</span>
-<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">decreasing =</span> <span class="cn">TRUE</span>, <span class="at">details =</span> <span class="cn">FALSE</span>, <span class="at">reversed =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.05</span>, <span class="at">adjust =</span> <span class="st">"tukey"</span>, <span class="at">Letters =</span> LETTERS</span>
-<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb69"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ss_inoc_within_trt</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">multcomp</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/multcomp/man/cld.html">cld</a></span><span class="op">(</span></span>
+<span>    by <span class="op">=</span> <span class="st">"trt"</span>,</span>
+<span>    decreasing <span class="op">=</span> <span class="cn">TRUE</span>, details <span class="op">=</span> <span class="cn">FALSE</span>, reversed <span class="op">=</span> <span class="cn">TRUE</span>, </span>
+<span>    alpha <span class="op">=</span> <span class="fl">0.05</span>, adjust <span class="op">=</span> <span class="st">"tukey"</span>, Letters <span class="op">=</span> <span class="va">LETTERS</span></span>
+<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>trt = 1:
  inoc   emmean   SE   df lower.CL upper.CL .group
  Inoc     66.4 2.03 11.7     61.2     71.6  A    
@@ -1673,10 +1634,7 @@ NOTE: If two or more means share the same grouping symbol,
 
 
 
-</section>
-</section>
-
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+</section></section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-Bolker_etal_2022" class="csl-entry" role="listitem">
 Bolker, Ben, Julia Piaskowski, Emi Tanaka, Phillip Alday, and Wolfgang Viechtbauer. 2022. <em>CRAN Task View: Mixed, Multilevel, and Hierarchical Models in r. Version 2022-10-18.</em> <a href="https://cran.r-project.org/view=MixedModels">https://cran.r-project.org/view=MixedModels</a>.
 </div>
@@ -1689,8 +1647,7 @@ Eeuwijk, Fred A. van. 1995. <span>“Linear and Bilinear Models for the Analysis
 <div id="ref-Frey_2024" class="csl-entry" role="listitem">
 Frey, Janina, Jens Hartung, Joseph O. Ogutu, and Hans-Peter Piepho. 2024. <span>“Analyze as Randomized—Why Dropping Block Effects in Designed Experiments Is a Bad Idea.”</span> <em>Agronomy Journal</em> 116 (3): 1371–81. <a href="https://doi.org/10.1002/agj2.21570">https://doi.org/10.1002/agj2.21570</a>.
 </div>
-</div></section></div></main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+</div></section></div></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -2250,9 +2207,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="../../coding/week_07/12_models02.html" class="pagination-link" aria-label="12-Models II">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">12-Models II</span>
       </a>          
@@ -2264,8 +2219,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
+<footer class="footer"><div class="nav-footer">
     <div class="nav-footer-left">
 <p><span> Developed by Adrian Correndo with <a href="https://quarto.org/">Quarto</a>. License: <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>. </span></p>
 </div>   
@@ -2277,8 +2231,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-
-
 
 
 <script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
