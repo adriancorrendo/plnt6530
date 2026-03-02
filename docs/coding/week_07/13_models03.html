@@ -527,7 +527,7 @@ window.Quarto = {
   <li><a href="#lme4-1" id="toc-lme4-1" class="nav-link" data-scroll-target="#lme4-1"><span class="header-section-number">5.2.2</span> lme4</a></li>
   </ul>
 </li>
-  <li><a href="#comparisons-1" id="toc-comparisons-1" class="nav-link" data-scroll-target="#comparisons-1"><span class="header-section-number">5.3</span> Comparisons</a></li>
+  <li><a href="#mean-comparisons" id="toc-mean-comparisons" class="nav-link" data-scroll-target="#mean-comparisons"><span class="header-section-number">5.3</span> Mean comparisons</a></li>
   </ul>
 </li>
   </ul></nav>
@@ -1514,8 +1514,9 @@ gen:trt:inoc    9 131.01   14.56  0.9459</code></pre>
 <details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb66"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span><span class="va">op_contr</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-</section></section><section id="comparisons-1" class="level2" data-number="5.3"><h2 data-number="5.3" class="anchored" data-anchor-id="comparisons-1">
-<span class="header-section-number">5.3</span> Comparisons</h2>
+</section></section><section id="mean-comparisons" class="level2" data-number="5.3"><h2 data-number="5.3" class="anchored" data-anchor-id="mean-comparisons">
+<span class="header-section-number">5.3</span> Mean comparisons</h2>
+<p><code><a href="https://rdrr.io/r/graphics/pairs.html">pairs()</a></code> serves to see each pairwise contrast, while <code>cld()</code> serves to see the compact letter display (CLD) of significant differences. In the CLD, treatments that share a letter are not significantly different from each other at the specified alpha level (e.g., 0.05). Treatments with different letters are significantly different.</p>
 <div class="cell">
 <details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb67"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ss_inoc_within_trt</span> <span class="op">&lt;-</span> <span class="fu">emmeans</span><span class="fu">::</span><span class="fu"><a href="https://rvlenth.github.io/emmeans/reference/emmeans.html">emmeans</a></span><span class="op">(</span><span class="va">splitsplit_lme4</span>, <span class="op">~</span> <span class="va">inoc</span> <span class="op">|</span> <span class="va">trt</span><span class="op">)</span></span>
 <span></span>
