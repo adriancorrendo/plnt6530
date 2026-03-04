@@ -15,6 +15,7 @@ format:
     code-link: true
 highlight-style: pygments
 smooth-scroll: true
+editor: source
 ---
 
 ### Lecture Schedule
@@ -43,9 +44,9 @@ The course runs on Wednesdays and Fridays from 1:00 PM to 2:20 PM. Below is the 
 |  | Feb 13 | Weather Data: Retrieving & Processing | [🌐](https://adriancorrendo.github.io/plnt6530/coding/extras/weather_data.html) |  |
 |  | Feb 13 | Models I: introduction to models | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_06/11_models01.html) | [🎥](https://zoom.us/rec/share/kUkksbCX9bdHB-kLGCibRx6KJnfy_4lVrLd9U3BhAw8PMwP7wGQT8cJTLF96FNzE.WPg6ksgFjWGKYGiR?startTime=1771000876000) |
 |  |  | *Winter Break begins after the end of class* |  |  |
-| 7 | Feb 25 | Models II: TBD | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_07/12_models02.html) | [🎥](https://zoom.us/rec/share/Ph6ZcOz-9PqmbYJrWgMHH_GWmaO7CqQGPMO266u_27JorGp4WDf6ZgTWq69A9g3m.F5yrajYQ7mdtDpFy?startTime=1772037208000) |
-|  | Feb 27 | Models III: TBD | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_07/13_models03.html) | [🎥](https://zoom.us/rec/share/WxE4td51j9F4AsYRYMEsqYXRR15IciFaCicDXCQpc5R6eVukjWkSWI1M8JoJTYZy.uqgHIe2b6a1ytEvu?startTime=1772209900000) |
-| 8 | Mar 04 | Models IV: TBD | 🌐 | 🎥 |
+| 7 | Feb 25 | Models II: Linear Models | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_07/12_models02.html) | [🎥](https://zoom.us/rec/share/Ph6ZcOz-9PqmbYJrWgMHH_GWmaO7CqQGPMO266u_27JorGp4WDf6ZgTWq69A9g3m.F5yrajYQ7mdtDpFy?startTime=1772037208000) |
+|  | Feb 27 | Models III: Mixed Linear Models | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_07/13_models03.html) | [🎥](https://zoom.us/rec/share/WxE4td51j9F4AsYRYMEsqYXRR15IciFaCicDXCQpc5R6eVukjWkSWI1M8JoJTYZy.uqgHIe2b6a1ytEvu?startTime=1772209900000) |
+| 8 | Mar 04 | Models IV: Repeated Measures | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_08/14_models04.html) | [🎥](https://zoom.us/rec/share/XK5GNC9h0BX7G52bKpcncPGa_qsOZ35hBpBoDv8_veXOLa4Ky-A1jmIhaRFS9ziO.dtEQ2SBpYAJ7lm57?startTime=1772641861000) |
 |  | Mar 06 | Models V: TBD | 🌐 | 🎥 |
 | 9 | Mar 11 | Models VI: TBD | 🌐 | 🎥 |
 |  | Mar 13 | Models VII: TBD | 🌐 | 🎥 |
