@@ -10,6 +10,9 @@ format:
     toc-depth: 4
     number-sections: true
     table-class: "table table-striped table-hover"
+    code-fold: true
+    code-summary: 'Show code'
+    code-link: true
 editor: source
 execute:
   echo: true
@@ -598,9 +601,9 @@ The fitted vs observed plot above is based on the same data used to fit the mode
 
 Linear models are essential for agricultural research because they provide the simplest framework for estimation and inference (slopes, means, contrasts). In practice, agronomic datasets often require extensions:
 
-- mixed models for random effects (blocks, sites, years)
-- heterogeneous variances and correlation structures
-- non-linear response models for inputs (for example, N response)
+- mixed models for random effects (blocks, sites, years),
+- heterogeneous variances and correlation structures,
+- non-linear response models for inputs (for example, N response),
 - varying coefficients by environment (site:weather, year)
 
 On the next modules, we will revisit these same questions with more complex models that may (or not) outperform simple linear models.

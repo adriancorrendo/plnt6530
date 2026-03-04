@@ -1,0 +1,606 @@
+---
+title: "Models IV: Mixed Models II"
+author: "Dr. Adrian Correndo"
+date: "2026-03-04"
+categories: [linear models, R, statistics, agriculture]
+abstract-title: 'Summary'
+abstract: 'This tutorial provides a tidy workflow to analyze another case of common mixed model in agriculture: Repeated-measures.'
+format:
+  html:
+    toc: true
+    toc-location: left
+    toc-depth: 4
+    number-sections: true
+    table-class: "table table-striped table-hover"
+editor: source
+execute:
+  echo: true
+  warning: false
+  message: false
+  tidy: true
+smooth-scroll: true
+bibliography: references.bib
+link-citations: TRUE
+---
+
+# What are repeated measures models?
+
+Repeated measures models are a type of statistical model used when the same experimental unit is measured multiple times under different conditions or over time. These models account for the fact that repeated observations from the same unit (e.g., plant, plot, soil location) are not independent but correlated.
+
+In agriculture, repeated measures designs are common in various scenarios, including:
+
+	•	Time-based measurements: Tracking crop growth, soil nutrients, or yield over multiple time points. Or also treatments applied to the same unit over time such as fertilization trials where the same plots receive different treatments over multiple years.
+	•	Spatially repeated measurements: Soil properties at different depths, plant characteristics at multiple canopy levels, or yield components across field zones.
+
+## Mixed Models for Repeated Measures
+
+Linear mixed models (LMMs) are typically used for analyzing repeated measures because they allow us to include:
+	1.	Fixed effects – Factors of interest, such as treatments, depths, or environmental conditions.
+	2.	Random effects – Sources of variability, such as plot-to-plot differences or repeated observations on the same soil core.
+
+# Case Study
+
+Today, we are going to reproduce the analysis I've performed myself for one of my publications few years ago [@correndo2021]. Particularly, we are going to reproduce [**Figure 2**](https://www.nature.com/articles/s41598-021-90297-1#Fig2)
+
+![](images/paste-26DDB04C.png)
+
+For this paper, we have data from 4 different locations. We tested the levels of soil potassium fertility, hereinafter as soil test K (STK), in long-term experiments (2000-2009) where the treatments of interest were: (i) Control (unfertilized), (ii) NPS (fertilized with NPS), and (iii) Pristine conditions (No Ag-history).
+
+At each plot/sample, the STK was measured at five-consecutive soil depths (0-20, 20-40, 40-60, 60-80, and 80-100 cm). Thus, they we took "repeated measurements" over the space.
+
+We were NOT interested in comparing locations since they had very different previous history, and crop rotation, so confounding effects may have obscured the inference. Therefore, site was not a factor under consideration, and all the analysis were fitted independently by site.
+
+## Required packages for today
+
+```{r packages}
+#| echo: true
+#| collapse: true
+
+library(pacman)
+p_load("readxl") # To open/save excel files
+p_load('dplyr', "tidyr","purrr", "forcats", "stringr") # Data wrangling
+p_load("nlme") # Mixed models libraries
+p_load("broom", "broom.mixed") # Managing models results
+p_load("performance") # Check assumptions and performance
+p_load("emmeans","multcomp","multcompView",
+         "car") # Aov and mult comp
+p_load("ggplot2") # Figures
+p_load(tidybayes) # ggplot theme
+```
+
+## Miscellaneous
+```{r}
+# Make sure Type-III-like tests behave as expected when you use them
+# (only relevant if you insist on car::Anova)
+options(contrasts = c("contr.sum", "contr.poly"))
+
+# Base ggplot theme (your earlier set_theme() line is not a ggplot2 function)
+ggplot2::theme_set(theme_tidybayes())
+```
+
+## Data
+```{r data} 
+
+# Read data
+# File online? Try this...
+url_rm <- "https://raw.githubusercontent.com/adriancorrendo/tidymixedmodelsweb/refs/heads/master/data/02_repeated_measures_data.csv"
+
+# Read file
+rm_data_00 <- read.csv(url_rm) 
+
+rm_data_01 <- 
+  rm_data_00 %>% 
+  # We need to create PLOT column to identify subject (Exp. Unit for Rep. Measures)
+  ## Option 1, use "unite"
+  unite(data = ., col = PLOT, BLOCK,TREAT, sep = "_", remove=FALSE) %>%
+  # OR
+  ## Option 2, use cur_group_id
+  # Identify Subplot
+  ungroup() %>% 
+  group_by(BLOCK, TREAT) %>% # Don't need to add SITE here
+  # Create unique plot ID # Needed for Repeated Measures
+  mutate(plot = cur_group_id(), .after = PLOT) %>% 
+  ungroup() %>% 
+  ## Transform to factor if needed
+  mutate(depth = as.integer(DEPTH), # Needed for CorAR1
+         DEPTH = as.factor(DEPTH),
+         plot = factor(plot),
+         BLOCK = factor(BLOCK),
+         SITE = factor(SITE), 
+                       #levels = c("site_1", "site_2", "site_3", "site_4"), 
+                       #labels = c("Balducchi", "San Alfredo", "La Blanca", "La Hansa")
+         TREAT = factor(TREAT)
+         )
+
+```
+
+## Exploratory analysis
+
+Now, let's use several functions to explore the data.
+
+### misc
+```{r}
+# Define your own colors
+my_colors <- c("#ffaa00", "#7E5AA0", "#5c9c8c")
+```
+
+
+### glimpse()
+
+First, the `glimpse()` function from dplyr
+
+```{r rm_glimpse}
+
+# Glimpse from dplyr
+dplyr::glimpse(rm_data_01)
+
+```
+
+### skim()
+
+Then, the `skim()` function from skmir
+
+```{r rm_skimr}
+# Skim from skimr
+skimr::skim(rm_data_01)
+
+```
+
+### ggplot()
+
+And let's use ggplot2 for a better look
+
+```{r rm_ggplot}
+
+# Boxplot
+rm_data_01 %>% 
+  dplyr::select(-depth) %>% 
+  # Plot
+ggplot() + 
+  # Boxplots
+  geom_boxplot(aes(x = reorder(DEPTH, desc(DEPTH)), y = STK, fill = TREAT))+
+  scale_fill_manual(name="Scenario", values = my_colors,  guide='legend')+
+  # Axis labels
+  labs(x = "Soil depth (cm)", y = "STK (g/m2)")+
+  # Plot by site
+  facet_wrap(~SITE)+
+  # Flip axes
+  coord_flip()+
+  # Set scale type
+  scale_x_discrete()+
+  # Change theme
+  tidybayes::theme_tidybayes()
+
+```
+
+### Additional data manipulation?
+```{r}
+rm_data_02 <-rm_data_01 %>% 
+  # Create a grouping variable (WHY?) # Needed for HetVar
+  mutate(GROUP = case_when(TREAT == "Pristine" ~ "Pristine",
+                           TRUE ~ "Agriculture"))
+```
+
+
+## Candidate Models
+
+I'm sorry for this, but the most important step is ALWAYS to write down the model.
+
+### Formulae
+
+#### m0. Block Fixed
+
+In a traditional approach blocks are defined as fixed, affecting the mean of the expected value. Yet there is no consensus about treating blocks as fixed or as random. For more information, read @Dixon_2016.
+
+Let's define the model. For simplification (and avoid writing interaction terms), here we are going to consider that $\tau_i$ is the "treatment".
+
+$$ y_{ij} = \mu + \tau_i + \beta_j + \epsilon_{ij} $$
+
+$$ \epsilon_{ij} \sim N(0, \sigma^2_{e} )$$ where $\mu$ represents the overall mean (if intercept is used), $\tau_i$ is the effect of treatment-j over $\mu$, $\beta_j$ is the effect of block-j over $\mu$, and $\epsilon_{ij}$ is the random effect of each experimental unit.
+
+```{r block_fixed}
+# SIMPLEST MODEL
+fit_block_fixed <- function(x){
+  lm(# Response variable
+     STK ~ 
+       # Fixed
+       TREAT + DEPTH + TREAT:DEPTH + BLOCK,
+     # Data
+     data = x)
+  }
+```
+
+#### m1. Block Random
+
+An alternative approach is considering a MIXED MODEL, where blocks are considered "random". Basically, we add a term to the model that it is expected to show a "null" overall effect over the mean of the variable of interest but introduces "noise". By convention, a random effect is expected to have an expected value equal to zero but a positive variance as follows: $$ y_{ij} = \mu + \tau_i + \beta_j + \epsilon_{ij} $$ $$ \beta_j \sim N(0, \sigma^2_{b} )$$ $$ \epsilon_{ij} \sim N(0, \sigma^2_{e} )$$ Similar than before, $\mu$ represents the overall mean (if intercept is used), $\tau_i$ is the effect of treatment-j over $\mu$, $\beta_j$ is the "random" effect of block-j over $\mu$, and $\epsilon_{ij}$ is the random effect of each experimental unit.
+
+So what's the difference? Simply specifying this component: $$ \beta_j \sim N(0, \sigma^2_b) $$, which serves to model the variance.
+
+How do we write that?
+
+```{r block_random}
+# RANDOM BLOCK
+fit_block_random <- function(x){
+  nlme::lme(
+    # Fixed
+    STK ~ TREAT + DEPTH + TREAT:DEPTH,
+    # Random
+    random = ~1|BLOCK,
+    # Data
+    data = x)
+  }
+```
+
+### Models w/ correlated ERRORS
+
+Until here all sounds easy. However, we are (potentially) missing a key component. All measures involving DEPTH have been taken from the same "subjects" (experimental units/plots). So we do have "repeated measures" over space. Thus, it is highly likely that using depth implies the need to adjust the error correlation and covariance structure. Let's explore some options...
+
+#### m2. m1 + CompSymm
+
+Compound symmetry is the simplest covariance structure, where we include a within-subject correlated errors. It is basically the same we do with including BLOCKS as random. We are telling the model that the observations within a given "depth" "share" something, they have something in common (the error).
+
+```{r comp_symm}
+# RANDOM BLOCK w/compound symmetry error correlation structure
+fit_corsymm <- function(x){
+  lme(# Response Variable
+      STK ~
+        # Fixed
+        TREAT + DEPTH + TREAT:DEPTH,
+        # Random
+        random = ~1|BLOCK,
+        # Identify subject where repeated measure happens
+        # Plots nested within blocks.
+        correlation = corCompSymm(form = ~ DEPTH |BLOCK/PLOT), 
+     # Data   
+     data=x) }
+```
+
+#### m3. m1 + CorAR1
+
+The autoregressive of first order structure (CorAR1) considers correlations dependent of the "distance". Thus, correlation of error is expected to be the highest between adjacent depths (e.g. 0-20 and 20-40 cm), and a systematically decrease with the distance. For example, the correlation between depth 1 and depth 2 would be $\rho^{depth_2-depth_1}$, and then less and less, ending with the correlation between depth 5 and depth 1 equal to $\rho^{depth_5-depth_1}$.
+
+::: callout-caution
+An important detail here is that CorAR1 structure is only applicable for evenly spaced intervals!
+:::
+
+```{r CorAR1}
+# RANDOM BLOCK w/ auto-regressive of 1st order as error correlation structure
+fit_ar1 <- function(x){lme(STK ~ TREAT + DEPTH + TREAT:DEPTH,
+                       random = ~1|BLOCK,
+                       correlation=corAR1(form=~depth|BLOCK/PLOT),
+                       data=x)}
+
+```
+
+#### m4. m2 + HetVar
+
+Did you know that we can "relax" the assumption about homogeneity of variance? Oftentimes we have data that shows different variability depending on the level of a given factor or variable.
+
+In the STK dataset, we observed that the "Pristine" treatment (or agriculture condition) present a higher variability compared to Control and NPS treatments, probably linked to higher values of STK. Variance is modeled by adding a "weight". This "weight" could be a function of a continuous variable (e.g. fertilizer rate?) or, like in our case, based on a "categorical" variable.
+
+```{r het_var}
+# RANDOM BLOCK w/compound symmetry error correlation structure + Heterogeneous Variance
+fit_corsymm_hetvar <- function(x){
+  lme(# Response variable
+      STK ~ 
+        # Fixed
+        TREAT + DEPTH + TREAT:DEPTH,
+        # Random  
+        random = ~1|BLOCK,
+        # Correlation
+        correlation = corCompSymm(form = ~ DEPTH |BLOCK/PLOT),
+        # Variance
+        weights = varComb(varIdent(form= ~1|GROUP)),
+      # Data
+      data=x) }
+
+```
+
+### Fit
+
+Run the candidate models
+
+```{r rm_fit}
+
+STK_models <- 
+  rm_data_02 %>% 
+  # Let's group data to run multiple locations|datasets at once
+  group_by(SITE) %>% 
+  # Store the data per location using nested arrangement
+  nest() %>% 
+  # BLOCK as FIXED 
+  mutate(model_0 = map(data, fit_block_fixed)) %>% 
+  # BLOCK as RANDOM
+  mutate(model_1 = map(data, fit_block_random)) %>% 
+  # COMPOUND SYMMETRY
+  mutate(model_2 = map(data, fit_corsymm)) %>% 
+  # AUTO-REGRESSIVE ORDER 1
+  mutate(model_3 = map(data, fit_ar1)) %>% 
+  # COMPOUND SYMMETRY + HETEROSKEDASTIC
+  mutate(model_4 = map(data,  fit_corsymm_hetvar) ) %>%
+    
+  # Data wrangling
+  pivot_longer(cols = c(model_0:model_4), # show alternative 'contains' model
+               names_to = "model_id",
+               values_to = "model") %>% 
+  # Map over model column
+  mutate(results = map(model, broom.mixed::augment )) %>% 
+  # Performance
+  mutate(performance = map(model, broom.mixed::glance )) %>% 
+  # Extract AIC
+  mutate(AIC = map(performance, ~.x$AIC)) %>% 
+  # Extract coefficients
+  mutate(coef = map(model, ~coef(.x))) %>% 
+  # Visual-check plots
+  mutate(checks = map(model, ~performance::check_model(.))) %>% 
+  ungroup()
+
+```
+
+### Check assumptions
+
+Checking assumptions is always important. To learn more about data exploration, tools to detect outliers, heterogeneity of variance, collinearity, dependence of observations, problems with interactions, among others, I highly recommend reading [@Zuur_etal_2010].
+
+```{r rm_check}
+# Extracting by site
+site_1_models <- STK_models %>% dplyr::filter(SITE == "site_1")
+site_2_models <- STK_models %>% dplyr::filter(SITE == "site_3")
+site_3_models <- STK_models %>% dplyr::filter(SITE == "site_4")
+site_4_models <- STK_models %>% dplyr::filter(SITE == "site_2")
+
+```
+
+::: panel-tabset
+## Site 1
+
+```{r}
+#| fig.height: 10
+#| fig.width: 6
+(site_1_models %>% dplyr::filter(model_id == "model_0"))$checks[[1]]
+
+```
+
+## Site 2
+
+```{r}
+#| fig.height: 10
+#| fig.width: 6
+
+(site_2_models %>% dplyr::filter(model_id == "model_0"))$checks[[1]]
+
+```
+
+## Site 3
+
+```{r}
+#| fig.height: 10
+#| fig.width: 6
+
+(site_3_models %>% dplyr::filter(model_id == "model_0"))$checks[[1]]
+
+```
+
+## Site 4
+
+```{r}
+#| fig.height: 10
+#| fig.width: 6
+
+(site_4_models %>% dplyr::filter(model_id == "model_0"))$checks[[1]]
+
+```
+:::
+
+### Model Selection
+
+Compare models performance
+
+```{r rm_selection}
+
+# Visual model selection
+best_STK_models <- 
+  STK_models %>% 
+  group_by(SITE) %>% 
+  # Use case_when to identify the best model
+  mutate(best_model = 
+           case_when(AIC == min(as.numeric(AIC)) ~ "Yes",
+                     TRUE ~ "No")) %>% 
+  ungroup()
+
+# Plot
+best_STK_models %>% 
+  ggplot()+
+  geom_point(aes(x = model_id, y = as.numeric(AIC), 
+                 color = best_model, shape = best_model), 
+             size = 3)+
+  facet_wrap(~SITE)
+
+# Final models
+selected_models <- best_STK_models %>% dplyr::filter(best_model == "Yes")
+
+```
+### Analysis of Variance
+
+It is always recommended to perform an ANOVA to test the significance of the effects. In this case, we are going to use Type III Sum of Squares (Partial SS) since we have interactions in the model. 
+
+```{r rm_anova}
+
+models_effects <- 
+  selected_models %>%
+  # Type 3 Sum of Squares (Partial SS, when interactions are present)
+  mutate(ANOVA = map(model, ~Anova(., type = 3)) )
+
+# Extract ANOVAS
+# Site 1
+models_effects$ANOVA[[1]]
+# Site 2
+models_effects$ANOVA[[2]]
+# Site 3
+models_effects$ANOVA[[3]]
+# Site 4
+models_effects$ANOVA[[4]]
+```
+
+However, car::Anova() can't handle well the models with correlated errors, so we will use the ANOVA tables from the fitted models instead (or emmeans joint tests, see below).
+
+::: callout-warning
+### Why we avoid `car::Anova(type = 3)` here (and what to do instead)
+
+When we fit repeated-measures models with `nlme::lme()` (correlated errors via `corCompSymm()` or `corAR1()`, and possibly heterogeneous variances via `weights = varIdent()`), the model is no longer a simple "independent errors" setting. In this situation:
+
+- `car::Anova(type = 3)` can still return a table, but it is a Wald-type test whose degrees-of-freedom handling and interpretation are often confusing in correlated-error models.
+- With interactions present (e.g., `TREAT:DEPTH`), Type III tables are also easy to misread: the main-effect rows do not answer the main agronomic questions (for example, differences among treatments at each depth), because the interaction implies that treatment effects vary by depth.
+:::
+
+**Workaround used in this lesson:**
+
+1. Use REML + AIC to choose the covariance/variance structure (fixed effects held constant across candidate models).
+
+2. Refit the selected model with ML for fixed-effect inference.
+
+#### Refit with ML
+```{r rm_refit_ml}
+selected_models_ml <- selected_models %>%
+  mutate(model_ML = purrr::map(.x= model , ~update(.x, method = "ML", data = nlme::getData(.x))))
+```
+
+3. Use `emmeans::joint_tests()` for joint tests of model terms, and `emmeans()` contrasts for the comparisons we actually care about (simple effects and letter displays).
+
+`emmeans::joint_tests()` is a convenient function that performs joint (Wald) tests for each term in the model, including interactions. It provides a more interpretable output compared to `car::Anova(type = 3)` when dealing with mixed models with correlated errors.
+
+```{r rm_joint_tests}
+models_effects_ml <- selected_models_ml %>%
+  mutate(
+    # Joint (Wald) tests for each term in the model
+    joint_tests = map(model_ML, ~emmeans::joint_tests(.x)) )
+
+models_effects_ml$joint_tests[[1]]
+models_effects_ml$joint_tests[[2]]
+models_effects_ml$joint_tests[[3]]
+models_effects_ml$joint_tests[[4]]
+```
+
+**Option B: **
+`nlme::anova(type = "marginal")`
+
+This is also equivalent. It's the closest built-in analogue to “partial” tests. Keep it in case the joint tests don't work for some reason, but `emmeans::joint_tests()` is perhaps more straightforward and easier to interpret in this context.
+
+```{r rm_anova_marginal}
+models_effects_anova <- selected_models_ml %>%
+  mutate(
+    anova_marginal = map(model_ML, ~anova(.x, type = "marginal"))
+  )
+
+models_effects_anova$anova_marginal[[1]]
+models_effects_anova$anova_marginal[[2]]
+models_effects_anova$anova_marginal[[3]]
+models_effects_anova$anova_marginal[[4]]
+```
+
+4. Then we run our multiple comparisons with `emmeans::emmeans()`, which are consistent with the fitted model and the questions we want to answer. This keeps inference consistent with the fitted `nlme` model and aligns results with the questions we want to answer.
+
+### Means comparison
+
+```{r rm_comparison}
+# Means and multiple comparisons are computed directly from the selected nlme model
+# (REML is fine here; ML refits are only needed for likelihood-based comparisons of fixed effects).
+
+mult_comp <- 
+  models_effects %>% 
+  mutate(
+    # EMM grid
+    mc_emm = map(model, ~emmeans(., ~ TREAT * DEPTH)),
+    # Summary table of means with reasonable (pointwise) CIs
+    mc_means = map(mc_emm,~as.data.frame(summary(.x, infer = c(TRUE, TRUE))) ),
+    # Compact letter display within each depth (multiple-comparison adjusted)
+    mc_letters = map(mc_emm,
+                     ~as.data.frame(
+                       cld(object = .x,
+                           by = "DEPTH",
+                           decreasing = TRUE,
+                           details = FALSE,
+                           reversed = TRUE,
+                           alpha = 0.05,
+                           adjust = "sidak",
+                           Letters = LETTERS )      )    )  )
+
+```
+
+## Plot
+
+Now, we are going to reproduce [**Figure 2**](https://www.nature.com/articles/s41598-021-90297-1#Fig2)
+
+```{r rm_plot, fig.width=8, fig.height=9}
+
+# Create data frame for plot:
+# - mc_means provides emmean, SE, lower.CL, upper.CL
+# - mc_letters provides .group (Sidak letters by DEPTH)
+plot_df <- mult_comp %>%
+  dplyr::select(SITE, mc_means, mc_letters) %>%
+  tidyr::unnest(mc_means) %>%
+  dplyr::left_join(
+    mult_comp %>%
+      dplyr::select(SITE, mc_letters) %>%
+      tidyr::unnest(mc_letters) %>%
+      dplyr::select(SITE, TREAT, DEPTH, .group),
+    by = c("SITE", "TREAT", "DEPTH")
+  )
+
+# Run the plot
+STK_plot <-
+  plot_df %>%
+  mutate(
+    DEPTH = as.numeric(as.character(DEPTH)),
+    TREAT = forcats::fct_relevel(TREAT, "Control", "NPS", "Pristine"),
+    SITE  = forcats::fct_relevel(SITE, "site_1", "site_2", "site_3", "site_4")
+  ) %>%
+  ggplot() +
+  facet_wrap(~SITE, nrow = 2) +
+  labs(x = "Soil depth (cm)", y = bquote(~NH[4]*'OAc-K (g' ~m^-2*')')) +
+
+  # Points (means)
+  geom_point(aes(x = DEPTH, y = emmean, fill = TREAT, shape = TREAT),
+             size = 3, col = "black") +
+
+  # Lines
+  geom_line(aes(x = DEPTH, y = emmean, color = TREAT), size = 0.5) +
+
+  # Error bars: use the CIs from summary(emmeans(...))
+  geom_errorbar(aes(x = DEPTH, ymin = emmean - 2*SE, ymax = emmean + 2*SE, color = TREAT),
+                width = 0.25) +
+
+  scale_shape_manual(name="Fertilizer Scenario", values=c(24,23,21), guide="legend") +
+  scale_colour_manual(name="Fertilizer Scenario", values = my_colors, guide = "legend") +
+  scale_fill_manual(name="Fertilizer Scenario", values = my_colors, guide = "legend") +
+  scale_x_reverse(breaks = seq(0, 100, 20), limits = c(100, 0)) +
+  coord_flip() +
+  theme_bw() +
+  theme(
+    strip.text = element_text(size = rel(1.25)),
+    strip.background = element_blank(),
+    panel.grid = element_blank(),
+    axis.title = element_text(size = rel(1.5)),
+    axis.text = element_text(size = rel(1.25), color = "black"),
+    legend.position = "top",
+    legend.title = element_blank(),
+    legend.text = element_text(size = rel(1.25))
+  )
+
+STK_plot
+
+```
+
+### Figure with caption
+
+::: {layout-col="1"}
+```{r}
+#| fig.height: 9
+#| fig.width: 10
+
+STK_plot
+```
+
+**Figure 2**. Soil profiles of STK ($g~m^{-2}$) under three different conditions: pristine soils (green circles), under grain cropping from 2000 to 2009 with no fertilizers added (Control, orange triangles), and under grain cropping from 2000 to 2009 with N, P, plus S fertilization (NPS, purple diamonds). Overlapping error bars indicate absence of significant differences between scenarios by soil depths combinations (0.05).
+:::
+
+

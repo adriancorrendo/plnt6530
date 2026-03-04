@@ -12,6 +12,9 @@ format:
     toc-depth: 4
     number-sections: true
     table-class: "table table-striped table-hover"
+    code-fold: true
+    code-summary: 'Show code'
+    code-link: true
 editor: source
 execute:
   echo: true
@@ -454,8 +457,8 @@ anova(splitsplit_lme4, type = 3, ddf = "Satterthwaite")
 options(op_contr)
 ```
 
-## Comparisons
-
+## Mean comparisons
+`pairs()` serves to see each pairwise contrast, while `cld()` serves to see the compact letter display (CLD) of significant differences. In the CLD, treatments that share a letter are not significantly different from each other at the specified alpha level (e.g., 0.05). Treatments with different letters are significantly different.
 ```{r sp_comparisons_2}
 ss_inoc_within_trt <- emmeans::emmeans(splitsplit_lme4, ~ inoc | trt)
 

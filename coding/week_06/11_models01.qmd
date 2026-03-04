@@ -10,6 +10,9 @@ format:
     toc-depth: 4
     number-sections: true
     table-class: "table table-striped table-hover"
+    code-fold: true
+    code-summary: 'Show code'
+    code-link: true
 editor: source
 execute:
   echo: true
