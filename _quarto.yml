@@ -81,6 +81,8 @@ website:
             text: "13-Models III"
           - href: coding/week_08/14_models04.qmd
             text: "14-Models IV"
+          - href: coding/week_08/15_models05.qmd
+            text: "15-Models V"
       - section: "Extras"
         contents:
           - href: coding/quarto/quarto.qmd

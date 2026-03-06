@@ -1,0 +1,468 @@
+---
+title: "Non-Linear Regression with R"
+author: "Dr. Adrian Correndo"
+date: "2026-03-06" 
+categories: [nonlinear models, R, statistics, agriculture] 
+abstract-title: 'Summary' 
+abstract: 'This tutorial provides an overview of non-linear regression models in R using agricultural data. We will explore different non-linear models, their applications, and how to implement them with both `nls()` and `nlme()` functions.'
+format: 
+  html:
+    toc: true
+    toc-location: left 
+    toc-depth: 4 
+    number-sections: true 
+    table-class: "table table-striped table-hover" 
+    editor: source 
+execute: 
+  echo: true 
+  warning: false 
+  message: false 
+smooth-scroll: true 
+link-citations: TRUE
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  tidy = TRUE
+  )
+```
+
+# Introduction
+
+Non-linear regression is a statistical technique used to model relationships that cannot be well-represented by a straight line. Unlike linear regression, which assumes a constant rate of change, non-linear models accommodate curves and complex relationships in data.
+
+This tutorial will:
+
+- Introduce the concept of non-linear regression. <br/>
+- Show how to fit non-linear models in R using `nls()` and `nlme()`. <br/>
+- Try the minpack.lm package for starting values. <br/>
+- Conduct model selection using AIC and AICc. <br/>
+- Apply these concepts to the `agridat::lasrosas.corn` dataset. <br/>
+- See an example of specific package to help with non-linear regression
+
+## Why Non-Linear Regression?
+
+Many real-world relationships are inherently non-linear. Examples include:
+
+- Growth models (e.g., exponential or power functions).
+- Yield response to fertilizers.
+- Enzyme kinetics in biological systems.
+
+**Required packages for today**
+```{r}
+# Load necessary libraries
+library(pacman)
+p_load(dplyr, tidyr) # data wrangling
+p_load(ggplot2) #plots
+p_load(agridat) # dataset
+p_load(nls, nlme) # non-linear models
+p_load(minpack.lm) # convergence help for nl models
+p_load(AICcmodavg) # corrected AIC performance
+p_load(soiltestcorr) # nl models for soil fertility
+
+ggplot2::theme_set(ggplot2::theme_classic())
+
+```
+
+# Corn Data
+
+We will again use our synthetic dataset of corn yield response to nitrogen fertilizer across two sites and three years with contrasting weather.
+
+```{r}
+# Read CSV file
+cornn_data <- read.csv("data/cornn_data.csv") %>%
+  mutate(
+    n_trt = factor(n_trt, levels = c("N0", "N60", "N90", "N120",
+                                   "N180", "N240", "N300")),
+    block = factor(block),
+    site = factor(site),
+    year = factor(year),
+    site_year = interaction(site, weather, drop = FALSE), # create interaction
+    weather = factor(weather)
+  ) %>%
+  # IMPORTANT: blocks are nested within site (Block 1 in A is not the same as Block 1 in B)
+  mutate(
+    block_in_site = interaction(site, block, drop = TRUE),
+    yield = yield_kgha
+  )
+
+glimpse(cornn_data)
+```
+
+
+## Visualizing the Data
+
+To determine if a non-linear model is needed, we first visualize the data:
+
+```{r}
+# Plot boxplots faceted by site and year
+eda_plot <- cornn_data %>%
+  ggplot(aes(x = nrate_kgha, y = yield)) +
+  geom_point(aes(fill = n_trt), shape = 21) +
+  scale_fill_brewer(palette = "Set3") +
+  #facet_grid(site ~ year) +
+  labs(title = "Exploratory plot",
+       x = "Nitrogen rate",
+       y = "Corn yield (kg/ha)") 
+
+eda_plot
+
+# Add facet by year and site
+eda_plot +
+  facet_grid(site ~ year)
+  
+```
+
+# Fitting a Non-Linear Model using `nls()`
+
+We fit an **Exponential Growth Model**:
+
+$$Y = a X^b$$
+
+where:
+
+- $(Y)$ is the yield.
+- $(X)$ is the nitrogen applied.
+- $a$ and $b$ are parameters to estimate.
+
+```{r}
+# Fit the model with nls
+nls_model <- nls(yield ~ a * nrate_kgha^b, data = cornn_data,
+                 start = list(a = 50, b = 0.1))
+
+# Summary of the model
+summary(nls_model)
+
+# grid of x values
+pred_df <- tibble(nrate_kgha = seq(min(cornn_data$nrate_kgha, na.rm = TRUE),
+                                   max(cornn_data$nrate_kgha, na.rm = TRUE),
+                                   length.out = 200)) %>%
+  # Generate the predictions
+  mutate(yhat = predict(nls_model, newdata = pick(nrate_kgha)))
+
+coef_nls <- coef(nls_model)
+eq_nls <- sprintf("y = %.2f * x^%.3f", coef_nls["a"], coef_nls["b"])
+
+# Plot the data and the fitted curveot 
+cornn_data %>% 
+ggplot(aes(x=nrate_kgha, y=yield)) +
+  geom_point(alpha = 0.7) +
+  geom_line(data = pred_df, aes(nrate_kgha, yhat), linewidth = 2, color = "blue") +
+  labs(x = "N rate (kg/ha)", y = "Yield") +
+  # Add equation
+  annotate("text", color = "blue",
+           x = Inf, y = 500, label = eq_nls,
+           hjust = 1.1, vjust = 1.5)
+
+```
+
+# Fitting a Non-Linear Mixed Model using `nlme()`
+
+The idea here is to be able to account for variability among replicates (`rep`), so we extend our model to:
+
+```{r}
+# Fit the model with nlme
+nlme_model_a <- nlme(yield ~ a * nrate_kgha^b,
+                   data = cornn_data,
+                   fixed = a + b ~ 1,
+                   random = a ~ 1 | site_year/block,
+                   # 
+                   start = c(a = coef(nls_model)[[1]], b = coef(nls_model)[[2]]) )
+
+nlme_model_b <- nlme(yield ~ a * nrate_kgha^b,
+                   data = cornn_data,
+                   fixed = a + b ~ 1,
+                   random = b ~ 1 | site_year/block,
+                   start = c(a = coef(nls_model)[[1]], b = coef(nls_model)[[2]]) )
+
+nlme_model_ab <- nlme(yield ~ a * nrate_kgha^b,
+                   data = cornn_data,
+                   fixed = a + b ~ 1,
+                   random = a + b ~ 1 | site_year/block,
+                   start = c(a = 1, b = 0) )
+    
+
+# Summary of the model
+summary(nls_model)
+summary(nlme_model_a)
+summary(nlme_model_b)
+summary(nlme_model_ab)
+AIC(nls_model, nlme_model_a, nlme_model_b, nlme_model_ab)
+
+```
+## site fixed
+```{r}
+nlme_model_site <- nlme(yield ~ a * nrate_kgha^b,
+                         data = cornn_data,
+                         fixed = (a+b) ~ site,
+                         random = (a + b) ~ 1 | site_year/block,
+                         start = c(a_A = 1, b_A = 0.5, 
+                                   a_B = 0, b_B = 0)      )
+summary(nlme_model_site)
+coef(nlme_model_site)
+# Some components of broom mixed doesn't work yet for non-linear models
+broom.mixed::tidy(nlme_model_site)
+```
+## weather fixed
+```{r eval=TRUE}
+nlme_model_weather <- nlme(yield ~ a * nrate_kgha^b,
+                         data = cornn_data,
+                         fixed = a + b ~ weather,
+                         random = a + b ~ 1 | site_year/block,
+                         start = c(a_dry = 1, b_dry = 0.5, 
+                                   a_normal = 0, a_wet = 0,
+                                   b_normal = 0, b_wet = 0))
+
+summary(nlme_model_weather)
+coef(nlme_model_weather)
+# Some components of broom mixed doesn't work yet for non-linear models
+broom.mixed::tidy(nlme_model_weather)
+
+```
+
+## site + weather
+```{r eval=FALSE}
+nlme_model_s_w <- nlme(yield ~ a * nrate_kgha^b,
+                         data = cornn_data,
+                         fixed = a + b ~ site + weather,
+                         random = a + b ~ 1 | site_year/block,
+                         start = c(a_A = 1, b_A = 0.5, 
+                                   a_B = 0, b_B = 0,
+                                   a_normal = 0, b_normal = 0,
+                                   a_wet = 0, b_wet = 0) )
+
+summary(nlme_model_s_w)
+coef(nlme_model_s_w)
+broom.mixed::tidy(nlme_model_s_w)
+
+```
+## minpack.lm
+```{r eval=FALSE}
+# Fit using nlsLM() instead of nls()
+nls_minpack <- minpack.lm::nlsLM(yield ~ a * nrate_kgha^b, 
+                 data = cornn_data, 
+                 start = list(a = 10, b = 0.8)) 
+
+# Extract better initial estimates
+coef(nls_fit)
+
+nlme_model_topoyear <- nlme(yield ~ a * nrate_kgha^b, 
+                             data = cornn_data, 
+                             fixed = a + b ~ site + year, 
+                             random = a + b ~ 1 | site_year/block, 
+                             start = c(a_A = nls_minpack[["a"]], b_A = nls_minpack[["b"]], 
+                                       a_B = 0, b_B = 0,
+                                       a_normal = 0, b_normal = 0,
+                                       a_wet = 0, b_wet = 0))
+
+```
+
+## site*weather
+```{r}
+nlme_model_interaction <- nlme(yield ~ a * nrate_kgha^b,
+                                data = cornn_data,
+                                fixed = a + b ~ site * weather, 
+                                random = a + b ~ 1 | site_year/block,
+                                start = c(a_A_dry = 1, b_A_dry = 0.5, 
+                                          a_B = 0, b_B = 0,
+                                          a_normal = 0, b_normal = 0,
+                                          a_wet = 0, b_wet = 0,
+                                          a_B_normal = 0, b_B_normal = 0,
+                                          a_B_wet = 0, b_B_wet = 0) )
+
+summary(nlme_model_interaction)
+coef(nlme_model_interaction)
+
+df_int <- broom.mixed::tidy(nlme_model_interaction)
+df_int
+```
+# Model selection
+## AIC:
+We can use the Akaike Information Criterion (AIC).
+```{r}
+# Get 
+AIC(nlme_model_ab, nlme_model_site, nlme_model_weather, nlme_model_interaction)
+
+```
+
+## AICc:
+
+When comparing different nonlinear models, it is essential to use an objective model selection criterion. One of the most commonly used criteria is the **Akaike Information Criterion (AIC)** and its corrected version **AICc**.
+
+**Why Use AICc Instead of AIC?**
+
+AIC is widely used for model comparison, but it has a known bias when applied to small sample sizes or when the number of parameters (`K`) is large relative to the sample size (`n`). **AICc** corrects for this bias by adding a small-sample penalty:
+
+$$
+AICc = AIC + \frac{2K(K+1)}{n-K-1}
+$$
+
+Where:
+
+**AIC** is the standard Akaike Information Criterion: $\(AIC = -2 \log L + 2K\)$ <br/>
+**K** is the number of estimated parameters <br/>
+**n** is the sample size <br/>
+
+Thus, when `n` is large, **AICc ≈ AIC**, but for small datasets, **AICc penalizes overfitting more effectively**.
+
+## Delta AICc and AICc Weights
+
+To compare models, we use **Delta AICc (ΔAICc)** and **AICc weights**:
+
+- **ΔAICc**: The difference between each model's AICc and the lowest AICc value.
+- A model with **ΔAICc = 0** is the **best** model.
+- Models with **ΔAICc < 2** have substantial support.
+- **ΔAICc > 10** means the model has little support.
+- **AICc weight (wAICc)**: Measures the **relative likelihood** of each model given the data.
+- A **higher weight** means the model is more likely to be the best model.
+- The weights sum to **1**, allowing for direct comparison of model likelihoods.
+
+## Using `AICcmodavg` in R
+```{r}
+# Run them separatedly
+
+AICcmodavg::AICc(nlme_model_ab)
+AICcmodavg::AICc(nlme_model_site)
+AICcmodavg::AICc(nlme_model_weather)
+AICcmodavg::AICc(nlme_model_interaction)
+```
+
+The `AICcmodavg` package provides functions for model selection:
+### Compare Models Using `aictab()`
+
+```{r}
+# Create a list of candidate models
+model_list <- list(simple = nlme_model_ab,
+                   site = nlme_model_site,
+                   weather = nlme_model_weather,
+                   interaction = nlme_model_interaction)
+
+# Model selection table
+model_selection <- AICcmodavg::aictab(cand.set = model_list, modnames = names(model_list))
+
+model_selection
+
+```
+
+This will output a table with:
+
+- **AICc** values for each model
+- **ΔAICc** (relative difference)
+- **AICc weights** (relative model support)
+
+## Conclusion
+
+- **AICc is preferred over AIC** when sample sizes are small.
+- **ΔAICc helps identify the best model** and evaluate model differences.
+- **AICc weights allow comparison** of model likelihoods.
+- The `AICcmodavg` package makes it easy to apply AICc-based model selection in R.
+
+By using AICc, we can objectively choose the best model while avoiding overfitting. 🚀
+
+# Visualization
+
+The estimated parameters $a$ and $b$ tell us how yield responds to nitrogen application. We can visualize the fitted models:
+
+```{r}
+# Create a new data frame for predictions
+# the function "expand.grid" is a great alternative to cross factor levels
+new_df <- expand.grid(nrate_kgha = seq(min(cornn_data$nrate_kgha), max(cornn_data$nrate_kgha), by=1),
+                      rep = unique(cornn_data$block),
+                      site = unique(cornn_data$site),
+                      weather = unique(cornn_data$weather))
+
+# Predictions for each model
+new_preds <- new_df %>% 
+  mutate(yield_nls = predict(nls_model, newdata = new_df, level = 0),
+         yield_nlme = predict(nlme_model_ab, newdata = new_df, level = 0),
+         yield_nlme_site = predict(nlme_model_site, newdata = new_df, level = 0),
+         yield_nlme_weather = predict(nlme_model_weather, newdata = new_df, level = 0),
+         yield_nlme_interaction = predict(nlme_model_interaction, newdata = new_df, level = 0) )
+
+# Global
+ggplot(cornn_data, aes(x = nrate_kgha, y = yield)) +
+  geom_point() +
+  geom_line(data = new_preds, aes(x = nrate_kgha, y = yield_nls, linetype = "nls"), 
+            color = "black", linewidth = 2) +
+  geom_line(data = new_preds, aes(x = nrate_kgha, y = yield_nlme, linetype = "nlme"), 
+            color = "red", linewidth = 2, linetype = "dotted") +
+  labs(title = "Nonlinear Regression Fit (nls or nlme)", 
+       x = "Nitrogen (kg/ha)", y = "Yield (kg/ha)") 
+  
+
+# Site
+ggplot(cornn_data, aes(x = nrate_kgha, y = yield, color = site, shape = site)) +
+  geom_point() +
+  geom_line(data = new_preds, aes(x = nrate_kgha, y = yield_nlme_site), 
+            color = "grey25", linewidth=1) +
+  labs(title = "Model by Site", x = "Nitrogen (kg/ha)", y = "Yield (kg/ha)")+
+  facet_wrap(~site)
+
+# Weather
+ggplot(cornn_data, aes(x = nrate_kgha, y = yield, color = weather, shape = weather)) +
+  geom_point() +
+  geom_line(data = new_preds, aes(x = nrate_kgha, y = yield_nlme_weather)) +
+  labs(title = "Model by Weather", x = "Nitrogen (kg/ha)", y = "Yield (kg/ha)")+
+  facet_wrap(~weather)
+
+# Interaction
+ggplot(cornn_data, aes(x = nrate_kgha, y = yield, color = weather, shape = site)) +
+  geom_point() +
+  geom_line(data = new_preds, aes(x = nrate_kgha, y = yield_nlme_interaction)) +
+  labs(title = "Model by Site*Weather", x = "Nitrogen (kg/ha)", y = "Yield (kg/ha)")+
+  facet_grid(site~weather) 
+
+```
+
+# Other alternatives
+Some packages try to help with the fitting of models that are used for specific field. For example, the `soiltestcorr` package is designed to help with the regression model fitting for relationships between relative yield and soil test values.
+## soiltestcorr
+```{r}
+# Example dataset
+soilfert_data <- soiltestcorr::data_test
+
+# Mitscherlich
+soiltestcorr::mitscherlich(data = soilfert_data, stv = STV, ry = RY, plot = F)
+soiltestcorr::mitscherlich(data = soilfert_data, stv = STV, ry = RY, plot = TRUE)
+
+# Modified Arcsine-log Calibration Curve
+soiltestcorr::mod_alcc(data = soilfert_data, stv = STV, ry = RY, target = 95, plot = F)
+soiltestcorr::mod_alcc(data = soilfert_data, stv = STV, ry = RY, target = 95, plot = TRUE)
+
+```
+
+### Shinyapp
+
+<iframe
+  src="https://ciampittilab.shinyapps.io/soiltestcorr/"
+  width="120%"
+  height="800"
+  style="border:0;"
+  loading="lazy"
+></iframe>
+
+### Bootstrapping
+Bootstrapping is a technique introduced in late 1970’s by Bradley Efron (Efron, 1979). It is a general purpose inferential approach that is useful for robust estimations, especially when the distribution of a statistic of quantity of interest is complicated or unknown (Faraway, 2014). It provides an alternative to perform confidence statements while relaxing the famous assumption of normality (Efron and Tibshirani, 1993). The underlying concept of bootstrapping is that the inference about a population parameter (e.g. a coefficient) or quantity can be modeled by “resampling” the available data.
+
+The soiltestcorr package has the option to automatically run bootstrapping for the above mentioned non-linear regression models. More info [here](https://adriancorrendo.github.io/soiltestcorr/articles/bootstrapping_tutorial.html)
+```{r}
+boot_models <- soiltestcorr::boot_mod_alcc(n=1000, data = soilfert_data, stv = STV, ry = RY, target = 95)
+
+# Plot
+boot_models %>% 
+  ggplot2::ggplot(aes(x = CSTV))+
+  geom_histogram(color = "grey25", fill = "steelblue", bins = 10)+
+  labs(x = "Critical Soil Test Value (CSTV)", y = "Frequency") +
+  scale_x_continuous(breaks = seq(25, 35, by = 1)) 
+```
+
+
+
+
+# Conclusion
+
+Non-linear regression allows for flexible modeling of relationships in agricultural data. The `nls()` function in R provides a simple way to estimate non-linear models, while `nlme()` extends this by incorporating random effects for better inference. Yet, these alternatives present challenges to achieve convergence of the models due to the lack of good starting values, or simply because the model doesn't fit the data very well. There are some packages that help with specific non-linear regression models. Always keep in mind that understanding the meaning of the coeffients of the models you are trying to fit will tremendously help.
