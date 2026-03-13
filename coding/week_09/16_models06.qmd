@@ -462,16 +462,7 @@ With only two variables, a scatter plot of the standardized variables usually co
 
 Let's do that:
 ```{r two_variable_scatter}
-# with ggfortify
-autoplot(pca_2,
-         data = two_vars,
-         colour = "blue",
-         shape = 16,
-         loadings = TRUE,
-         loadings.label = TRUE,
-         loadings.label.repel = TRUE )
 
-# But you can also do it with ggplot2 directly, which is often more flexible
 two_vars %>%
   mutate(yield_scaled = (yield_mg_ha - mean(yield_mg_ha)) / sd(yield_mg_ha),
          ndvi_scaled = (ndvi - mean(ndvi)) / sd(ndvi) ) %>%

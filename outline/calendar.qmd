@@ -48,8 +48,8 @@ The course runs on Wednesdays and Fridays from 1:00 PM to 2:20 PM. Below is the 
 |  | Feb 27 | Models III: Mixed Linear Models | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_07/13_models03.html) | [🎥](https://zoom.us/rec/share/WxE4td51j9F4AsYRYMEsqYXRR15IciFaCicDXCQpc5R6eVukjWkSWI1M8JoJTYZy.uqgHIe2b6a1ytEvu?startTime=1772209900000) |
 | 8 | Mar 04 | Models IV: Repeated Measures | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_08/14_models04.html) | [🎥](https://zoom.us/rec/share/XK5GNC9h0BX7G52bKpcncPGa_qsOZ35hBpBoDv8_veXOLa4Ky-A1jmIhaRFS9ziO.dtEQ2SBpYAJ7lm57?startTime=1772641861000) |
 |  | Mar 06 | Models V: TBD | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_08/15_models05.html) | [🎥](https://zoom.us/rec/share/TkH9C5bvW__uyqGozbsyExXhP-sXZ25QnJd6g0rkbUcklvQsg5-FSx1GHlrV0UPv.dMUpeTlUDxEM1iTC?startTime=1772814814000) |
-| 9 | Mar 11 | Models VI: TBD | 🌐 | 🎥 |
-|  | Mar 13 | Models VII: TBD | 🌐 | 🎥 |
+| 9 | Mar 11 | Models: Review I | 🌐 | 🎥 |
+|  | Mar 13 | Models VI: PCA | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_09/16_models06.html) | [🎥](https://zoom.us/rec/share/l8w5QaBVkxfoqCEtCzrVch-mPLaUNLcwYAOoo-sYkCL0go9O0Y4Zkr9_h4bVoY6G.bg_qfIAKLu7P-9Xd?startTime=1773416276000) |
 | 10 | Mar 18 | Models VIII: TBD | 🌐 | 🎥 |
 |  | Mar 20 | Models IX: TBD | 🌐 | 🎥 |
 | 11 | Mar 25 | Models X: TBD | 🌐 | 🎥 |
