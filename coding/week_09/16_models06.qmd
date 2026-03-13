@@ -1,0 +1,561 @@
+---
+title: "Principal Component Analysis (PCA)"
+author: "Dr. Adrian Correndo"
+date: "2026-03-13"
+categories: [multivariate analysis, PCA, tidyverse, ggplot2, reproducible workflow]
+format:
+  html:
+    toc: true
+    toc-location: left
+    toc-depth: 4
+    number-sections: true
+    table-class: "table table-striped table-hover"
+    code-fold: true
+    code-summary: 'Show code'
+    code-link: true
+editor: source
+execute:
+  echo: true
+  warning: false
+  message: false
+smooth-scroll: true
+link-citations: true
+bibliography: references.bib
+---
+
+**Overview**
+
+This class introduces **Principal Component Analysis (PCA)** as a practical tool for exploring multivariate agronomic datasets. The workflow is intentionally simple and reproducible: organize the data, prepare numeric variables, run PCA, tidy the outputs, and interpret the main patterns with clear visualizations. For accessible introductions to PCA concepts and interpretation, see @lever2017pca, @husson2017exploratory, and @borcard2018numerical.
+
+**Learning goals**
+
+- Understand what PCA does (and what it does not do)
+- Decide when PCA is appropriate
+- Run PCA in R using `prcomp()`
+- Tidy PCA outputs with `broom`
+- Build scree plots, score plots, and biplots in `ggplot2`
+- Recognize common pitfalls related to scaling, missing values, outliers, and low-dimensional data
+
+# Packages
+
+We start by loading the main packages used throughout the lesson. The goal is to keep the workflow tidy, readable, and easy to adapt later.
+
+```{r setup, warning=FALSE, message=FALSE}
+library(pacman)
+p_load(# data wrangling and tables
+  dplyr, tidyr, tibble, janitor,
+  # visualization
+  ggplot2, ggrepel, scales,
+  # summaries and tidy model outputs
+  skimr, broom,
+  # optional convenience for arrow units in the custom biplot
+  grid )
+```
+
+::: callout-note
+## Optional plotting packages
+These packages are convenient for quick PCA figures, but they are not required for the core lesson.
+
+```{r optional_packages, warning=FALSE, message=FALSE}
+p_load(factoextra, 
+       ggfortify,
+       FactoMineR)
+```
+:::
+
+::: callout-tip
+## Reproducibility tip
+Because we simulate a dataset below, we set a random seed so everyone gets the same results.
+:::
+
+```{r seed}
+set.seed(123)
+```
+
+# What is a PCA?
+
+A PCA is a linear transformation technique that reduces the dimensionality of a dataset while retaining as much variance as possible. It does this by finding *new axes* (principal components) that capture the most variation in the data.
+Thus, the PCA creates new variables called **principal components**, which are linear combinations of the original variables.
+
+- **PC1** captures the largest possible share of variation
+- **PC2** captures the next largest share, while remaining orthogonal to PC1
+- With *p* variables, PCA can produce up to *p* components
+
+In practice, a PCA helps summarize multivariate structure and can reveal gradients, clustering, and redundancy among variables [@lever2017pca; @james2021islr].
+
+# When to use PCA
+
+PCA is most useful when several numeric variables are measured on the same observations and some of those variables are correlated. It is often used for exploratory analysis and dimensionality reduction [@husson2017exploratory; @borcard2018numerical].
+
+Use PCA when you have:
+
+- Several **numeric** variables (often 4 or more)
+- Potential **correlation** among variables
+- An exploratory goal such as pattern detection or variable summarization
+
+Be cautious when:
+
+- You only have **2 variables**
+- Variables are on very different scales and are not standardized
+- Missing values, strong outliers, or nonlinear patterns dominate the dataset
+
+# Example dataset
+
+To illustrate the workflow, we create a synthetic agronomic dataset with variables related to yield, quality, canopy status, crop growth, and soil conditions. The relationships are not meant to be perfect, but they are realistic enough for teaching interpretation.
+
+```{r data}
+trial <- tibble(
+  site = rep(paste0("Site_", 1:4), each = 30),
+  hybrid = sample(paste0("H", 1:6), size = 120, replace = TRUE),
+  yield_mg_ha = rnorm(120, mean = 11.0, sd = 1.2),
+  protein_pct = rnorm(120, mean = 8.5, sd = 0.6),
+  oil_pct = rnorm(120, mean = 4.2, sd = 0.3),
+  ndvi = pmin(pmax(rnorm(120, mean = 0.78, sd = 0.06), 0.4), 0.95),
+  chlorophyll_spad = rnorm(120, mean = 47, sd = 4),
+  plant_height_cm = rnorm(120, mean = 245, sd = 18),
+  test_weight_kghl = rnorm(120, mean = 74, sd = 2.5),
+  harvest_moisture_pct = rnorm(120, mean = 18.5, sd = 2.0),
+  soil_no3_ppm = rgamma(120, shape = 8, rate = 0.25),
+  om_pct = rnorm(120, mean = 3.5, sd = 0.7),
+  ph = rnorm(120, mean = 6.6, sd = 0.35)
+) %>%
+  mutate(
+    yield_mg_ha = yield_mg_ha + 0.03 * soil_no3_ppm + 2.0 * (ndvi - mean(ndvi)) +
+      0.01 * (plant_height_cm - mean(plant_height_cm)),
+    protein_pct = protein_pct + 0.10 * (om_pct - mean(om_pct)) +
+      0.05 * (chlorophyll_spad - mean(chlorophyll_spad)) / sd(chlorophyll_spad),
+    oil_pct = oil_pct - 0.05 * (protein_pct - mean(protein_pct)),
+    test_weight_kghl = test_weight_kghl + 0.20 * (yield_mg_ha - mean(yield_mg_ha)),
+    harvest_moisture_pct = harvest_moisture_pct + 0.30 * (yield_mg_ha - mean(yield_mg_ha)),
+    ph = ph - 0.015 * (soil_no3_ppm - mean(soil_no3_ppm)) / sd(soil_no3_ppm)
+  )
+
+trial %>% glimpse()
+```
+
+Before running PCA, it is always worth checking the structure and basic distributions of the data.
+
+```{r skim}
+trial %>% skimr::skim()
+```
+
+# Prepare the data
+
+PCA requires numeric inputs. Here we separate numeric variables from identifier columns so we can use the identifiers later for plotting and interpretation.
+
+```{r select_numeric}
+trial_x <- trial %>%
+  select(where(is.numeric))
+
+trial_ids <- trial %>%
+  select(site, hybrid)
+
+trial_x %>% glimpse()
+```
+
+::: callout-note
+## Why scaling matters
+Our variables are measured in very different units (for example, ppm, %, cm, and index values). Because of that, we use **centering and scaling** so that each variable contributes on a standardized scale.
+
+- **Centering** subtracts the mean
+- **Scaling** divides by the standard deviation
+
+This is often called **correlation-based PCA** [@lever2017pca; @husson2017exploratory].
+:::
+
+# Fit the PCA
+
+Now we run PCA with `prcomp()`. For most agronomic teaching examples with mixed units, `center = TRUE` and `scale. = TRUE` are appropriate defaults because they place variables on a comparable scale [@husson2017exploratory; @borcard2018numerical].
+
+```{r pca_fit}
+pca_fit <- trial_x %>%
+  prcomp(center = TRUE, scale. = TRUE)
+```
+
+# Tidy the outputs
+
+A PCA object contains several useful pieces. We usually extract three of them: scores, loadings, and variance explained.
+
+## Scores
+
+Scores are the coordinates of each observation in the principal component space.
+
+```{r scores}
+scores <- broom::augment(pca_fit, data = trial_x) %>%
+  bind_cols(trial_ids) %>%
+  janitor::clean_names()
+
+scores %>%
+  select(site, hybrid, starts_with("fitted_pc")) %>%
+  glimpse()
+```
+
+## Loadings
+
+Loadings show how strongly each original variable contributes to each principal component.
+
+```{r loadings}
+loadings <- broom::tidy(pca_fit, matrix = "rotation") %>%
+  janitor::clean_names() %>%
+  rename(variable = column)
+
+loadings %>%
+  filter(pc %in% c(1, 2)) %>%
+  arrange(pc, desc(abs(value)))
+```
+
+## Variance explained
+
+This table helps us see how much information is captured by each principal component and by the cumulative set of components.
+
+```{r variance_table}
+var_explained <- tibble(
+  pc = paste0("PC", seq_along(pca_fit$sdev)),
+  sd = pca_fit$sdev,
+  var = sd^2,
+  prop_var = var / sum(var),
+  cum_prop_var = cumsum(prop_var)
+)
+
+var_explained
+```
+
+# Scree plot
+
+A scree plot shows the proportion of variance explained by each component. Adding the cumulative line makes it easier to judge how many components are worth discussing, although the cutoff remains a matter of interpretation rather than a strict rule [@james2021islr; @husson2017exploratory].
+
+```{r scree_plot, fig.width=8, fig.height=5}
+conv_factor <- 6
+
+var_explained %>%
+  # reorder PCs for plotting
+  mutate(pc = factor(pc, levels = pc)) %>%
+  ggplot(aes(x = pc, y = prop_var)) +
+  geom_col(aes(fill = pc)) +
+  geom_text(
+    aes(label = scales::percent(prop_var, accuracy = 1)),
+    vjust = -0.5,
+    size = 3
+  ) +
+  geom_point(aes(y = cum_prop_var / conv_factor, group = 1)) +
+  geom_line(aes(y = cum_prop_var / conv_factor, group = 1)) +
+  geom_text(
+    aes(
+      y = cum_prop_var / conv_factor,
+      label = scales::percent(cum_prop_var, accuracy = 1)
+    ),
+    vjust = -1,
+    size = 3
+  ) +
+  scale_y_continuous(
+    labels = scales::percent_format(accuracy = 1),
+    sec.axis = sec_axis(
+      ~ . * conv_factor,
+      labels = scales::percent_format(accuracy = 1),
+      name = "Cumulative variance (%)"
+    )
+  ) +
+  labs(
+    title = "Scree plot",
+    x = NULL,
+    y = "Explained variance (%)"
+  ) +
+  theme_classic() +
+  theme(legend.position = "none")
+```
+
+::: callout-tip
+## Interpreting the scree plot
+A 2D PCA plot can still be useful even when PC1 and PC2 do not explain most of the variance. But if their combined share is low, interpretation should stay modest.
+:::
+
+# Score plot
+
+The score plot places observations in the reduced PCA space. This is often the easiest way to inspect whether sites, hybrids, or treatments tend to separate.
+
+```{r score_plot, fig.width=7, fig.height=5}
+scores %>%
+  ggplot(aes(x = fitted_pc1, y = fitted_pc2, color = site, shape = site)) +
+  geom_point(alpha = 0.75, size = 2.5) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "gray50") +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "gray50") +
+  labs(
+    title = "Score plot",
+    x = "PC1 score",
+    y = "PC2 score"
+  ) +
+  theme_classic() +
+  theme(legend.position = "right")
+```
+
+# Biplot
+
+A biplot combines observation scores and variable loadings in the same figure. This makes it possible to inspect both multivariate grouping and variable directions at once.
+
+Because scores and loadings are on different scales, we rescale the arrows before plotting.
+
+```{r biplot_prep}
+loadings_12 <- loadings %>%
+  filter(pc %in% c(1, 2)) %>%
+  select(variable, pc, value) %>%
+  pivot_wider(names_from = pc, values_from = value) %>%
+  rename(loading_pc1 = `1`, loading_pc2 = `2`)
+
+arrow_scale <- scores %>%
+  summarise(
+    scale = min(
+      (max(fitted_pc1) - min(fitted_pc1)) / (max(abs(loadings_12$loading_pc1)) * 2),
+      (max(fitted_pc2) - min(fitted_pc2)) / (max(abs(loadings_12$loading_pc2)) * 2)
+    )
+  ) %>%
+  pull(scale)
+
+arrow_scale
+```
+
+```{r biplot, fig.width=8, fig.height=6}
+scores %>%
+  ggplot(aes(x = fitted_pc1, y = fitted_pc2)) +
+  geom_point(aes(color = site, shape = site), alpha = 0.75, size = 2.5) +
+  geom_segment(
+    data = loadings_12,
+    aes(
+      x = 0, y = 0,
+      xend = loading_pc1 * arrow_scale,
+      yend = loading_pc2 * arrow_scale
+    ),
+    inherit.aes = FALSE,
+    linewidth = 0.7,
+    arrow = arrow(length = unit(0.02, "npc"))
+  ) +
+  ggrepel::geom_text_repel(
+    data = loadings_12,
+    aes(
+      x = loading_pc1 * arrow_scale,
+      y = loading_pc2 * arrow_scale,
+      label = variable
+    ),
+    inherit.aes = FALSE,
+    size = 4
+  ) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "gray50") +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "gray50") +
+  labs(
+    title = "PCA biplot",
+    x = "PC1",
+    y = "PC2"
+  ) +
+  theme_classic() +
+  theme(legend.position = "right")
+```
+
+# Quick alternatives
+
+The next examples show how other packages can complement `prcomp()`. They are useful for quick diagnostics, comparison across tools, and to visualize that the same PCA can be implemented in slightly different ways.
+
+The next two options are useful shortcuts for labs and reports. The custom `ggplot2` route remains helpful for understanding the mechanics of PCA, while `FactoMineR` and related tools show how the same ideas appear in other common multivariate workflows.
+
+## `FactoMineR` + `factoextra`
+
+`FactoMineR` provides an alternative PCA workflow, and `factoextra` offers convenient plotting functions for both `FactoMineR` and `prcomp()` objects. This is useful to show students because many applied papers and tutorials rely on these packages.
+
+```{r factoextra_plots, eval=TRUE, warning=FALSE, message=FALSE}
+
+# FactoMineR can use qualitative variables as supplementary information
+pca_fm <- PCA(trial, quanti.sup = NULL, quali.sup = 1:2, graph = FALSE)
+
+# Scree plot
+fviz_eig(pca_fm, addlabels = TRUE)
+
+# Individuals (scores), colored by the supplementary variable "site"
+fviz_pca_ind(
+  X = pca_fm,
+  geom.ind = "point",
+  habillage = "site",
+  addEllipses = TRUE,
+  repel = TRUE
+)
+
+# Variables (loadings)
+fviz_pca_var(
+  X = pca_fm,
+  col.var = "contrib",
+  repel = TRUE
+)
+
+# Biplot (scores + loadings)
+fviz_pca_biplot(
+  X = pca_fm, # this can also be done with the prcomp object, but we already have the PCA from FactoMineR
+  habillage = "site", # coloring individuals by "site" can help reveal group patterns
+  addEllipses = FALSE, # ellipses can be added for groups, but they can also make the figure busier
+  repel = TRUE, # this is often needed to avoid label overlap, but it can be turned off for a more compact figure
+  geom = "point"
+)
+```
+
+## `ggfortify`
+
+```{r ggfortify_plot, eval=TRUE}
+library(ggfortify)
+
+autoplot(
+  pca_fit,
+  data = trial,
+  colour = "site",
+  shape = "hybrid",
+  loadings = TRUE,
+  loadings.label = TRUE,
+  loadings.label.repel = TRUE
+) +
+  labs(
+    title = "Biplot with ggfortify",
+    x = "PC1",
+    y = "PC2"
+  ) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "gray50") +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "gray50") +
+  theme_classic()
+```
+
+# Reading the biplot
+
+When interpreting a biplot, focus on a few simple principles.
+
+**Points (scores)** <br/>
+- Points close together have similar multivariate profiles <br/>
+- Separation along PC1 reflects differences on the first major gradient <br/>
+- Separation along PC2 reflects differences on the second major gradient <br/>
+
+**Arrows (loadings)** <br/>
+- Longer arrows indicate variables that are better represented in the PC1-PC2 plane <br/>
+- Arrows pointing in similar directions suggest positive association <br/>
+- Arrows pointing in opposite directions suggest negative association <br/>
+- Roughly perpendicular arrows suggest weak association in that plane <br/>
+
+Interpretation should always be tied to the variables included and to the scaling decision [@lever2017pca; @borcard2018numerical].
+
+# The 2-variable trap
+
+A common misunderstanding appears when PCA is run on only two variables. In that case, the two principal components necessarily span the full two-dimensional space, so the total variance explained by PC1 and PC2 is always 100%.
+
+That does **NOT** mean the PCA is unusually strong. It just means no dimension reduction happened, which is exactly why PCA is usually more informative when more variables are involved [@lever2017pca].
+
+Let's see an example:
+
+```{r two_variable_demo}
+two_vars <- trial %>%
+  select(yield_mg_ha, ndvi)
+
+pca_2 <- two_vars %>%
+  prcomp(center = TRUE, scale. = TRUE)
+
+tibble(
+  pc = paste0("PC", seq_along(pca_2$sdev)),
+  prop_var = (pca_2$sdev^2) / sum(pca_2$sdev^2)
+) %>%
+  mutate(prop_var = scales::percent(prop_var, accuracy = 0.1))
+```
+
+::: callout-important
+## Teaching point
+With only two variables, a scatter plot of the standardized variables usually communicates the same idea more directly than a PCA figure.
+
+Let's do that:
+```{r two_variable_scatter}
+# with ggfortify
+autoplot(pca_2,
+         data = two_vars,
+         colour = "blue",
+         shape = 16,
+         loadings = TRUE,
+         loadings.label = TRUE,
+         loadings.label.repel = TRUE )
+
+# But you can also do it with ggplot2 directly, which is often more flexible
+two_vars %>%
+  mutate(yield_scaled = (yield_mg_ha - mean(yield_mg_ha)) / sd(yield_mg_ha),
+         ndvi_scaled = (ndvi - mean(ndvi)) / sd(ndvi) ) %>%
+  ggplot(aes(x = yield_scaled, y = ndvi_scaled)) +
+  geom_point(alpha = 0.75, color = "blue") +
+  labs(title = "Scatter plot of two standardized variables",
+    x = "Yield (standardized)",
+    y = "NDVI (standardized)" ) +
+  theme_classic()
+
+# same plot 
+
+```
+
+:::
+
+# Optional preprocessing with `recipes`
+
+The `recipes` package provides a structured preprocessing workflow for standardization and PCA within the tidymodels ecosystem.
+
+```{r recipes_example, eval=FALSE}
+library(recipes)
+
+rec <- recipe(~ ., data = trial_x) %>%
+  step_normalize(all_predictors()) %>%
+  step_pca(all_predictors(), num_comp = 3)
+
+rec_prep <- prep(rec)
+pca_scores <- bake(rec_prep, new_data = NULL)
+pca_loadings <- tidy(rec_prep, number = 2)
+```
+
+# Common pitfalls
+
+::: panel-tabset
+## Scaling
+- If variables are in different units, standardization is usually necessary
+- Always state whether the PCA was based on centered data only or centered and scaled data
+
+## Missing values
+- `prcomp()` does not allow missing values
+- You must remove incomplete rows, impute, or use another method
+
+## Outliers
+- PCA can be strongly influenced by extreme observations
+- Inspect distributions before interpreting components too confidently
+
+## Over-interpretation
+- Principal components are linear combinations, not causal mechanisms
+- Use PCA for exploration, then follow up with targeted analyses
+:::
+
+# Exercises
+
+1. Refit the PCA with `scale. = FALSE`. How do the loadings and scree plot change?
+2. Remove one variable such as `ndvi` or `soil_no3_ppm`. Does the interpretation of PC1 change?
+3. Color the score plot by `hybrid` instead of `site`. Do you see a different pattern?
+4. Compare the custom `ggplot2` biplot with the `factoextra` and `ggfortify` versions.
+
+# Wrap-up
+
+PCA is a useful exploratory tool for summarizing multivariate data, especially when many variables are correlated. A good workflow is to:
+
+- select the relevant numeric variables
+- decide whether scaling is needed
+- fit PCA with `prcomp()`
+- extract scores, loadings, and variance explained
+- interpret the results with caution and context
+
+Used well, PCA can simplify a complex dataset without hiding the importance of agronomic judgment.
+
+# Resources
+
+A few especially useful starting points are: 
+
+- A conceptual overview by @lever2017pca, 
+- An applied multivariate treatment in @husson2017exploratory, and 
+- The more general data-analysis context in @james2021islr (THIS IS THE BOOK for learning STATS!!) and @borcard2018numerical.
+
+## R documentation
+Remember you can always check the documentation to understand the functions and their arguments. Some of the key ones today:
+
+- `?prcomp`
+- `?broom::augment`
+- `?broom::tidy`
+- `?factoextra::fviz_pca_biplot`
+

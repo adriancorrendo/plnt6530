@@ -1,0 +1,2107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="Dr.&nbsp;Adrian Correndo">
+<meta name="dcterms.date" content="2026-03-13">
+<title>Principal Component Analysis (PCA) – PLNT6530 - Winter 2026</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../coding/quarto/quarto.html" rel="next">
+<link href="../../coding/week_08/15_models05.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-f2a1071e85750ec973bbb8a8f120da0f.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-f2a1071e85750ec973bbb8a8f120da0f.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-336ca817ef159df84c7e018e0d356059.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-5ccce6f18d703cb4568c738a25a74289.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><style>html{ scroll-behavior: smooth; }</style>
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="Principal Component Analysis (PCA) – PLNT6530 - Winter 2026">
+<meta property="og:description" content="Reproducible Data Science for Agriculture">
+<meta property="og:image" content="https://adriancorrendo.github.io/coding/week_09/16_models06_files/figure-html/scree_plot-1.png">
+<meta property="og:site_name" content="PLNT6530 - Winter 2026">
+<meta property="og:image:height" content="960">
+<meta property="og:image:width" content="1536">
+<meta name="twitter:title" content="Principal Component Analysis (PCA) – PLNT6530 - Winter 2026">
+<meta name="twitter:description" content="Reproducible Data Science for Agriculture">
+<meta name="twitter:image" content="https://adriancorrendo.github.io/coding/week_09/16_models06_files/figure-html/scree_plot-1.png">
+<meta name="twitter:creator" content="@aacorrendo">
+<meta name="twitter:image-height" content="960">
+<meta name="twitter:image-width" content="1536">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">PLNT6530 - Winter 2026</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item compact">
+    <a class="nav-link" href="https://adriancorrendo.github.io/"> <i class="bi bi-globe" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/adriancorrendo/plnt6530/"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/aacorrendo"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/adriancorrendo/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+</div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../coding/week_01/essentials_01.html">Lessons</a></li><li class="breadcrumb-item"><a href="../../coding/week_09/16_models06.html">16-Models VI</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="../../index.html" class="sidebar-logo-link">
+      <img src="../../images/2026_logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
+      <div class="sidebar-tools-main">
+    <a href="https://github.com/adriancorrendo/" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+</div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Slides</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../slides/day1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reproducibility</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Software</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../software/software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instructions</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Lessons</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_01/essentials_01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">01-Essentials of R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_02/02_fundamentals_rpackages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">02-Fundamentals of packages</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_02/03_versioncontrol.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">03-Git &amp; GitHub</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_03/04_datawrangling_01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">04-Data Wrangling I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_03/05_datawrangling_02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">05-Data Wrangling II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_04/06_datawrangling_03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">06-Data Wrangling III</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_04/07_ggplot2_01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">07-Data Viz I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_05/08_ggplot2_adv.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">08-Data Viz II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_05/09_ggplot2_plus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">09-Data Viz III</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_06/10_iteration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">10-Iteration</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_06/11_models01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">11-Models I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_07/12_models02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">12-Models II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_07/13_models03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">13-Models III</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_08/14_models04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">14-Models IV</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_08/15_models05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">15-Models V</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_09/16_models06.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">16-Models VI</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Extras</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/quarto/quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Quarto Basics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/pipe_operator.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pipe Ops</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/read_tabular.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Read Tabular Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/fair_care.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fair &amp; Care</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/p_value.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">p-value</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/weather_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weather data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/shinyapps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Shinyapps in R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/outliers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Outliers</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Semester Project</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../project/project_documentation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Project documentation</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Calendar</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../outline/calendar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Schedule</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Course Outline</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../outline/outline.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Outline</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+    </ul>
+</div>
+    <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Content</h2>
+   
+  <ul>
+<li><a href="#packages" id="toc-packages" class="nav-link active" data-scroll-target="#packages"><span class="header-section-number">1</span> Packages</a></li>
+  <li><a href="#what-is-a-pca" id="toc-what-is-a-pca" class="nav-link" data-scroll-target="#what-is-a-pca"><span class="header-section-number">2</span> What is a PCA?</a></li>
+  <li><a href="#when-to-use-pca" id="toc-when-to-use-pca" class="nav-link" data-scroll-target="#when-to-use-pca"><span class="header-section-number">3</span> When to use PCA</a></li>
+  <li><a href="#example-dataset" id="toc-example-dataset" class="nav-link" data-scroll-target="#example-dataset"><span class="header-section-number">4</span> Example dataset</a></li>
+  <li><a href="#prepare-the-data" id="toc-prepare-the-data" class="nav-link" data-scroll-target="#prepare-the-data"><span class="header-section-number">5</span> Prepare the data</a></li>
+  <li><a href="#fit-the-pca" id="toc-fit-the-pca" class="nav-link" data-scroll-target="#fit-the-pca"><span class="header-section-number">6</span> Fit the PCA</a></li>
+  <li>
+<a href="#tidy-the-outputs" id="toc-tidy-the-outputs" class="nav-link" data-scroll-target="#tidy-the-outputs"><span class="header-section-number">7</span> Tidy the outputs</a>
+  <ul>
+<li><a href="#scores" id="toc-scores" class="nav-link" data-scroll-target="#scores"><span class="header-section-number">7.1</span> Scores</a></li>
+  <li><a href="#loadings" id="toc-loadings" class="nav-link" data-scroll-target="#loadings"><span class="header-section-number">7.2</span> Loadings</a></li>
+  <li><a href="#variance-explained" id="toc-variance-explained" class="nav-link" data-scroll-target="#variance-explained"><span class="header-section-number">7.3</span> Variance explained</a></li>
+  </ul>
+</li>
+  <li><a href="#scree-plot" id="toc-scree-plot" class="nav-link" data-scroll-target="#scree-plot"><span class="header-section-number">8</span> Scree plot</a></li>
+  <li><a href="#score-plot" id="toc-score-plot" class="nav-link" data-scroll-target="#score-plot"><span class="header-section-number">9</span> Score plot</a></li>
+  <li><a href="#biplot" id="toc-biplot" class="nav-link" data-scroll-target="#biplot"><span class="header-section-number">10</span> Biplot</a></li>
+  <li>
+<a href="#quick-alternatives" id="toc-quick-alternatives" class="nav-link" data-scroll-target="#quick-alternatives"><span class="header-section-number">11</span> Quick alternatives</a>
+  <ul>
+<li><a href="#factominer-factoextra" id="toc-factominer-factoextra" class="nav-link" data-scroll-target="#factominer-factoextra"><span class="header-section-number">11.1</span> <code>FactoMineR</code> + <code>factoextra</code></a></li>
+  <li><a href="#ggfortify" id="toc-ggfortify" class="nav-link" data-scroll-target="#ggfortify"><span class="header-section-number">11.2</span> <code>ggfortify</code></a></li>
+  </ul>
+</li>
+  <li><a href="#reading-the-biplot" id="toc-reading-the-biplot" class="nav-link" data-scroll-target="#reading-the-biplot"><span class="header-section-number">12</span> Reading the biplot</a></li>
+  <li><a href="#the-2-variable-trap" id="toc-the-2-variable-trap" class="nav-link" data-scroll-target="#the-2-variable-trap"><span class="header-section-number">13</span> The 2-variable trap</a></li>
+  <li><a href="#optional-preprocessing-with-recipes" id="toc-optional-preprocessing-with-recipes" class="nav-link" data-scroll-target="#optional-preprocessing-with-recipes"><span class="header-section-number">14</span> Optional preprocessing with <code>recipes</code></a></li>
+  <li><a href="#common-pitfalls" id="toc-common-pitfalls" class="nav-link" data-scroll-target="#common-pitfalls"><span class="header-section-number">15</span> Common pitfalls</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">16</span> Exercises</a></li>
+  <li><a href="#wrap-up" id="toc-wrap-up" class="nav-link" data-scroll-target="#wrap-up"><span class="header-section-number">17</span> Wrap-up</a></li>
+  <li>
+<a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources"><span class="header-section-number">18</span> Resources</a>
+  <ul>
+<li><a href="#r-documentation" id="toc-r-documentation" class="nav-link" data-scroll-target="#r-documentation"><span class="header-section-number">18.1</span> R documentation</a></li>
+  </ul>
+</li>
+  </ul></nav>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../coding/week_01/essentials_01.html">Lessons</a></li><li class="breadcrumb-item"><a href="../../coding/week_09/16_models06.html">16-Models VI</a></li></ol></nav><div class="quarto-title">
+<h1 class="title">Principal Component Analysis (PCA)</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">multivariate analysis</div>
+    <div class="quarto-category">PCA</div>
+    <div class="quarto-category">tidyverse</div>
+    <div class="quarto-category">ggplot2</div>
+    <div class="quarto-category">reproducible workflow</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr.&nbsp;Adrian Correndo </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 13, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header><p><strong>Overview</strong></p>
+<p>This class introduces <strong>Principal Component Analysis (PCA)</strong> as a practical tool for exploring multivariate agronomic datasets. The workflow is intentionally simple and reproducible: organize the data, prepare numeric variables, run PCA, tidy the outputs, and interpret the main patterns with clear visualizations. For accessible introductions to PCA concepts and interpretation, see <span class="citation" data-cites="lever2017pca">Lever, Krzywinski, and Altman (<a href="#ref-lever2017pca" role="doc-biblioref">2017</a>)</span>, <span class="citation" data-cites="husson2017exploratory">Husson, Lê, and Pagès (<a href="#ref-husson2017exploratory" role="doc-biblioref">2017</a>)</span>, and <span class="citation" data-cites="borcard2018numerical">Borcard, Gillet, and Legendre (<a href="#ref-borcard2018numerical" role="doc-biblioref">2018</a>)</span>.</p>
+<p><strong>Learning goals</strong></p>
+<ul>
+<li>Understand what PCA does (and what it does not do)</li>
+<li>Decide when PCA is appropriate</li>
+<li>Run PCA in R using <code><a href="https://rdrr.io/r/stats/prcomp.html">prcomp()</a></code>
+</li>
+<li>Tidy PCA outputs with <code>broom</code>
+</li>
+<li>Build scree plots, score plots, and biplots in <code>ggplot2</code>
+</li>
+<li>Recognize common pitfalls related to scaling, missing values, outliers, and low-dimensional data</li>
+</ul>
+<section id="packages" class="level1" data-number="1"><h1 data-number="1">
+<span class="header-section-number">1</span> Packages</h1>
+<p>We start by loading the main packages used throughout the lesson. The goal is to keep the workflow tidy, readable, and easy to adapt later.</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/trinker/pacman">pacman</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="co"># data wrangling and tables</span></span>
+<span>  <span class="va">dplyr</span>, <span class="va">tidyr</span>, <span class="va">tibble</span>, <span class="va">janitor</span>,</span>
+<span>  <span class="co"># visualization</span></span>
+<span>  <span class="va">ggplot2</span>, <span class="va">ggrepel</span>, <span class="va">scales</span>,</span>
+<span>  <span class="co"># summaries and tidy model outputs</span></span>
+<span>  <span class="va">skimr</span>, <span class="va">broom</span>,</span>
+<span>  <span class="co"># optional convenience for arrow units in the custom biplot</span></span>
+<span>  <span class="va">grid</span> <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Optional plotting packages
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>These packages are convenient for quick PCA figures, but they are not required for the core lesson.</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/pacman/man/p_load.html">p_load</a></span><span class="op">(</span><span class="va">factoextra</span>, </span>
+<span>       <span class="va">ggfortify</span>,</span>
+<span>       <span class="va">FactoMineR</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Reproducibility tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Because we simulate a dataset below, we set a random seed so everyone gets the same results.</p>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section><section id="what-is-a-pca" class="level1" data-number="2"><h1 data-number="2">
+<span class="header-section-number">2</span> What is a PCA?</h1>
+<p>A PCA is a linear transformation technique that reduces the dimensionality of a dataset while retaining as much variance as possible. It does this by finding <em>new axes</em> (principal components) that capture the most variation in the data. Thus, the PCA creates new variables called <strong>principal components</strong>, which are linear combinations of the original variables.</p>
+<ul>
+<li>
+<strong>PC1</strong> captures the largest possible share of variation</li>
+<li>
+<strong>PC2</strong> captures the next largest share, while remaining orthogonal to PC1</li>
+<li>With <em>p</em> variables, PCA can produce up to <em>p</em> components</li>
+</ul>
+<p>In practice, a PCA helps summarize multivariate structure and can reveal gradients, clustering, and redundancy among variables <span class="citation" data-cites="lever2017pca james2021islr">(<a href="#ref-lever2017pca" role="doc-biblioref">Lever, Krzywinski, and Altman 2017</a>; <a href="#ref-james2021islr" role="doc-biblioref">James et al. 2021</a>)</span>.</p>
+</section><section id="when-to-use-pca" class="level1" data-number="3"><h1 data-number="3">
+<span class="header-section-number">3</span> When to use PCA</h1>
+<p>PCA is most useful when several numeric variables are measured on the same observations and some of those variables are correlated. It is often used for exploratory analysis and dimensionality reduction <span class="citation" data-cites="husson2017exploratory borcard2018numerical">(<a href="#ref-husson2017exploratory" role="doc-biblioref">Husson, Lê, and Pagès 2017</a>; <a href="#ref-borcard2018numerical" role="doc-biblioref">Borcard, Gillet, and Legendre 2018</a>)</span>.</p>
+<p>Use PCA when you have:</p>
+<ul>
+<li>Several <strong>numeric</strong> variables (often 4 or more)</li>
+<li>Potential <strong>correlation</strong> among variables</li>
+<li>An exploratory goal such as pattern detection or variable summarization</li>
+</ul>
+<p>Be cautious when:</p>
+<ul>
+<li>You only have <strong>2 variables</strong>
+</li>
+<li>Variables are on very different scales and are not standardized</li>
+<li>Missing values, strong outliers, or nonlinear patterns dominate the dataset</li>
+</ul></section><section id="example-dataset" class="level1" data-number="4"><h1 data-number="4">
+<span class="header-section-number">4</span> Example dataset</h1>
+<p>To illustrate the workflow, we create a synthetic agronomic dataset with variables related to yield, quality, canopy status, crop growth, and soil conditions. The relationships are not meant to be perfect, but they are realistic enough for teaching interpretation.</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">trial</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span></span>
+<span>  site <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Site_"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">30</span><span class="op">)</span>,</span>
+<span>  hybrid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"H"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">120</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  yield_mg_ha <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">120</span>, mean <span class="op">=</span> <span class="fl">11.0</span>, sd <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span>,</span>
+<span>  protein_pct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">120</span>, mean <span class="op">=</span> <span class="fl">8.5</span>, sd <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span>,</span>
+<span>  oil_pct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">120</span>, mean <span class="op">=</span> <span class="fl">4.2</span>, sd <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span>,</span>
+<span>  ndvi <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">pmin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">pmax</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">120</span>, mean <span class="op">=</span> <span class="fl">0.78</span>, sd <span class="op">=</span> <span class="fl">0.06</span><span class="op">)</span>, <span class="fl">0.4</span><span class="op">)</span>, <span class="fl">0.95</span><span class="op">)</span>,</span>
+<span>  chlorophyll_spad <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">120</span>, mean <span class="op">=</span> <span class="fl">47</span>, sd <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>,</span>
+<span>  plant_height_cm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">120</span>, mean <span class="op">=</span> <span class="fl">245</span>, sd <span class="op">=</span> <span class="fl">18</span><span class="op">)</span>,</span>
+<span>  test_weight_kghl <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">120</span>, mean <span class="op">=</span> <span class="fl">74</span>, sd <span class="op">=</span> <span class="fl">2.5</span><span class="op">)</span>,</span>
+<span>  harvest_moisture_pct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">120</span>, mean <span class="op">=</span> <span class="fl">18.5</span>, sd <span class="op">=</span> <span class="fl">2.0</span><span class="op">)</span>,</span>
+<span>  soil_no3_ppm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/GammaDist.html">rgamma</a></span><span class="op">(</span><span class="fl">120</span>, shape <span class="op">=</span> <span class="fl">8</span>, rate <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span>,</span>
+<span>  om_pct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">120</span>, mean <span class="op">=</span> <span class="fl">3.5</span>, sd <span class="op">=</span> <span class="fl">0.7</span><span class="op">)</span>,</span>
+<span>  ph <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">120</span>, mean <span class="op">=</span> <span class="fl">6.6</span>, sd <span class="op">=</span> <span class="fl">0.35</span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<span>    yield_mg_ha <span class="op">=</span> <span class="va">yield_mg_ha</span> <span class="op">+</span> <span class="fl">0.03</span> <span class="op">*</span> <span class="va">soil_no3_ppm</span> <span class="op">+</span> <span class="fl">2.0</span> <span class="op">*</span> <span class="op">(</span><span class="va">ndvi</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">ndvi</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fl">0.01</span> <span class="op">*</span> <span class="op">(</span><span class="va">plant_height_cm</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">plant_height_cm</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    protein_pct <span class="op">=</span> <span class="va">protein_pct</span> <span class="op">+</span> <span class="fl">0.10</span> <span class="op">*</span> <span class="op">(</span><span class="va">om_pct</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">om_pct</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>      <span class="fl">0.05</span> <span class="op">*</span> <span class="op">(</span><span class="va">chlorophyll_spad</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">chlorophyll_spad</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">chlorophyll_spad</span><span class="op">)</span>,</span>
+<span>    oil_pct <span class="op">=</span> <span class="va">oil_pct</span> <span class="op">-</span> <span class="fl">0.05</span> <span class="op">*</span> <span class="op">(</span><span class="va">protein_pct</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">protein_pct</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    test_weight_kghl <span class="op">=</span> <span class="va">test_weight_kghl</span> <span class="op">+</span> <span class="fl">0.20</span> <span class="op">*</span> <span class="op">(</span><span class="va">yield_mg_ha</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">yield_mg_ha</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    harvest_moisture_pct <span class="op">=</span> <span class="va">harvest_moisture_pct</span> <span class="op">+</span> <span class="fl">0.30</span> <span class="op">*</span> <span class="op">(</span><span class="va">yield_mg_ha</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">yield_mg_ha</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    ph <span class="op">=</span> <span class="va">ph</span> <span class="op">-</span> <span class="fl">0.015</span> <span class="op">*</span> <span class="op">(</span><span class="va">soil_no3_ppm</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">soil_no3_ppm</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">soil_no3_ppm</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="va">trial</span> <span class="op">%&gt;%</span> <span class="fu">glimpse</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>Rows: 120
+Columns: 13
+$ site                 &lt;chr&gt; "Site_1", "Site_1", "Site_1", "Site_1", "Site_1",…
+$ hybrid               &lt;chr&gt; "H3", "H6", "H3", "H2", "H2", "H6", "H3", "H5", "…
+$ yield_mg_ha          &lt;dbl&gt; 12.77993, 11.35051, 13.38045, 11.19544, 11.83949,…
+$ protein_pct          &lt;dbl&gt; 9.294304, 8.327702, 8.905811, 8.236639, 8.073834,…
+$ oil_pct              &lt;dbl&gt; 4.528044, 3.809309, 4.380282, 4.058621, 4.428758,…
+$ ndvi                 &lt;dbl&gt; 0.8072862, 0.8195942, 0.7680066, 0.7412932, 0.789…
+$ chlorophyll_spad     &lt;dbl&gt; 49.31489, 42.64968, 52.93612, 42.25517, 47.40432,…
+$ plant_height_cm      &lt;dbl&gt; 262.6780, 231.9071, 227.0569, 226.2496, 237.5374,…
+$ test_weight_kghl     &lt;dbl&gt; 72.53262, 76.02976, 77.18008, 74.55143, 74.34981,…
+$ harvest_moisture_pct &lt;dbl&gt; 18.34216, 18.26456, 19.67665, 19.62144, 21.11997,…
+$ soil_no3_ppm         &lt;dbl&gt; 37.00722, 29.03372, 61.15285, 24.96396, 17.33702,…
+$ om_pct               &lt;dbl&gt; 3.157676, 3.784136, 3.438675, 3.817635, 1.922027,…
+$ ph                   &lt;dbl&gt; 6.884339, 6.377122, 6.044983, 7.019542, 5.820475,…</code></pre>
+</div>
+</div>
+<p>Before running PCA, it is always worth checking the structure and basic distributions of the data.</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">trial</span> <span class="op">%&gt;%</span> <span class="fu">skimr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/skimr/reference/skim.html">skim</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Name</td>
+<td style="text-align: left;">Piped data</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Number of rows</td>
+<td style="text-align: left;">120</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Number of columns</td>
+<td style="text-align: left;">13</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">_______________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Column type frequency:</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">11</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">________________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Group variables</td>
+<td style="text-align: left;">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: character</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 13%">
+<col style="width: 19%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 8%">
+<col style="width: 12%">
+<col style="width: 15%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">min</th>
+<th style="text-align: right;">max</th>
+<th style="text-align: right;">empty</th>
+<th style="text-align: right;">n_unique</th>
+<th style="text-align: right;">whitespace</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">site</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hybrid</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 10%">
+<col style="width: 14%">
+<col style="width: 7%">
+<col style="width: 6%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 6%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">p0</th>
+<th style="text-align: right;">p25</th>
+<th style="text-align: right;">p50</th>
+<th style="text-align: right;">p75</th>
+<th style="text-align: right;">p100</th>
+<th style="text-align: left;">hist</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">yield_mg_ha</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">11.89</td>
+<td style="text-align: right;">1.25</td>
+<td style="text-align: right;">9.33</td>
+<td style="text-align: right;">11.14</td>
+<td style="text-align: right;">11.66</td>
+<td style="text-align: right;">12.65</td>
+<td style="text-align: right;">15.16</td>
+<td style="text-align: left;">▂▇▆▃▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">protein_pct</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">8.55</td>
+<td style="text-align: right;">0.59</td>
+<td style="text-align: right;">7.36</td>
+<td style="text-align: right;">8.11</td>
+<td style="text-align: right;">8.49</td>
+<td style="text-align: right;">8.98</td>
+<td style="text-align: right;">9.85</td>
+<td style="text-align: left;">▃▇▇▅▃</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">oil_pct</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4.19</td>
+<td style="text-align: right;">0.31</td>
+<td style="text-align: right;">3.41</td>
+<td style="text-align: right;">4.00</td>
+<td style="text-align: right;">4.21</td>
+<td style="text-align: right;">4.39</td>
+<td style="text-align: right;">4.99</td>
+<td style="text-align: left;">▂▃▇▅▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ndvi</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.79</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">0.62</td>
+<td style="text-align: right;">0.75</td>
+<td style="text-align: right;">0.79</td>
+<td style="text-align: right;">0.83</td>
+<td style="text-align: right;">0.93</td>
+<td style="text-align: left;">▁▃▇▆▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">chlorophyll_spad</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">46.45</td>
+<td style="text-align: right;">4.03</td>
+<td style="text-align: right;">35.76</td>
+<td style="text-align: right;">43.65</td>
+<td style="text-align: right;">46.89</td>
+<td style="text-align: right;">49.32</td>
+<td style="text-align: right;">55.35</td>
+<td style="text-align: left;">▂▅▇▇▂</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">plant_height_cm</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">246.13</td>
+<td style="text-align: right;">18.44</td>
+<td style="text-align: right;">205.21</td>
+<td style="text-align: right;">236.81</td>
+<td style="text-align: right;">248.57</td>
+<td style="text-align: right;">257.17</td>
+<td style="text-align: right;">293.45</td>
+<td style="text-align: left;">▂▃▇▃▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">test_weight_kghl</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">74.28</td>
+<td style="text-align: right;">2.70</td>
+<td style="text-align: right;">68.04</td>
+<td style="text-align: right;">72.43</td>
+<td style="text-align: right;">74.33</td>
+<td style="text-align: right;">76.12</td>
+<td style="text-align: right;">80.47</td>
+<td style="text-align: left;">▂▆▇▆▂</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">harvest_moisture_pct</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">18.54</td>
+<td style="text-align: right;">2.07</td>
+<td style="text-align: right;">13.46</td>
+<td style="text-align: right;">17.18</td>
+<td style="text-align: right;">18.54</td>
+<td style="text-align: right;">19.66</td>
+<td style="text-align: right;">24.20</td>
+<td style="text-align: left;">▂▅▇▃▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">soil_no3_ppm</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">30.08</td>
+<td style="text-align: right;">10.50</td>
+<td style="text-align: right;">9.96</td>
+<td style="text-align: right;">22.12</td>
+<td style="text-align: right;">28.94</td>
+<td style="text-align: right;">36.69</td>
+<td style="text-align: right;">61.15</td>
+<td style="text-align: left;">▃▇▅▃▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">om_pct</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3.44</td>
+<td style="text-align: right;">0.63</td>
+<td style="text-align: right;">1.92</td>
+<td style="text-align: right;">2.97</td>
+<td style="text-align: right;">3.44</td>
+<td style="text-align: right;">3.95</td>
+<td style="text-align: right;">5.08</td>
+<td style="text-align: left;">▂▇▇▆▂</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ph</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">6.64</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: right;">5.78</td>
+<td style="text-align: right;">6.40</td>
+<td style="text-align: right;">6.61</td>
+<td style="text-align: right;">6.90</td>
+<td style="text-align: right;">7.54</td>
+<td style="text-align: left;">▂▆▇▆▁</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section><section id="prepare-the-data" class="level1" data-number="5"><h1 data-number="5">
+<span class="header-section-number">5</span> Prepare the data</h1>
+<p>PCA requires numeric inputs. Here we separate numeric variables from identifier columns so we can use the identifiers later for plotting and interpretation.</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">trial_x</span> <span class="op">&lt;-</span> <span class="va">trial</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="fu">where</span><span class="op">(</span><span class="va">is.numeric</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">trial_ids</span> <span class="op">&lt;-</span> <span class="va">trial</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">site</span>, <span class="va">hybrid</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">trial_x</span> <span class="op">%&gt;%</span> <span class="fu">glimpse</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>Rows: 120
+Columns: 11
+$ yield_mg_ha          &lt;dbl&gt; 12.77993, 11.35051, 13.38045, 11.19544, 11.83949,…
+$ protein_pct          &lt;dbl&gt; 9.294304, 8.327702, 8.905811, 8.236639, 8.073834,…
+$ oil_pct              &lt;dbl&gt; 4.528044, 3.809309, 4.380282, 4.058621, 4.428758,…
+$ ndvi                 &lt;dbl&gt; 0.8072862, 0.8195942, 0.7680066, 0.7412932, 0.789…
+$ chlorophyll_spad     &lt;dbl&gt; 49.31489, 42.64968, 52.93612, 42.25517, 47.40432,…
+$ plant_height_cm      &lt;dbl&gt; 262.6780, 231.9071, 227.0569, 226.2496, 237.5374,…
+$ test_weight_kghl     &lt;dbl&gt; 72.53262, 76.02976, 77.18008, 74.55143, 74.34981,…
+$ harvest_moisture_pct &lt;dbl&gt; 18.34216, 18.26456, 19.67665, 19.62144, 21.11997,…
+$ soil_no3_ppm         &lt;dbl&gt; 37.00722, 29.03372, 61.15285, 24.96396, 17.33702,…
+$ om_pct               &lt;dbl&gt; 3.157676, 3.784136, 3.438675, 3.817635, 1.922027,…
+$ ph                   &lt;dbl&gt; 6.884339, 6.377122, 6.044983, 7.019542, 5.820475,…</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Why scaling matters
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Our variables are measured in very different units (for example, ppm, %, cm, and index values). Because of that, we use <strong>centering and scaling</strong> so that each variable contributes on a standardized scale.</p>
+<ul>
+<li>
+<strong>Centering</strong> subtracts the mean</li>
+<li>
+<strong>Scaling</strong> divides by the standard deviation</li>
+</ul>
+<p>This is often called <strong>correlation-based PCA</strong> <span class="citation" data-cites="lever2017pca husson2017exploratory">(<a href="#ref-lever2017pca" role="doc-biblioref">Lever, Krzywinski, and Altman 2017</a>; <a href="#ref-husson2017exploratory" role="doc-biblioref">Husson, Lê, and Pagès 2017</a>)</span>.</p>
+</div>
+</div>
+</section><section id="fit-the-pca" class="level1" data-number="6"><h1 data-number="6">
+<span class="header-section-number">6</span> Fit the PCA</h1>
+<p>Now we run PCA with <code><a href="https://rdrr.io/r/stats/prcomp.html">prcomp()</a></code>. For most agronomic teaching examples with mixed units, <code>center = TRUE</code> and <code>scale. = TRUE</code> are appropriate defaults because they place variables on a comparable scale <span class="citation" data-cites="husson2017exploratory borcard2018numerical">(<a href="#ref-husson2017exploratory" role="doc-biblioref">Husson, Lê, and Pagès 2017</a>; <a href="#ref-borcard2018numerical" role="doc-biblioref">Borcard, Gillet, and Legendre 2018</a>)</span>.</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pca_fit</span> <span class="op">&lt;-</span> <span class="va">trial_x</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html">prcomp</a></span><span class="op">(</span>center <span class="op">=</span> <span class="cn">TRUE</span>, scale. <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section><section id="tidy-the-outputs" class="level1" data-number="7"><h1 data-number="7">
+<span class="header-section-number">7</span> Tidy the outputs</h1>
+<p>A PCA object contains several useful pieces. We usually extract three of them: scores, loadings, and variance explained.</p>
+<section id="scores" class="level2" data-number="7.1"><h2 data-number="7.1" class="anchored" data-anchor-id="scores">
+<span class="header-section-number">7.1</span> Scores</h2>
+<p>Scores are the coordinates of each observation in the principal component space.</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">scores</span> <span class="op">&lt;-</span> <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span><span class="va">pca_fit</span>, data <span class="op">=</span> <span class="va">trial_x</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">bind_cols</span><span class="op">(</span><span class="va">trial_ids</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">janitor</span><span class="fu">::</span><span class="fu"><a href="https://sfirke.github.io/janitor/reference/clean_names.html">clean_names</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">scores</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">site</span>, <span class="va">hybrid</span>, <span class="fu">starts_with</span><span class="op">(</span><span class="st">"fitted_pc"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">glimpse</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>Rows: 120
+Columns: 13
+$ site        &lt;chr&gt; "Site_1", "Site_1", "Site_1", "Site_1", "Site_1", "Site_1"…
+$ hybrid      &lt;chr&gt; "H3", "H6", "H3", "H2", "H2", "H6", "H3", "H5", "H4", "H6"…
+$ fitted_pc1  &lt;dbl&gt; 0.50602852, 0.21936735, -0.90371961, -0.68380662, -2.24096…
+$ fitted_pc2  &lt;dbl&gt; -0.08626041, -0.07744697, -3.62800570, 0.82305542, -0.3321…
+$ fitted_pc3  &lt;dbl&gt; 0.501043227, -0.208486319, 1.475132143, 0.006372921, -1.39…
+$ fitted_pc4  &lt;dbl&gt; -0.752206937, 0.984642394, 0.070635399, 0.100153542, -0.64…
+$ fitted_pc5  &lt;dbl&gt; 1.170137882, -0.745205395, 1.075674911, -1.441479186, 0.74…
+$ fitted_pc6  &lt;dbl&gt; 0.02371319, 0.65723233, 0.26963748, 0.65752206, -1.2366186…
+$ fitted_pc7  &lt;dbl&gt; -0.06099809, -0.21016195, 0.15986291, -0.67285371, -0.0952…
+$ fitted_pc8  &lt;dbl&gt; -0.916060859, 1.325420414, 0.453538565, -0.494222891, 1.87…
+$ fitted_pc9  &lt;dbl&gt; 1.05522362, -0.44841225, -0.33015785, -0.96160014, 0.71838…
+$ fitted_pc10 &lt;dbl&gt; -1.14509921, 0.55489984, -0.97823451, 0.42422979, 0.973301…
+$ fitted_pc11 &lt;dbl&gt; -0.75900664, 0.73702223, -0.40679410, 0.44461162, -0.94646…</code></pre>
+</div>
+</div>
+</section><section id="loadings" class="level2" data-number="7.2"><h2 data-number="7.2" class="anchored" data-anchor-id="loadings">
+<span class="header-section-number">7.2</span> Loadings</h2>
+<p>Loadings show how strongly each original variable contributes to each principal component.</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">loadings</span> <span class="op">&lt;-</span> <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">pca_fit</span>, matrix <span class="op">=</span> <span class="st">"rotation"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">janitor</span><span class="fu">::</span><span class="fu"><a href="https://sfirke.github.io/janitor/reference/clean_names.html">clean_names</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">rename</span><span class="op">(</span>variable <span class="op">=</span> <span class="va">column</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">loadings</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">pc</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">arrange</span><span class="op">(</span><span class="va">pc</span>, <span class="fu">desc</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 22 × 3
+   variable                pc  value
+   &lt;chr&gt;                &lt;dbl&gt;  &lt;dbl&gt;
+ 1 oil_pct                  1 -0.490
+ 2 plant_height_cm          1  0.473
+ 3 harvest_moisture_pct     1 -0.468
+ 4 test_weight_kghl         1 -0.345
+ 5 om_pct                   1  0.257
+ 6 yield_mg_ha              1  0.204
+ 7 ndvi                     1  0.164
+ 8 protein_pct              1  0.160
+ 9 soil_no3_ppm             1  0.159
+10 chlorophyll_spad         1 -0.110
+# ℹ 12 more rows</code></pre>
+</div>
+</div>
+</section><section id="variance-explained" class="level2" data-number="7.3"><h2 data-number="7.3" class="anchored" data-anchor-id="variance-explained">
+<span class="header-section-number">7.3</span> Variance explained</h2>
+<p>This table helps us see how much information is captured by each principal component and by the cumulative set of components.</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">var_explained</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span></span>
+<span>  pc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"PC"</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span><span class="op">(</span><span class="va">pca_fit</span><span class="op">$</span><span class="va">sdev</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  sd <span class="op">=</span> <span class="va">pca_fit</span><span class="op">$</span><span class="va">sdev</span>,</span>
+<span>  var <span class="op">=</span> <span class="va">sd</span><span class="op">^</span><span class="fl">2</span>,</span>
+<span>  prop_var <span class="op">=</span> <span class="va">var</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">var</span><span class="op">)</span>,</span>
+<span>  cum_prop_var <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html">cumsum</a></span><span class="op">(</span><span class="va">prop_var</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">var_explained</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 11 × 5
+   pc       sd   var prop_var cum_prop_var
+   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;
+ 1 PC1   1.27  1.61    0.146         0.146
+ 2 PC2   1.21  1.47    0.134         0.280
+ 3 PC3   1.15  1.32    0.120         0.401
+ 4 PC4   1.07  1.15    0.104         0.505
+ 5 PC5   1.02  1.04    0.0950        0.600
+ 6 PC6   1.01  1.01    0.0920        0.692
+ 7 PC7   0.951 0.904   0.0822        0.774
+ 8 PC8   0.879 0.772   0.0702        0.844
+ 9 PC9   0.846 0.715   0.0650        0.909
+10 PC10  0.731 0.534   0.0486        0.958
+11 PC11  0.680 0.462   0.0420        1    </code></pre>
+</div>
+</div>
+</section></section><section id="scree-plot" class="level1" data-number="8"><h1 data-number="8">
+<span class="header-section-number">8</span> Scree plot</h1>
+<p>A scree plot shows the proportion of variance explained by each component. Adding the cumulative line makes it easier to judge how many components are worth discussing, although the cutoff remains a matter of interpretation rather than a strict rule <span class="citation" data-cites="james2021islr husson2017exploratory">(<a href="#ref-james2021islr" role="doc-biblioref">James et al. 2021</a>; <a href="#ref-husson2017exploratory" role="doc-biblioref">Husson, Lê, and Pagès 2017</a>)</span>.</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">conv_factor</span> <span class="op">&lt;-</span> <span class="fl">6</span></span>
+<span></span>
+<span><span class="va">var_explained</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="co"># reorder PCs for plotting</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>pc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">pc</span>, levels <span class="op">=</span> <span class="va">pc</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">pc</span>, y <span class="op">=</span> <span class="va">prop_var</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_col</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>fill <span class="op">=</span> <span class="va">pc</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_text</span><span class="op">(</span></span>
+<span>    <span class="fu">aes</span><span class="op">(</span>label <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/percent_format.html">percent</a></span><span class="op">(</span><span class="va">prop_var</span>, accuracy <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    vjust <span class="op">=</span> <span class="op">-</span><span class="fl">0.5</span>,</span>
+<span>    size <span class="op">=</span> <span class="fl">3</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">cum_prop_var</span> <span class="op">/</span> <span class="va">conv_factor</span>, group <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">cum_prop_var</span> <span class="op">/</span> <span class="va">conv_factor</span>, group <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_text</span><span class="op">(</span></span>
+<span>    <span class="fu">aes</span><span class="op">(</span></span>
+<span>      y <span class="op">=</span> <span class="va">cum_prop_var</span> <span class="op">/</span> <span class="va">conv_factor</span>,</span>
+<span>      label <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/percent_format.html">percent</a></span><span class="op">(</span><span class="va">cum_prop_var</span>, accuracy <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    vjust <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>,</span>
+<span>    size <span class="op">=</span> <span class="fl">3</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">scale_y_continuous</span><span class="op">(</span></span>
+<span>    labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/percent_format.html">percent_format</a></span><span class="op">(</span>accuracy <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
+<span>    sec.axis <span class="op">=</span> <span class="fu">sec_axis</span><span class="op">(</span></span>
+<span>      <span class="op">~</span> <span class="va">.</span> <span class="op">*</span> <span class="va">conv_factor</span>,</span>
+<span>      labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/percent_format.html">percent_format</a></span><span class="op">(</span>accuracy <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
+<span>      name <span class="op">=</span> <span class="st">"Cumulative variance (%)"</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Scree plot"</span>,</span>
+<span>    x <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Explained variance (%)"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_classic</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="16_models06_files/figure-html/scree_plot-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpreting the scree plot
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A 2D PCA plot can still be useful even when PC1 and PC2 do not explain most of the variance. But if their combined share is low, interpretation should stay modest.</p>
+</div>
+</div>
+</section><section id="score-plot" class="level1" data-number="9"><h1 data-number="9">
+<span class="header-section-number">9</span> Score plot</h1>
+<p>The score plot places observations in the reduced PCA space. This is often the easiest way to inspect whether sites, hybrids, or treatments tend to separate.</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">scores</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">fitted_pc1</span>, y <span class="op">=</span> <span class="va">fitted_pc2</span>, color <span class="op">=</span> <span class="va">site</span>, shape <span class="op">=</span> <span class="va">site</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.75</span>, size <span class="op">=</span> <span class="fl">2.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_hline</span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, color <span class="op">=</span> <span class="st">"gray50"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">0</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, color <span class="op">=</span> <span class="st">"gray50"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Score plot"</span>,</span>
+<span>    x <span class="op">=</span> <span class="st">"PC1 score"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"PC2 score"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_classic</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="16_models06_files/figure-html/score_plot-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="biplot" class="level1" data-number="10"><h1 data-number="10">
+<span class="header-section-number">10</span> Biplot</h1>
+<p>A biplot combines observation scores and variable loadings in the same figure. This makes it possible to inspect both multivariate grouping and variable directions at once.</p>
+<p>Because scores and loadings are on different scales, we rescale the arrows before plotting.</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">loadings_12</span> <span class="op">&lt;-</span> <span class="va">loadings</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">pc</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">variable</span>, <span class="va">pc</span>, <span class="va">value</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">pc</span>, values_from <span class="op">=</span> <span class="va">value</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">rename</span><span class="op">(</span>loading_pc1 <span class="op">=</span> <span class="va">`1`</span>, loading_pc2 <span class="op">=</span> <span class="va">`2`</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">arrow_scale</span> <span class="op">&lt;-</span> <span class="va">scores</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">summarise</span><span class="op">(</span></span>
+<span>    scale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span></span>
+<span>      <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">fitted_pc1</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">fitted_pc1</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">loadings_12</span><span class="op">$</span><span class="va">loading_pc1</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="fl">2</span><span class="op">)</span>,</span>
+<span>      <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">fitted_pc2</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">fitted_pc2</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">loadings_12</span><span class="op">$</span><span class="va">loading_pc2</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="fl">2</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">pull</span><span class="op">(</span><span class="va">scale</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">arrow_scale</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code>[1] 5.198576</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">scores</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">fitted_pc1</span>, y <span class="op">=</span> <span class="va">fitted_pc2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>color <span class="op">=</span> <span class="va">site</span>, shape <span class="op">=</span> <span class="va">site</span><span class="op">)</span>, alpha <span class="op">=</span> <span class="fl">0.75</span>, size <span class="op">=</span> <span class="fl">2.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_segment</span><span class="op">(</span></span>
+<span>    data <span class="op">=</span> <span class="va">loadings_12</span>,</span>
+<span>    <span class="fu">aes</span><span class="op">(</span></span>
+<span>      x <span class="op">=</span> <span class="fl">0</span>, y <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>      xend <span class="op">=</span> <span class="va">loading_pc1</span> <span class="op">*</span> <span class="va">arrow_scale</span>,</span>
+<span>      yend <span class="op">=</span> <span class="va">loading_pc2</span> <span class="op">*</span> <span class="va">arrow_scale</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    inherit.aes <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>    linewidth <span class="op">=</span> <span class="fl">0.7</span>,</span>
+<span>    arrow <span class="op">=</span> <span class="fu">arrow</span><span class="op">(</span>length <span class="op">=</span> <span class="fu">unit</span><span class="op">(</span><span class="fl">0.02</span>, <span class="st">"npc"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggrepel</span><span class="fu">::</span><span class="fu"><a href="https://ggrepel.slowkow.com/reference/geom_text_repel.html">geom_text_repel</a></span><span class="op">(</span></span>
+<span>    data <span class="op">=</span> <span class="va">loadings_12</span>,</span>
+<span>    <span class="fu">aes</span><span class="op">(</span></span>
+<span>      x <span class="op">=</span> <span class="va">loading_pc1</span> <span class="op">*</span> <span class="va">arrow_scale</span>,</span>
+<span>      y <span class="op">=</span> <span class="va">loading_pc2</span> <span class="op">*</span> <span class="va">arrow_scale</span>,</span>
+<span>      label <span class="op">=</span> <span class="va">variable</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    inherit.aes <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>    size <span class="op">=</span> <span class="fl">4</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_hline</span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, color <span class="op">=</span> <span class="st">"gray50"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_vline</span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">0</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, color <span class="op">=</span> <span class="st">"gray50"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"PCA biplot"</span>,</span>
+<span>    x <span class="op">=</span> <span class="st">"PC1"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"PC2"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_classic</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="16_models06_files/figure-html/biplot-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="quick-alternatives" class="level1" data-number="11"><h1 data-number="11">
+<span class="header-section-number">11</span> Quick alternatives</h1>
+<p>The next examples show how other packages can complement <code><a href="https://rdrr.io/r/stats/prcomp.html">prcomp()</a></code>. They are useful for quick diagnostics, comparison across tools, and to visualize that the same PCA can be implemented in slightly different ways.</p>
+<p>The next two options are useful shortcuts for labs and reports. The custom <code>ggplot2</code> route remains helpful for understanding the mechanics of PCA, while <code>FactoMineR</code> and related tools show how the same ideas appear in other common multivariate workflows.</p>
+<section id="factominer-factoextra" class="level2" data-number="11.1"><h2 data-number="11.1" class="anchored" data-anchor-id="factominer-factoextra">
+<span class="header-section-number">11.1</span> <code>FactoMineR</code> + <code>factoextra</code>
+</h2>
+<p><code>FactoMineR</code> provides an alternative PCA workflow, and <code>factoextra</code> offers convenient plotting functions for both <code>FactoMineR</code> and <code><a href="https://rdrr.io/r/stats/prcomp.html">prcomp()</a></code> objects. This is useful to show students because many applied papers and tutorials rely on these packages.</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># FactoMineR can use qualitative variables as supplementary information</span></span>
+<span><span class="va">pca_fm</span> <span class="op">&lt;-</span> <span class="fu">PCA</span><span class="op">(</span><span class="va">trial</span>, quanti.sup <span class="op">=</span> <span class="cn">NULL</span>, quali.sup <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, graph <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Scree plot</span></span>
+<span><span class="fu">fviz_eig</span><span class="op">(</span><span class="va">pca_fm</span>, addlabels <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="16_models06_files/figure-html/factoextra_plots-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Individuals (scores), colored by the supplementary variable "site"</span></span>
+<span><span class="fu">fviz_pca_ind</span><span class="op">(</span></span>
+<span>  X <span class="op">=</span> <span class="va">pca_fm</span>,</span>
+<span>  geom.ind <span class="op">=</span> <span class="st">"point"</span>,</span>
+<span>  habillage <span class="op">=</span> <span class="st">"site"</span>,</span>
+<span>  addEllipses <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  repel <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="16_models06_files/figure-html/factoextra_plots-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Variables (loadings)</span></span>
+<span><span class="fu">fviz_pca_var</span><span class="op">(</span></span>
+<span>  X <span class="op">=</span> <span class="va">pca_fm</span>,</span>
+<span>  col.var <span class="op">=</span> <span class="st">"contrib"</span>,</span>
+<span>  repel <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="16_models06_files/figure-html/factoextra_plots-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Biplot (scores + loadings)</span></span>
+<span><span class="fu">fviz_pca_biplot</span><span class="op">(</span></span>
+<span>  X <span class="op">=</span> <span class="va">pca_fm</span>, <span class="co"># this can also be done with the prcomp object, but we already have the PCA from FactoMineR</span></span>
+<span>  habillage <span class="op">=</span> <span class="st">"site"</span>, <span class="co"># coloring individuals by "site" can help reveal group patterns</span></span>
+<span>  addEllipses <span class="op">=</span> <span class="cn">FALSE</span>, <span class="co"># ellipses can be added for groups, but they can also make the figure busier</span></span>
+<span>  repel <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co"># this is often needed to avoid label overlap, but it can be turned off for a more compact figure</span></span>
+<span>  geom <span class="op">=</span> <span class="st">"point"</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="16_models06_files/figure-html/factoextra_plots-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="ggfortify" class="level2" data-number="11.2"><h2 data-number="11.2" class="anchored" data-anchor-id="ggfortify">
+<span class="header-section-number">11.2</span> <code>ggfortify</code>
+</h2>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sinhrks/ggfortify">ggfortify</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span></span>
+<span>  <span class="va">pca_fit</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">trial</span>,</span>
+<span>  colour <span class="op">=</span> <span class="st">"site"</span>,</span>
+<span>  shape <span class="op">=</span> <span class="st">"hybrid"</span>,</span>
+<span>  loadings <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  loadings.label <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  loadings.label.repel <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Biplot with ggfortify"</span>,</span>
+<span>    x <span class="op">=</span> <span class="st">"PC1"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"PC2"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, color <span class="op">=</span> <span class="st">"gray50"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">0</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, color <span class="op">=</span> <span class="st">"gray50"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="16_models06_files/figure-html/ggfortify_plot-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section></section><section id="reading-the-biplot" class="level1" data-number="12"><h1 data-number="12">
+<span class="header-section-number">12</span> Reading the biplot</h1>
+<p>When interpreting a biplot, focus on a few simple principles.</p>
+<p><strong>Points (scores)</strong> <br> - Points close together have similar multivariate profiles <br> - Separation along PC1 reflects differences on the first major gradient <br> - Separation along PC2 reflects differences on the second major gradient <br></p>
+<p><strong>Arrows (loadings)</strong> <br> - Longer arrows indicate variables that are better represented in the PC1-PC2 plane <br> - Arrows pointing in similar directions suggest positive association <br> - Arrows pointing in opposite directions suggest negative association <br> - Roughly perpendicular arrows suggest weak association in that plane <br></p>
+<p>Interpretation should always be tied to the variables included and to the scaling decision <span class="citation" data-cites="lever2017pca borcard2018numerical">(<a href="#ref-lever2017pca" role="doc-biblioref">Lever, Krzywinski, and Altman 2017</a>; <a href="#ref-borcard2018numerical" role="doc-biblioref">Borcard, Gillet, and Legendre 2018</a>)</span>.</p>
+</section><section id="the-2-variable-trap" class="level1" data-number="13"><h1 data-number="13">
+<span class="header-section-number">13</span> The 2-variable trap</h1>
+<p>A common misunderstanding appears when PCA is run on only two variables. In that case, the two principal components necessarily span the full two-dimensional space, so the total variance explained by PC1 and PC2 is always 100%.</p>
+<p>That does <strong>NOT</strong> mean the PCA is unusually strong. It just means no dimension reduction happened, which is exactly why PCA is usually more informative when more variables are involved <span class="citation" data-cites="lever2017pca">(<a href="#ref-lever2017pca" role="doc-biblioref">Lever, Krzywinski, and Altman 2017</a>)</span>.</p>
+<p>Let’s see an example:</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">two_vars</span> <span class="op">&lt;-</span> <span class="va">trial</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">yield_mg_ha</span>, <span class="va">ndvi</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">pca_2</span> <span class="op">&lt;-</span> <span class="va">two_vars</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html">prcomp</a></span><span class="op">(</span>center <span class="op">=</span> <span class="cn">TRUE</span>, scale. <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tibble</span><span class="op">(</span></span>
+<span>  pc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"PC"</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span><span class="op">(</span><span class="va">pca_2</span><span class="op">$</span><span class="va">sdev</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  prop_var <span class="op">=</span> <span class="op">(</span><span class="va">pca_2</span><span class="op">$</span><span class="va">sdev</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">pca_2</span><span class="op">$</span><span class="va">sdev</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>prop_var <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/percent_format.html">percent</a></span><span class="op">(</span><span class="va">prop_var</span>, accuracy <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  pc    prop_var
+  &lt;chr&gt; &lt;chr&gt;   
+1 PC1   52.9%   
+2 PC2   47.1%   </code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Teaching point
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>With only two variables, a scatter plot of the standardized variables usually communicates the same idea more directly than a PCA figure.</p>
+<p>Let’s do that:</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># with ggfortify</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">pca_2</span>,</span>
+<span>         data <span class="op">=</span> <span class="va">two_vars</span>,</span>
+<span>         colour <span class="op">=</span> <span class="st">"blue"</span>,</span>
+<span>         shape <span class="op">=</span> <span class="fl">16</span>,</span>
+<span>         loadings <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>         loadings.label <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>         loadings.label.repel <span class="op">=</span> <span class="cn">TRUE</span> <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="16_models06_files/figure-html/two_variable_scatter-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># But you can also do it with ggplot2 directly, which is often more flexible</span></span>
+<span><span class="va">two_vars</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>yield_scaled <span class="op">=</span> <span class="op">(</span><span class="va">yield_mg_ha</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">yield_mg_ha</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">yield_mg_ha</span><span class="op">)</span>,</span>
+<span>         ndvi_scaled <span class="op">=</span> <span class="op">(</span><span class="va">ndvi</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">ndvi</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">ndvi</span><span class="op">)</span> <span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">yield_scaled</span>, y <span class="op">=</span> <span class="va">ndvi_scaled</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.75</span>, color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Scatter plot of two standardized variables"</span>,</span>
+<span>    x <span class="op">=</span> <span class="st">"Yield (standardized)"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"NDVI (standardized)"</span> <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="16_models06_files/figure-html/two_variable_scatter-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># same plot </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+</div>
+</section><section id="optional-preprocessing-with-recipes" class="level1" data-number="14"><h1 data-number="14">
+<span class="header-section-number">14</span> Optional preprocessing with <code>recipes</code>
+</h1>
+<p>The <code>recipes</code> package provides a structured preprocessing workflow for standardization and PCA within the tidymodels ecosystem.</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/recipes">recipes</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">rec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://recipes.tidymodels.org/reference/recipe.html">recipe</a></span><span class="op">(</span><span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">trial_x</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_normalize.html">step_normalize</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html">all_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_pca.html">step_pca</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html">all_predictors</a></span><span class="op">(</span><span class="op">)</span>, num_comp <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">rec_prep</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://recipes.tidymodels.org/reference/prep.html">prep</a></span><span class="op">(</span><span class="va">rec</span><span class="op">)</span></span>
+<span><span class="va">pca_scores</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://recipes.tidymodels.org/reference/bake.html">bake</a></span><span class="op">(</span><span class="va">rec_prep</span>, new_data <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="va">pca_loadings</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">rec_prep</span>, number <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section><section id="common-pitfalls" class="level1" data-number="15"><h1 data-number="15">
+<span class="header-section-number">15</span> Common pitfalls</h1>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist">
+<li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Scaling</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Missing values</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Outliers</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false">Over-interpretation</a></li>
+</ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<ul>
+<li>If variables are in different units, standardization is usually necessary</li>
+<li>Always state whether the PCA was based on centered data only or centered and scaled data</li>
+</ul>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<ul>
+<li>
+<code><a href="https://rdrr.io/r/stats/prcomp.html">prcomp()</a></code> does not allow missing values</li>
+<li>You must remove incomplete rows, impute, or use another method</li>
+</ul>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<ul>
+<li>PCA can be strongly influenced by extreme observations</li>
+<li>Inspect distributions before interpreting components too confidently</li>
+</ul>
+</div>
+<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
+<ul>
+<li>Principal components are linear combinations, not causal mechanisms</li>
+<li>Use PCA for exploration, then follow up with targeted analyses</li>
+</ul>
+</div>
+</div>
+</div>
+</section><section id="exercises" class="level1" data-number="16"><h1 data-number="16">
+<span class="header-section-number">16</span> Exercises</h1>
+<ol type="1">
+<li>Refit the PCA with <code>scale. = FALSE</code>. How do the loadings and scree plot change?</li>
+<li>Remove one variable such as <code>ndvi</code> or <code>soil_no3_ppm</code>. Does the interpretation of PC1 change?</li>
+<li>Color the score plot by <code>hybrid</code> instead of <code>site</code>. Do you see a different pattern?</li>
+<li>Compare the custom <code>ggplot2</code> biplot with the <code>factoextra</code> and <code>ggfortify</code> versions.</li>
+</ol></section><section id="wrap-up" class="level1" data-number="17"><h1 data-number="17">
+<span class="header-section-number">17</span> Wrap-up</h1>
+<p>PCA is a useful exploratory tool for summarizing multivariate data, especially when many variables are correlated. A good workflow is to:</p>
+<ul>
+<li>select the relevant numeric variables</li>
+<li>decide whether scaling is needed</li>
+<li>fit PCA with <code><a href="https://rdrr.io/r/stats/prcomp.html">prcomp()</a></code>
+</li>
+<li>extract scores, loadings, and variance explained</li>
+<li>interpret the results with caution and context</li>
+</ul>
+<p>Used well, PCA can simplify a complex dataset without hiding the importance of agronomic judgment.</p>
+</section><section id="resources" class="level1" data-number="18"><h1 data-number="18">
+<span class="header-section-number">18</span> Resources</h1>
+<p>A few especially useful starting points are:</p>
+<ul>
+<li>A conceptual overview by <span class="citation" data-cites="lever2017pca">Lever, Krzywinski, and Altman (<a href="#ref-lever2017pca" role="doc-biblioref">2017</a>)</span>,</li>
+<li>An applied multivariate treatment in <span class="citation" data-cites="husson2017exploratory">Husson, Lê, and Pagès (<a href="#ref-husson2017exploratory" role="doc-biblioref">2017</a>)</span>, and</li>
+<li>The more general data-analysis context in <span class="citation" data-cites="james2021islr">James et al. (<a href="#ref-james2021islr" role="doc-biblioref">2021</a>)</span> (THIS IS THE BOOK for learning STATS!!) and <span class="citation" data-cites="borcard2018numerical">Borcard, Gillet, and Legendre (<a href="#ref-borcard2018numerical" role="doc-biblioref">2018</a>)</span>.</li>
+</ul>
+<section id="r-documentation" class="level2" data-number="18.1"><h2 data-number="18.1" class="anchored" data-anchor-id="r-documentation">
+<span class="header-section-number">18.1</span> R documentation</h2>
+<p>Remember you can always check the documentation to understand the functions and their arguments. Some of the key ones today:</p>
+<ul>
+<li><code><a href="https://rdrr.io/r/stats/prcomp.html">?prcomp</a></code></li>
+<li><code><a href="https://generics.r-lib.org/reference/augment.html">?broom::augment</a></code></li>
+<li><code><a href="https://generics.r-lib.org/reference/tidy.html">?broom::tidy</a></code></li>
+<li><code><a href="https://rdrr.io/pkg/factoextra/man/fviz_pca.html">?factoextra::fviz_pca_biplot</a></code></li>
+</ul>
+
+
+
+</section></section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-borcard2018numerical" class="csl-entry" role="listitem">
+Borcard, Daniel, François Gillet, and Pierre Legendre. 2018. <em>Numerical Ecology with r</em>. 2nd ed. Cham: Springer. <a href="https://doi.org/10.1007/978-3-319-71404-2">https://doi.org/10.1007/978-3-319-71404-2</a>.
+</div>
+<div id="ref-husson2017exploratory" class="csl-entry" role="listitem">
+Husson, François, Sébastien Lê, and Jérôme Pagès. 2017. <em>Exploratory Multivariate Analysis by Example Using r</em>. 2nd ed. Boca Raton, FL: Chapman; Hall/CRC. <a href="https://doi.org/10.1201/b21874">https://doi.org/10.1201/b21874</a>.
+</div>
+<div id="ref-james2021islr" class="csl-entry" role="listitem">
+James, Gareth, Daniela Witten, Trevor Hastie, and Robert Tibshirani. 2021. <em>An Introduction to Statistical Learning: With Applications in r</em>. 2nd ed. New York, NY: Springer. <a href="https://doi.org/10.1007/978-1-0716-1418-1">https://doi.org/10.1007/978-1-0716-1418-1</a>.
+</div>
+<div id="ref-lever2017pca" class="csl-entry" role="listitem">
+Lever, Jake, Martin Krzywinski, and Naomi Altman. 2017. <span>“Principal Component Analysis.”</span> <em>Nature Methods</em> 14 (7): 641–42. <a href="https://doi.org/10.1038/nmeth.4346">https://doi.org/10.1038/nmeth.4346</a>.
+</div>
+</div></section></div></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/adriancorrendo\.github\.io\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="../../coding/week_08/15_models05.html" class="pagination-link" aria-label="15-Models V">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">15-Models V</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../coding/quarto/quarto.html" class="pagination-link" aria-label="Quarto Basics">
+        <span class="nav-page-text">Quarto Basics</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+<p><span> Developed by Adrian Correndo with <a href="https://quarto.org/">Quarto</a>. License: <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>. </span></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
