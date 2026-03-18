@@ -85,6 +85,10 @@ website:
             text: "15-Models V"
           - href: coding/week_09/16_models06.qmd
             text: "16-Models VI"
+          - href: coding/week_10/bayes_01.qmd
+            text: "17-Bayes I"
+          - href: coding/week_10/bayes_02.qmd
+            text: "18-Bayes II"
       - section: "Extras"
         contents:
           - href: coding/quarto/quarto.qmd

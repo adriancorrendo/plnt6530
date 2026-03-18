@@ -53,6 +53,7 @@ The course runs on Wednesdays and Fridays from 1:00 PM to 2:20 PM. Below is the 
 | 10 | Mar 18 | Models VII: Bayesian Stats I | 🌐 | 🎥 |
 |  | Mar 20 | Models VIII: Bayesian Stats II | 🌐 | 🎥 |
 | 11 | Mar 25 | Models IX: Cross-validation | 🌐 | 🎥 |
+|    | Mar 25 | Models IX: Predicted vs Observed | 🌐 | 🎥 |
 |  | Mar 27 | General Review class | 🌐 | 🎥 |
 | 12 | Apr 01 | Semester Projects Presentations I | 🌐 |  |
 |  | Apr 03 | Semester Projects Presentations II | 🌐 |  |

@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Dr.&nbsp;Adrian Correndo">
+<meta name="dcterms.date" content="2026-03-18">
+
+<title>Intro to Bayesian Statistics – PLNT6530 - Winter 2026</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../coding/week_10/bayes_02.html" rel="next">
+<link href="../../coding/week_09/16_models06.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-f2a1071e85750ec973bbb8a8f120da0f.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-f2a1071e85750ec973bbb8a8f120da0f.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-336ca817ef159df84c7e018e0d356059.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-5ccce6f18d703cb4568c738a25a74289.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="Intro to Bayesian Statistics – PLNT6530 - Winter 2026">
+<meta property="og:description" content="This article provides some basics about Bayesian statistics and a comparison with the conventional frequentist perspective about probabilities and statistical inference.">
+<meta property="og:image" content="https://adriancorrendo.github.io/coding/week_10/bayes_01_files/figure-html/bayesian-updating-ggplot-1.png">
+<meta property="og:site_name" content="PLNT6530 - Winter 2026">
+<meta property="og:image:height" content="960">
+<meta property="og:image:width" content="1344">
+<meta name="twitter:title" content="Intro to Bayesian Statistics – PLNT6530 - Winter 2026">
+<meta name="twitter:description" content="This article provides some basics about Bayesian statistics and a comparison with the conventional frequentist perspective about probabilities and statistical inference.">
+<meta name="twitter:image" content="https://adriancorrendo.github.io/coding/week_10/bayes_01_files/figure-html/bayesian-updating-ggplot-1.png">
+<meta name="twitter:creator" content="@aacorrendo">
+<meta name="twitter:image-height" content="960">
+<meta name="twitter:image-width" content="1344">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">PLNT6530 - Winter 2026</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://adriancorrendo.github.io/"> <i class="bi bi-globe" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/adriancorrendo/plnt6530/"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/aacorrendo"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/adriancorrendo/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../coding/week_01/essentials_01.html">Lessons</a></li><li class="breadcrumb-item"><a href="../../coding/week_10/bayes_01.html">17-Bayes I</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="../../index.html" class="sidebar-logo-link">
+      <img src="../../images/2026_logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+      <div class="sidebar-tools-main">
+    <a href="https://github.com/adriancorrendo/" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+</div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Slides</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../slides/day1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reproducibility</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Software</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../software/software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instructions</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Lessons</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_01/essentials_01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">01-Essentials of R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_02/02_fundamentals_rpackages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">02-Fundamentals of packages</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_02/03_versioncontrol.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">03-Git &amp; GitHub</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_03/04_datawrangling_01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">04-Data Wrangling I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_03/05_datawrangling_02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">05-Data Wrangling II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_04/06_datawrangling_03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">06-Data Wrangling III</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_04/07_ggplot2_01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">07-Data Viz I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_05/08_ggplot2_adv.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">08-Data Viz II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_05/09_ggplot2_plus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">09-Data Viz III</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_06/10_iteration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">10-Iteration</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_06/11_models01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">11-Models I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_07/12_models02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">12-Models II</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_07/13_models03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">13-Models III</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_08/14_models04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">14-Models IV</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_08/15_models05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">15-Models V</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_09/16_models06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">16-Models VI</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_10/bayes_01.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">17-Bayes I</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/week_10/bayes_02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">18-Bayes II</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Extras</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/quarto/quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Quarto Basics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/pipe_operator.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pipe Ops</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/read_tabular.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Read Tabular Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/fair_care.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fair &amp; Care</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/p_value.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">p-value</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/weather_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Weather data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/shinyapps.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Shinyapps in R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/extras/outliers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Outliers</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Semester Project</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../project/project_documentation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Project documentation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Calendar</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../outline/calendar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Schedule</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Course Outline</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../outline/outline.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Outline</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Content</h2>
+   
+  <ul>
+  <li><a href="#why-should-we-care" id="toc-why-should-we-care" class="nav-link active" data-scroll-target="#why-should-we-care"><span class="header-section-number">1</span> Why should we care?</a></li>
+  <li><a href="#frequentism-vs-bayesianism" id="toc-frequentism-vs-bayesianism" class="nav-link" data-scroll-target="#frequentism-vs-bayesianism"><span class="header-section-number">2</span> Frequentism vs Bayesianism</a>
+  <ul>
+  <li><a href="#main-differences" id="toc-main-differences" class="nav-link" data-scroll-target="#main-differences"><span class="header-section-number">2.1</span> Main differences</a>
+  <ul class="collapse">
+  <li><a href="#frequentist-perspective" id="toc-frequentist-perspective" class="nav-link" data-scroll-target="#frequentist-perspective"><span class="header-section-number">2.1.1</span> Frequentist perspective</a></li>
+  <li><a href="#bayesian-perspective" id="toc-bayesian-perspective" class="nav-link" data-scroll-target="#bayesian-perspective"><span class="header-section-number">2.1.2</span> Bayesian perspective</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">2.1.3</span> Summary</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#probability-and-conditional-thinking" id="toc-probability-and-conditional-thinking" class="nav-link" data-scroll-target="#probability-and-conditional-thinking"><span class="header-section-number">3</span> Probability and conditional thinking</a></li>
+  <li><a href="#bayes-theorem" id="toc-bayes-theorem" class="nav-link" data-scroll-target="#bayes-theorem"><span class="header-section-number">4</span> Bayes’ theorem</a>
+  <ul>
+  <li><a href="#video-bayes-rule" id="toc-video-bayes-rule" class="nav-link" data-scroll-target="#video-bayes-rule"><span class="header-section-number">4.1</span> Video: Bayes’ Rule</a></li>
+  </ul></li>
+  <li><a href="#the-priors" id="toc-the-priors" class="nav-link" data-scroll-target="#the-priors"><span class="header-section-number">5</span> The priors</a></li>
+  <li><a href="#a-simple-agronomic-example" id="toc-a-simple-agronomic-example" class="nav-link" data-scroll-target="#a-simple-agronomic-example"><span class="header-section-number">6</span> A simple agronomic example</a></li>
+  <li><a href="#visualization-of-bayesian-updating" id="toc-visualization-of-bayesian-updating" class="nav-link" data-scroll-target="#visualization-of-bayesian-updating"><span class="header-section-number">7</span> Visualization of Bayesian updating</a></li>
+  <li><a href="#credible-intervals-vs-confidence-intervals" id="toc-credible-intervals-vs-confidence-intervals" class="nav-link" data-scroll-target="#credible-intervals-vs-confidence-intervals"><span class="header-section-number">8</span> Credible intervals vs confidence intervals</a></li>
+  <li><a href="#bayes-factor-and-model-comparison" id="toc-bayes-factor-and-model-comparison" class="nav-link" data-scroll-target="#bayes-factor-and-model-comparison"><span class="header-section-number">9</span> Bayes factor and model comparison</a></li>
+  <li><a href="#the-good-the-bad-and-the-ugly" id="toc-the-good-the-bad-and-the-ugly" class="nav-link" data-scroll-target="#the-good-the-bad-and-the-ugly"><span class="header-section-number">10</span> The good, the bad, and the ugly</a>
+  <ul>
+  <li><a href="#frequentist-approaches" id="toc-frequentist-approaches" class="nav-link" data-scroll-target="#frequentist-approaches"><span class="header-section-number">10.1</span> Frequentist approaches</a>
+  <ul class="collapse">
+  <li><a href="#the-good" id="toc-the-good" class="nav-link" data-scroll-target="#the-good"><span class="header-section-number">10.1.1</span> The good</a></li>
+  <li><a href="#the-bad" id="toc-the-bad" class="nav-link" data-scroll-target="#the-bad"><span class="header-section-number">10.1.2</span> The bad</a></li>
+  <li><a href="#the-ugly" id="toc-the-ugly" class="nav-link" data-scroll-target="#the-ugly"><span class="header-section-number">10.1.3</span> The ugly</a></li>
+  </ul></li>
+  <li><a href="#bayesian-approaches" id="toc-bayesian-approaches" class="nav-link" data-scroll-target="#bayesian-approaches"><span class="header-section-number">10.2</span> Bayesian approaches</a>
+  <ul class="collapse">
+  <li><a href="#the-good-1" id="toc-the-good-1" class="nav-link" data-scroll-target="#the-good-1"><span class="header-section-number">10.2.1</span> The good</a></li>
+  <li><a href="#the-bad-1" id="toc-the-bad-1" class="nav-link" data-scroll-target="#the-bad-1"><span class="header-section-number">10.2.2</span> The bad</a></li>
+  <li><a href="#the-ugly-1" id="toc-the-ugly-1" class="nav-link" data-scroll-target="#the-ugly-1"><span class="header-section-number">10.2.3</span> The ugly</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#final-thoughts" id="toc-final-thoughts" class="nav-link" data-scroll-target="#final-thoughts"><span class="header-section-number">11</span> Final thoughts</a></li>
+  <li><a href="#useful-resources" id="toc-useful-resources" class="nav-link" data-scroll-target="#useful-resources"><span class="header-section-number">12</span> Useful resources</a>
+  <ul>
+  <li><a href="#introductory-theory" id="toc-introductory-theory" class="nav-link" data-scroll-target="#introductory-theory"><span class="header-section-number">12.1</span> Introductory theory</a></li>
+  <li><a href="#bayesian-workflow-and-philosophy" id="toc-bayesian-workflow-and-philosophy" class="nav-link" data-scroll-target="#bayesian-workflow-and-philosophy"><span class="header-section-number">12.2</span> Bayesian workflow and philosophy</a></li>
+  <li><a href="#advanced-theory" id="toc-advanced-theory" class="nav-link" data-scroll-target="#advanced-theory"><span class="header-section-number">12.3</span> Advanced theory</a></li>
+  <li><a href="#agronomy-applications" id="toc-agronomy-applications" class="nav-link" data-scroll-target="#agronomy-applications"><span class="header-section-number">12.4</span> Agronomy applications</a></li>
+  <li><a href="#miscellaneous" id="toc-miscellaneous" class="nav-link" data-scroll-target="#miscellaneous"><span class="header-section-number">12.5</span> Miscellaneous</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../coding/week_01/essentials_01.html">Lessons</a></li><li class="breadcrumb-item"><a href="../../coding/week_10/bayes_01.html">17-Bayes I</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Intro to Bayesian Statistics</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">statistics</div>
+    <div class="quarto-category">frequentism</div>
+    <div class="quarto-category">bayes theorem</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Dr.&nbsp;Adrian Correndo </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 18, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+<div>
+  <div class="abstract">
+    <div class="block-title">Intro</div>
+    This article provides some basics about Bayesian statistics and a comparison with the conventional frequentist perspective about probabilities and statistical inference.
+  </div>
+</div>
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Neither Frequentist nor Bayesian approaches are universally superior. Each has strengths, limitations, and situations where it is more useful.</p>
+</div>
+</div>
+<section id="why-should-we-care" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Why should we care?</h1>
+<p>In agricultural research, we rarely work with perfect data. We often deal with small sample sizes, noisy field conditions, site-year variation, and previous knowledge coming from earlier trials, expert opinion, or long-term experiments.</p>
+<p>Because of that, statistics is not just about computing a p-value. It is about learning from data while being honest about uncertainty.</p>
+<p>Bayesian statistics offers one way to do that. It is not magic, and it is not automatically better than conventional methods. But it gives us a useful framework to combine previous knowledge with observed data and express uncertainty in a direct way.</p>
+<p>Today, we will compare the Frequentist and Bayesian perspectives, and discuss what each approach can do well (and not so well) for applied agricultural science.</p>
+</section>
+<section id="frequentism-vs-bayesianism" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Frequentism vs Bayesianism</h1>
+<div data-align="center">
+<iframe width="840" height="473" src="https://www.youtube.com/embed/tsuJM_bHSgA" frameborder="0" allowfullscreen="">
+</iframe>
+</div>
+<p>What are your thoughts?</p>
+<ul>
+<li>Let’s open the floor for discussion!</li>
+</ul>
+<section id="main-differences" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="main-differences"><span class="header-section-number">2.1</span> Main differences</h2>
+<p>The key difference lies in <strong>where uncertainty is placed</strong>.</p>
+<section id="frequentist-perspective" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="frequentist-perspective"><span class="header-section-number">2.1.1</span> Frequentist perspective</h3>
+<p>In Frequentist statistics, parameters are treated as <strong>fixed but unknown</strong>, and randomness comes from the data-generating process.</p>
+<p>It is called <em>frequentist</em> because probability is defined in terms of long-run frequencies under repeated sampling.</p>
+<blockquote class="blockquote">
+<p>🎲 <strong>Example:</strong> To estimate the probability of rolling a 6, a Frequentist would say: “If we rolled the die many times under the same conditions, the proportion of 6s would approach its true probability.”</p>
+</blockquote>
+<p>So the logic of inference is based on hypothetical repetition of the same experiment.</p>
+</section>
+<section id="bayesian-perspective" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="bayesian-perspective"><span class="header-section-number">2.1.2</span> Bayesian perspective</h3>
+<p>In Bayesian statistics, unknown quantities are treated as <strong>uncertain</strong>, and that uncertainty is represented with probability distributions.</p>
+<p>This does <strong>not</strong> mean truth does not exist. It means that, before observing enough data, we describe our uncertainty about the unknown using probability.</p>
+<p>For example, if the probability of rolling a 6 is unknown, we may call it <span class="math inline">\(\theta\)</span> and assign a prior distribution to <span class="math inline">\(\theta\)</span>. After observing data, we update that prior into a posterior distribution.</p>
+<p>Bayesian inference is built around the idea of updating beliefs with data:</p>
+<p><span class="math display">\[
+\text{Posterior} = \frac{\text{Likelihood} \times \text{Prior}}{\text{Evidence}}
+\]</span></p>
+</section>
+<section id="summary" class="level3" data-number="2.1.3">
+<h3 data-number="2.1.3" class="anchored" data-anchor-id="summary"><span class="header-section-number">2.1.3</span> Summary</h3>
+<ul>
+<li><strong>Frequentist</strong>: parameters are fixed but unknown; data are random under repeated sampling.</li>
+<li><strong>Bayesian</strong>: observed data are fixed; uncertainty about parameters is represented by prior and posterior distributions.</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For many simple models, both approaches often lead to similar practical conclusions, especially when the dataset is large and priors are weak.</p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="probability-and-conditional-thinking" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Probability and conditional thinking</h1>
+<p>One of the most attractive features of Bayesian statistics is that it makes inference explicitly <strong>conditional</strong>.</p>
+<p>A conditional probability such as</p>
+<p><span class="math display">\[
+P(A \mid B)
+\]</span></p>
+<p>is read as:</p>
+<blockquote class="blockquote">
+<p>the probability of <span class="math inline">\(A\)</span>, given that <span class="math inline">\(B\)</span> is known.</p>
+</blockquote>
+<p>This idea is familiar in everyday reasoning. For example:</p>
+<ul>
+<li><span class="math inline">\(P(\text{disease} \mid \text{positive test})\)</span></li>
+<li><span class="math inline">\(P(\text{rain tomorrow} \mid \text{current weather conditions})\)</span></li>
+</ul>
+<p>In Bayesian inference, we are interested in quantities such as:</p>
+<p><span class="math display">\[
+P(\theta \mid y)
+\]</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(\theta\)</span> is an unknown parameter</li>
+<li><span class="math inline">\(y\)</span> is the observed data</li>
+</ul>
+<p>This is read as:</p>
+<blockquote class="blockquote">
+<p>the probability distribution of the parameter, given the observed data.</p>
+</blockquote>
+<p>That is the core of Bayesian inference.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Bayesian conclusions are always conditional on:</p>
+<ol type="1">
+<li>the observed data,</li>
+<li>the statistical model,</li>
+<li>and the prior assumptions.</li>
+</ol>
+<p>So Bayesian inference is not assumption-free. It is explicit about the assumptions used to update uncertainty.</p>
+</div>
+</div>
+</section>
+<section id="bayes-theorem" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Bayes’ theorem</h1>
+<p>Bayes’ theorem gives the mathematical rule for updating our beliefs:</p>
+<p><span class="math display">\[
+P(\theta \mid y) = \frac{P(y \mid \theta) \cdot P(\theta)}{P(y)}
+\]</span></p>
+<p>or, in words,</p>
+<p><span class="math display">\[
+\text{Posterior} = \frac{\text{Likelihood} \times \text{Prior}}{\text{Evidence}}
+\]</span></p>
+<p>where:</p>
+<ul>
+<li><strong>Prior</strong>: what we assumed or believed before seeing the data</li>
+<li><strong>Likelihood</strong>: how compatible different parameter values are with the observed data</li>
+<li><strong>Evidence</strong>: a scaling constant that makes the posterior a proper probability distribution</li>
+<li><strong>Posterior</strong>: our updated belief after observing the data</li>
+</ul>
+<section id="video-bayes-rule" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="video-bayes-rule"><span class="header-section-number">4.1</span> Video: Bayes’ Rule</h2>
+<div data-align="center">
+<iframe width="840" height="473" src="https://www.youtube.com/embed/HZGCoVF3YvM" frameborder="0" allowfullscreen="">
+</iframe>
+</div>
+</section>
+</section>
+<section id="the-priors" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> The priors</h1>
+<p>Priors formalize previous information or assumptions as probability distributions.</p>
+<p>They can be based on:</p>
+<ol type="1">
+<li>the nature of the variable (discrete or continuous),</li>
+<li>previous experiments,</li>
+<li>expert knowledge,</li>
+<li>or deliberately weak assumptions when prior information is limited.</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In practice, analysts often use <strong>weakly informative priors</strong> when they want the data to dominate the analysis while still ruling out unreasonable parameter values.</p>
+</div>
+</div>
+<p>A prior is not necessarily subjective guesswork. In many applied problems, it can represent previous field trials, historical datasets, or realistic agronomic constraints.</p>
+<p>At the same time, priors should not be treated carelessly. With limited data, they can influence results strongly.</p>
+</section>
+<section id="a-simple-agronomic-example" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> A simple agronomic example</h1>
+<p>Suppose we want to estimate the economically optimum nitrogen rate (EONR) for corn.</p>
+<p>A Frequentist approach might fit a response curve and produce a point estimate and confidence interval for EONR.</p>
+<p>A Bayesian approach could do the same, but it can also:</p>
+<ul>
+<li>incorporate previous site-years as prior information,</li>
+<li>express uncertainty in EONR directly through a posterior distribution,</li>
+<li>and naturally extend to hierarchical models across years, sites, hybrids, or landscape positions.</li>
+</ul>
+<p>So instead of only reporting a single estimate, we could describe our updated uncertainty about the optimum nitrogen rate as:</p>
+<p><span class="math display">\[
+P(\text{EONR} \mid \text{data})
+\]</span></p>
+<p>That is, our inference about EONR is conditional on both the observed data and the assumptions used in the model.</p>
+</section>
+<section id="visualization-of-bayesian-updating" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Visualization of Bayesian updating</h1>
+<p>The following figure is a <strong>conceptual sketch</strong> of Bayesian updating. It is meant to illustrate the idea of combining prior information with observed data through the likelihood to obtain a posterior distribution.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>prior <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span>((x <span class="sc">-</span> <span class="fl">0.3</span>)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> <span class="fl">0.05</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>likelihood <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span>((x <span class="sc">-</span> <span class="fl">0.7</span>)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> <span class="fl">0.02</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>posterior <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span>((x <span class="sc">-</span> <span class="fl">0.6</span>)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> <span class="fl">0.01</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Normalize</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>prior <span class="ot">&lt;-</span> prior <span class="sc">/</span> <span class="fu">sum</span>(prior)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>likelihood <span class="ot">&lt;-</span> likelihood <span class="sc">/</span> <span class="fu">sum</span>(likelihood)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>posterior <span class="ot">&lt;-</span> posterior <span class="sc">/</span> <span class="fu">sum</span>(posterior)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">Prior =</span> prior, <span class="at">Likelihood =</span> likelihood, <span class="at">Posterior =</span> posterior)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>df_long <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>x, <span class="at">names_to =</span> <span class="st">"Distribution"</span>, <span class="at">values_to =</span> <span class="st">"Density"</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_long, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> Density, <span class="at">color =</span> Distribution)) <span class="sc">+</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Bayesian Updating: Prior × Likelihood → Posterior"</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Parameter (θ)"</span>, <span class="at">y =</span> <span class="st">"Density"</span>) <span class="sc">+</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"tomato"</span>, <span class="st">"steelblue"</span>, <span class="st">"darkgreen"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="bayes_01_files/figure-html/bayesian-updating-ggplot-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Fig 1. Conceptual sketch of Bayesian updating: Prior × Likelihood → Posterior</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="credible-intervals-vs-confidence-intervals" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Credible intervals vs confidence intervals</h1>
+<p>A common source of confusion in statistics is the interpretation of intervals.</p>
+<ul>
+<li><p><strong>Confidence interval (Frequentist):</strong> If we repeated the experiment many times under the same conditions, 95% of the intervals produced by that method would contain the true parameter value.</p>
+<blockquote class="blockquote">
+<p>The parameter is treated as fixed. The interval procedure has a long-run success rate of 95%.</p>
+</blockquote></li>
+<li><p><strong>Credible interval (Bayesian):</strong> Given the observed data, the model, and the prior assumptions, there is a 95% probability that the parameter lies within the interval.</p>
+<blockquote class="blockquote">
+<p>This interpretation is often more intuitive, but it is conditional on the model and prior assumptions.</p>
+</blockquote></li>
+</ul>
+</section>
+<section id="bayes-factor-and-model-comparison" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Bayes factor and model comparison</h1>
+<p>When comparing two competing models, Bayesians may use the <strong>Bayes factor</strong>, which measures how much more strongly the observed data support one model over another:</p>
+<p><span class="math display">\[
+BF_{10} = \frac{P(\text{data} \mid M_1)}{P(\text{data} \mid M_0)}
+\]</span></p>
+<p>A Bayes factor greater than 1 favors model <span class="math inline">\(M_1\)</span>, whereas a value less than 1 favors model <span class="math inline">\(M_0\)</span>.</p>
+<p>A useful way to understand this is through <strong>odds</strong>:</p>
+<p><span class="math display">\[
+\text{Posterior odds} = \text{Prior odds} \times \text{Bayes factor}
+\]</span></p>
+<p>or equivalently,</p>
+<p><span class="math display">\[
+\frac{P(M_1 \mid \text{data})}{P(M_0 \mid \text{data})}
+=
+\frac{P(M_1)}{P(M_0)} \times
+\frac{P(\text{data} \mid M_1)}{P(\text{data} \mid M_0)}
+\]</span></p>
+<p>So:</p>
+<ul>
+<li><strong>prior odds</strong> represent what we believed before seeing the data,</li>
+<li><strong>Bayes factor</strong> represents what the data contributed,</li>
+<li><strong>posterior odds</strong> represent our updated support for one model relative to another.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For an introductory course, Bayes factors are helpful mainly as a model-comparison concept. They are not required to understand the basic prior-likelihood-posterior workflow.</p>
+</div>
+</div>
+</section>
+<section id="the-good-the-bad-and-the-ugly" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> The good, the bad, and the ugly</h1>
+<section id="frequentist-approaches" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="frequentist-approaches"><span class="header-section-number">10.1</span> Frequentist approaches</h2>
+<section id="the-good" class="level3" data-number="10.1.1">
+<h3 data-number="10.1.1" class="anchored" data-anchor-id="the-good"><span class="header-section-number">10.1.1</span> The good</h3>
+<ul>
+<li>Widely taught and widely used</li>
+<li>Many standard tools work very well for common agronomic experiments</li>
+<li>Straightforward workflows for familiar analyses such as ANOVA, regression, and mixed models</li>
+</ul>
+</section>
+<section id="the-bad" class="level3" data-number="10.1.2">
+<h3 data-number="10.1.2" class="anchored" data-anchor-id="the-bad"><span class="header-section-number">10.1.2</span> The bad</h3>
+<ul>
+<li>P-values are often over-interpreted</li>
+<li>Confidence intervals are commonly explained incorrectly</li>
+<li>Results are sometimes reduced to a simple significant/non-significant decision</li>
+</ul>
+</section>
+<section id="the-ugly" class="level3" data-number="10.1.3">
+<h3 data-number="10.1.3" class="anchored" data-anchor-id="the-ugly"><span class="header-section-number">10.1.3</span> The ugly</h3>
+<ul>
+<li>Mechanical threshold thinking can replace scientific judgment</li>
+<li>Statistical significance can be confused with agronomic relevance</li>
+<li>Selective reporting and p-hacking can distort conclusions</li>
+</ul>
+</section>
+</section>
+<section id="bayesian-approaches" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="bayesian-approaches"><span class="header-section-number">10.2</span> Bayesian approaches</h2>
+<section id="the-good-1" class="level3" data-number="10.2.1">
+<h3 data-number="10.2.1" class="anchored" data-anchor-id="the-good-1"><span class="header-section-number">10.2.1</span> The good</h3>
+<ul>
+<li>Probability statements about parameters are often more intuitive</li>
+<li>Prior information can be incorporated formally</li>
+<li>Very flexible for hierarchical models, small datasets, and complex uncertainty structures</li>
+</ul>
+</section>
+<section id="the-bad-1" class="level3" data-number="10.2.2">
+<h3 data-number="10.2.2" class="anchored" data-anchor-id="the-bad-1"><span class="header-section-number">10.2.2</span> The bad</h3>
+<ul>
+<li>Requires more modeling decisions</li>
+<li>Priors can affect results, especially when data are limited</li>
+<li>Computation can be slower and model checking can be more demanding</li>
+</ul>
+</section>
+<section id="the-ugly-1" class="level3" data-number="10.2.3">
+<h3 data-number="10.2.3" class="anchored" data-anchor-id="the-ugly-1"><span class="header-section-number">10.2.3</span> The ugly</h3>
+<ul>
+<li>Poorly chosen priors plus weak data can be misleading</li>
+<li>Complex Bayesian models can create a false sense of rigor</li>
+<li>It is easy to trust software output without checking convergence, model fit, and sensitivity to priors</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="final-thoughts" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> Final thoughts</h1>
+<p>Bayesian statistics is not a replacement for good scientific thinking, and it is not automatically superior to frequentist methods.</p>
+<p>Its main value is that it gives us a coherent way to combine prior information, observed data, and uncertainty into a single inferential framework.</p>
+<p>In many simple problems, Frequentist and Bayesian approaches may lead to similar answers. The real advantage of Bayesian methods often becomes clearer when:</p>
+<ul>
+<li>data are limited,</li>
+<li>multilevel structure matters,</li>
+<li>previous knowledge is relevant,</li>
+<li>or decision-making under uncertainty is central.</li>
+</ul>
+<p>For applied agricultural science, the best method is usually the one that matches the research question, the structure of the data, and the kind of uncertainty we need to communicate.</p>
+</section>
+<section id="useful-resources" class="level1" data-number="12">
+<h1 data-number="12"><span class="header-section-number">12</span> Useful resources</h1>
+<section id="introductory-theory" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="introductory-theory"><span class="header-section-number">12.1</span> Introductory theory</h2>
+<ul>
+<li><a href="https://www.amazon.com/dp/0691159289">Bayesian Models: A Statistical Primer for Ecologists – Hobbs &amp; Hooten</a></li>
+<li><a href="https://www.amazon.com/dp/0367198487">Bringing Bayesian Models to Life – Hooten &amp; Hefley</a></li>
+<li><a href="https://civil.colorado.edu/~balajir/CVEN6833/bayes-resources/RM-StatRethink-Bayes.pdf">Statistical Rethinking – McElreath (PDF)</a></li>
+</ul>
+</section>
+<section id="bayesian-workflow-and-philosophy" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="bayesian-workflow-and-philosophy"><span class="header-section-number">12.2</span> Bayesian workflow and philosophy</h2>
+<ul>
+<li><a href="https://arxiv.org/abs/2011.01808">Bayesian workflow – Gelman et al.</a></li>
+<li><a href="https://www.amazon.com/dp/081269578X">Scientific Reasoning: The Bayesian Approach – Howson &amp; Urbach</a></li>
+</ul>
+</section>
+<section id="advanced-theory" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="advanced-theory"><span class="header-section-number">12.3</span> Advanced theory</h2>
+<ul>
+<li><a href="https://www.amazon.com/dp/1439840954">Bayesian Data Analysis (3rd Edition)</a></li>
+</ul>
+</section>
+<section id="agronomy-applications" class="level2" data-number="12.4">
+<h2 data-number="12.4" class="anchored" data-anchor-id="agronomy-applications"><span class="header-section-number">12.4</span> Agronomy applications</h2>
+<ul>
+<li><a href="https://doi.org/10.1016/j.eja.2020.126076">Makowski et al., 2020 (EJA)</a> Analyzing uncertainty in critical nitrogen dilution curves <br></li>
+<li><a href="https://doi.org/10.1016/j.agrformet.2021.108668">Correndo et al., 2021 (Ag. For. Meteorol.)</a> Unraveling uncertainty drivers of the maize yield response to nitrogen: A Bayesian and machine learning approach. <br></li>
+<li><a href="https://doi.org/10.1038/s41598-020-72693-1">Lacasa et al., 2020 (Sci. Rep.)</a> Bayesian approach for maize yield response to plant density from both agronomic and economic viewpoints in North America <br></li>
+<li><a href="https://doi.org/10.1186/s13007-024-01261-9">Palmero et al., 2024 (Plant Methods)</a> A Bayesian approach for estimating the uncertainty on the contribution of nitrogen fixation and calculation of nutrient balances in grain legumes <br></li>
+<li><a href="https://doi.org/10.1186/s13007-025-01355-y">Giordano et al.&nbsp;2025 (Plant Methods)</a> A Bayesian framework to model variance of grain yield response to plant density <br></li>
+</ul>
+</section>
+<section id="miscellaneous" class="level2" data-number="12.5">
+<h2 data-number="12.5" class="anchored" data-anchor-id="miscellaneous"><span class="header-section-number">12.5</span> Miscellaneous</h2>
+<ul>
+<li><a href="https://statmodeling.stat.columbia.edu/">Statistical Modeling Blog – Gelman et al.</a></li>
+<li><a href="https://open.spotify.com/show/7HYN0pLjob4d8RiwKTvLUa">Learning Bayesian Statistics Podcast</a></li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/adriancorrendo\.github\.io\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../coding/week_09/16_models06.html" class="pagination-link" aria-label="16-Models VI">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">16-Models VI</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../coding/week_10/bayes_02.html" class="pagination-link" aria-label="18-Bayes II">
+        <span class="nav-page-text">18-Bayes II</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p><span> Developed by Adrian Correndo with <a href="https://quarto.org/">Quarto</a>. License: <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a>. </span></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
