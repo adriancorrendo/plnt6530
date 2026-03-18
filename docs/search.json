@@ -1749,6 +1749,127 @@
     ]
   },
   {
+    "objectID": "coding/week_10/bayes_02.html",
+    "href": "coding/week_10/bayes_02.html",
+    "title": "Bayesian Statistics in R",
+    "section": "",
+    "text": "📌 Today’s Topics\n\n\n\nWe’ll learn how to compute posterior distributions, step-by-step:\n\n🎯 Acceptance/Rejection Sampling (AR Sampling)\n🔁 Markov Chain Monte Carlo (MCMC) — more efficient than AR!\n\nAnd introduce powerful R packages for Bayesian modeling:\n\n🧪 rjags — Gibbs sampling with BUGS syntax\n🔬 rstan — write your own Stan models\n📦 brms — beginner-friendly interface to Stan",
+    "crumbs": [
+      "Lessons",
+      "18-Bayes II"
+    ]
+  },
+  {
+    "objectID": "coding/week_10/bayes_02.html#packages-well-use-today",
+    "href": "coding/week_10/bayes_02.html#packages-well-use-today",
+    "title": "Bayesian Statistics in R",
+    "section": "\n1 📦 Packages we’ll use today",
+    "text": "1 📦 Packages we’ll use today\n\nShow codelibrary(pacman)\np_load(dplyr, tidyr, tibble, purrr)\np_load(ggplot2)\np_load(brms)\np_load(tidybayes)",
+    "crumbs": [
+      "Lessons",
+      "18-Bayes II"
+    ]
+  },
+  {
+    "objectID": "coding/week_10/bayes_02.html#computing-posterior-distributions",
+    "href": "coding/week_10/bayes_02.html#computing-posterior-distributions",
+    "title": "Bayesian Statistics in R",
+    "section": "\n2 🎲 Computing Posterior Distributions",
+    "text": "2 🎲 Computing Posterior Distributions\n\n2.1 1️⃣ Acceptance/Rejection Sampling - Basics\nHere’s how AR sampling works:\n\nPropose values for parameters\nSimulate data based on those values\nMeasure how well it fits the observed data\nAccept if close enough (✔️), reject otherwise (❌)\n\n\n2.1.1 🌽 Simulating Corn Yield vs. Plant Density\nWe simulate yield using a parabolic function.\nThen compare simulated data to the real observed values. If the fit is good enough, we keep those parameter values.\n👀 We’ll visualize which parameter sets are accepted and which aren’t.\n\n\n\n\n\n\n\n\nAlgorithm settings:\n\nShow code# Algorithm settings\nK_tries &lt;- 10^6\ndiff &lt;- matrix(, K_tries, 1)\nerror &lt;- 200\n\n# Known random variables and parameters\nn &lt;- length(x)\n\n\n\nGenerate proposal parameter values using the prior distributions.\n\n\nShow codeset.seed(6767)\nb0_try &lt;- runif(1, 4, 6)\nb1_try &lt;- runif(1, 1, 3)\nb2_try &lt;- rgamma(1, 0.1, 2)\nmu_try &lt;- b0_try + x*b1_try - (x^2)*b2_try\nsigma_try &lt;- rgamma(1, 2, 2)\n\n\n\nGenerate data with those parameters.\n\n\nShow codeset.seed(567)\ny_try &lt;- rnorm(n, mu_try, sigma_try)\n\n\n\nCompare the simulated data with the observed data = difference.\n\n\nShow code# Record difference between draw of y from prior predictive distribution and observed data\ndiff[k, ] &lt;- sum(abs(y - y_try))\n\n\n\nAccept that combination of parameters if the difference is smaller than the predefined acceptable error. Reject it otherwise.\n\n\nShow codeplot(x, y, xlab = \"Plant density\", \n     ylab = \"Corn Yield (Mg/ha)\", xlim = c(2, 13), ylim = c(5, 20),\n     typ = \"b\", cex = 0.8, pch = 20, col = rgb(0.7, 0.7, 0.7, 0.9))\npoints(x, y_hat[k,], typ = \"b\", lwd = 2, \n       col = ifelse(diff[1] &lt; error, \"gold\", \"tomato\"))\n\n\n\n\n\n\n\n\nShow codeset.seed(567567)\nk = 1\nb0_try &lt;- runif(1, 4, 6)\nb1_try &lt;- runif(1, 1, 3)\nb2_try &lt;- rgamma(1, 0.1, 2)\nmu_try &lt;- b0_try + x*b1_try - (x^2)*b2_try\nsigma_try &lt;- rgamma(1, 2, 2)\n\ny_try &lt;- rnorm(n, mu_try, sigma_try)\ndiff[k, ] &lt;- sum(abs(y - y_try))\ny_hat[k, ] &lt;- y_try\nposterior_samp_parameters[k, ] &lt;- c(b0_try, b1_try, b2_try, sigma_try)\n\nplot(x, y, xlab = \"Plant density\", \n     ylab = \"Observed yield\", xlim = c(2, 13), ylim = c(5, 20),\n     typ = \"b\", cex = 0.8, pch = 20, col = rgb(0.7, 0.7, 0.7, 0.9))\n\npoints(x, y_hat[k,], typ = \"b\", lwd = 2, \n       col = ifelse(diff[1] &lt; error, \"gold\", \"tomato\"))\n\n\n\n\n\n\n\n\nShow codeset.seed(76543)\nk = 1\nb0_try &lt;- runif(1, 4, 6)\nb1_try &lt;- runif(1, 1, 3)\nb2_try &lt;- rgamma(1, .5, 2)\nmu_try &lt;- b0_try + x*b1_try - (x^2)*b2_try\nsigma_try &lt;- rgamma(1, 2, 2)\n\ny_try &lt;- rnorm(n, mu_try, sigma_try)\ndiff[k, ] &lt;- sum(abs(y - y_try))\ny_hat[k, ] &lt;- y_try\nposterior_samp_parameters[k, ] &lt;- c(b0_try, b1_try, b2_try, sigma_try)\n\nplot(x, y, xlab = \"Plant density\", \n     ylab = \"Observed yield\", xlim = c(2, 13), ylim = c(5, 20),\n     typ = \"b\", cex = 0.8, pch = 20, col = rgb(0.7, 0.7, 0.7, 0.9))\n\npoints(x, y_hat[k,], typ = \"b\", lwd = 2, \n       col = ifelse(diff[1] &lt; error, \"gold\", \"tomato\"))\n\n\n\n\n\n\n\nNow, what if we change the priors:\n\n\n\n\n\n\n\n\nNow, do many tries.\n\nShow codefor (k in 1:K_tries) {\n    \n    b0_try &lt;- runif(1, 2, 10)\n    b1_try &lt;- rnorm(1, 2.2, .5)\n    b2_try &lt;- rgamma(1, .25, 2)\n    mu_try &lt;- b0_try + x*b1_try - (x^2)*b2_try\n    sigma_try &lt;- rgamma(1, 2, 2)\n\n    y_try &lt;- rnorm(n, mu_try, sigma_try)\n    \n    diff[k, ] &lt;- sum(abs(y - y_try))\n    y_hat[k, ] &lt;- y_try\n    posterior_samp_parameters[k, ] &lt;- c(b0_try, b1_try, b2_try, sigma_try)\n}\n\n\nAcceptance rate\n\nShow codelength(which(diff &lt; error))/K_tries\n\n[1] 0.169531\n\n\nPriors versus posteriors:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n2.1.2 📊 Plot predictions\n\nShow codefiltered_yhat &lt;- y_hat[which(diff &lt; error), 50]\ndf_yhat &lt;- data.frame(pred = filtered_yhat)\n\nggplot(df_yhat, aes(x = pred)) +\n  geom_histogram(aes(y = ..density..), fill = \"grey\", color = \"black\", bins = 30) +\n  geom_vline(xintercept = y[50], color = \"gold\", linetype = \"dashed\", linewidth = 1.2) +\n  labs(\n    x = expression(hat(y)[50]),\n    y = \"Density\"\n  ) +\n  theme_classic()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nLet’s get started",
+    "crumbs": [
+      "Lessons",
+      "18-Bayes II"
+    ]
+  },
+  {
+    "objectID": "coding/week_10/bayes_02.html#markov-chain-monte-carlo-mcmc",
+    "href": "coding/week_10/bayes_02.html#markov-chain-monte-carlo-mcmc",
+    "title": "Bayesian Statistics in R",
+    "section": "\n3 🔁 Markov Chain Monte Carlo (MCMC)",
+    "text": "3 🔁 Markov Chain Monte Carlo (MCMC)\n\nMCMC methods changed Bayesian stats forever! 🧠🔥\n\nThey let us generate samples from complex distributions\nThey form a chain, where each sample depends on the previous\nUsed in packages like brms, rstan, and rjags\n\n\n📚 More info: - MCMC Handbook - MCMCpack - mcmc - Paper: Foundations of MCMC",
+    "crumbs": [
+      "Lessons",
+      "18-Bayes II"
+    ]
+  },
+  {
+    "objectID": "coding/week_10/bayes_02.html#rjags-just-another-gibbs-sampler",
+    "href": "coding/week_10/bayes_02.html#rjags-just-another-gibbs-sampler",
+    "title": "Bayesian Statistics in R",
+    "section": "\n4 rjags: Just Another Gibbs Sampler",
+    "text": "4 rjags: Just Another Gibbs Sampler\n\n🔗 Docs: https://mcmc-jags.sourceforge.io/\n🐛 Issues: https://sourceforge.net/projects/mcmc-jags/\nrjags uses the classic Gibbs Sampling approach and the BUGS model syntax (used in WinBUGS, OpenBUGS).\n\nMore manual than brms\n\nIdeal for users who want to write the full statistical model\nOften paired with the coda package for diagnostics",
+    "crumbs": [
+      "Lessons",
+      "18-Bayes II"
+    ]
+  },
+  {
+    "objectID": "coding/week_10/bayes_02.html#rstan-full-control-with-stan",
+    "href": "coding/week_10/bayes_02.html#rstan-full-control-with-stan",
+    "title": "Bayesian Statistics in R",
+    "section": "\n5 rstan: Full Control with Stan",
+    "text": "5 rstan: Full Control with Stan\n\n🔗 Docs: https://mc-stan.org/rstan/\n🐛 Issues: https://github.com/stan-dev/rstan/issues\nStan is a powerful, high-performance platform for Bayesian modeling, using: - Hamiltonian Monte Carlo (HMC) - No-U-Turn Sampler (NUTS)\nUnlike brms, Stan requires writing the full model, offering full flexibility and speed.\n✨ brms can even show the Stan code it generates under the hood.\nStan also supports Python, Julia, MATLAB, and more.",
+    "crumbs": [
+      "Lessons",
+      "18-Bayes II"
+    ]
+  },
+  {
+    "objectID": "coding/week_10/bayes_02.html#brms-bayesian-regression-models-using-stan",
+    "href": "coding/week_10/bayes_02.html#brms-bayesian-regression-models-using-stan",
+    "title": "Bayesian Statistics in R",
+    "section": "\n6 brms: Bayesian Regression Models using Stan",
+    "text": "6 brms: Bayesian Regression Models using Stan\n\n🔗 Docs: https://paul-buerkner.github.io/brms/\n🐛 Issues: https://github.com/paul-buerkner/brms/issues\nbrms makes it easy to run complex Bayesian models without writing Stan code manually. It is inspired by lme4, so syntax feels familiar.\nIt supports a wide range of models: - Linear, GLM, survival, zero-inflated, ordinal, count, and more\n✨ We will use brms as our main interface in this session.\n📚 More info: - JSS Article on brms\n\n\n6.1 Fit brms\nLet’s now fit a Bayesian quadratic-plateau model to estimate AONR directly from the corn nitrogen response data.\n\n6.1.1 Corn Data\nWe will again use our synthetic dataset of corn yield response to nitrogen fertilizer across two sites and three years with contrasting weather.\n\nShow code# Read CSV file\ncornn_data &lt;- read.csv(\"data/cornn_data.csv\") %&gt;%\n  mutate(\n    n_trt = factor(n_trt, levels = c(\"N0\", \"N60\", \"N90\", \"N120\",\n                                   \"N180\", \"N240\", \"N300\")),\n    block = factor(block),\n    site = factor(site),\n    year = factor(year),\n    site_year = interaction(site, weather, drop = FALSE), # create interaction\n    weather = factor(weather)\n  ) %&gt;%\n  # IMPORTANT: blocks are nested within site (Block 1 in A is not the same as Block 1 in B)\n  mutate(\n    block_in_site = interaction(site, block, drop = TRUE),\n    yield = yield_kgha\n  )\n\nglimpse(cornn_data)\n\nRows: 168\nColumns: 10\n$ site          &lt;fct&gt; A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A,…\n$ year          &lt;fct&gt; 2004, 2004, 2004, 2004, 2004, 2004, 2004, 2004, 2004, 20…\n$ block         &lt;fct&gt; 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3,…\n$ n_trt         &lt;fct&gt; N0, N0, N0, N0, N60, N60, N60, N60, N90, N90, N90, N90, …\n$ nrate_kgha    &lt;int&gt; 0, 0, 0, 0, 60, 60, 60, 60, 90, 90, 90, 90, 120, 120, 12…\n$ yield_kgha    &lt;int&gt; 6860, 7048, 8083, 8194, 10010, 9568, 10256, 10939, 11959…\n$ weather       &lt;fct&gt; normal, normal, normal, normal, normal, normal, normal, …\n$ site_year     &lt;fct&gt; A.normal, A.normal, A.normal, A.normal, A.normal, A.norm…\n$ block_in_site &lt;fct&gt; A.1, A.2, A.3, A.4, A.1, A.2, A.3, A.4, A.1, A.2, A.3, A…\n$ yield         &lt;int&gt; 6860, 7048, 8083, 8194, 10010, 9568, 10256, 10939, 11959…\n\n\n\n6.2 brms pars\n\nWU: Warmup iterations (burn-in). This is the number of initial samples that will be discarded to allow the Markov chain to converge to the target distribution.\nIT: Total iterations. This is the total number of samples to draw from the posterior distribution, including warmup.\nTH: Thinning interval. This is the interval at which samples are kept. For example, if TH = 5, every 5th sample will be retained, and the others will be discarded. Thinning can help reduce autocorrelation in the samples.\nCH: Number of chains. This is the number of independent Markov chains to run. Running multiple chains can help assess convergence and ensure that the results are not dependent on the starting values.\nAD: Adapt delta. This is a tuning parameter for the No-U-Turn Sampler (NUTS) algorithm used by Stan. It controls the target acceptance rate for the sampler. A higher adapt delta can lead to more accurate sampling but may increase computation time.\n\n\nShow codeWU &lt;- 2000\nIT &lt;- 6000\nTH &lt;- 5\nCH &lt;- 6\nAD &lt;- 0.99\n\n\n\n6.3 Model\n\nShow codebayes_model &lt;- \n  brms::brm(\n    prior = c(\n      # Intercept in kg/ha\n      prior('normal(6000, 2500)', nlpar = 'b0', lb = 0),\n      # Initial slope in kg grain per kg N\n      prior('normal(50, 25)', nlpar = 'b1', lb = 0),\n      # Agronomic optimum N rate in kg N/ha\n      prior('normal(180, 60)', nlpar = 'aonr', lb = 0)\n    ),\n    formula = bf(\n      yield_kgha ~\n        (1 - step(nrate_kgha - aonr)) *\n          (b0 + b1 * nrate_kgha - (b1 / (2 * aonr)) * nrate_kgha^2) +\n        step(nrate_kgha - aonr) *\n          (b0 + b1 * aonr - (b1 / (2 * aonr)) * aonr^2),\n      b0 + b1 + aonr ~ 1,\n      nl = TRUE\n    ),\n    data = cornn_data,\n    sample_prior = \"yes\",\n    family = gaussian(link = 'identity'),\n    control = list(adapt_delta = AD),\n    warmup = WU, iter = IT, thin = TH,\n    chains = CH, cores = CH,\n    init = 0,\n    seed = 1\n  )\n\nplot(bayes_model)\n\n\n\n\n\n\nShow codebayes_model\n\n\n\n6.4 Using posterior distributions\n\n6.4.1 Prepare summary\n\nShow codenewdata &lt;- tibble(nrate_kgha = seq(min(cornn_data$nrate_kgha), \n                                   max(cornn_data$nrate_kgha), length.out = 400))\n\n# Expected values (population-level effects only)\nm1_epred &lt;- newdata %&gt;%\n  tidybayes::add_epred_draws(bayes_model, newdata = ., re_formula = NA, ndraws = NULL) %&gt;%\n  ungroup()\n\nm1_epred_quantiles &lt;- m1_epred %&gt;%\n  group_by(nrate_kgha) %&gt;%\n  summarise(\n    q025 = quantile(.epred, 0.025),\n    q010 = quantile(.epred, 0.10),\n    q250 = quantile(.epred, 0.25),\n    q500 = quantile(.epred, 0.50),\n    q750 = quantile(.epred, 0.75),\n    q900 = quantile(.epred, 0.90),\n    q975 = quantile(.epred, 0.975),\n    .groups = \"drop\"\n  )\n\n# Predicted values (including residual error)\nm1_pred &lt;- newdata %&gt;%\n  tidybayes::add_predicted_draws(bayes_model, newdata = ., re_formula = NA, ndraws = NULL) %&gt;%\n  ungroup()\n\nm1_quantiles &lt;- m1_pred %&gt;%\n  group_by(nrate_kgha) %&gt;%\n  summarise(\n    q025 = quantile(.prediction, 0.025),\n    q010 = quantile(.prediction, 0.10),\n    q250 = quantile(.prediction, 0.25),\n    q500 = quantile(.prediction, 0.50),\n    q750 = quantile(.prediction, 0.75),\n    q900 = quantile(.prediction, 0.90),\n    q975 = quantile(.prediction, 0.975),\n    .groups = \"drop\"\n  )\n\n# Extract posterior samples for AONR\npost_pars &lt;- bayes_model %&gt;%\n  spread_draws(b_b0_Intercept, b_b1_Intercept, b_aonr_Intercept) %&gt;%\n  mutate(AONR = b_aonr_Intercept)\n\n# distribution of AONR\naonr_quantiles &lt;- post_pars %&gt;%\n  summarise(\n    q025 = quantile(AONR, 0.025),\n    q010 = quantile(AONR, 0.10),\n    q250 = quantile(AONR, 0.25),\n    q500 = quantile(AONR, 0.50),\n    q750 = quantile(AONR, 0.75),\n    q900 = quantile(AONR, 0.90),\n    q975 = quantile(AONR, 0.975)\n  )\n\n\n\n6.4.2 Plot posterior\n\nShow codem1_plot &lt;- ggplot() +\n  geom_ribbon(data = m1_quantiles, alpha = 0.60, fill = \"cornsilk1\",\n              aes(x = nrate_kgha, ymin = q025, ymax = q975)) +\n  geom_ribbon(data = m1_quantiles, alpha = 0.25, fill = \"cornsilk3\",\n              aes(x = nrate_kgha, ymin = q010, ymax = q900)) +\n  geom_ribbon(data = m1_quantiles, alpha = 0.5, fill = \"gold3\",\n              aes(x = nrate_kgha, ymin = q250, ymax = q750)) +\n  geom_path(data = m1_epred_quantiles,\n            aes(x = nrate_kgha, y = q500, color = \"brms()\"), linewidth = 1) +\n  geom_point(data = cornn_data, aes(x = nrate_kgha, y = yield_kgha, color = \"brms()\"), alpha = 0.25) +\n  scale_color_manual(values = c(\"purple4\", \"tomato\")) +\n  theme_classic() +\n  theme(\n    legend.position = 'right',\n    legend.title = element_blank(),\n    panel.grid = element_blank(),\n    axis.title = element_text(size = rel(1.3)),\n    axis.text = element_text(size = rel(1)),\n    strip.text = element_text(size = rel(1.1))\n  ) +\n  labs(x = \"N fertilizer rate (kg/ha)\", y = \"Corn yield (kg/ha)\")\n\nm1_plot\n\n\n\n\n\n\n\n\n6.4.3 Posterior distribution of AONR\n\nShow codepost_pars %&gt;%\n  ggplot(aes(x = AONR)) +\n  geom_histogram(bins = 40, fill = \"grey70\", color = \"black\") +\n  theme_classic() +\n  labs(x = \"Posterior AONR (kg N/ha)\", y = \"Frequency\")+\n  # add ribbons for quantiles\n  geom_vline(xintercept = aonr_quantiles$q025, \n             color = \"grey15\", linetype = \"dashed\", size = 1.2)+\n  geom_vline(xintercept = aonr_quantiles$q975, \n             color = \"grey15\", linetype = \"dashed\", size = 1.2)+\n  geom_vline(xintercept = aonr_quantiles$q500, \n             color = \"tomato\", linetype = \"solid\", size = 1.2)",
+    "crumbs": [
+      "Lessons",
+      "18-Bayes II"
+    ]
+  },
+  {
+    "objectID": "coding/week_10/bayes_02.html#group-specific-quadratic-plateau-model-with-site_year",
+    "href": "coding/week_10/bayes_02.html#group-specific-quadratic-plateau-model-with-site_year",
+    "title": "Bayesian Statistics in R",
+    "section": "\n7 Group-specific quadratic-plateau model with site_year\n",
+    "text": "7 Group-specific quadratic-plateau model with site_year\n\nNow let’s extend the global model. Here, we will:\n\ninclude a random block effect nested within site_year\n\nallow the quadratic-plateau parameters to vary by site_year\n\nsample posterior fitted values for each site_year\n\nplot fitted curves and predictive intervals by environment\n\n\n7.1 Priors for site_year-specific parameters\n\nShow codepriors_site_year &lt;- c(\n  prior(\"normal(6000, 2500)\", nlpar = \"b0\", lb = 0),\n  prior(\"normal(50, 25)\", nlpar = \"b1\", lb = 0),\n  prior(\"normal(180, 60)\", nlpar = \"aonr\", lb = 0),\n  prior(\"student_t(3, 0, 1000)\", class = \"sd\", nlpar = \"u\", group = \"site_year:block\"),\n  prior(\"student_t(3, 0, 1000)\", class = \"sigma\", lb = 0)\n)\n\n\n\n7.2 Model with site_year-specific parameters\n\nShow codebayes_model_sy &lt;- \n  brms::brm(\n    prior = priors_site_year,\n    formula = bf(\n      yield_kgha ~\n        (1 - step(nrate_kgha - aonr)) *\n          (b0 + b1 * nrate_kgha - (b1 / (2 * aonr)) * nrate_kgha^2) +\n        step(nrate_kgha - aonr) *\n          (b0 + b1 * aonr - (b1 / (2 * aonr)) * aonr^2) +\n        u,\n      b0 ~ 0 + site_year,\n      b1 ~ 0 + site_year,\n      aonr ~ 0 + site_year,\n      u ~ 0 + (1 | site_year:block),\n      nl = TRUE\n    ),\n    data = cornn_data,\n    family = gaussian(),\n    sample_prior = \"yes\",\n    control = list(adapt_delta = 0.995, max_treedepth = 15),\n    warmup = WU, iter = IT, thin = TH,\n    chains = CH, cores = CH,\n    seed = 1\n  )\n\nplot(bayes_model_sy)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nShow codesummary(bayes_model_sy)\n\n\n\n7.3 Prepare summaries by site_year\n\n\nShow codenewdata_sy &lt;- cornn_data %&gt;%\n  distinct(site_year) %&gt;%\n  tidyr::crossing(\n    nrate_kgha = seq(min(cornn_data$nrate_kgha), max(cornn_data$nrate_kgha), length.out = 300)\n  )\n\n# Expected values (site_year-specific fixed effects only)\nfit_sy_epred &lt;- newdata_sy %&gt;%\n  tidybayes::add_epred_draws(\n    bayes_model_sy,\n    newdata = .,\n    re_formula = NA,\n    ndraws = NULL\n  ) %&gt;%\n  ungroup()\n\nfit_sy_epred_quantiles &lt;- fit_sy_epred %&gt;%\n  group_by(site_year, nrate_kgha) %&gt;%\n  summarise(\n    q025 = quantile(.epred, 0.025),\n    q010 = quantile(.epred, 0.10),\n    q250 = quantile(.epred, 0.25),\n    q500 = quantile(.epred, 0.50),\n    q750 = quantile(.epred, 0.75),\n    q900 = quantile(.epred, 0.90),\n    q975 = quantile(.epred, 0.975),\n    .groups = \"drop\"\n  )\n\n# Predicted values (including residual error)\nfit_sy_pred &lt;- newdata_sy %&gt;%\n  tidybayes::add_predicted_draws(\n    bayes_model_sy,\n    newdata = .,\n    re_formula = NA,\n    ndraws = NULL\n  ) %&gt;%\n  ungroup()\n\nfit_sy_quantiles &lt;- fit_sy_pred %&gt;%\n  group_by(site_year, nrate_kgha) %&gt;%\n  summarise(\n    q025 = quantile(.prediction, 0.025),\n    q010 = quantile(.prediction, 0.10),\n    q250 = quantile(.prediction, 0.25),\n    q500 = quantile(.prediction, 0.50),\n    q750 = quantile(.prediction, 0.75),\n    q900 = quantile(.prediction, 0.90),\n    q975 = quantile(.prediction, 0.975),\n    .groups = \"drop\"\n  )\n\n# Extract posterior samples for AONR by site_year\npost_pars_sy &lt;- bayes_model_sy %&gt;%\n  posterior::as_draws_df() %&gt;%\n  as_tibble() %&gt;%\n  select(starts_with(\"b_aonr_site_year\")) %&gt;%\n  pivot_longer(\n    cols = everything(),\n    names_to = \"site_year\",\n    values_to = \"AONR\"\n  ) %&gt;%\n  mutate(site_year = sub(\"^b_aonr_site_year\", \"\", site_year))\n\n# Distribution of AONR by site_year\nAONR_quantiles_sy &lt;- post_pars_sy %&gt;%\n  group_by(site_year) %&gt;%\n  summarise(\n    q025 = quantile(AONR, 0.025),\n    q010 = quantile(AONR, 0.10),\n    q250 = quantile(AONR, 0.25),\n    q500 = quantile(AONR, 0.50),\n    q750 = quantile(AONR, 0.75),\n    q900 = quantile(AONR, 0.90),\n    q975 = quantile(AONR, 0.975),\n    .groups = \"drop\"\n  )\n\n\n\n7.4 Plot fitted curves and intervals by site_year\n\n\nShow codeweather_cols &lt;- c(\n  dry = \"#b2182b\",\n  normal = \"#1b9e77\",\n  wet = \"#2c7fb8\"\n)\n\nggplot() +\n  geom_ribbon(\n    data = fit_sy_quantiles,\n    aes(x = nrate_kgha, ymin = q025, ymax = q975),\n    fill = \"grey70\", alpha = 0.30\n  ) +\n  geom_ribbon(\n    data = fit_sy_quantiles,\n    aes(x = nrate_kgha, ymin = q250, ymax = q750),\n    fill = \"grey45\", alpha = 0.45\n  ) +\n  geom_line(\n    data = fit_sy_epred_quantiles,\n    aes(x = nrate_kgha, y = q500),\n    linewidth = 1\n  ) +\n  geom_point(\n    data = cornn_data,\n    aes(x = nrate_kgha, y = yield_kgha, color = weather, shape = site),\n    alpha = 0.70, size = 2\n  ) +\n  scale_color_manual(values = weather_cols, name = \"Weather\") +\n  scale_shape_manual(values = c(16, 17, 15, 18, 8), name = \"Site\") +\n  facet_wrap(~ site_year) +\n  theme_classic() +\n  labs(\n    x = \"N fertilizer rate (kg/ha)\",\n    y = \"Corn yield (kg/ha)\",\n    title = \"Quadratic-plateau response by site_year\"\n  )\n\n\n\n\n\n\n\n\n7.5 Plot AONR quantile bands by site_year\n\n\nShow codeaonr_rects &lt;- AONR_quantiles_sy %&gt;%\n  left_join(\n    cornn_data %&gt;%\n      group_by(site_year) %&gt;%\n      summarise(\n        ymin = min(yield_kgha, na.rm = TRUE),\n        ymax = max(yield_kgha, na.rm = TRUE),\n        .groups = \"drop\"\n      ),\n    by = \"site_year\"\n  )\n\nweather_cols &lt;- c(\n  dry = \"#b2182b\",\n  normal = \"#1b9e77\",\n  wet = \"#2c7fb8\"\n)\n\n# Plot with AONR quantile bands \nggplot() +\n  geom_rect(\n    data = aonr_rects,\n    aes(xmin = q025, xmax = q975, ymin = 0, ymax = 17500),\n    fill = \"grey70\", alpha = 0.18,\n    inherit.aes = FALSE\n  ) +\n  geom_rect(\n    data = aonr_rects,\n    aes(xmin = q250, xmax = q750, ymin = 0, ymax = 17500),\n    fill = \"grey45\", alpha = 0.28,\n    inherit.aes = FALSE\n  ) +\n  geom_line(\n    data = fit_sy_epred_quantiles,\n    aes(x = nrate_kgha, y = q500),\n    linewidth = 1\n  ) +\n  geom_vline(\n    data = AONR_quantiles_sy,\n    aes(xintercept = q500),\n    linetype = 2,\n    linewidth = 0.8,\n    inherit.aes = FALSE\n  ) +\n  geom_point(\n    data = cornn_data,\n    aes(x = nrate_kgha, y = yield_kgha, color = weather, shape = site),\n    alpha = 0.70, size = 2\n  ) +\n  scale_color_manual(values = weather_cols, name = \"Weather\") +\n  scale_shape_manual(values = c(16, 17, 15, 18, 8), name = \"Site\") +\n  facet_wrap(~ site_year) +\n  theme_classic() +\n  labs(\n    x = \"N fertilizer rate (kg/ha)\",\n    y = \"Corn yield (kg/ha)\",\n    title = \"Quadratic-plateau response by site_year with AONR bands\"\n  )",
+    "crumbs": [
+      "Lessons",
+      "18-Bayes II"
+    ]
+  },
+  {
+    "objectID": "coding/week_10/bayes_02.html#final-considerations",
+    "href": "coding/week_10/bayes_02.html#final-considerations",
+    "title": "Bayesian Statistics in R",
+    "section": "\n8 Final considerations",
+    "text": "8 Final considerations\nBayesian analysis does not change the agronomic question. We still want to understand crop response, estimate meaningful parameters, and quantify uncertainty. What changes is the way uncertainty is represented and updated. Instead of focusing only on point estimates and p-values, Bayesian models allow us to work directly with probability distributions for parameters such as yield response, plateau, and AONR.\nIn this tutorial, we moved from a simple acceptance-rejection sampler to modern Bayesian regression with brms. That progression is important. The early examples help us understand the logic of posterior updating, while the brms models show how these ideas scale to realistic agronomic datasets.\nA few practical lessons from this class:\n\nPriors should be chosen on the scale of the data and with agronomic meaning in mind.\nPosterior expected values (epred) and posterior predictive values (prediction) answer different questions, so both can be useful.\nReparameterizing the model in terms of AONR can be more intuitive than working directly with curvature coefficients.\nGroup-specific models can reveal that response curves and optimum N rates differ substantially across environments.\nAdding block effects helps respect the experimental design and can improve inference.",
+    "crumbs": [
+      "Lessons",
+      "18-Bayes II"
+    ]
+  },
+  {
+    "objectID": "coding/week_10/bayes_02.html#suggested-practice",
+    "href": "coding/week_10/bayes_02.html#suggested-practice",
+    "title": "Bayesian Statistics in R",
+    "section": "\n9 Suggested practice",
+    "text": "9 Suggested practice\nYou can extend these examples by:\n\ncomparing weakly informative versus strongly informative priors\nchecking model diagnostics such as trace plots, effective sample size, and R-hat\ncomparing Bayesian quadratic and quadratic-plateau models\nevaluating whether AONR differs among environments\nincorporating additional hierarchical structure, such as years, sites, or weather classes",
+    "crumbs": [
+      "Lessons",
+      "18-Bayes II"
+    ]
+  },
+  {
+    "objectID": "coding/week_10/bayes_02.html#closing-message",
+    "href": "coding/week_10/bayes_02.html#closing-message",
+    "title": "Bayesian Statistics in R",
+    "section": "\n10 Closing message",
+    "text": "10 Closing message\nBayesian methods provide a flexible framework to connect prior knowledge, experimental data, and uncertainty in a way that is highly relevant for agricultural research. They are powerful models, but they still require the same discipline as any other statistical analysis: understanding the experiment, checking diagnostics, and asking whether the results make biological and agronomic sense.",
+    "crumbs": [
+      "Lessons",
+      "18-Bayes II"
+    ]
+  },
+  {
     "objectID": "outline/calendar.html",
     "href": "outline/calendar.html",
     "title": "PLNT6530|01 - Calendar",
@@ -2294,6 +2415,116 @@
     "crumbs": [
       "Course Outline",
       "Outline"
+    ]
+  },
+  {
+    "objectID": "coding/week_10/bayes_01.html",
+    "href": "coding/week_10/bayes_01.html",
+    "title": "Intro to Bayesian Statistics",
+    "section": "",
+    "text": "Important\n\n\n\nNeither Frequentist nor Bayesian approaches are universally superior. Each has strengths, limitations, and situations where it is more useful.",
+    "crumbs": [
+      "Lessons",
+      "17-Bayes I"
+    ]
+  },
+  {
+    "objectID": "coding/week_10/bayes_01.html#main-differences",
+    "href": "coding/week_10/bayes_01.html#main-differences",
+    "title": "Intro to Bayesian Statistics",
+    "section": "2.1 Main differences",
+    "text": "2.1 Main differences\nThe key difference lies in where uncertainty is placed.\n\n2.1.1 Frequentist perspective\nIn Frequentist statistics, parameters are treated as fixed but unknown, and randomness comes from the data-generating process.\nIt is called frequentist because probability is defined in terms of long-run frequencies under repeated sampling.\n\n🎲 Example: To estimate the probability of rolling a 6, a Frequentist would say: “If we rolled the die many times under the same conditions, the proportion of 6s would approach its true probability.”\n\nSo the logic of inference is based on hypothetical repetition of the same experiment.\n\n\n2.1.2 Bayesian perspective\nIn Bayesian statistics, unknown quantities are treated as uncertain, and that uncertainty is represented with probability distributions.\nThis does not mean truth does not exist. It means that, before observing enough data, we describe our uncertainty about the unknown using probability.\nFor example, if the probability of rolling a 6 is unknown, we may call it \\(\\theta\\) and assign a prior distribution to \\(\\theta\\). After observing data, we update that prior into a posterior distribution.\nBayesian inference is built around the idea of updating beliefs with data:\n\\[\n\\text{Posterior} = \\frac{\\text{Likelihood} \\times \\text{Prior}}{\\text{Evidence}}\n\\]\n\n\n2.1.3 Summary\n\nFrequentist: parameters are fixed but unknown; data are random under repeated sampling.\nBayesian: observed data are fixed; uncertainty about parameters is represented by prior and posterior distributions.\n\n\n\n\n\n\n\nTip\n\n\n\nFor many simple models, both approaches often lead to similar practical conclusions, especially when the dataset is large and priors are weak.",
+    "crumbs": [
+      "Lessons",
+      "17-Bayes I"
+    ]
+  },
+  {
+    "objectID": "coding/week_10/bayes_01.html#video-bayes-rule",
+    "href": "coding/week_10/bayes_01.html#video-bayes-rule",
+    "title": "Intro to Bayesian Statistics",
+    "section": "4.1 Video: Bayes’ Rule",
+    "text": "4.1 Video: Bayes’ Rule",
+    "crumbs": [
+      "Lessons",
+      "17-Bayes I"
+    ]
+  },
+  {
+    "objectID": "coding/week_10/bayes_01.html#frequentist-approaches",
+    "href": "coding/week_10/bayes_01.html#frequentist-approaches",
+    "title": "Intro to Bayesian Statistics",
+    "section": "10.1 Frequentist approaches",
+    "text": "10.1 Frequentist approaches\n\n10.1.1 The good\n\nWidely taught and widely used\nMany standard tools work very well for common agronomic experiments\nStraightforward workflows for familiar analyses such as ANOVA, regression, and mixed models\n\n\n\n10.1.2 The bad\n\nP-values are often over-interpreted\nConfidence intervals are commonly explained incorrectly\nResults are sometimes reduced to a simple significant/non-significant decision\n\n\n\n10.1.3 The ugly\n\nMechanical threshold thinking can replace scientific judgment\nStatistical significance can be confused with agronomic relevance\nSelective reporting and p-hacking can distort conclusions",
+    "crumbs": [
+      "Lessons",
+      "17-Bayes I"
+    ]
+  },
+  {
+    "objectID": "coding/week_10/bayes_01.html#bayesian-approaches",
+    "href": "coding/week_10/bayes_01.html#bayesian-approaches",
+    "title": "Intro to Bayesian Statistics",
+    "section": "10.2 Bayesian approaches",
+    "text": "10.2 Bayesian approaches\n\n10.2.1 The good\n\nProbability statements about parameters are often more intuitive\nPrior information can be incorporated formally\nVery flexible for hierarchical models, small datasets, and complex uncertainty structures\n\n\n\n10.2.2 The bad\n\nRequires more modeling decisions\nPriors can affect results, especially when data are limited\nComputation can be slower and model checking can be more demanding\n\n\n\n10.2.3 The ugly\n\nPoorly chosen priors plus weak data can be misleading\nComplex Bayesian models can create a false sense of rigor\nIt is easy to trust software output without checking convergence, model fit, and sensitivity to priors",
+    "crumbs": [
+      "Lessons",
+      "17-Bayes I"
+    ]
+  },
+  {
+    "objectID": "coding/week_10/bayes_01.html#introductory-theory",
+    "href": "coding/week_10/bayes_01.html#introductory-theory",
+    "title": "Intro to Bayesian Statistics",
+    "section": "12.1 Introductory theory",
+    "text": "12.1 Introductory theory\n\nBayesian Models: A Statistical Primer for Ecologists – Hobbs & Hooten\nBringing Bayesian Models to Life – Hooten & Hefley\nStatistical Rethinking – McElreath (PDF)",
+    "crumbs": [
+      "Lessons",
+      "17-Bayes I"
+    ]
+  },
+  {
+    "objectID": "coding/week_10/bayes_01.html#bayesian-workflow-and-philosophy",
+    "href": "coding/week_10/bayes_01.html#bayesian-workflow-and-philosophy",
+    "title": "Intro to Bayesian Statistics",
+    "section": "12.2 Bayesian workflow and philosophy",
+    "text": "12.2 Bayesian workflow and philosophy\n\nBayesian workflow – Gelman et al.\nScientific Reasoning: The Bayesian Approach – Howson & Urbach",
+    "crumbs": [
+      "Lessons",
+      "17-Bayes I"
+    ]
+  },
+  {
+    "objectID": "coding/week_10/bayes_01.html#advanced-theory",
+    "href": "coding/week_10/bayes_01.html#advanced-theory",
+    "title": "Intro to Bayesian Statistics",
+    "section": "12.3 Advanced theory",
+    "text": "12.3 Advanced theory\n\nBayesian Data Analysis (3rd Edition)",
+    "crumbs": [
+      "Lessons",
+      "17-Bayes I"
+    ]
+  },
+  {
+    "objectID": "coding/week_10/bayes_01.html#agronomy-applications",
+    "href": "coding/week_10/bayes_01.html#agronomy-applications",
+    "title": "Intro to Bayesian Statistics",
+    "section": "12.4 Agronomy applications",
+    "text": "12.4 Agronomy applications\n\nMakowski et al., 2020 (EJA) Analyzing uncertainty in critical nitrogen dilution curves \nCorrendo et al., 2021 (Ag. For. Meteorol.) Unraveling uncertainty drivers of the maize yield response to nitrogen: A Bayesian and machine learning approach. \nLacasa et al., 2020 (Sci. Rep.) Bayesian approach for maize yield response to plant density from both agronomic and economic viewpoints in North America \nPalmero et al., 2024 (Plant Methods) A Bayesian approach for estimating the uncertainty on the contribution of nitrogen fixation and calculation of nutrient balances in grain legumes \nGiordano et al. 2025 (Plant Methods) A Bayesian framework to model variance of grain yield response to plant density",
+    "crumbs": [
+      "Lessons",
+      "17-Bayes I"
+    ]
+  },
+  {
+    "objectID": "coding/week_10/bayes_01.html#miscellaneous",
+    "href": "coding/week_10/bayes_01.html#miscellaneous",
+    "title": "Intro to Bayesian Statistics",
+    "section": "12.5 Miscellaneous",
+    "text": "12.5 Miscellaneous\n\nStatistical Modeling Blog – Gelman et al.\nLearning Bayesian Statistics Podcast",
+    "crumbs": [
+      "Lessons",
+      "17-Bayes I"
     ]
   },
   {
@@ -3603,279 +3834,6 @@
     "crumbs": [
       "Extras",
       "p-value"
-    ]
-  },
-  {
-    "objectID": "coding/week_10/bayes_01.html",
-    "href": "coding/week_10/bayes_01.html",
-    "title": "Intro to Bayesian Statistics",
-    "section": "",
-    "text": "Important\n\n\n\nNeither Frequentist nor Bayesian approaches are universally superior. Each has strengths, limitations, and situations where it is more useful.",
-    "crumbs": [
-      "Lessons",
-      "17-Bayes I"
-    ]
-  },
-  {
-    "objectID": "coding/week_10/bayes_01.html#main-differences",
-    "href": "coding/week_10/bayes_01.html#main-differences",
-    "title": "Intro to Bayesian Statistics",
-    "section": "2.1 Main differences",
-    "text": "2.1 Main differences\nThe key difference lies in where uncertainty is placed.\n\n2.1.1 Frequentist perspective\nIn Frequentist statistics, parameters are treated as fixed but unknown, and randomness comes from the data-generating process.\nIt is called frequentist because probability is defined in terms of long-run frequencies under repeated sampling.\n\n🎲 Example: To estimate the probability of rolling a 6, a Frequentist would say: “If we rolled the die many times under the same conditions, the proportion of 6s would approach its true probability.”\n\nSo the logic of inference is based on hypothetical repetition of the same experiment.\n\n\n2.1.2 Bayesian perspective\nIn Bayesian statistics, unknown quantities are treated as uncertain, and that uncertainty is represented with probability distributions.\nThis does not mean truth does not exist. It means that, before observing enough data, we describe our uncertainty about the unknown using probability.\nFor example, if the probability of rolling a 6 is unknown, we may call it \\(\\theta\\) and assign a prior distribution to \\(\\theta\\). After observing data, we update that prior into a posterior distribution.\nBayesian inference is built around the idea of updating beliefs with data:\n\\[\n\\text{Posterior} = \\frac{\\text{Likelihood} \\times \\text{Prior}}{\\text{Evidence}}\n\\]\n\n\n2.1.3 Summary\n\nFrequentist: parameters are fixed but unknown; data are random under repeated sampling.\nBayesian: observed data are fixed; uncertainty about parameters is represented by prior and posterior distributions.\n\n\n\n\n\n\n\nTip\n\n\n\nFor many simple models, both approaches often lead to similar practical conclusions, especially when the dataset is large and priors are weak.",
-    "crumbs": [
-      "Lessons",
-      "17-Bayes I"
-    ]
-  },
-  {
-    "objectID": "coding/week_10/bayes_01.html#bayes-theorem",
-    "href": "coding/week_10/bayes_01.html#bayes-theorem",
-    "title": "Intro to Bayesian Statistics",
-    "section": "1.2 Bayes Theorem",
-    "text": "1.2 Bayes Theorem\n\\[\nP(A_{\\text{true}} \\mid B) = \\frac{P(B \\mid A_{\\text{true}}) \\cdot P(A_{\\text{true}})}{P(B)}\n\\]\n\\[\n\\text{Posterior} = \\frac{\\text{Likelihood} \\times \\text{Prior}}{\\text{Evidence}}\n\\]\n\n1.2.1 Video: Bayes’ Rule"
-  },
-  {
-    "objectID": "coding/week_10/bayes_01.html#the-priors",
-    "href": "coding/week_10/bayes_01.html#the-priors",
-    "title": "Intro to Bayesian Statistics",
-    "section": "1.3 The Priors",
-    "text": "1.3 The Priors\nPriors formalize our beliefs as probability distributions — based on:\n\nThe nature of the variable (discrete/continuous)\nOur prior knowledge or lack thereof\n\n\n\n\n\n\n\nTip\n\n\n\n🧠 Bayesian Perspective on Uncertainty\nIn Bayesian analysis, uncertainty is placed on:\n\nParameters (they are random variables with prior/posterior distributions)\nPredictions (future outcomes are modeled probabilistically)\n\nOnce data is observed, it’s considered fixed.\nSo rather than saying “data is fixed, model is random,” it’s more precise to say:\n\n“Bayesian analysis treats unknown parameters and future data as random variables, while the observed data is fixed. The uncertainty lies in our beliefs about parameters and predictions, not in the data we’ve already seen.”"
-  },
-  {
-    "objectID": "coding/week_10/bayes_01.html#visualization-of-bayesian-updating",
-    "href": "coding/week_10/bayes_01.html#visualization-of-bayesian-updating",
-    "title": "Intro to Bayesian Statistics",
-    "section": "1.4 📈 Visualization of Bayesian Updating",
-    "text": "1.4 📈 Visualization of Bayesian Updating\n\nx &lt;- seq(0, 1, length.out = 300)\nprior &lt;- exp(-((x - 0.3)^2) / 0.05)\nlikelihood &lt;- exp(-((x - 0.7)^2) / 0.02)\nposterior &lt;- exp(-((x - 0.6)^2) / 0.01)\n\n# Normalize\nprior &lt;- prior / sum(prior)\nlikelihood &lt;- likelihood / sum(likelihood)\nposterior &lt;- posterior / sum(posterior)\n\ndf &lt;- data.frame(x = x, Prior = prior, Likelihood = likelihood, Posterior = posterior)\n\ndf_long &lt;- df %&gt;% pivot_longer(cols = -x, names_to = \"Distribution\", values_to = \"Density\")\n\nggplot(df_long, aes(x = x, y = Density, color = Distribution)) +\n  geom_line(size = 1.2) +\n  labs(title = \"Bayesian Updating: Prior × Likelihood → Posterior\",\n       x = \"Parameter (\\u03B8)\", y = \"Density\") +\n  theme_classic() +\n  scale_color_manual(values = c(\"tomato\", \"steelblue\", \"darkgreen\"))\n\n\n\n\nFig 1. Bayesian updating: Prior × Likelihood → Posterior"
-  },
-  {
-    "objectID": "coding/week_10/bayes_01.html#credible-vs.-confidence-intervals",
-    "href": "coding/week_10/bayes_01.html#credible-vs.-confidence-intervals",
-    "title": "Intro to Bayesian Statistics",
-    "section": "1.5 Credible vs. Confidence Intervals",
-    "text": "1.5 Credible vs. Confidence Intervals\nA crucial difference lies in interpreting uncertainty:\n\nConfidence Interval (Frequentist): “If we repeat the experiment infinitely, 95% of the calculated intervals will contain the true value of \\(\\theta\\).”\n\n⚠️ \\(\\theta\\) is fixed — it’s either in the interval or not.\n\nCredible Interval (Bayesian): “There is a 95% probability that \\(\\theta\\) lies within the interval.”\n\n🔑 Conditional on the prior being correct."
-  },
-  {
-    "objectID": "coding/week_10/bayes_01.html#useful-resources",
-    "href": "coding/week_10/bayes_01.html#useful-resources",
-    "title": "Intro to Bayesian Statistics",
-    "section": "1.6 Useful Resources",
-    "text": "1.6 Useful Resources\n\n1.6.1 🧠 Introductory Theory\n\nBayesian Models: A Statistical Primer for Ecologists – Hobbs & Hooten\nBringing Bayesian Models to Life – Hooten & Hefley\nStatistical Rethinking – McElreath (PDF)\n\n\n\n1.6.2 🎓 Bayesian Workflow & Philosophy\n\nBayesian workflow – Gelman et al.\nScientific Reasoning: The Bayesian Approach – Howson & Urbach\n\n\n\n1.6.3 📘 Advanced Theory\n\nBayesian Data Analysis (3rd Edition)\n\n\n\n1.6.4 🌱 Agronomy Applications\n\nMakowski et al., 2020 (EJA)\n\n\n\n1.6.5 🗣️ Miscellaneous\n\nStatistical Modeling Blog – Gelman et al.\nLearning Bayesian Statistics Podcast"
-  },
-  {
-    "objectID": "coding/week_10/bayes_02.html",
-    "href": "coding/week_10/bayes_02.html",
-    "title": "Bayesian Statistics in R",
-    "section": "",
-    "text": "📌 Today’s Topics\n\n\n\nWe’ll learn how to compute posterior distributions, step-by-step:\n\n🎯 Acceptance/Rejection Sampling (AR Sampling)\n🔁 Markov Chain Monte Carlo (MCMC) — more efficient than AR!\n\nAnd introduce powerful R packages for Bayesian modeling:\n\n🧪 rjags — Gibbs sampling with BUGS syntax\n🔬 rstan — write your own Stan models\n📦 brms — beginner-friendly interface to Stan",
-    "crumbs": [
-      "Lessons",
-      "18-Bayes II"
-    ]
-  },
-  {
-    "objectID": "coding/week_10/bayes_02.html#packages-well-use-today",
-    "href": "coding/week_10/bayes_02.html#packages-well-use-today",
-    "title": "Bayesian Statistics in R",
-    "section": "\n1 📦 Packages we’ll use today",
-    "text": "1 📦 Packages we’ll use today\n\nShow codelibrary(pacman)\np_load(dplyr, tidyr, tibble, purrr)\np_load(ggplot2)\np_load(brms)\np_load(tidybayes)",
-    "crumbs": [
-      "Lessons",
-      "18-Bayes II"
-    ]
-  },
-  {
-    "objectID": "coding/week_10/bayes_02.html#computing-posterior-distributions",
-    "href": "coding/week_10/bayes_02.html#computing-posterior-distributions",
-    "title": "Bayesian Statistics in R",
-    "section": "\n2 🎲 Computing Posterior Distributions",
-    "text": "2 🎲 Computing Posterior Distributions\n\n2.1 1️⃣ Acceptance/Rejection Sampling - Basics\nHere’s how AR sampling works:\n\nPropose values for parameters\nSimulate data based on those values\nMeasure how well it fits the observed data\nAccept if close enough (✔️), reject otherwise (❌)\n\n\n2.1.1 🌽 Simulating Corn Yield vs. Plant Density\nWe simulate yield using a parabolic function.\nThen compare simulated data to the real observed values. If the fit is good enough, we keep those parameter values.\n👀 We’ll visualize which parameter sets are accepted and which aren’t.\n\n\n\n\n\n\n\n\nAlgorithm settings:\n\nShow code# Algorithm settings\nK_tries &lt;- 10^6\ndiff &lt;- matrix(, K_tries, 1)\nerror &lt;- 200\n\n# Known random variables and parameters\nn &lt;- length(x)\n\n\n\nGenerate proposal parameter values using the prior distributions.\n\n\nShow codeset.seed(6767)\nb0_try &lt;- runif(1, 4, 6)\nb1_try &lt;- runif(1, 1, 3)\nb2_try &lt;- rgamma(1, 0.1, 2)\nmu_try &lt;- b0_try + x*b1_try - (x^2)*b2_try\nsigma_try &lt;- rgamma(1, 2, 2)\n\n\n\nGenerate data with those parameters.\n\n\nShow codeset.seed(567)\ny_try &lt;- rnorm(n, mu_try, sigma_try)\n\n\n\nCompare the simulated data with the observed data = difference.\n\n\nShow code# Record difference between draw of y from prior predictive distribution and observed data\ndiff[k, ] &lt;- sum(abs(y - y_try))\n\n\n\nAccept that combination of parameters if the difference is smaller than the predefined acceptable error. Reject it otherwise.\n\n\nShow codeplot(x, y, xlab = \"Plant density\", \n     ylab = \"Corn Yield (Mg/ha)\", xlim = c(2, 13), ylim = c(5, 20),\n     typ = \"b\", cex = 0.8, pch = 20, col = rgb(0.7, 0.7, 0.7, 0.9))\npoints(x, y_hat[k,], typ = \"b\", lwd = 2, \n       col = ifelse(diff[1] &lt; error, \"gold\", \"tomato\"))\n\n\n\n\n\n\n\n\nShow codeset.seed(567567)\nk = 1\nb0_try &lt;- runif(1, 4, 6)\nb1_try &lt;- runif(1, 1, 3)\nb2_try &lt;- rgamma(1, 0.1, 2)\nmu_try &lt;- b0_try + x*b1_try - (x^2)*b2_try\nsigma_try &lt;- rgamma(1, 2, 2)\n\ny_try &lt;- rnorm(n, mu_try, sigma_try)\ndiff[k, ] &lt;- sum(abs(y - y_try))\ny_hat[k, ] &lt;- y_try\nposterior_samp_parameters[k, ] &lt;- c(b0_try, b1_try, b2_try, sigma_try)\n\nplot(x, y, xlab = \"Plant density\", \n     ylab = \"Observed yield\", xlim = c(2, 13), ylim = c(5, 20),\n     typ = \"b\", cex = 0.8, pch = 20, col = rgb(0.7, 0.7, 0.7, 0.9))\n\npoints(x, y_hat[k,], typ = \"b\", lwd = 2, \n       col = ifelse(diff[1] &lt; error, \"gold\", \"tomato\"))\n\n\n\n\n\n\n\n\nShow codeset.seed(76543)\nk = 1\nb0_try &lt;- runif(1, 4, 6)\nb1_try &lt;- runif(1, 1, 3)\nb2_try &lt;- rgamma(1, .5, 2)\nmu_try &lt;- b0_try + x*b1_try - (x^2)*b2_try\nsigma_try &lt;- rgamma(1, 2, 2)\n\ny_try &lt;- rnorm(n, mu_try, sigma_try)\ndiff[k, ] &lt;- sum(abs(y - y_try))\ny_hat[k, ] &lt;- y_try\nposterior_samp_parameters[k, ] &lt;- c(b0_try, b1_try, b2_try, sigma_try)\n\nplot(x, y, xlab = \"Plant density\", \n     ylab = \"Observed yield\", xlim = c(2, 13), ylim = c(5, 20),\n     typ = \"b\", cex = 0.8, pch = 20, col = rgb(0.7, 0.7, 0.7, 0.9))\n\npoints(x, y_hat[k,], typ = \"b\", lwd = 2, \n       col = ifelse(diff[1] &lt; error, \"gold\", \"tomato\"))\n\n\n\n\n\n\n\nNow, what if we change the priors:\n\n\n\n\n\n\n\n\nNow, do many tries.\n\nShow codefor (k in 1:K_tries) {\n    \n    b0_try &lt;- runif(1, 2, 10)\n    b1_try &lt;- rnorm(1, 2.2, .5)\n    b2_try &lt;- rgamma(1, .25, 2)\n    mu_try &lt;- b0_try + x*b1_try - (x^2)*b2_try\n    sigma_try &lt;- rgamma(1, 2, 2)\n\n    y_try &lt;- rnorm(n, mu_try, sigma_try)\n    \n    diff[k, ] &lt;- sum(abs(y - y_try))\n    y_hat[k, ] &lt;- y_try\n    posterior_samp_parameters[k, ] &lt;- c(b0_try, b1_try, b2_try, sigma_try)\n}\n\n\nAcceptance rate\n\nShow codelength(which(diff &lt; error))/K_tries\n\n[1] 0.169531\n\n\nPriors versus posteriors:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n2.1.2 📊 Plot predictions\n\nShow codefiltered_yhat &lt;- y_hat[which(diff &lt; error), 50]\ndf_yhat &lt;- data.frame(pred = filtered_yhat)\n\nggplot(df_yhat, aes(x = pred)) +\n  geom_histogram(aes(y = ..density..), fill = \"grey\", color = \"black\", bins = 30) +\n  geom_vline(xintercept = y[50], color = \"gold\", linetype = \"dashed\", linewidth = 1.2) +\n  labs(\n    x = expression(hat(y)[50]),\n    y = \"Density\"\n  ) +\n  theme_classic()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nLet’s get started",
-    "crumbs": [
-      "Lessons",
-      "18-Bayes II"
-    ]
-  },
-  {
-    "objectID": "coding/week_10/bayes_02.html#markov-chain-monte-carlo-mcmc",
-    "href": "coding/week_10/bayes_02.html#markov-chain-monte-carlo-mcmc",
-    "title": "Bayesian Statistics in R",
-    "section": "\n3 🔁 Markov Chain Monte Carlo (MCMC)",
-    "text": "3 🔁 Markov Chain Monte Carlo (MCMC)\n\nMCMC methods changed Bayesian stats forever! 🧠🔥\n\nThey let us generate samples from complex distributions\nThey form a chain, where each sample depends on the previous\nUsed in packages like brms, rstan, and rjags\n\n\n📚 More info: - MCMC Handbook - MCMCpack - mcmc - Paper: Foundations of MCMC",
-    "crumbs": [
-      "Lessons",
-      "18-Bayes II"
-    ]
-  },
-  {
-    "objectID": "coding/week_10/bayes_02.html#brms-bayesian-modeling-made-easy",
-    "href": "coding/week_10/bayes_02.html#brms-bayesian-modeling-made-easy",
-    "title": "Bayesian Statistics in R",
-    "section": "4 brms: Bayesian Modeling Made Easy",
-    "text": "4 brms: Bayesian Modeling Made Easy\n\n🔗 Docs: https://paul-buerkner.github.io/brms/\n🐛 Issues: https://github.com/paul-buerkner/brms/issues\nbrms makes it easy to run complex Bayesian models — without writing Stan code manually. It’s inspired by lme4, so syntax feels familiar.\nIt supports a wide range of models: - Linear, GLM, survival, zero-inflated, ordinal, count, and more\n✨ We’ll use brms as our go-to interface in this session!\n📚 More info: - JSS Article on brms\n\n\n4.1 Fit brms\nLet’s fit the example using the brms package.\n\n\n4.2 brms pars\n\n# Set up pars\nWU = 1000\nIT = 5000\nTH = 5\nCH = 4\nAD = 0.99\n\n\n\n4.3 Model\n\n# 01. Run model\nbayes_model &lt;- \n\n  brms::brm(\n  #Priors\n  prior = c(\n    #B0, Intercept\n    prior(prior = 'normal(8, 8)', nlpar = 'B0', lb = 0),\n    #B1, Linear Slope\n    prior(prior = 'normal(2, 4)', nlpar = 'B1', lb = 0),\n    #B2, Quadratic coeff\n    prior(prior = 'normal(0.001, 0.5)', nlpar = 'B2', lb = 0) ),\n    # Sigma  \n    #prior(prior = 'gamma(15,1.3)', class = \"sigma\") ),  \n    # Population prior (median and sd)\n    \n    # Formula\n  formula = bf(y ~  B0 + B1 * x - B2 * (x^2),\n               # Hypothesis\n               B0 + B1 + B2 ~ 1,\n               nl = TRUE), \n  # Data  \n  data = data_frame, sample_prior = \"yes\",\n  # Likelihood of the data\n  family = gaussian(link = 'identity'),\n  # brms controls\n  control = list(adapt_delta = AD),\n  warmup = WU, iter = IT, thin = TH,\n  chains = CH, cores = CH,\n  init_r = 0.1, seed = 1) \n\n# 02. Save object\n# saveRDS(object = bayes_model, file = \"bayes_model.RDS\")\n\n# Load from file\n#bayes_model &lt;- readRDS(file = \"bayes_model.RDS\")\n\n# 03. Visual Diagnostic\nplot(bayes_model)\n\n\n\n\n\n\n\n# Visualize model results\nbayes_model\n\n\n4.3.1 Compare vs traditional linear model (lm)\n\ndata_frame_q &lt;- data_frame %&gt;% mutate(x2 = x^2)\n\nlm(data = data_frame_q, formula = y ~ x + x2)\n\n\nCall:\nlm(formula = y ~ x + x2, data = data_frame_q)\n\nCoefficients:\n(Intercept)            x           x2  \n      5.415        2.038       -0.114  \n\n\n\n\n\n4.4 Using posterior distributions\n\n4.4.1 Prepare summary\n\n# Create predictions\nm1 &lt;- data_frame %&gt;% \n  ungroup() %&gt;% \n  dplyr::select(x) %&gt;% \n  group_by(x) %&gt;% filter(x == max(x)) %&gt;% \n  ungroup() %&gt;% unique() %&gt;% rename(max = x) %&gt;% \n  # Generate a sequence of x values\n  mutate(data = max %&gt;% purrr::map(~data.frame(\n    x = seq(0,.,length.out = 400)))) %&gt;% \n  unnest() %&gt;% dplyr::select(-max) %&gt;%\n  \n  #add_linpred_draws(m1, re_formula = NA, n = NULL) %&gt;% ungroup()\n  # use \".linpred to summarize\"\n  tidybayes::add_predicted_draws(bayes_model, \n                                 re_formula = NA, ndraws = NULL) %&gt;% ungroup()\n\n# Summarize\nm1_quantiles &lt;- m1 %&gt;% \n  group_by(x) %&gt;% \n  summarise(q025 = quantile(.prediction,.025),\n            q010 = quantile(.prediction,.10),\n            q250 = quantile(.prediction,.25),\n            q500 = quantile(.prediction,.500),\n            q750 = quantile(.prediction,.75),\n            q900 = quantile(.prediction,.90),\n            q975 = quantile(.prediction,.975))\n\n\n\n4.4.2 Plot posterior\n\n# Plot\nm1_plot &lt;- ggplot()+\n  # 95%\n  geom_ribbon(data = m1_quantiles, alpha=0.60, fill = \"cornsilk1\",\n              aes(x=x, ymin=q025, ymax=q975))+\n  # 80%\n  geom_ribbon(data = m1_quantiles, alpha=0.25, fill = \"cornsilk3\",\n              aes(x=x, ymin=q010, ymax=q900))+\n  # 50%\n  geom_ribbon(data = m1_quantiles, alpha=0.5, fill = \"gold3\",  \n              aes(x=x, ymin=q250, ymax=q750))+\n  geom_path(data = m1_quantiles,\n            aes(x=x, y=q500, color = \"brms()\"), size = 1)+\n  geom_point(data = data_frame, aes(x=x, y=y, color = \"brms()\"), alpha = 0.25)+\n  # Add LM curve\n  geom_smooth(data = data_frame, aes(x=x, y=y, color = \"lm()\"),  \n              method = \"lm\", formula = y ~ poly(x,2), se = T, \n              linetype = \"dashed\")+\n  scale_color_manual(values=c(\"purple4\", \"tomato\"))+\n  scale_x_continuous(limits = c(0,12), breaks = seq(0,12, by = 1))+\n  scale_y_continuous(limits = c(4,16), breaks = seq(4,16, by = 1))+\n  #facet_wrap(~as.factor(C.YEAR), nrow = 4)+\n  theme_classic()+\n  theme(legend.position='right', \n        legend.title = element_blank(),\n        panel.grid = element_blank(),\n        axis.title = element_text(size = rel(2)),\n        axis.text = element_text(size = rel(1)),\n        strip.text = element_text(size = rel(1.5)),\n        )+\n  labs(x = \"Plant density (pl/m2)\", y = \"Corn yield (Mg/ha)\")\n\nm1_plot"
-  },
-  {
-    "objectID": "coding/week_10/bayes_02.html#rstan-full-control-with-stan",
-    "href": "coding/week_10/bayes_02.html#rstan-full-control-with-stan",
-    "title": "Bayesian Statistics in R",
-    "section": "\n5 rstan: Full Control with Stan",
-    "text": "5 rstan: Full Control with Stan\n\n🔗 Docs: https://mc-stan.org/rstan/\n🐛 Issues: https://github.com/stan-dev/rstan/issues\nStan is a powerful, high-performance platform for Bayesian modeling, using: - Hamiltonian Monte Carlo (HMC) - No-U-Turn Sampler (NUTS)\nUnlike brms, Stan requires writing the full model, offering full flexibility and speed.\n✨ brms can even show the Stan code it generates under the hood.\nStan also supports Python, Julia, MATLAB, and more.",
-    "crumbs": [
-      "Lessons",
-      "18-Bayes II"
-    ]
-  },
-  {
-    "objectID": "coding/week_10/bayes_02.html#rjags-just-another-gibbs-sampler",
-    "href": "coding/week_10/bayes_02.html#rjags-just-another-gibbs-sampler",
-    "title": "Bayesian Statistics in R",
-    "section": "\n4 rjags: Just Another Gibbs Sampler",
-    "text": "4 rjags: Just Another Gibbs Sampler\n\n🔗 Docs: https://mcmc-jags.sourceforge.io/\n🐛 Issues: https://sourceforge.net/projects/mcmc-jags/\nrjags uses the classic Gibbs Sampling approach and the BUGS model syntax (used in WinBUGS, OpenBUGS).\n\nMore manual than brms\n\nIdeal for users who want to write the full statistical model\nOften paired with the coda package for diagnostics",
-    "crumbs": [
-      "Lessons",
-      "18-Bayes II"
-    ]
-  },
-  {
-    "objectID": "coding/week_10/bayes_02.html#brms-bayesian-regression-models-using-stan",
-    "href": "coding/week_10/bayes_02.html#brms-bayesian-regression-models-using-stan",
-    "title": "Bayesian Statistics in R",
-    "section": "\n6 brms: Bayesian Regression Models using Stan",
-    "text": "6 brms: Bayesian Regression Models using Stan\n\n🔗 Docs: https://paul-buerkner.github.io/brms/\n🐛 Issues: https://github.com/paul-buerkner/brms/issues\nbrms makes it easy to run complex Bayesian models without writing Stan code manually. It is inspired by lme4, so syntax feels familiar.\nIt supports a wide range of models: - Linear, GLM, survival, zero-inflated, ordinal, count, and more\n✨ We will use brms as our main interface in this session.\n📚 More info: - JSS Article on brms\n\n\n6.1 Fit brms\nLet’s now fit a Bayesian quadratic-plateau model to estimate AONR directly from the corn nitrogen response data.\n\n6.1.1 Corn Data\nWe will again use our synthetic dataset of corn yield response to nitrogen fertilizer across two sites and three years with contrasting weather.\n\nShow code# Read CSV file\ncornn_data &lt;- read.csv(\"data/cornn_data.csv\") %&gt;%\n  mutate(\n    n_trt = factor(n_trt, levels = c(\"N0\", \"N60\", \"N90\", \"N120\",\n                                   \"N180\", \"N240\", \"N300\")),\n    block = factor(block),\n    site = factor(site),\n    year = factor(year),\n    site_year = interaction(site, weather, drop = FALSE), # create interaction\n    weather = factor(weather)\n  ) %&gt;%\n  # IMPORTANT: blocks are nested within site (Block 1 in A is not the same as Block 1 in B)\n  mutate(\n    block_in_site = interaction(site, block, drop = TRUE),\n    yield = yield_kgha\n  )\n\nglimpse(cornn_data)\n\nRows: 168\nColumns: 10\n$ site          &lt;fct&gt; A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A,…\n$ year          &lt;fct&gt; 2004, 2004, 2004, 2004, 2004, 2004, 2004, 2004, 2004, 20…\n$ block         &lt;fct&gt; 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3,…\n$ n_trt         &lt;fct&gt; N0, N0, N0, N0, N60, N60, N60, N60, N90, N90, N90, N90, …\n$ nrate_kgha    &lt;int&gt; 0, 0, 0, 0, 60, 60, 60, 60, 90, 90, 90, 90, 120, 120, 12…\n$ yield_kgha    &lt;int&gt; 6860, 7048, 8083, 8194, 10010, 9568, 10256, 10939, 11959…\n$ weather       &lt;fct&gt; normal, normal, normal, normal, normal, normal, normal, …\n$ site_year     &lt;fct&gt; A.normal, A.normal, A.normal, A.normal, A.normal, A.norm…\n$ block_in_site &lt;fct&gt; A.1, A.2, A.3, A.4, A.1, A.2, A.3, A.4, A.1, A.2, A.3, A…\n$ yield         &lt;int&gt; 6860, 7048, 8083, 8194, 10010, 9568, 10256, 10939, 11959…\n\n\n\n6.2 brms pars\n\nWU: Warmup iterations (burn-in). This is the number of initial samples that will be discarded to allow the Markov chain to converge to the target distribution.\nIT: Total iterations. This is the total number of samples to draw from the posterior distribution, including warmup.\nTH: Thinning interval. This is the interval at which samples are kept. For example, if TH = 5, every 5th sample will be retained, and the others will be discarded. Thinning can help reduce autocorrelation in the samples.\nCH: Number of chains. This is the number of independent Markov chains to run. Running multiple chains can help assess convergence and ensure that the results are not dependent on the starting values.\nAD: Adapt delta. This is a tuning parameter for the No-U-Turn Sampler (NUTS) algorithm used by Stan. It controls the target acceptance rate for the sampler. A higher adapt delta can lead to more accurate sampling but may increase computation time.\n\n\nShow codeWU &lt;- 2000\nIT &lt;- 6000\nTH &lt;- 5\nCH &lt;- 6\nAD &lt;- 0.99\n\n\n\n6.3 Model\n\nShow codebayes_model &lt;- \n  brms::brm(\n    prior = c(\n      # Intercept in kg/ha\n      prior('normal(6000, 2500)', nlpar = 'b0', lb = 0),\n      # Initial slope in kg grain per kg N\n      prior('normal(50, 25)', nlpar = 'b1', lb = 0),\n      # Agronomic optimum N rate in kg N/ha\n      prior('normal(180, 60)', nlpar = 'aonr', lb = 0)\n    ),\n    formula = bf(\n      yield_kgha ~\n        (1 - step(nrate_kgha - aonr)) *\n          (b0 + b1 * nrate_kgha - (b1 / (2 * aonr)) * nrate_kgha^2) +\n        step(nrate_kgha - aonr) *\n          (b0 + b1 * aonr - (b1 / (2 * aonr)) * aonr^2),\n      b0 + b1 + aonr ~ 1,\n      nl = TRUE\n    ),\n    data = cornn_data,\n    sample_prior = \"yes\",\n    family = gaussian(link = 'identity'),\n    control = list(adapt_delta = AD),\n    warmup = WU, iter = IT, thin = TH,\n    chains = CH, cores = CH,\n    init = 0,\n    seed = 1\n  )\n\nplot(bayes_model)\n\n\n\n\n\n\nShow codebayes_model\n\n\n\n6.4 Using posterior distributions\n\n6.4.1 Prepare summary\n\nShow codenewdata &lt;- tibble(nrate_kgha = seq(min(cornn_data$nrate_kgha), \n                                   max(cornn_data$nrate_kgha), length.out = 400))\n\n# Expected values (population-level effects only)\nm1_epred &lt;- newdata %&gt;%\n  tidybayes::add_epred_draws(bayes_model, newdata = ., re_formula = NA, ndraws = NULL) %&gt;%\n  ungroup()\n\nm1_epred_quantiles &lt;- m1_epred %&gt;%\n  group_by(nrate_kgha) %&gt;%\n  summarise(\n    q025 = quantile(.epred, 0.025),\n    q010 = quantile(.epred, 0.10),\n    q250 = quantile(.epred, 0.25),\n    q500 = quantile(.epred, 0.50),\n    q750 = quantile(.epred, 0.75),\n    q900 = quantile(.epred, 0.90),\n    q975 = quantile(.epred, 0.975),\n    .groups = \"drop\"\n  )\n\n# Predicted values (including residual error)\nm1_pred &lt;- newdata %&gt;%\n  tidybayes::add_predicted_draws(bayes_model, newdata = ., re_formula = NA, ndraws = NULL) %&gt;%\n  ungroup()\n\nm1_quantiles &lt;- m1_pred %&gt;%\n  group_by(nrate_kgha) %&gt;%\n  summarise(\n    q025 = quantile(.prediction, 0.025),\n    q010 = quantile(.prediction, 0.10),\n    q250 = quantile(.prediction, 0.25),\n    q500 = quantile(.prediction, 0.50),\n    q750 = quantile(.prediction, 0.75),\n    q900 = quantile(.prediction, 0.90),\n    q975 = quantile(.prediction, 0.975),\n    .groups = \"drop\"\n  )\n\n# Extract posterior samples for AONR\npost_pars &lt;- bayes_model %&gt;%\n  spread_draws(b_b0_Intercept, b_b1_Intercept, b_aonr_Intercept) %&gt;%\n  mutate(AONR = b_aonr_Intercept)\n\n# distribution of AONR\naonr_quantiles &lt;- post_pars %&gt;%\n  summarise(\n    q025 = quantile(AONR, 0.025),\n    q010 = quantile(AONR, 0.10),\n    q250 = quantile(AONR, 0.25),\n    q500 = quantile(AONR, 0.50),\n    q750 = quantile(AONR, 0.75),\n    q900 = quantile(AONR, 0.90),\n    q975 = quantile(AONR, 0.975)\n  )\n\n\n\n6.4.2 Plot posterior\n\nShow codem1_plot &lt;- ggplot() +\n  geom_ribbon(data = m1_quantiles, alpha = 0.60, fill = \"cornsilk1\",\n              aes(x = nrate_kgha, ymin = q025, ymax = q975)) +\n  geom_ribbon(data = m1_quantiles, alpha = 0.25, fill = \"cornsilk3\",\n              aes(x = nrate_kgha, ymin = q010, ymax = q900)) +\n  geom_ribbon(data = m1_quantiles, alpha = 0.5, fill = \"gold3\",\n              aes(x = nrate_kgha, ymin = q250, ymax = q750)) +\n  geom_path(data = m1_epred_quantiles,\n            aes(x = nrate_kgha, y = q500, color = \"brms()\"), linewidth = 1) +\n  geom_point(data = cornn_data, aes(x = nrate_kgha, y = yield_kgha, color = \"brms()\"), alpha = 0.25) +\n  scale_color_manual(values = c(\"purple4\", \"tomato\")) +\n  theme_classic() +\n  theme(\n    legend.position = 'right',\n    legend.title = element_blank(),\n    panel.grid = element_blank(),\n    axis.title = element_text(size = rel(1.3)),\n    axis.text = element_text(size = rel(1)),\n    strip.text = element_text(size = rel(1.1))\n  ) +\n  labs(x = \"N fertilizer rate (kg/ha)\", y = \"Corn yield (kg/ha)\")\n\nm1_plot\n\n\n\n\n\n\n\n\n6.4.3 Posterior distribution of AONR\n\nShow codepost_pars %&gt;%\n  ggplot(aes(x = AONR)) +\n  geom_histogram(bins = 40, fill = \"grey70\", color = \"black\") +\n  theme_classic() +\n  labs(x = \"Posterior AONR (kg N/ha)\", y = \"Frequency\")+\n  # add ribbons for quantiles\n  geom_vline(xintercept = aonr_quantiles$q025, \n             color = \"grey15\", linetype = \"dashed\", size = 1.2)+\n  geom_vline(xintercept = aonr_quantiles$q975, \n             color = \"grey15\", linetype = \"dashed\", size = 1.2)+\n  geom_vline(xintercept = aonr_quantiles$q500, \n             color = \"tomato\", linetype = \"solid\", size = 1.2)",
-    "crumbs": [
-      "Lessons",
-      "18-Bayes II"
-    ]
-  },
-  {
-    "objectID": "coding/week_10/bayes_02.html#group-specific-quadratic-plateau-model-with-site_year",
-    "href": "coding/week_10/bayes_02.html#group-specific-quadratic-plateau-model-with-site_year",
-    "title": "Bayesian Statistics in R",
-    "section": "\n7 Group-specific quadratic-plateau model with site_year\n",
-    "text": "7 Group-specific quadratic-plateau model with site_year\n\nNow let’s extend the global model. Here, we will:\n\ninclude a random block effect nested within site_year\n\nallow the quadratic-plateau parameters to vary by site_year\n\nsample posterior fitted values for each site_year\n\nplot fitted curves and predictive intervals by environment\n\n\n7.1 Priors for site_year-specific parameters\n\nShow codepriors_site_year &lt;- c(\n  prior(\"normal(6000, 2500)\", nlpar = \"b0\", lb = 0),\n  prior(\"normal(50, 25)\", nlpar = \"b1\", lb = 0),\n  prior(\"normal(180, 60)\", nlpar = \"aonr\", lb = 0),\n  prior(\"student_t(3, 0, 1000)\", class = \"sd\", nlpar = \"u\", group = \"site_year:block\"),\n  prior(\"student_t(3, 0, 1000)\", class = \"sigma\", lb = 0)\n)\n\n\n\n7.2 Model with site_year-specific parameters\n\nShow codebayes_model_sy &lt;- \n  brms::brm(\n    prior = priors_site_year,\n    formula = bf(\n      yield_kgha ~\n        (1 - step(nrate_kgha - aonr)) *\n          (b0 + b1 * nrate_kgha - (b1 / (2 * aonr)) * nrate_kgha^2) +\n        step(nrate_kgha - aonr) *\n          (b0 + b1 * aonr - (b1 / (2 * aonr)) * aonr^2) +\n        u,\n      b0 ~ 0 + site_year,\n      b1 ~ 0 + site_year,\n      aonr ~ 0 + site_year,\n      u ~ 0 + (1 | site_year:block),\n      nl = TRUE\n    ),\n    data = cornn_data,\n    family = gaussian(),\n    sample_prior = \"yes\",\n    control = list(adapt_delta = 0.995, max_treedepth = 15),\n    warmup = WU, iter = IT, thin = TH,\n    chains = CH, cores = CH,\n    seed = 1\n  )\n\nplot(bayes_model_sy)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nShow codesummary(bayes_model_sy)\n\n\n\n7.3 Prepare summaries by site_year\n\n\nShow codenewdata_sy &lt;- cornn_data %&gt;%\n  distinct(site_year) %&gt;%\n  tidyr::crossing(\n    nrate_kgha = seq(min(cornn_data$nrate_kgha), max(cornn_data$nrate_kgha), length.out = 300)\n  )\n\n# Expected values (site_year-specific fixed effects only)\nfit_sy_epred &lt;- newdata_sy %&gt;%\n  tidybayes::add_epred_draws(\n    bayes_model_sy,\n    newdata = .,\n    re_formula = NA,\n    ndraws = NULL\n  ) %&gt;%\n  ungroup()\n\nfit_sy_epred_quantiles &lt;- fit_sy_epred %&gt;%\n  group_by(site_year, nrate_kgha) %&gt;%\n  summarise(\n    q025 = quantile(.epred, 0.025),\n    q010 = quantile(.epred, 0.10),\n    q250 = quantile(.epred, 0.25),\n    q500 = quantile(.epred, 0.50),\n    q750 = quantile(.epred, 0.75),\n    q900 = quantile(.epred, 0.90),\n    q975 = quantile(.epred, 0.975),\n    .groups = \"drop\"\n  )\n\n# Predicted values (including residual error)\nfit_sy_pred &lt;- newdata_sy %&gt;%\n  tidybayes::add_predicted_draws(\n    bayes_model_sy,\n    newdata = .,\n    re_formula = NA,\n    ndraws = NULL\n  ) %&gt;%\n  ungroup()\n\nfit_sy_quantiles &lt;- fit_sy_pred %&gt;%\n  group_by(site_year, nrate_kgha) %&gt;%\n  summarise(\n    q025 = quantile(.prediction, 0.025),\n    q010 = quantile(.prediction, 0.10),\n    q250 = quantile(.prediction, 0.25),\n    q500 = quantile(.prediction, 0.50),\n    q750 = quantile(.prediction, 0.75),\n    q900 = quantile(.prediction, 0.90),\n    q975 = quantile(.prediction, 0.975),\n    .groups = \"drop\"\n  )\n\n# Extract posterior samples for AONR by site_year\npost_pars_sy &lt;- bayes_model_sy %&gt;%\n  posterior::as_draws_df() %&gt;%\n  as_tibble() %&gt;%\n  select(starts_with(\"b_aonr_site_year\")) %&gt;%\n  pivot_longer(\n    cols = everything(),\n    names_to = \"site_year\",\n    values_to = \"AONR\"\n  ) %&gt;%\n  mutate(site_year = sub(\"^b_aonr_site_year\", \"\", site_year))\n\n# Distribution of AONR by site_year\nAONR_quantiles_sy &lt;- post_pars_sy %&gt;%\n  group_by(site_year) %&gt;%\n  summarise(\n    q025 = quantile(AONR, 0.025),\n    q010 = quantile(AONR, 0.10),\n    q250 = quantile(AONR, 0.25),\n    q500 = quantile(AONR, 0.50),\n    q750 = quantile(AONR, 0.75),\n    q900 = quantile(AONR, 0.90),\n    q975 = quantile(AONR, 0.975),\n    .groups = \"drop\"\n  )\n\n\n\n7.4 Plot fitted curves and intervals by site_year\n\n\nShow codeweather_cols &lt;- c(\n  dry = \"#b2182b\",\n  normal = \"#1b9e77\",\n  wet = \"#2c7fb8\"\n)\n\nggplot() +\n  geom_ribbon(\n    data = fit_sy_quantiles,\n    aes(x = nrate_kgha, ymin = q025, ymax = q975),\n    fill = \"grey70\", alpha = 0.30\n  ) +\n  geom_ribbon(\n    data = fit_sy_quantiles,\n    aes(x = nrate_kgha, ymin = q250, ymax = q750),\n    fill = \"grey45\", alpha = 0.45\n  ) +\n  geom_line(\n    data = fit_sy_epred_quantiles,\n    aes(x = nrate_kgha, y = q500),\n    linewidth = 1\n  ) +\n  geom_point(\n    data = cornn_data,\n    aes(x = nrate_kgha, y = yield_kgha, color = weather, shape = site),\n    alpha = 0.70, size = 2\n  ) +\n  scale_color_manual(values = weather_cols, name = \"Weather\") +\n  scale_shape_manual(values = c(16, 17, 15, 18, 8), name = \"Site\") +\n  facet_wrap(~ site_year) +\n  theme_classic() +\n  labs(\n    x = \"N fertilizer rate (kg/ha)\",\n    y = \"Corn yield (kg/ha)\",\n    title = \"Quadratic-plateau response by site_year\"\n  )\n\n\n\n\n\n\n\n\n7.5 Plot AONR quantile bands by site_year\n\n\nShow codeaonr_rects &lt;- AONR_quantiles_sy %&gt;%\n  left_join(\n    cornn_data %&gt;%\n      group_by(site_year) %&gt;%\n      summarise(\n        ymin = min(yield_kgha, na.rm = TRUE),\n        ymax = max(yield_kgha, na.rm = TRUE),\n        .groups = \"drop\"\n      ),\n    by = \"site_year\"\n  )\n\nweather_cols &lt;- c(\n  dry = \"#b2182b\",\n  normal = \"#1b9e77\",\n  wet = \"#2c7fb8\"\n)\n\n# Plot with AONR quantile bands \nggplot() +\n  geom_rect(\n    data = aonr_rects,\n    aes(xmin = q025, xmax = q975, ymin = 0, ymax = 17500),\n    fill = \"grey70\", alpha = 0.18,\n    inherit.aes = FALSE\n  ) +\n  geom_rect(\n    data = aonr_rects,\n    aes(xmin = q250, xmax = q750, ymin = 0, ymax = 17500),\n    fill = \"grey45\", alpha = 0.28,\n    inherit.aes = FALSE\n  ) +\n  geom_line(\n    data = fit_sy_epred_quantiles,\n    aes(x = nrate_kgha, y = q500),\n    linewidth = 1\n  ) +\n  geom_vline(\n    data = AONR_quantiles_sy,\n    aes(xintercept = q500),\n    linetype = 2,\n    linewidth = 0.8,\n    inherit.aes = FALSE\n  ) +\n  geom_point(\n    data = cornn_data,\n    aes(x = nrate_kgha, y = yield_kgha, color = weather, shape = site),\n    alpha = 0.70, size = 2\n  ) +\n  scale_color_manual(values = weather_cols, name = \"Weather\") +\n  scale_shape_manual(values = c(16, 17, 15, 18, 8), name = \"Site\") +\n  facet_wrap(~ site_year) +\n  theme_classic() +\n  labs(\n    x = \"N fertilizer rate (kg/ha)\",\n    y = \"Corn yield (kg/ha)\",\n    title = \"Quadratic-plateau response by site_year with AONR bands\"\n  )",
-    "crumbs": [
-      "Lessons",
-      "18-Bayes II"
-    ]
-  },
-  {
-    "objectID": "coding/week_10/bayes_02.html#final-considerations",
-    "href": "coding/week_10/bayes_02.html#final-considerations",
-    "title": "Bayesian Statistics in R",
-    "section": "\n8 Final considerations",
-    "text": "8 Final considerations\nBayesian analysis does not change the agronomic question. We still want to understand crop response, estimate meaningful parameters, and quantify uncertainty. What changes is the way uncertainty is represented and updated. Instead of focusing only on point estimates and p-values, Bayesian models allow us to work directly with probability distributions for parameters such as yield response, plateau, and AONR.\nIn this tutorial, we moved from a simple acceptance-rejection sampler to modern Bayesian regression with brms. That progression is important. The early examples help us understand the logic of posterior updating, while the brms models show how these ideas scale to realistic agronomic datasets.\nA few practical lessons from this class:\n\nPriors should be chosen on the scale of the data and with agronomic meaning in mind.\nPosterior expected values (epred) and posterior predictive values (prediction) answer different questions, so both can be useful.\nReparameterizing the model in terms of AONR can be more intuitive than working directly with curvature coefficients.\nGroup-specific models can reveal that response curves and optimum N rates differ substantially across environments.\nAdding block effects helps respect the experimental design and can improve inference.",
-    "crumbs": [
-      "Lessons",
-      "18-Bayes II"
-    ]
-  },
-  {
-    "objectID": "coding/week_10/bayes_02.html#suggested-practice",
-    "href": "coding/week_10/bayes_02.html#suggested-practice",
-    "title": "Bayesian Statistics in R",
-    "section": "\n9 Suggested practice",
-    "text": "9 Suggested practice\nYou can extend these examples by:\n\ncomparing weakly informative versus strongly informative priors\nchecking model diagnostics such as trace plots, effective sample size, and R-hat\ncomparing Bayesian quadratic and quadratic-plateau models\nevaluating whether AONR differs among environments\nincorporating additional hierarchical structure, such as years, sites, or weather classes",
-    "crumbs": [
-      "Lessons",
-      "18-Bayes II"
-    ]
-  },
-  {
-    "objectID": "coding/week_10/bayes_02.html#closing-message",
-    "href": "coding/week_10/bayes_02.html#closing-message",
-    "title": "Bayesian Statistics in R",
-    "section": "\n10 Closing message",
-    "text": "10 Closing message\nBayesian methods provide a flexible framework to connect prior knowledge, experimental data, and uncertainty in a way that is highly relevant for agricultural research. They are powerful models, but they still require the same discipline as any other statistical analysis: understanding the experiment, checking diagnostics, and asking whether the results make biological and agronomic sense.",
-    "crumbs": [
-      "Lessons",
-      "18-Bayes II"
-    ]
-  },
-  {
-    "objectID": "coding/week_10/bayes_01.html#video-bayes-rule",
-    "href": "coding/week_10/bayes_01.html#video-bayes-rule",
-    "title": "Intro to Bayesian Statistics",
-    "section": "4.1 Video: Bayes’ Rule",
-    "text": "4.1 Video: Bayes’ Rule",
-    "crumbs": [
-      "Lessons",
-      "17-Bayes I"
-    ]
-  },
-  {
-    "objectID": "coding/week_10/bayes_01.html#frequentist-approaches",
-    "href": "coding/week_10/bayes_01.html#frequentist-approaches",
-    "title": "Intro to Bayesian Statistics",
-    "section": "10.1 Frequentist approaches",
-    "text": "10.1 Frequentist approaches\n\n10.1.1 The good\n\nWidely taught and widely used\nMany standard tools work very well for common agronomic experiments\nStraightforward workflows for familiar analyses such as ANOVA, regression, and mixed models\n\n\n\n10.1.2 The bad\n\nP-values are often over-interpreted\nConfidence intervals are commonly explained incorrectly\nResults are sometimes reduced to a simple significant/non-significant decision\n\n\n\n10.1.3 The ugly\n\nMechanical threshold thinking can replace scientific judgment\nStatistical significance can be confused with agronomic relevance\nSelective reporting and p-hacking can distort conclusions",
-    "crumbs": [
-      "Lessons",
-      "17-Bayes I"
-    ]
-  },
-  {
-    "objectID": "coding/week_10/bayes_01.html#bayesian-approaches",
-    "href": "coding/week_10/bayes_01.html#bayesian-approaches",
-    "title": "Intro to Bayesian Statistics",
-    "section": "10.2 Bayesian approaches",
-    "text": "10.2 Bayesian approaches\n\n10.2.1 The good\n\nProbability statements about parameters are often more intuitive\nPrior information can be incorporated formally\nVery flexible for hierarchical models, small datasets, and complex uncertainty structures\n\n\n\n10.2.2 The bad\n\nRequires more modeling decisions\nPriors can affect results, especially when data are limited\nComputation can be slower and model checking can be more demanding\n\n\n\n10.2.3 The ugly\n\nPoorly chosen priors plus weak data can be misleading\nComplex Bayesian models can create a false sense of rigor\nIt is easy to trust software output without checking convergence, model fit, and sensitivity to priors",
-    "crumbs": [
-      "Lessons",
-      "17-Bayes I"
-    ]
-  },
-  {
-    "objectID": "coding/week_10/bayes_01.html#introductory-theory",
-    "href": "coding/week_10/bayes_01.html#introductory-theory",
-    "title": "Intro to Bayesian Statistics",
-    "section": "12.1 Introductory theory",
-    "text": "12.1 Introductory theory\n\nBayesian Models: A Statistical Primer for Ecologists – Hobbs & Hooten\nBringing Bayesian Models to Life – Hooten & Hefley\nStatistical Rethinking – McElreath (PDF)",
-    "crumbs": [
-      "Lessons",
-      "17-Bayes I"
-    ]
-  },
-  {
-    "objectID": "coding/week_10/bayes_01.html#bayesian-workflow-and-philosophy",
-    "href": "coding/week_10/bayes_01.html#bayesian-workflow-and-philosophy",
-    "title": "Intro to Bayesian Statistics",
-    "section": "12.2 Bayesian workflow and philosophy",
-    "text": "12.2 Bayesian workflow and philosophy\n\nBayesian workflow – Gelman et al.\nScientific Reasoning: The Bayesian Approach – Howson & Urbach",
-    "crumbs": [
-      "Lessons",
-      "17-Bayes I"
-    ]
-  },
-  {
-    "objectID": "coding/week_10/bayes_01.html#advanced-theory",
-    "href": "coding/week_10/bayes_01.html#advanced-theory",
-    "title": "Intro to Bayesian Statistics",
-    "section": "12.3 Advanced theory",
-    "text": "12.3 Advanced theory\n\nBayesian Data Analysis (3rd Edition)",
-    "crumbs": [
-      "Lessons",
-      "17-Bayes I"
-    ]
-  },
-  {
-    "objectID": "coding/week_10/bayes_01.html#agronomy-applications",
-    "href": "coding/week_10/bayes_01.html#agronomy-applications",
-    "title": "Intro to Bayesian Statistics",
-    "section": "12.4 Agronomy applications",
-    "text": "12.4 Agronomy applications\n\nMakowski et al., 2020 (EJA) Analyzing uncertainty in critical nitrogen dilution curves \nCorrendo et al., 2021 (Ag. For. Meteorol.) Unraveling uncertainty drivers of the maize yield response to nitrogen: A Bayesian and machine learning approach. \nLacasa et al., 2020 (Sci. Rep.) Bayesian approach for maize yield response to plant density from both agronomic and economic viewpoints in North America \nPalmero et al., 2024 (Plant Methods) A Bayesian approach for estimating the uncertainty on the contribution of nitrogen fixation and calculation of nutrient balances in grain legumes \nGiordano et al. 2025 (Plant Methods) A Bayesian framework to model variance of grain yield response to plant density",
-    "crumbs": [
-      "Lessons",
-      "17-Bayes I"
-    ]
-  },
-  {
-    "objectID": "coding/week_10/bayes_01.html#miscellaneous",
-    "href": "coding/week_10/bayes_01.html#miscellaneous",
-    "title": "Intro to Bayesian Statistics",
-    "section": "12.5 Miscellaneous",
-    "text": "12.5 Miscellaneous\n\nStatistical Modeling Blog – Gelman et al.\nLearning Bayesian Statistics Podcast",
-    "crumbs": [
-      "Lessons",
-      "17-Bayes I"
     ]
   }
 ]
