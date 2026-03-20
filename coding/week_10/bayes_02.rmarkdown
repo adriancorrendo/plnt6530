@@ -24,6 +24,9 @@ smooth-scroll: true
 link-citations: true
 ---
 
+
+
+
 ::: callout-note
 ## 📌 Today's Topics
 
@@ -41,6 +44,9 @@ And introduce powerful R packages for Bayesian modeling:
 
 ## 📦 Packages we'll use today
 
+
+
+
 ```{r include=TRUE, warning=FALSE, message=FALSE}
 library(pacman)
 p_load(dplyr, tidyr, tibble, purrr)
@@ -48,6 +54,9 @@ p_load(ggplot2)
 p_load(brms)
 p_load(tidybayes)
 ```
+
+
+
 
 ## 🎲 Computing Posterior Distributions
 
@@ -67,6 +76,9 @@ We simulate yield using a parabolic function.
 Then compare simulated data to the real observed values. If the fit is good enough, we keep those parameter values.
 
 👀 We'll visualize which parameter sets are accepted and which aren't.
+
+
+
 
 ```{r, echo=FALSE}
 b0_true <- 5
@@ -88,7 +100,13 @@ data_frame %>%
   geom_smooth(aes(x = x, y = y), method = lm, formula = y ~ x + I(x^2)) +
   theme_classic()
 ```
+
+
+
 Algorithm settings:
+
+
+
 ```{r settings, include=TRUE}
 # Algorithm settings
 K_tries <- 10^6
@@ -110,7 +128,13 @@ y_hat <- matrix(, K_tries, n)
 k = 1
 ```
 
+
+
+
 1. Generate proposal parameter values using the prior distributions.
+
+
+
 
 ```{r demo 1}
 set.seed(6767)
@@ -121,14 +145,26 @@ mu_try <- b0_try + x*b1_try - (x^2)*b2_try
 sigma_try <- rgamma(1, 2, 2)
 ```
 
+
+
+
 2. Generate data with those parameters.
+
+
+
 
 ```{r demo 1b}
 set.seed(567)
 y_try <- rnorm(n, mu_try, sigma_try)
 ```
 
+
+
+
 3. Compare the simulated data with the observed data = difference.
+
+
+
 
 ```{r demo 1c}
 # Record difference between draw of y from prior predictive distribution and observed data
@@ -141,7 +177,13 @@ y_hat[k, ] <- y_try
 posterior_samp_parameters[k, ] <- c(b0_try, b1_try, b2_try, sigma_try)
 ```
 
+
+
+
 4. Accept that combination of parameters if the difference is smaller than the predefined acceptable error. Reject it otherwise.
+
+
+
 
 ```{r demo 1e}
 plot(x, y, xlab = "Plant density", 
@@ -195,7 +237,13 @@ points(x, y_hat[k,], typ = "b", lwd = 2,
        col = ifelse(diff[1] < error, "gold", "tomato"))
 ```
 
+
+
+
 Now, what if we change the priors:
+
+
+
 
 ```{r new_priors, echo=FALSE}
 k = 1
@@ -219,7 +267,13 @@ points(x, y_hat[k,], typ = "b",
        col = ifelse(diff[1] < error, "gold", "tomato"))
 ```
 
+
+
+
 Now, do many tries.
+
+
+
 
 ```{r for_loop}
 for (k in 1:K_tries) {
@@ -238,13 +292,25 @@ for (k in 1:K_tries) {
 }
 ```
 
+
+
+
 Acceptance rate
+
+
+
 
 ```{r accept}
 length(which(diff < error))/K_tries
 ```
 
+
+
+
 Priors versus posteriors:
+
+
+
 
 ```{r post_b0, echo=FALSE}
 filtered_b0 <- posterior_samp_parameters[which(diff < error), 1]
@@ -291,7 +357,13 @@ ggplot(df, aes(x = beta2)) +
   theme_classic()
 ```
 
+
+
+
 #### 📊 Plot predictions
+
+
+
 
 ```{r histo}
 filtered_yhat <- y_hat[which(diff < error), 50]
@@ -335,6 +407,9 @@ ggplot(df_pred, aes(x = x)) +
   coord_cartesian(xlim = c(2, 13), ylim = c(5, 20)) +
   theme_classic()
 ```
+
+
+
 
 Let's get started
 
@@ -419,6 +494,9 @@ Let's now fit a Bayesian quadratic-plateau model to estimate **AONR** directly f
 
 We will again use our synthetic dataset of corn yield response to nitrogen fertilizer across two sites and three years with contrasting weather.
 
+
+
+
 ```{r corn_data}
 
 # Read CSV file
@@ -442,6 +520,9 @@ glimpse(cornn_data)
 
 ```
 
+
+
+
 ### brms pars
 
 - **WU**: Warmup iterations (burn-in). This is the number of initial samples that will be discarded to allow the Markov chain to converge to the target distribution.
@@ -453,6 +534,9 @@ glimpse(cornn_data)
 - **CH**: Number of chains. This is the number of independent Markov chains to run. Running multiple chains can help assess convergence and ensure that the results are not dependent on the starting values.
 
 - **AD**: Adapt delta. This is a tuning parameter for the No-U-Turn Sampler (NUTS) algorithm used by Stan. It controls the target acceptance rate for the sampler. A higher adapt delta can lead to more accurate sampling but may increase computation time.
+
+
+
 ```{r priors}
 WU <- 2000
 IT <- 6000
@@ -461,7 +545,13 @@ CH <- 6
 AD <- 0.99
 ```
 
+
+
+
 ### Model
+
+
+
 
 ```{r model, message=FALSE, warning=FALSE}
 bayes_model <- 
@@ -499,9 +589,15 @@ bayes_model
 ```
 
 
+
+
+
 ### Using posterior distributions
 
 #### Prepare summary
+
+
+
 
 ```{r plot}
 newdata <- tibble(nrate_kgha = seq(min(cornn_data$nrate_kgha), 
@@ -561,7 +657,13 @@ aonr_quantiles <- post_pars %>%
   )
 ```
 
+
+
+
 #### Plot posterior
+
+
+
 
 ```{r plot_posterior}
 m1_plot <- ggplot() +
@@ -589,7 +691,13 @@ m1_plot <- ggplot() +
 m1_plot
 ```
 
+
+
+
 #### Posterior distribution of AONR
+
+
+
 
 ```{r aonr_post}
 post_pars %>%
@@ -607,6 +715,9 @@ post_pars %>%
 
 ```
 
+
+
+
 ## Group-specific quadratic-plateau model with `site_year`
 
 Now let's extend the global model. Here, we will:
@@ -620,6 +731,9 @@ Now let's extend the global model. Here, we will:
 
 
 
+
+
+
 ```{r priors_site_year}
 priors_site_year <- c(
   prior("normal(6000, 2500)", nlpar = "b0", lb = 0),
@@ -630,7 +744,13 @@ priors_site_year <- c(
 )
 ```
 
+
+
+
 ### Model with `site_year`-specific parameters
+
+
+
 
 ```{r model_site_year, message=FALSE, warning=FALSE}
 bayes_model_sy <- 
@@ -665,7 +785,13 @@ summary(bayes_model_sy)
 
 ```
 
+
+
+
 ### Prepare summaries by `site_year`
+
+
+
 
 ```{r draws_site_year}
 newdata_sy <- cornn_data %>%
@@ -748,7 +874,13 @@ AONR_quantiles_sy <- post_pars_sy %>%
   )
 ```
 
+
+
+
 ### Plot fitted curves and intervals by `site_year`
+
+
+
 
 ```{r plot_site_year}
 weather_cols <- c(dry = "#b2182b",
@@ -791,7 +923,13 @@ ggplot() +
   )
 ```
 
+
+
+
 ### Plot AONR quantile bands by `site_year`
+
+
+
 
 ```{r plot_site_year_aonr}
 aonr_rects <- AONR_quantiles_sy %>%
@@ -848,7 +986,13 @@ ggplot() +
   )
 ```
 
+
+
+
 # b0 posterior distribution by site_year
+
+
+
 ```{r}
 # Extract posterior samples for AONR by site_year
 post_b0_sy <- bayes_model_sy %>%
@@ -877,7 +1021,13 @@ b0_quantiles_sy <- post_b0_sy %>%
   )
 ```
 
+
+
+
 ### Plot b0 quantile bands by `site_year`
+
+
+
 ```{r}
 # Plot a pointrange for b0 quantiles
 b0_quantiles_sy %>% 
@@ -895,6 +1045,9 @@ ggplot()+
   
 
 ```
+
+
+
 
 
 
@@ -925,5 +1078,6 @@ You can extend these examples by:
 ## Closing message
 
 Bayesian methods provide a flexible framework to connect prior knowledge, experimental data, and uncertainty in a way that is highly relevant for agricultural research. They are powerful models, but they still require the same discipline as any other statistical analysis: understanding the experiment, checking diagnostics, and asking whether the results make biological and agronomic sense.
+
 
 
