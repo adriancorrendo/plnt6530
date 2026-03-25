@@ -52,8 +52,8 @@ The course runs on Wednesdays and Fridays from 1:00 PM to 2:20 PM. Below is the 
 |  | Mar 13 | Models VI: PCA | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_09/16_models06.html) | [🎥](https://zoom.us/rec/share/l8w5QaBVkxfoqCEtCzrVch-mPLaUNLcwYAOoo-sYkCL0go9O0Y4Zkr9_h4bVoY6G.bg_qfIAKLu7P-9Xd?startTime=1773416276000) |
 | 10 | Mar 18 | Models VII: Bayesian Stats I | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_10/bayes_01.html) | [🎥](https://zoom.us/rec/share/RIiNyqCzho-714WcQ8JjA3MCKCyBTTiUDrvNKUakyNul-p3aiKlFHcIkKkUn4lw4.62zuCHcnXY0hqyCm?startTime=1773847880000) |
 |  | Mar 20 | Models VIII: Bayesian Stats II | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_10/bayes_02.html) | [🎥](https://zoom.us/rec/share/3xitbEd_tb5oUskZWRpuN33K3tKnzCuzzYW7e4uIBSSOH5vOrPxltbUFiWPuhUNY.yC9c7bb1evxRBGVZ?startTime=1774020876000) |
-| 11 | Mar 25 | Models IX: Cross-validation | 🌐 | 🎥 |
-|    | Mar 25 | Models IX: Predicted vs Observed | 🌐 | 🎥 |
+| 11 | Mar 25 | Models IX: Cross-validation | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_11/cross_validation.html) | [🎥](https://zoom.us/rec/share/Dyu-8natB7epcfdG0QvQExv-B7eIl3efD0XazHvuQ5t_qE2uMte32NiC91mjM47b.qlx-U9qx_INSsdPE?startTime=1774452856000) |
+|    | Mar 25 | Models X: Regression Trees | [🌐](https://adriancorrendo.github.io/plnt6530/coding/week_11/regtrees.html) | [🎥](https://zoom.us/rec/share/Dyu-8natB7epcfdG0QvQExv-B7eIl3efD0XazHvuQ5t_qE2uMte32NiC91mjM47b.qlx-U9qx_INSsdPE?startTime=1774452856000) |
 |  | Mar 27 | General Review class | 🌐 | 🎥 |
 | 12 | Apr 01 | Semester Projects Presentations I | 🌐 |  |
 |  | Apr 03 | Semester Projects Presentations II | 🌐 |  |

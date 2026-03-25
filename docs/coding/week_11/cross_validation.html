@@ -1318,8 +1318,32 @@ window.Quarto = {
 </div>
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">#facet_wrap(~group)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>  <span class="co">#facet_wrap(~group)</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot predicted vs observed facetting by group</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>logocv_results <span class="sc">%&gt;%</span> </span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> observed, <span class="at">y =</span> predicted)) <span class="sc">+</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> group), <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">se =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">1</span>, <span class="at">intercept =</span> <span class="dv">0</span>,</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>group) <span class="sc">+</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Observed d20"</span>,</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Predicted d20"</span>,</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Group"</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"right"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cross_validation_files/figure-html/unnamed-chunk-19-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
 </div>
 </section>
 </section>
@@ -2592,85 +2616,102 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb27-537"><a href="#cb27-537" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> group)) <span class="sc">+</span></span>
 <span id="cb27-538"><a href="#cb27-538" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"right"</span>) <span class="co">#+</span></span>
 <span id="cb27-539"><a href="#cb27-539" aria-hidden="true" tabindex="-1"></a>  <span class="co">#facet_wrap(~group)</span></span>
-<span id="cb27-540"><a href="#cb27-540" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-541"><a href="#cb27-541" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-542"><a href="#cb27-542" aria-hidden="true" tabindex="-1"></a><span class="fu"># Comparing resampling strategies</span></span>
-<span id="cb27-543"><a href="#cb27-543" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-544"><a href="#cb27-544" aria-hidden="true" tabindex="-1"></a>::: callout-important</span>
-<span id="cb27-545"><a href="#cb27-545" aria-hidden="true" tabindex="-1"></a><span class="fu">## 🧠 Key question</span></span>
-<span id="cb27-546"><a href="#cb27-546" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-547"><a href="#cb27-547" aria-hidden="true" tabindex="-1"></a>What exactly is the model supposed to predict: a new point from the same dataset, or a truly new site, year, farm, or experiment?</span>
-<span id="cb27-548"><a href="#cb27-548" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb27-549"><a href="#cb27-549" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-550"><a href="#cb27-550" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-551"><a href="#cb27-551" aria-hidden="true" tabindex="-1"></a>A useful practical question is not only **how** to run cross-validation, but also **which resampling unit is scientifically defensible**.</span>
-<span id="cb27-552"><a href="#cb27-552" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-553"><a href="#cb27-553" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If observations are independent, LOOCV or K-Fold CV may be reasonable.</span>
-<span id="cb27-554"><a href="#cb27-554" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If observations are clustered by site, farm, year, or experiment, LOGO-CV is often more honest.</span>
-<span id="cb27-555"><a href="#cb27-555" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The more similar the training and test data are, the more optimistic the estimated performance may become.</span>
-<span id="cb27-556"><a href="#cb27-556" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-557"><a href="#cb27-557" aria-hidden="true" tabindex="-1"></a>In agronomy, this point is critical. Predicting a new soil sample from the same field is not the same problem as predicting a new field, or a new year, or a new region.</span>
+<span id="cb27-540"><a href="#cb27-540" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-541"><a href="#cb27-541" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot predicted vs observed facetting by group</span></span>
+<span id="cb27-542"><a href="#cb27-542" aria-hidden="true" tabindex="-1"></a>logocv_results <span class="sc">%&gt;%</span> </span>
+<span id="cb27-543"><a href="#cb27-543" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> observed, <span class="at">y =</span> predicted)) <span class="sc">+</span></span>
+<span id="cb27-544"><a href="#cb27-544" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> group), <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb27-545"><a href="#cb27-545" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">se =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb27-546"><a href="#cb27-546" aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb27-547"><a href="#cb27-547" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">1</span>, <span class="at">intercept =</span> <span class="dv">0</span>,</span>
+<span id="cb27-548"><a href="#cb27-548" aria-hidden="true" tabindex="-1"></a>              <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb27-549"><a href="#cb27-549" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>group) <span class="sc">+</span></span>
+<span id="cb27-550"><a href="#cb27-550" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb27-551"><a href="#cb27-551" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb27-552"><a href="#cb27-552" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Observed d20"</span>,</span>
+<span id="cb27-553"><a href="#cb27-553" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Predicted d20"</span>,</span>
+<span id="cb27-554"><a href="#cb27-554" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Group"</span></span>
+<span id="cb27-555"><a href="#cb27-555" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb27-556"><a href="#cb27-556" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"right"</span>)</span>
+<span id="cb27-557"><a href="#cb27-557" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb27-558"><a href="#cb27-558" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-559"><a href="#cb27-559" aria-hidden="true" tabindex="-1"></a><span class="fu"># About nested cross-validation</span></span>
+<span id="cb27-559"><a href="#cb27-559" aria-hidden="true" tabindex="-1"></a><span class="fu"># Comparing resampling strategies</span></span>
 <span id="cb27-560"><a href="#cb27-560" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-561"><a href="#cb27-561" aria-hidden="true" tabindex="-1"></a>Nested cross-validation is useful when there is an **inner loop for model selection or hyperparameter tuning** and an **outer loop for final performance evaluation** @hastie2009 @james2013. That framework is very helpful for models such as random forests, support vector machines, penalized regression, or k-nearest neighbors, where hyper-parameters must be selected without leaking information from the test set.</span>
-<span id="cb27-562"><a href="#cb27-562" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-563"><a href="#cb27-563" aria-hidden="true" tabindex="-1"></a>For the simple linear regression example shown here, however, there is no real hyper-parameter tuning step. Because of that, nested CV is included here only to show the general idea of how a nested resampling workflow operates.</span>
-<span id="cb27-564"><a href="#cb27-564" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-565"><a href="#cb27-565" aria-hidden="true" tabindex="-1"></a>::: callout-warning</span>
-<span id="cb27-566"><a href="#cb27-566" aria-hidden="true" tabindex="-1"></a><span class="fu">## ⚠️ Important caveat</span></span>
+<span id="cb27-561"><a href="#cb27-561" aria-hidden="true" tabindex="-1"></a>::: callout-important</span>
+<span id="cb27-562"><a href="#cb27-562" aria-hidden="true" tabindex="-1"></a><span class="fu">## 🧠 Key question</span></span>
+<span id="cb27-563"><a href="#cb27-563" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-564"><a href="#cb27-564" aria-hidden="true" tabindex="-1"></a>What exactly is the model supposed to predict: a new point from the same dataset, or a truly new site, year, farm, or experiment?</span>
+<span id="cb27-565"><a href="#cb27-565" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb27-566"><a href="#cb27-566" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-567"><a href="#cb27-567" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-568"><a href="#cb27-568" aria-hidden="true" tabindex="-1"></a>Nested CV is most useful when the inner loop is used to choose model settings. If a model has no meaningful tuning step, ordinary LOOCV, K-Fold CV, or LOGO-CV are usually enough.</span>
-<span id="cb27-569"><a href="#cb27-569" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb27-570"><a href="#cb27-570" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-571"><a href="#cb27-571" aria-hidden="true" tabindex="-1"></a><span class="fu">## Skeleton of nested CV logic</span></span>
-<span id="cb27-572"><a href="#cb27-572" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-575"><a href="#cb27-575" aria-hidden="true" tabindex="-1"></a><span class="in">```{mermaid}</span></span>
-<span id="cb27-576"><a href="#cb27-576" aria-hidden="true" tabindex="-1"></a><span class="in">flowchart TD</span></span>
-<span id="cb27-577"><a href="#cb27-577" aria-hidden="true" tabindex="-1"></a><span class="in">    A[🧭 Outer split] --&gt; B[🌾 Outer-training groups]</span></span>
-<span id="cb27-578"><a href="#cb27-578" aria-hidden="true" tabindex="-1"></a><span class="in">    A --&gt; C[🚫 Outer test group held out]</span></span>
-<span id="cb27-579"><a href="#cb27-579" aria-hidden="true" tabindex="-1"></a><span class="in">    B --&gt; D[🔁 Inner CV on outer-training groups only]</span></span>
-<span id="cb27-580"><a href="#cb27-580" aria-hidden="true" tabindex="-1"></a><span class="in">    D --&gt; E[🛠️ Fit candidate models across inner folds]</span></span>
-<span id="cb27-581"><a href="#cb27-581" aria-hidden="true" tabindex="-1"></a><span class="in">    E --&gt; F[📏 Inner predicted vs observed]</span></span>
-<span id="cb27-582"><a href="#cb27-582" aria-hidden="true" tabindex="-1"></a><span class="in">    F --&gt; G[✅ Choose best hyper-parameter setting]</span></span>
-<span id="cb27-583"><a href="#cb27-583" aria-hidden="true" tabindex="-1"></a><span class="in">    G --&gt; H[📈 Refit final model on all outer-training groups]</span></span>
-<span id="cb27-584"><a href="#cb27-584" aria-hidden="true" tabindex="-1"></a><span class="in">    H --&gt; I[🔮 Predict outer test group]</span></span>
-<span id="cb27-585"><a href="#cb27-585" aria-hidden="true" tabindex="-1"></a><span class="in">    C --&gt; J[📋 Outer observed values]</span></span>
-<span id="cb27-586"><a href="#cb27-586" aria-hidden="true" tabindex="-1"></a><span class="in">    I --&gt; K[🧪 Outer predicted vs observed]</span></span>
-<span id="cb27-587"><a href="#cb27-587" aria-hidden="true" tabindex="-1"></a><span class="in">    J --&gt; K</span></span>
-<span id="cb27-588"><a href="#cb27-588" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-589"><a href="#cb27-589" aria-hidden="true" tabindex="-1"></a><span class="in">    style A fill:#E8F1FB,stroke:#4C78A8,stroke-width:2px,color:#111</span></span>
-<span id="cb27-590"><a href="#cb27-590" aria-hidden="true" tabindex="-1"></a><span class="in">    style B fill:#EAF7EA,stroke:#59A14F,stroke-width:2px,color:#111</span></span>
-<span id="cb27-591"><a href="#cb27-591" aria-hidden="true" tabindex="-1"></a><span class="in">    style C fill:#FDEBEC,stroke:#E15759,stroke-width:2px,color:#111</span></span>
-<span id="cb27-592"><a href="#cb27-592" aria-hidden="true" tabindex="-1"></a><span class="in">    style D fill:#FCECCF,stroke:#F28E2B,stroke-width:2px,color:#111</span></span>
-<span id="cb27-593"><a href="#cb27-593" aria-hidden="true" tabindex="-1"></a><span class="in">    style E fill:#F3E8F8,stroke:#B07AA1,stroke-width:2px,color:#111</span></span>
-<span id="cb27-594"><a href="#cb27-594" aria-hidden="true" tabindex="-1"></a><span class="in">    style F fill:#E8F1FB,stroke:#4C78A8,stroke-width:2px,color:#111</span></span>
-<span id="cb27-595"><a href="#cb27-595" aria-hidden="true" tabindex="-1"></a><span class="in">    style G fill:#EAF7EA,stroke:#59A14F,stroke-width:2px,color:#111</span></span>
-<span id="cb27-596"><a href="#cb27-596" aria-hidden="true" tabindex="-1"></a><span class="in">    style H fill:#F3E8F8,stroke:#B07AA1,stroke-width:2px,color:#111</span></span>
-<span id="cb27-597"><a href="#cb27-597" aria-hidden="true" tabindex="-1"></a><span class="in">    style I fill:#EAF7EA,stroke:#59A14F,stroke-width:2px,color:#111</span></span>
-<span id="cb27-598"><a href="#cb27-598" aria-hidden="true" tabindex="-1"></a><span class="in">    style J fill:#FCECCF,stroke:#F28E2B,stroke-width:2px,color:#111</span></span>
-<span id="cb27-599"><a href="#cb27-599" aria-hidden="true" tabindex="-1"></a><span class="in">    style K fill:#FDEBEC,stroke:#E15759,stroke-width:2px,color:#111</span></span>
-<span id="cb27-600"><a href="#cb27-600" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb27-601"><a href="#cb27-601" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-602"><a href="#cb27-602" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-603"><a href="#cb27-603" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-604"><a href="#cb27-604" aria-hidden="true" tabindex="-1"></a><span class="fu"># Final comments</span></span>
+<span id="cb27-568"><a href="#cb27-568" aria-hidden="true" tabindex="-1"></a>A useful practical question is not only **how** to run cross-validation, but also **which resampling unit is scientifically defensible**.</span>
+<span id="cb27-569"><a href="#cb27-569" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-570"><a href="#cb27-570" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If observations are independent, LOOCV or K-Fold CV may be reasonable.</span>
+<span id="cb27-571"><a href="#cb27-571" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If observations are clustered by site, farm, year, or experiment, LOGO-CV is often more honest.</span>
+<span id="cb27-572"><a href="#cb27-572" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The more similar the training and test data are, the more optimistic the estimated performance may become.</span>
+<span id="cb27-573"><a href="#cb27-573" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-574"><a href="#cb27-574" aria-hidden="true" tabindex="-1"></a>In agronomy, this point is critical. Predicting a new soil sample from the same field is not the same problem as predicting a new field, or a new year, or a new region.</span>
+<span id="cb27-575"><a href="#cb27-575" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-576"><a href="#cb27-576" aria-hidden="true" tabindex="-1"></a><span class="fu"># About nested cross-validation</span></span>
+<span id="cb27-577"><a href="#cb27-577" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-578"><a href="#cb27-578" aria-hidden="true" tabindex="-1"></a>Nested cross-validation is useful when there is an **inner loop for model selection or hyperparameter tuning** and an **outer loop for final performance evaluation** @hastie2009 @james2013. That framework is very helpful for models such as random forests, support vector machines, penalized regression, or k-nearest neighbors, where hyper-parameters must be selected without leaking information from the test set.</span>
+<span id="cb27-579"><a href="#cb27-579" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-580"><a href="#cb27-580" aria-hidden="true" tabindex="-1"></a>For the simple linear regression example shown here, however, there is no real hyper-parameter tuning step. Because of that, nested CV is included here only to show the general idea of how a nested resampling workflow operates.</span>
+<span id="cb27-581"><a href="#cb27-581" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-582"><a href="#cb27-582" aria-hidden="true" tabindex="-1"></a>::: callout-warning</span>
+<span id="cb27-583"><a href="#cb27-583" aria-hidden="true" tabindex="-1"></a><span class="fu">## ⚠️ Important caveat</span></span>
+<span id="cb27-584"><a href="#cb27-584" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-585"><a href="#cb27-585" aria-hidden="true" tabindex="-1"></a>Nested CV is most useful when the inner loop is used to choose model settings. If a model has no meaningful tuning step, ordinary LOOCV, K-Fold CV, or LOGO-CV are usually enough.</span>
+<span id="cb27-586"><a href="#cb27-586" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb27-587"><a href="#cb27-587" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-588"><a href="#cb27-588" aria-hidden="true" tabindex="-1"></a><span class="fu">## Skeleton of nested CV logic</span></span>
+<span id="cb27-589"><a href="#cb27-589" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-592"><a href="#cb27-592" aria-hidden="true" tabindex="-1"></a><span class="in">```{mermaid}</span></span>
+<span id="cb27-593"><a href="#cb27-593" aria-hidden="true" tabindex="-1"></a><span class="in">flowchart TD</span></span>
+<span id="cb27-594"><a href="#cb27-594" aria-hidden="true" tabindex="-1"></a><span class="in">    A[🧭 Outer split] --&gt; B[🌾 Outer-training groups]</span></span>
+<span id="cb27-595"><a href="#cb27-595" aria-hidden="true" tabindex="-1"></a><span class="in">    A --&gt; C[🚫 Outer test group held out]</span></span>
+<span id="cb27-596"><a href="#cb27-596" aria-hidden="true" tabindex="-1"></a><span class="in">    B --&gt; D[🔁 Inner CV on outer-training groups only]</span></span>
+<span id="cb27-597"><a href="#cb27-597" aria-hidden="true" tabindex="-1"></a><span class="in">    D --&gt; E[🛠️ Fit candidate models across inner folds]</span></span>
+<span id="cb27-598"><a href="#cb27-598" aria-hidden="true" tabindex="-1"></a><span class="in">    E --&gt; F[📏 Inner predicted vs observed]</span></span>
+<span id="cb27-599"><a href="#cb27-599" aria-hidden="true" tabindex="-1"></a><span class="in">    F --&gt; G[✅ Choose best hyper-parameter setting]</span></span>
+<span id="cb27-600"><a href="#cb27-600" aria-hidden="true" tabindex="-1"></a><span class="in">    G --&gt; H[📈 Refit final model on all outer-training groups]</span></span>
+<span id="cb27-601"><a href="#cb27-601" aria-hidden="true" tabindex="-1"></a><span class="in">    H --&gt; I[🔮 Predict outer test group]</span></span>
+<span id="cb27-602"><a href="#cb27-602" aria-hidden="true" tabindex="-1"></a><span class="in">    C --&gt; J[📋 Outer observed values]</span></span>
+<span id="cb27-603"><a href="#cb27-603" aria-hidden="true" tabindex="-1"></a><span class="in">    I --&gt; K[🧪 Outer predicted vs observed]</span></span>
+<span id="cb27-604"><a href="#cb27-604" aria-hidden="true" tabindex="-1"></a><span class="in">    J --&gt; K</span></span>
 <span id="cb27-605"><a href="#cb27-605" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-606"><a href="#cb27-606" aria-hidden="true" tabindex="-1"></a>Cross-validation is a core tool for evaluating predictive performance. The main lesson is not merely how to split the data, but whether the split reflects the real prediction problem.</span>
-<span id="cb27-607"><a href="#cb27-607" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-608"><a href="#cb27-608" aria-hidden="true" tabindex="-1"></a>For this example:</span>
-<span id="cb27-609"><a href="#cb27-609" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-610"><a href="#cb27-610" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**LOOCV** is easy to explain and uses almost all observations for training.</span>
-<span id="cb27-611"><a href="#cb27-611" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**K-Fold CV** is often a practical default.</span>
-<span id="cb27-612"><a href="#cb27-612" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**LOGO-CV** is usually more appropriate when data are grouped.</span>
-<span id="cb27-613"><a href="#cb27-613" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Nested CV** becomes especially useful when hyper-parameters must be tuned inside the workflow.</span>
-<span id="cb27-614"><a href="#cb27-614" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-615"><a href="#cb27-615" aria-hidden="true" tabindex="-1"></a>In other words, the best cross-validation strategy is the one that best mimics the conditions under which the model will actually be used.</span>
-<span id="cb27-616"><a href="#cb27-616" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-617"><a href="#cb27-617" aria-hidden="true" tabindex="-1"></a><span class="fu"># References</span></span>
+<span id="cb27-606"><a href="#cb27-606" aria-hidden="true" tabindex="-1"></a><span class="in">    style A fill:#E8F1FB,stroke:#4C78A8,stroke-width:2px,color:#111</span></span>
+<span id="cb27-607"><a href="#cb27-607" aria-hidden="true" tabindex="-1"></a><span class="in">    style B fill:#EAF7EA,stroke:#59A14F,stroke-width:2px,color:#111</span></span>
+<span id="cb27-608"><a href="#cb27-608" aria-hidden="true" tabindex="-1"></a><span class="in">    style C fill:#FDEBEC,stroke:#E15759,stroke-width:2px,color:#111</span></span>
+<span id="cb27-609"><a href="#cb27-609" aria-hidden="true" tabindex="-1"></a><span class="in">    style D fill:#FCECCF,stroke:#F28E2B,stroke-width:2px,color:#111</span></span>
+<span id="cb27-610"><a href="#cb27-610" aria-hidden="true" tabindex="-1"></a><span class="in">    style E fill:#F3E8F8,stroke:#B07AA1,stroke-width:2px,color:#111</span></span>
+<span id="cb27-611"><a href="#cb27-611" aria-hidden="true" tabindex="-1"></a><span class="in">    style F fill:#E8F1FB,stroke:#4C78A8,stroke-width:2px,color:#111</span></span>
+<span id="cb27-612"><a href="#cb27-612" aria-hidden="true" tabindex="-1"></a><span class="in">    style G fill:#EAF7EA,stroke:#59A14F,stroke-width:2px,color:#111</span></span>
+<span id="cb27-613"><a href="#cb27-613" aria-hidden="true" tabindex="-1"></a><span class="in">    style H fill:#F3E8F8,stroke:#B07AA1,stroke-width:2px,color:#111</span></span>
+<span id="cb27-614"><a href="#cb27-614" aria-hidden="true" tabindex="-1"></a><span class="in">    style I fill:#EAF7EA,stroke:#59A14F,stroke-width:2px,color:#111</span></span>
+<span id="cb27-615"><a href="#cb27-615" aria-hidden="true" tabindex="-1"></a><span class="in">    style J fill:#FCECCF,stroke:#F28E2B,stroke-width:2px,color:#111</span></span>
+<span id="cb27-616"><a href="#cb27-616" aria-hidden="true" tabindex="-1"></a><span class="in">    style K fill:#FDEBEC,stroke:#E15759,stroke-width:2px,color:#111</span></span>
+<span id="cb27-617"><a href="#cb27-617" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb27-618"><a href="#cb27-618" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-619"><a href="#cb27-619" aria-hidden="true" tabindex="-1"></a>::: {#refs}</span>
-<span id="cb27-620"><a href="#cb27-620" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb27-619"><a href="#cb27-619" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-620"><a href="#cb27-620" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-621"><a href="#cb27-621" aria-hidden="true" tabindex="-1"></a><span class="fu"># Final comments</span></span>
+<span id="cb27-622"><a href="#cb27-622" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-623"><a href="#cb27-623" aria-hidden="true" tabindex="-1"></a>Cross-validation is a core tool for evaluating predictive performance. The main lesson is not merely how to split the data, but whether the split reflects the real prediction problem.</span>
+<span id="cb27-624"><a href="#cb27-624" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-625"><a href="#cb27-625" aria-hidden="true" tabindex="-1"></a>For this example:</span>
+<span id="cb27-626"><a href="#cb27-626" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-627"><a href="#cb27-627" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**LOOCV** is easy to explain and uses almost all observations for training.</span>
+<span id="cb27-628"><a href="#cb27-628" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**K-Fold CV** is often a practical default.</span>
+<span id="cb27-629"><a href="#cb27-629" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**LOGO-CV** is usually more appropriate when data are grouped.</span>
+<span id="cb27-630"><a href="#cb27-630" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Nested CV** becomes especially useful when hyper-parameters must be tuned inside the workflow.</span>
+<span id="cb27-631"><a href="#cb27-631" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-632"><a href="#cb27-632" aria-hidden="true" tabindex="-1"></a>In other words, the best cross-validation strategy is the one that best mimics the conditions under which the model will actually be used.</span>
+<span id="cb27-633"><a href="#cb27-633" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-634"><a href="#cb27-634" aria-hidden="true" tabindex="-1"></a><span class="fu"># References</span></span>
+<span id="cb27-635"><a href="#cb27-635" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-636"><a href="#cb27-636" aria-hidden="true" tabindex="-1"></a>::: {#refs}</span>
+<span id="cb27-637"><a href="#cb27-637" aria-hidden="true" tabindex="-1"></a>:::</span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

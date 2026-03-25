@@ -499,6 +499,23 @@ metrica::scatter_plot(data = logocv_results, obs = observed, pred = predicted,
   geom_point(aes(color = group)) +
   theme(legend.position = "right") #+
   #facet_wrap(~group)
+
+# Plot predicted vs observed facetting by group
+logocv_results %>% 
+  ggplot(aes(x = observed, y = predicted)) +
+  geom_point(aes(color = group), alpha = 0.8) +
+  geom_smooth(method = "lm", formula = y ~ x, se = FALSE,
+              color = "black", linewidth = 1.2) +
+  geom_abline(slope = 1, intercept = 0,
+              linetype = "dashed", color = "black") +
+  facet_wrap(~group) +
+  theme_classic() +
+  labs(
+    x = "Observed d20",
+    y = "Predicted d20",
+    color = "Group"
+  ) +
+  theme(legend.position = "right")
 ```
 
 # Comparing resampling strategies

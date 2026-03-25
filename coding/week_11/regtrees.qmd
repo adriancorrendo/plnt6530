@@ -219,8 +219,9 @@ For a continuous response, it tries to create child nodes where the response is 
 ## 🌽 Model for EONR
 
 ```{r rpart-eonr-fit}
-rpart_eonr <- rpart(
-  eonr_kgha ~ 
+rpart_eonr <- 
+  rpart(
+  formula = eonr_kgha ~ 
     topo_pos + previous_crop + soil_texture + soil_depth_cm + whc_mm +
     om_pct + ph + drainage_class + slope_pct + planting_doy +
     spring_rain_mm + summer_rain_mm + gdd + heat_stress_days +
@@ -229,9 +230,9 @@ rpart_eonr <- rpart(
   data = train_df,
   method = "anova",
   control = rpart.control(
-    cp = 0.002,
+    cp = 0.001,
     minsplit = 30,
-    maxdepth = 3
+    maxdepth = 5
   )
 )
 
