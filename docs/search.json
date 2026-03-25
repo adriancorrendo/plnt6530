@@ -1775,7 +1775,7 @@
     "href": "coding/week_10/bayes_02.html#computing-posterior-distributions",
     "title": "Bayesian Statistics in R",
     "section": "\n0.2 🎲 Computing Posterior Distributions",
-    "text": "0.2 🎲 Computing Posterior Distributions\n\n0.2.1 1️⃣ Acceptance/Rejection Sampling - Basics\nHere’s how AR sampling works:\n\nPropose values for parameters\nSimulate data based on those values\nMeasure how well it fits the observed data\nAccept if close enough (✔️), reject otherwise (❌)\n\n\n0.2.1.1 🌽 Simulating Corn Yield vs. Plant Density\nWe simulate yield using a parabolic function.\nThen compare simulated data to the real observed values. If the fit is good enough, we keep those parameter values.\n👀 We’ll visualize which parameter sets are accepted and which aren’t.\n\n\n\n\n\n\n\n\nAlgorithm settings:\n\nShow code# Algorithm settings\nK_tries &lt;- 10^6\ndiff &lt;- matrix(, K_tries, 1)\nerror &lt;- 200\n\n# Known random variables and parameters\nn &lt;- length(x)\n\n\n\nGenerate proposal parameter values using the prior distributions.\n\n\nShow codeset.seed(6767)\nb0_try &lt;- runif(1, 4, 6)\nb1_try &lt;- runif(1, 1, 3)\nb2_try &lt;- rgamma(1, 0.1, 2)\nmu_try &lt;- b0_try + x*b1_try - (x^2)*b2_try\nsigma_try &lt;- rgamma(1, 2, 2)\n\n\n\nGenerate data with those parameters.\n\n\nShow codeset.seed(567)\ny_try &lt;- rnorm(n, mu_try, sigma_try)\n\n\n\nCompare the simulated data with the observed data = difference.\n\n\nShow code# Record difference between draw of y from prior predictive distribution and observed data\ndiff[k, ] &lt;- sum(abs(y - y_try))\n\n\n\nAccept that combination of parameters if the difference is smaller than the predefined acceptable error. Reject it otherwise.\n\n\nShow codeplot(x, y, xlab = \"Plant density\", \n     ylab = \"Corn Yield (Mg/ha)\", xlim = c(2, 13), ylim = c(5, 20),\n     typ = \"b\", cex = 0.8, pch = 20, col = rgb(0.7, 0.7, 0.7, 0.9))\npoints(x, y_hat[k,], typ = \"b\", lwd = 2, \n       col = ifelse(diff[1] &lt; error, \"gold\", \"tomato\"))\n\n\n\n\n\n\n\n\nShow codeset.seed(567567)\nk = 1\nb0_try &lt;- runif(1, 4, 6)\nb1_try &lt;- runif(1, 1, 3)\nb2_try &lt;- rgamma(1, 0.1, 2)\nmu_try &lt;- b0_try + x*b1_try - (x^2)*b2_try\nsigma_try &lt;- rgamma(1, 2, 2)\n\ny_try &lt;- rnorm(n, mu_try, sigma_try)\ndiff[k, ] &lt;- sum(abs(y - y_try))\ny_hat[k, ] &lt;- y_try\nposterior_samp_parameters[k, ] &lt;- c(b0_try, b1_try, b2_try, sigma_try)\n\nplot(x, y, xlab = \"Plant density\", \n     ylab = \"Observed yield\", xlim = c(2, 13), ylim = c(5, 20),\n     typ = \"b\", cex = 0.8, pch = 20, col = rgb(0.7, 0.7, 0.7, 0.9))\n\npoints(x, y_hat[k,], typ = \"b\", lwd = 2, \n       col = ifelse(diff[1] &lt; error, \"gold\", \"tomato\"))\n\n\n\n\n\n\n\n\nShow codeset.seed(76543)\nk = 1\nb0_try &lt;- runif(1, 4, 6)\nb1_try &lt;- runif(1, 1, 3)\nb2_try &lt;- rgamma(1, .5, 2)\nmu_try &lt;- b0_try + x*b1_try - (x^2)*b2_try\nsigma_try &lt;- rgamma(1, 2, 2)\n\ny_try &lt;- rnorm(n, mu_try, sigma_try)\ndiff[k, ] &lt;- sum(abs(y - y_try))\ny_hat[k, ] &lt;- y_try\nposterior_samp_parameters[k, ] &lt;- c(b0_try, b1_try, b2_try, sigma_try)\n\nplot(x, y, xlab = \"Plant density\", \n     ylab = \"Observed yield\", xlim = c(2, 13), ylim = c(5, 20),\n     typ = \"b\", cex = 0.8, pch = 20, col = rgb(0.7, 0.7, 0.7, 0.9))\n\npoints(x, y_hat[k,], typ = \"b\", lwd = 2, \n       col = ifelse(diff[1] &lt; error, \"gold\", \"tomato\"))\n\n\n\n\n\n\n\nNow, what if we change the priors:\n\n\n\n\n\n\n\n\nNow, do many tries.\n\nShow codefor (k in 1:K_tries) {\n    \n    b0_try &lt;- runif(1, 2, 10)\n    b1_try &lt;- rnorm(1, 2.2, .5)\n    b2_try &lt;- rgamma(1, .25, 2)\n    mu_try &lt;- b0_try + x*b1_try - (x^2)*b2_try\n    sigma_try &lt;- rgamma(1, 2, 2)\n\n    y_try &lt;- rnorm(n, mu_try, sigma_try)\n    \n    diff[k, ] &lt;- sum(abs(y - y_try))\n    y_hat[k, ] &lt;- y_try\n    posterior_samp_parameters[k, ] &lt;- c(b0_try, b1_try, b2_try, sigma_try)\n}\n\n\nAcceptance rate\n\nShow codelength(which(diff &lt; error))/K_tries\n\n[1] 0.169531\n\n\nPriors versus posteriors:\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n0.2.1.2 📊 Plot predictions\n\nShow codefiltered_yhat &lt;- y_hat[which(diff &lt; error), 50]\ndf_yhat &lt;- data.frame(pred = filtered_yhat)\n\nggplot(df_yhat, aes(x = pred)) +\n  geom_histogram(aes(y = ..density..), fill = \"grey\", color = \"black\", bins = 30) +\n  geom_vline(xintercept = y[50], color = \"gold\", linetype = \"dashed\", linewidth = 1.2) +\n  labs(\n    x = expression(hat(y)[50]),\n    y = \"Density\"\n  ) +\n  theme_classic()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nLet’s get started",
+    "text": "0.2 🎲 Computing Posterior Distributions\n\n0.2.1 1️⃣ Acceptance/Rejection Sampling - Basics\nHere’s how AR sampling works:\n\nPropose values for parameters\nSimulate data based on those values\nMeasure how well it fits the observed data\nAccept if close enough (✔️), reject otherwise (❌)\n\n\n0.2.1.1 🌽 Simulating Corn Yield vs. Plant Density\nWe simulate yield using a parabolic function.\nThen compare simulated data to the real observed values. If the fit is good enough, we keep those parameter values.\n👀 We’ll visualize which parameter sets are accepted and which aren’t.\nAlgorithm settings:\n\nShow code# Algorithm settings\nK_tries &lt;- 10^6\ndiff &lt;- matrix(, K_tries, 1)\nerror &lt;- 200\n\n# Known random variables and parameters\nn &lt;- length(x)\n\n\n\nGenerate proposal parameter values using the prior distributions.\n\n\nShow codeset.seed(6767)\nb0_try &lt;- runif(1, 4, 6)\nb1_try &lt;- runif(1, 1, 3)\nb2_try &lt;- rgamma(1, 0.1, 2)\nmu_try &lt;- b0_try + x*b1_try - (x^2)*b2_try\nsigma_try &lt;- rgamma(1, 2, 2)\n\n\n\nGenerate data with those parameters.\n\n\nShow codeset.seed(567)\ny_try &lt;- rnorm(n, mu_try, sigma_try)\n\n\n\nCompare the simulated data with the observed data = difference.\n\n\nShow code# Record difference between draw of y from prior predictive distribution and observed data\ndiff[k, ] &lt;- sum(abs(y - y_try))\n\n\n\nAccept that combination of parameters if the difference is smaller than the predefined acceptable error. Reject it otherwise.\n\n\nShow codeplot(x, y, xlab = \"Plant density\", \n     ylab = \"Corn Yield (Mg/ha)\", xlim = c(2, 13), ylim = c(5, 20),\n     typ = \"b\", cex = 0.8, pch = 20, col = rgb(0.7, 0.7, 0.7, 0.9))\npoints(x, y_hat[k,], typ = \"b\", lwd = 2, \n       col = ifelse(diff[1] &lt; error, \"gold\", \"tomato\"))\n\n\n\nShow codeset.seed(567567)\nk = 1\nb0_try &lt;- runif(1, 4, 6)\nb1_try &lt;- runif(1, 1, 3)\nb2_try &lt;- rgamma(1, 0.1, 2)\nmu_try &lt;- b0_try + x*b1_try - (x^2)*b2_try\nsigma_try &lt;- rgamma(1, 2, 2)\n\ny_try &lt;- rnorm(n, mu_try, sigma_try)\ndiff[k, ] &lt;- sum(abs(y - y_try))\ny_hat[k, ] &lt;- y_try\nposterior_samp_parameters[k, ] &lt;- c(b0_try, b1_try, b2_try, sigma_try)\n\nplot(x, y, xlab = \"Plant density\", \n     ylab = \"Observed yield\", xlim = c(2, 13), ylim = c(5, 20),\n     typ = \"b\", cex = 0.8, pch = 20, col = rgb(0.7, 0.7, 0.7, 0.9))\n\npoints(x, y_hat[k,], typ = \"b\", lwd = 2, \n       col = ifelse(diff[1] &lt; error, \"gold\", \"tomato\"))\n\n\n\nShow codeset.seed(76543)\nk = 1\nb0_try &lt;- runif(1, 4, 6)\nb1_try &lt;- runif(1, 1, 3)\nb2_try &lt;- rgamma(1, .5, 2)\nmu_try &lt;- b0_try + x*b1_try - (x^2)*b2_try\nsigma_try &lt;- rgamma(1, 2, 2)\n\ny_try &lt;- rnorm(n, mu_try, sigma_try)\ndiff[k, ] &lt;- sum(abs(y - y_try))\ny_hat[k, ] &lt;- y_try\nposterior_samp_parameters[k, ] &lt;- c(b0_try, b1_try, b2_try, sigma_try)\n\nplot(x, y, xlab = \"Plant density\", \n     ylab = \"Observed yield\", xlim = c(2, 13), ylim = c(5, 20),\n     typ = \"b\", cex = 0.8, pch = 20, col = rgb(0.7, 0.7, 0.7, 0.9))\n\npoints(x, y_hat[k,], typ = \"b\", lwd = 2, \n       col = ifelse(diff[1] &lt; error, \"gold\", \"tomato\"))\n\n\nNow, what if we change the priors:\nNow, do many tries.\n\nShow codefor (k in 1:K_tries) {\n    \n    b0_try &lt;- runif(1, 2, 10)\n    b1_try &lt;- rnorm(1, 2.2, .5)\n    b2_try &lt;- rgamma(1, .25, 2)\n    mu_try &lt;- b0_try + x*b1_try - (x^2)*b2_try\n    sigma_try &lt;- rgamma(1, 2, 2)\n\n    y_try &lt;- rnorm(n, mu_try, sigma_try)\n    \n    diff[k, ] &lt;- sum(abs(y - y_try))\n    y_hat[k, ] &lt;- y_try\n    posterior_samp_parameters[k, ] &lt;- c(b0_try, b1_try, b2_try, sigma_try)\n}\n\n\nAcceptance rate\n\nShow codelength(which(diff &lt; error))/K_tries\n\n\nPriors versus posteriors:\n\n0.2.1.2 📊 Plot predictions\n\nShow codefiltered_yhat &lt;- y_hat[which(diff &lt; error), 50]\ndf_yhat &lt;- data.frame(pred = filtered_yhat)\n\nggplot(df_yhat, aes(x = pred)) +\n  geom_histogram(aes(y = ..density..), fill = \"grey\", color = \"black\", bins = 30) +\n  geom_vline(xintercept = y[50], color = \"gold\", linetype = \"dashed\", linewidth = 1.2) +\n  labs(\n    x = expression(hat(y)[50]),\n    y = \"Density\"\n  ) +\n  theme_classic()\n\n\nLet’s get started",
     "crumbs": [
       "Lessons",
       "18-Bayes II"
@@ -1819,7 +1819,7 @@
     "href": "coding/week_10/bayes_02.html#brms-bayesian-regression-models-using-stan",
     "title": "Bayesian Statistics in R",
     "section": "\n0.6 brms: Bayesian Regression Models using Stan",
-    "text": "0.6 brms: Bayesian Regression Models using Stan\n\n🔗 Docs: https://paul-buerkner.github.io/brms/\n🐛 Issues: https://github.com/paul-buerkner/brms/issues\nbrms makes it easy to run complex Bayesian models without writing Stan code manually. It is inspired by lme4, so syntax feels familiar.\nIt supports a wide range of models: - Linear, GLM, survival, zero-inflated, ordinal, count, and more\n✨ We will use brms as our main interface in this session.\n📚 More info: - JSS Article on brms\n\n\n0.6.1 Fit brms\nLet’s now fit a Bayesian quadratic-plateau model to estimate AONR directly from the corn nitrogen response data.\n\n0.6.1.1 Corn Data\nWe will again use our synthetic dataset of corn yield response to nitrogen fertilizer across two sites and three years with contrasting weather.\n\nShow code# Read CSV file\ncornn_data &lt;- read.csv(\"data/cornn_data.csv\") %&gt;%\n  mutate(\n    n_trt = factor(n_trt, levels = c(\"N0\", \"N60\", \"N90\", \"N120\",\n                                   \"N180\", \"N240\", \"N300\")),\n    block = factor(block),\n    site = factor(site),\n    year = factor(year),\n    site_year = interaction(site, weather, drop = FALSE), # create interaction\n    weather = factor(weather)\n  ) %&gt;%\n  # IMPORTANT: blocks are nested within site (Block 1 in A is not the same as Block 1 in B)\n  mutate(\n    block_in_site = interaction(site, block, drop = TRUE),\n    yield = yield_kgha\n  )\n\nglimpse(cornn_data)\n\nRows: 168\nColumns: 10\n$ site          &lt;fct&gt; A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A, A,…\n$ year          &lt;fct&gt; 2004, 2004, 2004, 2004, 2004, 2004, 2004, 2004, 2004, 20…\n$ block         &lt;fct&gt; 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3,…\n$ n_trt         &lt;fct&gt; N0, N0, N0, N0, N60, N60, N60, N60, N90, N90, N90, N90, …\n$ nrate_kgha    &lt;int&gt; 0, 0, 0, 0, 60, 60, 60, 60, 90, 90, 90, 90, 120, 120, 12…\n$ yield_kgha    &lt;int&gt; 6860, 7048, 8083, 8194, 10010, 9568, 10256, 10939, 11959…\n$ weather       &lt;fct&gt; normal, normal, normal, normal, normal, normal, normal, …\n$ site_year     &lt;fct&gt; A.normal, A.normal, A.normal, A.normal, A.normal, A.norm…\n$ block_in_site &lt;fct&gt; A.1, A.2, A.3, A.4, A.1, A.2, A.3, A.4, A.1, A.2, A.3, A…\n$ yield         &lt;int&gt; 6860, 7048, 8083, 8194, 10010, 9568, 10256, 10939, 11959…\n\n\n\n0.6.2 brms pars\n\nWU: Warmup iterations (burn-in). This is the number of initial samples that will be discarded to allow the Markov chain to converge to the target distribution.\nIT: Total iterations. This is the total number of samples to draw from the posterior distribution, including warmup.\nTH: Thinning interval. This is the interval at which samples are kept. For example, if TH = 5, every 5th sample will be retained, and the others will be discarded. Thinning can help reduce autocorrelation in the samples.\nCH: Number of chains. This is the number of independent Markov chains to run. Running multiple chains can help assess convergence and ensure that the results are not dependent on the starting values.\nAD: Adapt delta. This is a tuning parameter for the No-U-Turn Sampler (NUTS) algorithm used by Stan. It controls the target acceptance rate for the sampler. A higher adapt delta can lead to more accurate sampling but may increase computation time.\n\n\nShow codeWU &lt;- 2000\nIT &lt;- 6000\nTH &lt;- 5\nCH &lt;- 6\nAD &lt;- 0.99\n\n\n\n0.6.3 Model\n\nShow codebayes_model &lt;- \n  brms::brm(\n    prior = c(\n      # Intercept in kg/ha\n      prior('normal(6000, 2500)', nlpar = 'b0', lb = 0),\n      # Initial slope in kg grain per kg N\n      prior('normal(50, 25)', nlpar = 'b1', lb = 0),\n      # Agronomic optimum N rate in kg N/ha\n      prior('normal(180, 60)', nlpar = 'aonr', lb = 0)\n    ),\n    formula = bf(\n      yield_kgha ~\n        (1 - step(nrate_kgha - aonr)) *\n          (b0 + b1 * nrate_kgha - (b1 / (2 * aonr)) * nrate_kgha^2) +\n        step(nrate_kgha - aonr) *\n          (b0 + b1 * aonr - (b1 / (2 * aonr)) * aonr^2),\n      b0 + b1 + aonr ~ 1,\n      nl = TRUE\n    ),\n    data = cornn_data,\n    sample_prior = \"yes\",\n    family = gaussian(link = 'identity'),\n    control = list(adapt_delta = AD),\n    warmup = WU, iter = IT, thin = TH,\n    chains = CH, cores = CH,\n    init = 0,\n    seed = 1,\n    refresh = 1000\n  )\n\nRunning /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c\nusing C compiler: ‘Apple clang version 17.0.0 (clang-1700.6.3.2)’\nusing SDK: ‘MacOSX26.2.sdk’\nclang -arch arm64 -std=gnu2x -I\"/Library/Frameworks/R.framework/Resources/include\" -DNDEBUG   -I\"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/Rcpp/include/\"  -I\"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/\"  -I\"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/unsupported\"  -I\"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/BH/include\" -I\"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/StanHeaders/include/src/\"  -I\"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/StanHeaders/include/\"  -I\"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppParallel/include/\"  -I\"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/rstan/include\" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DUSE_STANC3 -DSTRICT_R_HEADERS  -DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION  -D_HAS_AUTO_PTR_ETC=0  -include '/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/opt/R/arm64/include    -fPIC  -falign-functions=64 -Wall -g -O2  -c foo.c -o foo.o\nIn file included from &lt;built-in&gt;:1:\nIn file included from /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp:22:\nIn file included from /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/Eigen/Dense:1:\nIn file included from /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/Eigen/Core:19:\n/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:679:10: fatal error: 'cmath' file not found\n  679 | #include &lt;cmath&gt;\n      |          ^~~~~~~\n1 error generated.\nmake: *** [foo.o] Error 1\n\nShow codeplot(bayes_model)\n\n\n\n\n\n\nShow codebayes_model\n\n Family: gaussian \n  Links: mu = identity \nFormula: yield_kgha ~ (1 - step(nrate_kgha - aonr)) * (b0 + b1 * nrate_kgha - (b1/(2 * aonr)) * nrate_kgha^2) + step(nrate_kgha - aonr) * (b0 + b1 * aonr - (b1/(2 * aonr)) * aonr^2) \n         b0 ~ 1\n         b1 ~ 1\n         aonr ~ 1\n   Data: cornn_data (Number of observations: 168) \n  Draws: 6 chains, each with iter = 6000; warmup = 2000; thin = 5;\n         total post-warmup draws = 4800\n\nRegression Coefficients:\n               Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS\nb0_Intercept    5898.13    519.67  4872.19  6920.33 1.00     4587     4694\nb1_Intercept      62.20      9.43    45.25    81.89 1.00     4483     4600\naonr_Intercept   207.75     26.45   160.09   264.72 1.00     4589     4658\n\nFurther Distributional Parameters:\n      Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS\nsigma  2906.48    160.86  2613.53  3242.83 1.00     4607     4463\n\nDraws were sampled using sampling(NUTS). For each parameter, Bulk_ESS\nand Tail_ESS are effective sample size measures, and Rhat is the potential\nscale reduction factor on split chains (at convergence, Rhat = 1).\n3%]  (Warmup)\nChain 4: Iteration: 2001 / 6000 [ 33%]  (Sampling)\nChain 6: Iteration: 2000 / 6000 [ 33%]  (Warmup)\nChain 6: Iteration: 2001 / 6000 [ 33%]  (Sampling)\nChain 1: Iteration: 3000 / 6000 [ 50%]  (Sampling)\nChain 2: Iteration: 3000 / 6000 [ 50%]  (Sampling)\nChain 5: Iteration: 3000 / 6000 [ 50%]  (Sampling)\nChain 4: Iteration: 3000 / 6000 [ 50%]  (Sampling)\nChain 3: Iteration: 3000 / 6000 [ 50%]  (Sampling)\nChain 6: Iteration: 3000 / 6000 [ 50%]  (Sampling)\nChain 1: Iteration: 4000 / 6000 [ 66%]  (Sampling)\nChain 2: Iteration: 4000 / 6000 [ 66%]  (Sampling)\nChain 5: Iteration: 4000 / 6000 [ 66%]  (Sampling)\nChain 4: Iteration: 4000 / 6000 [ 66%]  (Sampling)\nChain 1: Iteration: 5000 / 6000 [ 83%]  (Sampling)\nChain 6: Iteration: 4000 / 6000 [ 66%]  (Sampling)\nChain 2: Iteration: 5000 / 6000 [ 83%]  (Sampling)\nChain 3: Iteration: 4000 / 6000 [ 66%]  (Sampling)\nChain 5: Iteration: 5000 / 6000 [ 83%]  (Sampling)\nChain 1: Iteration: 6000 / 6000 [100%]  (Sampling)\nChain 1: \nChain 1:  Elapsed Time: 2.301 seconds (Warm-up)\nChain 1:                3.513 seconds (Sampling)\nChain 1:                5.814 seconds (Total)\nChain 1: \nChain 4: Iteration: 5000 / 6000 [ 83%]  (Sampling)\nChain 6: Iteration: 5000 / 6000 [ 83%]  (Sampling)\nChain 2: Iteration: 6000 / 6000 [100%]  (Sampling)\nChain 2: \nChain 2:  Elapsed Time: 2.173 seconds (Warm-up)\nChain 2:                4.064 seconds (Sampling)\nChain 2:                6.237 seconds (Total)\nChain 2: \nChain 5: Iteration: 6000 / 6000 [100%]  (Sampling)\nChain 5: \nChain 5:  Elapsed Time: 2.226 seconds (Warm-up)\nChain 5:                4.401 seconds (Sampling)\nChain 5:                6.627 seconds (Total)\nChain 5: \nChain 3: Iteration: 5000 / 6000 [ 83%]  (Sampling)\nChain 6: Iteration: 6000 / 6000 [100%]  (Sampling)\nChain 6: \nChain 6:  Elapsed Time: 3.011 seconds (Warm-up)\nChain 6:                3.874 seconds (Sampling)\nChain 6:                6.885 seconds (Total)\nChain 6: \nChain 4: Iteration: 6000 / 6000 [100%]  (Sampling)\nChain 4: \nChain 4:  Elapsed Time: 2.659 seconds (Warm-up)\nChain 4:                4.277 seconds (Sampling)\nChain 4:                6.936 seconds (Total)\nChain 4: \nChain 3: Iteration: 6000 / 6000 [100%]  (Sampling)\nChain 3: \nChain 3:  Elapsed Time: 2.641 seconds (Warm-up)\nChain 3:                5.323 seconds (Sampling)\nChain 3:                7.964 seconds (Total)\nChain 3: \n\n\n\n0.6.4 Using posterior distributions\n\n0.6.4.1 Prepare summary\n\nShow codenewdata &lt;- tibble(nrate_kgha = seq(min(cornn_data$nrate_kgha), \n                                   max(cornn_data$nrate_kgha), length.out = 400))\n\n# Expected values (population-level effects only)\nm1_epred &lt;- newdata %&gt;%\n  tidybayes::add_epred_draws(bayes_model, newdata = ., re_formula = NA, ndraws = NULL) %&gt;%\n  ungroup()\n\nm1_epred_quantiles &lt;- m1_epred %&gt;%\n  group_by(nrate_kgha) %&gt;%\n  summarise(\n    q025 = quantile(.epred, 0.025),\n    q010 = quantile(.epred, 0.10),\n    q250 = quantile(.epred, 0.25),\n    q500 = quantile(.epred, 0.50),\n    q750 = quantile(.epred, 0.75),\n    q900 = quantile(.epred, 0.90),\n    q975 = quantile(.epred, 0.975),\n    .groups = \"drop\"\n  )\n\n# Predicted values (including residual error)\nm1_pred &lt;- newdata %&gt;%\n  tidybayes::add_predicted_draws(bayes_model, newdata = ., re_formula = NA, ndraws = NULL) %&gt;%\n  ungroup()\n\nm1_quantiles &lt;- m1_pred %&gt;%\n  group_by(nrate_kgha) %&gt;%\n  summarise(\n    q025 = quantile(.prediction, 0.025),\n    q010 = quantile(.prediction, 0.10),\n    q250 = quantile(.prediction, 0.25),\n    q500 = quantile(.prediction, 0.50),\n    q750 = quantile(.prediction, 0.75),\n    q900 = quantile(.prediction, 0.90),\n    q975 = quantile(.prediction, 0.975),\n    .groups = \"drop\"\n  )\n\n# Extract posterior samples for AONR\npost_pars &lt;- bayes_model %&gt;%\n  spread_draws(b_b0_Intercept, b_b1_Intercept, b_aonr_Intercept) %&gt;%\n  mutate(AONR = b_aonr_Intercept)\n\n# distribution of AONR\naonr_quantiles &lt;- post_pars %&gt;%\n  summarise(\n    q025 = quantile(AONR, 0.025),\n    q010 = quantile(AONR, 0.10),\n    q250 = quantile(AONR, 0.25),\n    q500 = quantile(AONR, 0.50),\n    q750 = quantile(AONR, 0.75),\n    q900 = quantile(AONR, 0.90),\n    q975 = quantile(AONR, 0.975)\n  )\n\n\n\n0.6.4.2 Plot posterior\n\nShow codem1_plot &lt;- ggplot() +\n  geom_ribbon(data = m1_quantiles, alpha = 0.60, fill = \"cornsilk1\",\n              aes(x = nrate_kgha, ymin = q025, ymax = q975)) +\n  geom_ribbon(data = m1_quantiles, alpha = 0.25, fill = \"cornsilk3\",\n              aes(x = nrate_kgha, ymin = q010, ymax = q900)) +\n  geom_ribbon(data = m1_quantiles, alpha = 0.5, fill = \"gold3\",\n              aes(x = nrate_kgha, ymin = q250, ymax = q750)) +\n  geom_path(data = m1_epred_quantiles,\n            aes(x = nrate_kgha, y = q500, color = \"brms()\"), linewidth = 1) +\n  geom_point(data = cornn_data, aes(x = nrate_kgha, y = yield_kgha, color = \"brms()\"), alpha = 0.25) +\n  scale_color_manual(values = c(\"purple4\", \"tomato\")) +\n  theme_classic() +\n  theme(\n    legend.position = 'right',\n    legend.title = element_blank(),\n    panel.grid = element_blank(),\n    axis.title = element_text(size = rel(1.3)),\n    axis.text = element_text(size = rel(1)),\n    strip.text = element_text(size = rel(1.1))\n  ) +\n  labs(x = \"N fertilizer rate (kg/ha)\", y = \"Corn yield (kg/ha)\")\n\nm1_plot\n\n\n\n\n\n\n\n\n0.6.4.3 Posterior distribution of AONR\n\nShow codepost_pars %&gt;%\n  ggplot(aes(x = AONR)) +\n  geom_histogram(bins = 40, fill = \"grey70\", color = \"black\") +\n  theme_classic() +\n  labs(x = \"Posterior AONR (kg N/ha)\", y = \"Frequency\")+\n  # add ribbons for quantiles\n  geom_vline(xintercept = aonr_quantiles$q025, \n             color = \"grey15\", linetype = \"dashed\", size = 1.2)+\n  geom_vline(xintercept = aonr_quantiles$q975, \n             color = \"grey15\", linetype = \"dashed\", size = 1.2)+\n  geom_vline(xintercept = aonr_quantiles$q500, \n             color = \"tomato\", linetype = \"solid\", size = 1.2)",
+    "text": "0.6 brms: Bayesian Regression Models using Stan\n\n🔗 Docs: https://paul-buerkner.github.io/brms/\n🐛 Issues: https://github.com/paul-buerkner/brms/issues\nbrms makes it easy to run complex Bayesian models without writing Stan code manually. It is inspired by lme4, so syntax feels familiar.\nIt supports a wide range of models: - Linear, GLM, survival, zero-inflated, ordinal, count, and more\n✨ We will use brms as our main interface in this session.\n📚 More info: - JSS Article on brms\n\n\n0.6.1 Fit brms\nLet’s now fit a Bayesian quadratic-plateau model to estimate AONR directly from the corn nitrogen response data.\n\n0.6.1.1 Corn Data\nWe will again use our synthetic dataset of corn yield response to nitrogen fertilizer across two sites and three years with contrasting weather.\n\nShow code# Read CSV file\ncornn_data &lt;- read.csv(\"data/cornn_data.csv\") %&gt;%\n  mutate(\n    n_trt = factor(n_trt, levels = c(\"N0\", \"N60\", \"N90\", \"N120\",\n                                   \"N180\", \"N240\", \"N300\")),\n    block = factor(block),\n    site = factor(site),\n    year = factor(year),\n    site_year = interaction(site, weather, drop = FALSE), # create interaction\n    weather = factor(weather)\n  ) %&gt;%\n  # IMPORTANT: blocks are nested within site (Block 1 in A is not the same as Block 1 in B)\n  mutate(\n    block_in_site = interaction(site, block, drop = TRUE),\n    yield = yield_kgha\n  )\n\nglimpse(cornn_data)\n\n\n\n0.6.2 brms pars\n\nWU: Warmup iterations (burn-in). This is the number of initial samples that will be discarded to allow the Markov chain to converge to the target distribution.\nIT: Total iterations. This is the total number of samples to draw from the posterior distribution, including warmup.\nTH: Thinning interval. This is the interval at which samples are kept. For example, if TH = 5, every 5th sample will be retained, and the others will be discarded. Thinning can help reduce autocorrelation in the samples.\nCH: Number of chains. This is the number of independent Markov chains to run. Running multiple chains can help assess convergence and ensure that the results are not dependent on the starting values.\nAD: Adapt delta. This is a tuning parameter for the No-U-Turn Sampler (NUTS) algorithm used by Stan. It controls the target acceptance rate for the sampler. A higher adapt delta can lead to more accurate sampling but may increase computation time.\n\n\nShow codeWU &lt;- 2000\nIT &lt;- 6000\nTH &lt;- 5\nCH &lt;- 6\nAD &lt;- 0.99\n\n\n\n0.6.3 Model\n\nShow codebayes_model &lt;- \n  brms::brm(\n    prior = c(\n      # Intercept in kg/ha\n      prior('normal(6000, 2500)', nlpar = 'b0', lb = 0),\n      # Initial slope in kg grain per kg N\n      prior('normal(50, 25)', nlpar = 'b1', lb = 0),\n      # Agronomic optimum N rate in kg N/ha\n      prior('normal(180, 60)', nlpar = 'aonr', lb = 0)\n    ),\n    formula = bf(\n      yield_kgha ~\n        (1 - step(nrate_kgha - aonr)) *\n          (b0 + b1 * nrate_kgha - (b1 / (2 * aonr)) * nrate_kgha^2) +\n        step(nrate_kgha - aonr) *\n          (b0 + b1 * aonr - (b1 / (2 * aonr)) * aonr^2),\n      b0 + b1 + aonr ~ 1,\n      nl = TRUE\n    ),\n    data = cornn_data,\n    sample_prior = \"yes\",\n    family = gaussian(link = 'identity'),\n    control = list(adapt_delta = AD),\n    warmup = WU, iter = IT, thin = TH,\n    chains = CH, cores = CH,\n    init = 0,\n    seed = 1,\n    refresh = 1000\n  )\n\nplot(bayes_model)\nbayes_model\n\n\n\n0.6.4 Using posterior distributions\n\n0.6.4.1 Prepare summary\n\nShow codenewdata &lt;- tibble(nrate_kgha = seq(min(cornn_data$nrate_kgha), \n                                   max(cornn_data$nrate_kgha), length.out = 400))\n\n# Expected values (population-level effects only)\nm1_epred &lt;- newdata %&gt;%\n  tidybayes::add_epred_draws(bayes_model, newdata = ., re_formula = NA, ndraws = NULL) %&gt;%\n  ungroup()\n\nm1_epred_quantiles &lt;- m1_epred %&gt;%\n  group_by(nrate_kgha) %&gt;%\n  summarise(\n    q025 = quantile(.epred, 0.025),\n    q010 = quantile(.epred, 0.10),\n    q250 = quantile(.epred, 0.25),\n    q500 = quantile(.epred, 0.50),\n    q750 = quantile(.epred, 0.75),\n    q900 = quantile(.epred, 0.90),\n    q975 = quantile(.epred, 0.975),\n    .groups = \"drop\"\n  )\n\n# Predicted values (including residual error)\nm1_pred &lt;- newdata %&gt;%\n  tidybayes::add_predicted_draws(bayes_model, newdata = ., re_formula = NA, ndraws = NULL) %&gt;%\n  ungroup()\n\nm1_quantiles &lt;- m1_pred %&gt;%\n  group_by(nrate_kgha) %&gt;%\n  summarise(\n    q025 = quantile(.prediction, 0.025),\n    q010 = quantile(.prediction, 0.10),\n    q250 = quantile(.prediction, 0.25),\n    q500 = quantile(.prediction, 0.50),\n    q750 = quantile(.prediction, 0.75),\n    q900 = quantile(.prediction, 0.90),\n    q975 = quantile(.prediction, 0.975),\n    .groups = \"drop\"\n  )\n\n# Extract posterior samples for AONR\npost_pars &lt;- bayes_model %&gt;%\n  spread_draws(b_b0_Intercept, b_b1_Intercept, b_aonr_Intercept) %&gt;%\n  mutate(AONR = b_aonr_Intercept)\n\n# distribution of AONR\naonr_quantiles &lt;- post_pars %&gt;%\n  summarise(\n    q025 = quantile(AONR, 0.025),\n    q010 = quantile(AONR, 0.10),\n    q250 = quantile(AONR, 0.25),\n    q500 = quantile(AONR, 0.50),\n    q750 = quantile(AONR, 0.75),\n    q900 = quantile(AONR, 0.90),\n    q975 = quantile(AONR, 0.975)\n  )\n\n\n\n0.6.4.2 Plot posterior\n\nShow codem1_plot &lt;- ggplot() +\n  geom_ribbon(data = m1_quantiles, alpha = 0.60, fill = \"cornsilk1\",\n              aes(x = nrate_kgha, ymin = q025, ymax = q975)) +\n  geom_ribbon(data = m1_quantiles, alpha = 0.25, fill = \"cornsilk3\",\n              aes(x = nrate_kgha, ymin = q010, ymax = q900)) +\n  geom_ribbon(data = m1_quantiles, alpha = 0.5, fill = \"gold3\",\n              aes(x = nrate_kgha, ymin = q250, ymax = q750)) +\n  geom_path(data = m1_epred_quantiles,\n            aes(x = nrate_kgha, y = q500, color = \"brms()\"), linewidth = 1) +\n  geom_point(data = cornn_data, aes(x = nrate_kgha, y = yield_kgha, color = \"brms()\"), alpha = 0.25) +\n  scale_color_manual(values = c(\"purple4\", \"tomato\")) +\n  theme_classic() +\n  theme(\n    legend.position = 'right',\n    legend.title = element_blank(),\n    panel.grid = element_blank(),\n    axis.title = element_text(size = rel(1.3)),\n    axis.text = element_text(size = rel(1)),\n    strip.text = element_text(size = rel(1.1))\n  ) +\n  labs(x = \"N fertilizer rate (kg/ha)\", y = \"Corn yield (kg/ha)\")\n\nm1_plot\n\n\n\n0.6.4.3 Posterior distribution of AONR\n\nShow codepost_pars %&gt;%\n  ggplot(aes(x = AONR)) +\n  geom_histogram(bins = 40, fill = \"grey70\", color = \"black\") +\n  theme_classic() +\n  labs(x = \"Posterior AONR (kg N/ha)\", y = \"Frequency\")+\n  # add ribbons for quantiles\n  geom_vline(xintercept = aonr_quantiles$q025, \n             color = \"grey15\", linetype = \"dashed\", size = 1.2)+\n  geom_vline(xintercept = aonr_quantiles$q975, \n             color = \"grey15\", linetype = \"dashed\", size = 1.2)+\n  geom_vline(xintercept = aonr_quantiles$q500, \n             color = \"tomato\", linetype = \"solid\", size = 1.2)",
     "crumbs": [
       "Lessons",
       "18-Bayes II"
@@ -1830,7 +1830,7 @@
     "href": "coding/week_10/bayes_02.html#group-specific-quadratic-plateau-model-with-site_year",
     "title": "Bayesian Statistics in R",
     "section": "\n0.7 Group-specific quadratic-plateau model with site_year\n",
-    "text": "0.7 Group-specific quadratic-plateau model with site_year\n\nNow let’s extend the global model. Here, we will:\n\ninclude a random block effect nested within site_year\n\nallow the quadratic-plateau parameters to vary by site_year\n\nsample posterior fitted values for each site_year\n\nplot fitted curves and predictive intervals by environment\n\n\n0.7.1 Priors for site_year-specific parameters\n\nShow codepriors_site_year &lt;- c(\n  prior(\"normal(6000, 2500)\", nlpar = \"b0\", lb = 0),\n  prior(\"normal(50, 25)\", nlpar = \"b1\", lb = 0),\n  prior(\"normal(180, 60)\", nlpar = \"aonr\", lb = 0),\n  prior(\"student_t(3, 0, 1000)\", class = \"sd\", nlpar = \"u\", group = \"site_year:block\"),\n  prior(\"student_t(3, 0, 1000)\", class = \"sigma\", lb = 0)\n)\n\n\n\n0.7.2 Model with site_year-specific parameters\n\nShow codebayes_model_sy &lt;- \n  brms::brm(\n    prior = priors_site_year,\n    formula = bf(\n      yield_kgha ~\n        (1 - step(nrate_kgha - aonr)) *\n          (b0 + b1 * nrate_kgha - (b1 / (2 * aonr)) * nrate_kgha^2) +\n        step(nrate_kgha - aonr) *\n          (b0 + b1 * aonr - (b1 / (2 * aonr)) * aonr^2) +\n        u,\n      b0 ~ 0 + site_year,\n      b1 ~ 0 + site_year,\n      aonr ~ 0 + site_year,\n      u ~ 0 + (1 | site_year:block),\n      nl = TRUE\n    ),\n    data = cornn_data,\n    family = gaussian(),\n    sample_prior = \"yes\",\n    control = list(adapt_delta = 0.995, max_treedepth = 15),\n    warmup = WU, iter = IT, thin = TH,\n    chains = CH, cores = CH,\n    seed = 1\n  )\n\nRunning /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c\nusing C compiler: ‘Apple clang version 17.0.0 (clang-1700.6.3.2)’\nusing SDK: ‘MacOSX26.2.sdk’\nclang -arch arm64 -std=gnu2x -I\"/Library/Frameworks/R.framework/Resources/include\" -DNDEBUG   -I\"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/Rcpp/include/\"  -I\"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/\"  -I\"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/unsupported\"  -I\"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/BH/include\" -I\"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/StanHeaders/include/src/\"  -I\"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/StanHeaders/include/\"  -I\"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppParallel/include/\"  -I\"/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/rstan/include\" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DUSE_STANC3 -DSTRICT_R_HEADERS  -DBOOST_PHOENIX_NO_VARIADIC_EXPRESSION  -D_HAS_AUTO_PTR_ETC=0  -include '/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/opt/R/arm64/include    -fPIC  -falign-functions=64 -Wall -g -O2  -c foo.c -o foo.o\nIn file included from &lt;built-in&gt;:1:\nIn file included from /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/StanHeaders/include/stan/math/prim/fun/Eigen.hpp:22:\nIn file included from /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/Eigen/Dense:1:\nIn file included from /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/Eigen/Core:19:\n/Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:679:10: fatal error: 'cmath' file not found\n  679 | #include &lt;cmath&gt;\n      |          ^~~~~~~\n1 error generated.\nmake: *** [foo.o] Error 1\n\nShow codeplot(bayes_model_sy)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nShow codesummary(bayes_model_sy)\n\n Family: gaussian \n  Links: mu = identity \nFormula: yield_kgha ~ (1 - step(nrate_kgha - aonr)) * (b0 + b1 * nrate_kgha - (b1/(2 * aonr)) * nrate_kgha^2) + step(nrate_kgha - aonr) * (b0 + b1 * aonr - (b1/(2 * aonr)) * aonr^2) + u \n         b0 ~ 0 + site_year\n         b1 ~ 0 + site_year\n         aonr ~ 0 + site_year\n         u ~ 0 + (1 | site_year:block)\n   Data: cornn_data (Number of observations: 168) \n  Draws: 6 chains, each with iter = 6000; warmup = 2000; thin = 5;\n         total post-warmup draws = 4800\n\nMultilevel Hyperparameters:\n~site_year:block (Number of levels: 24) \n                Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS\nsd(u_Intercept)   138.60     95.40     5.98   361.51 1.00     3804     4263\n\nRegression Coefficients:\n                       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS\nb0_site_yearA.dry       5449.31    378.53  4714.11  6184.19 1.00     4812\nb0_site_yearB.dry       3409.20    357.52  2708.16  4108.94 1.00     4961\nb0_site_yearA.normal    7381.31    372.40  6649.55  8112.60 1.00     4901\nb0_site_yearB.normal    4091.87    355.27  3381.36  4772.65 1.00     4493\nb0_site_yearA.wet       7154.46    377.56  6400.38  7894.74 1.00     4699\nb0_site_yearB.wet       7430.19    374.27  6695.69  8180.88 1.00     4686\nb1_site_yearA.dry         44.83     10.78    26.55    68.22 1.00     4932\nb1_site_yearB.dry         41.43      5.35    31.67    52.66 1.00     4859\nb1_site_yearA.normal      67.71      7.75    53.30    83.48 1.00     4775\nb1_site_yearB.normal      56.62      5.43    46.72    67.77 1.00     4577\nb1_site_yearA.wet         88.95      7.63    74.25   104.17 1.00     4522\nb1_site_yearB.wet         88.20      7.20    74.57   102.92 1.00     4608\naonr_site_yearA.dry      145.73     30.64    93.58   213.78 1.00     4998\naonr_site_yearB.dry      249.06     26.76   201.18   305.43 1.00     4864\naonr_site_yearA.normal   180.73     17.09   149.68   216.11 1.00     4680\naonr_site_yearB.normal   269.47     23.94   227.02   321.41 1.00     4729\naonr_site_yearA.wet      188.48     13.56   163.92   217.66 1.00     4714\naonr_site_yearB.wet      198.11     13.49   172.53   226.14 1.00     4810\n                       Tail_ESS\nb0_site_yearA.dry          4328\nb0_site_yearB.dry          4863\nb0_site_yearA.normal       4905\nb0_site_yearB.normal       4320\nb0_site_yearA.wet          4575\nb0_site_yearB.wet          4699\nb1_site_yearA.dry          4292\nb1_site_yearB.dry          4656\nb1_site_yearA.normal       4381\nb1_site_yearB.normal       4580\nb1_site_yearA.wet          4602\nb1_site_yearB.wet          4780\naonr_site_yearA.dry        4714\naonr_site_yearB.dry        4736\naonr_site_yearA.normal     4234\naonr_site_yearB.normal     4503\naonr_site_yearA.wet        4268\naonr_site_yearB.wet        4581\n\nFurther Distributional Parameters:\n      Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS\nsigma   802.28     47.70   714.69   902.27 1.00     4831     4581\n\nDraws were sampled using sampling(NUTS). For each parameter, Bulk_ESS\nand Tail_ESS are effective sample size measures, and Rhat is the potential\nscale reduction factor on split chains (at convergence, Rhat = 1).\nl)\nChain 3: \nChain 1: Iteration: 2001 / 6000 [ 33%]  (Sampling)\nChain 4: Iteration: 3200 / 6000 [ 53%]  (Sampling)\nChain 5: Iteration: 3200 / 6000 [ 53%]  (Sampling)\nChain 1: Iteration: 2600 / 6000 [ 43%]  (Sampling)\nChain 4: Iteration: 3800 / 6000 [ 63%]  (Sampling)\nChain 5: Iteration: 3800 / 6000 [ 63%]  (Sampling)\nChain 4: Iteration: 4400 / 6000 [ 73%]  (Sampling)\nChain 5: Iteration: 4400 / 6000 [ 73%]  (Sampling)\nChain 1: Iteration: 3200 / 6000 [ 53%]  (Sampling)\nChain 4: Iteration: 5000 / 6000 [ 83%]  (Sampling)\nChain 5: Iteration: 5000 / 6000 [ 83%]  (Sampling)\nChain 1: Iteration: 3800 / 6000 [ 63%]  (Sampling)\nChain 4: Iteration: 5600 / 6000 [ 93%]  (Sampling)\nChain 5: Iteration: 5600 / 6000 [ 93%]  (Sampling)\nChain 4: Iteration: 6000 / 6000 [100%]  (Sampling)\nChain 4: \nChain 4:  Elapsed Time: 18.845 seconds (Warm-up)\nChain 4:                20.308 seconds (Sampling)\nChain 4:                39.153 seconds (Total)\nChain 4: \nChain 5: Iteration: 6000 / 6000 [100%]  (Sampling)\nChain 5: \nChain 5:  Elapsed Time: 18.63 seconds (Warm-up)\nChain 5:                21.848 seconds (Sampling)\nChain 5:                40.478 seconds (Total)\nChain 5: \nChain 1: Iteration: 4400 / 6000 [ 73%]  (Sampling)\nChain 1: Iteration: 5000 / 6000 [ 83%]  (Sampling)\nChain 1: Iteration: 5600 / 6000 [ 93%]  (Sampling)\nChain 1: Iteration: 6000 / 6000 [100%]  (Sampling)\nChain 1: \nChain 1:  Elapsed Time: 23.967 seconds (Warm-up)\nChain 1:                27.285 seconds (Sampling)\nChain 1:                51.252 seconds (Total)\nChain 1: \n\n\n\n0.7.3 Prepare summaries by site_year\n\n\nShow codenewdata_sy &lt;- cornn_data %&gt;%\n  distinct(site_year) %&gt;%\n  tidyr::crossing(\n    nrate_kgha = seq(min(cornn_data$nrate_kgha), \n                     max(cornn_data$nrate_kgha), length.out = 600)\n  )\n\n# Expected values (site_year-specific fixed effects only)\nfit_sy_epred &lt;- newdata_sy %&gt;%\n  tidybayes::add_epred_draws(\n    bayes_model_sy,\n    newdata = .,\n    re_formula = NA,\n    ndraws = NULL\n  ) %&gt;%\n  ungroup()\n\nfit_sy_epred_quantiles &lt;- fit_sy_epred %&gt;%\n  group_by(site_year, nrate_kgha) %&gt;%\n  summarise(\n    q025 = quantile(.epred, 0.025),\n    q010 = quantile(.epred, 0.10),\n    q250 = quantile(.epred, 0.25),\n    q500 = quantile(.epred, 0.50),\n    q750 = quantile(.epred, 0.75),\n    q900 = quantile(.epred, 0.90),\n    q975 = quantile(.epred, 0.975),\n    .groups = \"drop\"\n  )\n\n# Predicted values (including residual error)\nfit_sy_pred &lt;- newdata_sy %&gt;%\n  tidybayes::add_predicted_draws(\n    bayes_model_sy,\n    newdata = .,\n    re_formula = NA,\n    ndraws = NULL\n  ) %&gt;%\n  ungroup()\n\nfit_sy_quantiles &lt;- fit_sy_pred %&gt;%\n  group_by(site_year, nrate_kgha) %&gt;%\n  summarise(\n    q025 = quantile(.prediction, 0.025),\n    q010 = quantile(.prediction, 0.10),\n    q250 = quantile(.prediction, 0.25),\n    q500 = quantile(.prediction, 0.50),\n    q750 = quantile(.prediction, 0.75),\n    q900 = quantile(.prediction, 0.90),\n    q975 = quantile(.prediction, 0.975),\n    .groups = \"drop\"\n  )\n\n# Extract posterior samples for AONR by site_year\npost_pars_sy &lt;- bayes_model_sy %&gt;%\n  posterior::as_draws_df() %&gt;%\n  as_tibble() %&gt;%\n  dplyr::select(starts_with(\"b_aonr_site_year\")) %&gt;%\n  pivot_longer(\n    cols = everything(),\n    names_to = \"site_year\",\n    values_to = \"AONR\"\n  ) %&gt;%\n  mutate(site_year = sub(\"^b_aonr_site_year\", \"\", site_year))\n\n# Distribution of AONR by site_year\nAONR_quantiles_sy &lt;- post_pars_sy %&gt;%\n  group_by(site_year) %&gt;%\n  summarise(\n    q025 = quantile(AONR, 0.025),\n    q010 = quantile(AONR, 0.10),\n    q250 = quantile(AONR, 0.25),\n    q500 = quantile(AONR, 0.50),\n    q750 = quantile(AONR, 0.75),\n    q900 = quantile(AONR, 0.90),\n    q975 = quantile(AONR, 0.975),\n    .groups = \"drop\"\n  )\n\n\n\n0.7.4 Plot fitted curves and intervals by site_year\n\n\nShow codeweather_cols &lt;- c(dry = \"#b2182b\",\n                  normal = \"#1b9e77\",\n                  wet = \"#2c7fb8\" )\n\n# Plots\nggplot() +\n  # Adding ribbons for predictive intervals\n  geom_ribbon(\n    data = fit_sy_quantiles,\n    aes(x = nrate_kgha, ymin = q025, ymax = q975),\n    fill = \"grey70\", alpha = 0.30\n  ) +\n  geom_ribbon(\n    data = fit_sy_quantiles,\n    aes(x = nrate_kgha, ymin = q250, ymax = q750),\n    fill = \"grey45\", alpha = 0.45\n  ) +\n  # Adding lines for expected values\n  geom_line(\n    data = fit_sy_epred_quantiles,\n    aes(x = nrate_kgha, y = q500),\n    linewidth = 1\n  ) +\n  # Adding points for observed data\n  geom_point(\n    data = cornn_data,\n    aes(x = nrate_kgha, y = yield_kgha, color = weather, shape = site),\n    alpha = 0.70, size = 2\n  ) +\n  scale_color_manual(values = weather_cols, name = \"Weather\") +\n  scale_shape_manual(values = c(16, 17, 15, 18, 8), name = \"Site\") +\n  facet_wrap(~ site_year) +\n  theme_classic() +\n  labs(\n    x = \"N fertilizer rate (kg/ha)\",\n    y = \"Corn yield (kg/ha)\",\n    title = \"Quadratic-plateau response by site_year\"\n  )\n\n\n\n\n\n\n\n\n0.7.5 Plot AONR quantile bands by site_year\n\n\nShow codeaonr_rects &lt;- AONR_quantiles_sy %&gt;%\n  left_join(\n    cornn_data %&gt;%\n      group_by(site_year) %&gt;%\n      summarise(\n        ymin = min(yield_kgha, na.rm = TRUE),\n        ymax = max(yield_kgha, na.rm = TRUE),\n        .groups = \"drop\"\n      ),\n    by = \"site_year\"\n  )\n\n# Plot with AONR quantile bands \nggplot() +\n  geom_rect(\n    data = aonr_rects,\n    aes(xmin = q025, xmax = q975, ymin = 0, ymax = 17500),\n    fill = \"grey70\", alpha = 0.18,\n    inherit.aes = FALSE\n  ) +\n  geom_rect(\n    data = aonr_rects,\n    aes(xmin = q250, xmax = q750, ymin = 0, ymax = 17500),\n    fill = \"grey45\", alpha = 0.28,\n    inherit.aes = FALSE\n  ) +\n  geom_line(\n    data = fit_sy_epred_quantiles,\n    aes(x = nrate_kgha, y = q500),\n    linewidth = 1\n  ) +\n  geom_vline(\n    data = AONR_quantiles_sy,\n    aes(xintercept = q500),\n    linetype = 2,\n    linewidth = 0.8,\n    inherit.aes = FALSE\n  ) +\n  geom_point(\n    data = cornn_data,\n    aes(x = nrate_kgha, y = yield_kgha, color = weather, shape = site),\n    alpha = 0.70, size = 2\n  ) +\n  scale_color_manual(values = weather_cols, name = \"Weather\") +\n  scale_shape_manual(values = c(16, 17, 15, 18, 8), name = \"Site\") +\n  facet_wrap(~ site_year) +\n  theme_classic() +\n  labs(\n    x = \"N fertilizer rate (kg/ha)\",\n    y = \"Corn yield (kg/ha)\",\n    title = \"Quadratic-plateau response by site_year with AONR bands\"\n  )",
+    "text": "0.7 Group-specific quadratic-plateau model with site_year\n\nNow let’s extend the global model. Here, we will:\n\ninclude a random block effect nested within site_year\n\nallow the quadratic-plateau parameters to vary by site_year\n\nsample posterior fitted values for each site_year\n\nplot fitted curves and predictive intervals by environment\n\n\n0.7.1 Priors for site_year-specific parameters\n\nShow codepriors_site_year &lt;- c(\n  prior(\"normal(6000, 2500)\", nlpar = \"b0\", lb = 0),\n  prior(\"normal(50, 25)\", nlpar = \"b1\", lb = 0),\n  prior(\"normal(180, 60)\", nlpar = \"aonr\", lb = 0),\n  prior(\"student_t(3, 0, 1000)\", class = \"sd\", nlpar = \"u\", group = \"site_year:block\"),\n  prior(\"student_t(3, 0, 1000)\", class = \"sigma\", lb = 0)\n)\n\n\n\n0.7.2 Model with site_year-specific parameters\n\nShow codebayes_model_sy &lt;- \n  brms::brm(\n    prior = priors_site_year,\n    formula = bf(\n      yield_kgha ~\n        (1 - step(nrate_kgha - aonr)) *\n          (b0 + b1 * nrate_kgha - (b1 / (2 * aonr)) * nrate_kgha^2) +\n        step(nrate_kgha - aonr) *\n          (b0 + b1 * aonr - (b1 / (2 * aonr)) * aonr^2) +\n        u,\n      b0 ~ 0 + site_year,\n      b1 ~ 0 + site_year,\n      aonr ~ 0 + site_year,\n      u ~ 0 + (1 | site_year:block),\n      nl = TRUE\n    ),\n    data = cornn_data,\n    family = gaussian(),\n    sample_prior = \"yes\",\n    control = list(adapt_delta = 0.995, max_treedepth = 15),\n    warmup = WU, iter = IT, thin = TH,\n    chains = CH, cores = CH,\n    seed = 1\n  )\n\nplot(bayes_model_sy)\n\nsummary(bayes_model_sy)\n\n\n\n0.7.3 Prepare summaries by site_year\n\n\nShow codenewdata_sy &lt;- cornn_data %&gt;%\n  distinct(site_year) %&gt;%\n  tidyr::crossing(\n    nrate_kgha = seq(min(cornn_data$nrate_kgha), \n                     max(cornn_data$nrate_kgha), length.out = 600)\n  )\n\n# Expected values (site_year-specific fixed effects only)\nfit_sy_epred &lt;- newdata_sy %&gt;%\n  tidybayes::add_epred_draws(\n    bayes_model_sy,\n    newdata = .,\n    re_formula = NA,\n    ndraws = NULL\n  ) %&gt;%\n  ungroup()\n\nfit_sy_epred_quantiles &lt;- fit_sy_epred %&gt;%\n  group_by(site_year, nrate_kgha) %&gt;%\n  summarise(\n    q025 = quantile(.epred, 0.025),\n    q010 = quantile(.epred, 0.10),\n    q250 = quantile(.epred, 0.25),\n    q500 = quantile(.epred, 0.50),\n    q750 = quantile(.epred, 0.75),\n    q900 = quantile(.epred, 0.90),\n    q975 = quantile(.epred, 0.975),\n    .groups = \"drop\"\n  )\n\n# Predicted values (including residual error)\nfit_sy_pred &lt;- newdata_sy %&gt;%\n  tidybayes::add_predicted_draws(\n    bayes_model_sy,\n    newdata = .,\n    re_formula = NA,\n    ndraws = NULL\n  ) %&gt;%\n  ungroup()\n\nfit_sy_quantiles &lt;- fit_sy_pred %&gt;%\n  group_by(site_year, nrate_kgha) %&gt;%\n  summarise(\n    q025 = quantile(.prediction, 0.025),\n    q010 = quantile(.prediction, 0.10),\n    q250 = quantile(.prediction, 0.25),\n    q500 = quantile(.prediction, 0.50),\n    q750 = quantile(.prediction, 0.75),\n    q900 = quantile(.prediction, 0.90),\n    q975 = quantile(.prediction, 0.975),\n    .groups = \"drop\"\n  )\n\n# Extract posterior samples for AONR by site_year\npost_pars_sy &lt;- bayes_model_sy %&gt;%\n  posterior::as_draws_df() %&gt;%\n  as_tibble() %&gt;%\n  dplyr::select(starts_with(\"b_aonr_site_year\")) %&gt;%\n  pivot_longer(\n    cols = everything(),\n    names_to = \"site_year\",\n    values_to = \"AONR\"\n  ) %&gt;%\n  mutate(site_year = sub(\"^b_aonr_site_year\", \"\", site_year))\n\n# Distribution of AONR by site_year\nAONR_quantiles_sy &lt;- post_pars_sy %&gt;%\n  group_by(site_year) %&gt;%\n  summarise(\n    q025 = quantile(AONR, 0.025),\n    q010 = quantile(AONR, 0.10),\n    q250 = quantile(AONR, 0.25),\n    q500 = quantile(AONR, 0.50),\n    q750 = quantile(AONR, 0.75),\n    q900 = quantile(AONR, 0.90),\n    q975 = quantile(AONR, 0.975),\n    .groups = \"drop\"\n  )\n\n\n\n0.7.4 Plot fitted curves and intervals by site_year\n\n\nShow codeweather_cols &lt;- c(dry = \"#b2182b\",\n                  normal = \"#1b9e77\",\n                  wet = \"#2c7fb8\" )\n\n# Plots\nggplot() +\n  # Adding ribbons for predictive intervals\n  geom_ribbon(\n    data = fit_sy_quantiles,\n    aes(x = nrate_kgha, ymin = q025, ymax = q975),\n    fill = \"grey70\", alpha = 0.30\n  ) +\n  geom_ribbon(\n    data = fit_sy_quantiles,\n    aes(x = nrate_kgha, ymin = q250, ymax = q750),\n    fill = \"grey45\", alpha = 0.45\n  ) +\n  # Adding lines for expected values\n  geom_line(\n    data = fit_sy_epred_quantiles,\n    aes(x = nrate_kgha, y = q500),\n    linewidth = 1\n  ) +\n  # Adding points for observed data\n  geom_point(\n    data = cornn_data,\n    aes(x = nrate_kgha, y = yield_kgha, color = weather, shape = site),\n    alpha = 0.70, size = 2\n  ) +\n  scale_color_manual(values = weather_cols, name = \"Weather\") +\n  scale_shape_manual(values = c(16, 17, 15, 18, 8), name = \"Site\") +\n  facet_wrap(~ site_year) +\n  theme_classic() +\n  labs(\n    x = \"N fertilizer rate (kg/ha)\",\n    y = \"Corn yield (kg/ha)\",\n    title = \"Quadratic-plateau response by site_year\"\n  )\n\n\n\n0.7.5 Plot AONR quantile bands by site_year\n\n\nShow codeaonr_rects &lt;- AONR_quantiles_sy %&gt;%\n  left_join(\n    cornn_data %&gt;%\n      group_by(site_year) %&gt;%\n      summarise(\n        ymin = min(yield_kgha, na.rm = TRUE),\n        ymax = max(yield_kgha, na.rm = TRUE),\n        .groups = \"drop\"\n      ),\n    by = \"site_year\"\n  )\n\n# Plot with AONR quantile bands \nggplot() +\n  geom_rect(\n    data = aonr_rects,\n    aes(xmin = q025, xmax = q975, ymin = 0, ymax = 17500),\n    fill = \"grey70\", alpha = 0.18,\n    inherit.aes = FALSE\n  ) +\n  geom_rect(\n    data = aonr_rects,\n    aes(xmin = q250, xmax = q750, ymin = 0, ymax = 17500),\n    fill = \"grey45\", alpha = 0.28,\n    inherit.aes = FALSE\n  ) +\n  geom_line(\n    data = fit_sy_epred_quantiles,\n    aes(x = nrate_kgha, y = q500),\n    linewidth = 1\n  ) +\n  geom_vline(\n    data = AONR_quantiles_sy,\n    aes(xintercept = q500),\n    linetype = 2,\n    linewidth = 0.8,\n    inherit.aes = FALSE\n  ) +\n  geom_point(\n    data = cornn_data,\n    aes(x = nrate_kgha, y = yield_kgha, color = weather, shape = site),\n    alpha = 0.70, size = 2\n  ) +\n  scale_color_manual(values = weather_cols, name = \"Weather\") +\n  scale_shape_manual(values = c(16, 17, 15, 18, 8), name = \"Site\") +\n  facet_wrap(~ site_year) +\n  theme_classic() +\n  labs(\n    x = \"N fertilizer rate (kg/ha)\",\n    y = \"Corn yield (kg/ha)\",\n    title = \"Quadratic-plateau response by site_year with AONR bands\"\n  )",
     "crumbs": [
       "Lessons",
       "18-Bayes II"
@@ -1867,6 +1867,204 @@
     "crumbs": [
       "Lessons",
       "18-Bayes II"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/regtrees.html",
+    "href": "coding/week_11/regtrees.html",
+    "title": "Regression Trees in R",
+    "section": "",
+    "text": "In this lesson, we introduce regression trees for predicting two agronomic responses:\n\nyield_eonr_Mg_ha\neonr_kgha\n\nWe will use two common R implementations:\n\nrpart() from rpart\nctree() from partykit\n\nBoth methods build a tree by recursively splitting the predictor space into more homogeneous groups. However, they do not choose splits in exactly the same way, so their final trees can differ.\n\n\n\n\n\n\n🌽 What is the goal here?\n\n\n\nA regression tree predicts a continuous response by recursively splitting the data into smaller and more homogeneous groups.\nIn agronomy, this is useful when responses are driven by:\n\nthresholds\nnonlinear responses\ninteractions among soil, weather, and management\n\nIn this lesson, we use trees to predict EONR and yield at EONR.",
+    "crumbs": [
+      "Lessons",
+      "20-Regression Trees"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/regtrees.html#eonr-by-previous-crop",
+    "href": "coding/week_11/regtrees.html#eonr-by-previous-crop",
+    "title": "Regression Trees in R",
+    "section": "8.1 EONR by previous crop",
+    "text": "8.1 EONR by previous crop\n\n\nShow code\ncorn_eonr %&gt;%\n  ggplot(aes(x = previous_crop, y = eonr_kgha)) +\n  geom_boxplot() +\n  labs(\n    title = \"EONR by previous crop\",\n    x = \"Previous crop\",\n    y = \"EONR (kg N/ha)\"\n  )",
+    "crumbs": [
+      "Lessons",
+      "20-Regression Trees"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/regtrees.html#yield-at-eonr-by-topographic-position",
+    "href": "coding/week_11/regtrees.html#yield-at-eonr-by-topographic-position",
+    "title": "Regression Trees in R",
+    "section": "8.2 Yield at EONR by topographic position",
+    "text": "8.2 Yield at EONR by topographic position\n\n\nShow code\ncorn_eonr %&gt;%\n  ggplot(aes(x = topo_pos, y = yield_eonr_Mg_ha)) +\n  geom_boxplot() +\n  labs(\n    title = \"Yield at EONR by topographic position\",\n    x = \"Topographic position\",\n    y = \"Yield at EONR (Mg/ha)\"\n  )",
+    "crumbs": [
+      "Lessons",
+      "20-Regression Trees"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/regtrees.html#relationship-between-the-two-responses",
+    "href": "coding/week_11/regtrees.html#relationship-between-the-two-responses",
+    "title": "Regression Trees in R",
+    "section": "8.3 Relationship between the two responses",
+    "text": "8.3 Relationship between the two responses\n\n\nShow code\ncorn_eonr %&gt;%\n  ggplot(aes(x = yield_eonr_Mg_ha, y = eonr_kgha)) +\n  geom_point(alpha = 0.5, \n             #aes(color = site)\n             ) +\n  labs(\n    title = \"Yield at EONR and EONR are related, but not identical\",\n    x = \"Yield at EONR (Mg/ha)\",\n    y = \"EONR (kg N/ha)\"\n  )\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n⚠️ A note on the train/test split\n\n\n\nHere we use a simple random split because it is easy to understand for a first lesson.\nHowever, this dataset has repeated structure across sites, years, and topographic positions. In real predictive work, grouped resampling by site, year, or site-year may provide a more honest evaluation than a random row-wise split.",
+    "crumbs": [
+      "Lessons",
+      "20-Regression Trees"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/regtrees.html#model-for-eonr",
+    "href": "coding/week_11/regtrees.html#model-for-eonr",
+    "title": "Regression Trees in R",
+    "section": "11.1 🌽 Model for EONR",
+    "text": "11.1 🌽 Model for EONR\n\n\nShow code\nrpart_eonr &lt;- rpart(\n  eonr_kgha ~ \n    topo_pos + previous_crop + soil_texture + soil_depth_cm + whc_mm +\n    om_pct + ph + drainage_class + slope_pct + planting_doy +\n    spring_rain_mm + summer_rain_mm + gdd + heat_stress_days +\n    water_deficit_mm + excess_water_index + spring_nitrate_ppm +\n    n_mineralization_index + n_loss_risk_index,\n  data = train_df,\n  method = \"anova\",\n  control = rpart.control(\n    cp = 0.002,\n    minsplit = 30,\n    maxdepth = 3\n  )\n)\n\nrpart_eonr\n\n\nn= 2400 \n\nnode), split, n, deviance, yval\n      * denotes terminal node\n\n 1) root 2400 2058038.00 29.733080  \n   2) previous_crop=alfalfa,soybean 1548  563219.80 14.621180  \n     4) spring_nitrate_ppm&gt;=7.598789 891   97720.59  5.220692  \n       8) spring_nitrate_ppm&gt;=10.33134 451   10792.88  1.256361 *\n       9) spring_nitrate_ppm&lt; 10.33134 440   72574.76  9.284131 *\n     5) spring_nitrate_ppm&lt; 7.598789 657  279982.20 27.369780  \n      10) n_loss_risk_index&lt; 3.812091 570  185857.60 23.772950 *\n      11) n_loss_risk_index&gt;=3.812091 87   38436.92 50.935180 *\n   3) previous_crop=corn 852  498998.10 57.189920  \n     6) n_loss_risk_index&lt; 3.208351 602  284237.50 50.348060  \n      12) spring_nitrate_ppm&gt;=5.823104 141   57298.60 35.672710 *\n      13) spring_nitrate_ppm&lt; 5.823104 461  187284.50 54.836610 *\n     7) n_loss_risk_index&gt;=3.208351 250  118722.20 73.665130  \n      14) water_deficit_mm&gt;=70.3831 140   42115.72 64.011320 *\n      15) water_deficit_mm&lt; 70.3831 110   46953.20 85.951810 *",
+    "crumbs": [
+      "Lessons",
+      "20-Regression Trees"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/regtrees.html#plot-the-rpart-tree",
+    "href": "coding/week_11/regtrees.html#plot-the-rpart-tree",
+    "title": "Regression Trees in R",
+    "section": "11.2 🌳 Plot the rpart() tree",
+    "text": "11.2 🌳 Plot the rpart() tree\n\n\nShow code\nrpart.plot(\n  rpart_eonr,\n  type = 2,\n  extra = 101,\n  fallen.leaves = TRUE,\n  tweak = 1.0,\n  box.palette = \"RdYlGn\",\n)",
+    "crumbs": [
+      "Lessons",
+      "20-Regression Trees"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/regtrees.html#variable-importance-from-rpart",
+    "href": "coding/week_11/regtrees.html#variable-importance-from-rpart",
+    "title": "Regression Trees in R",
+    "section": "11.3 🔍 Variable importance from rpart()",
+    "text": "11.3 🔍 Variable importance from rpart()\n\n\nShow code\nrpart_eonr$variable.importance %&gt;%\n  sort(decreasing = TRUE) %&gt;% \n  as.data.frame()\n\n\n                                  .\nprevious_crop          1021558.9774\nspring_nitrate_ppm      729475.7167\nn_loss_risk_index       196754.0326\nn_mineralization_index  126659.5615\nspring_rain_mm          121103.8042\nwater_deficit_mm         30933.4817\ngdd                      27793.3373\nom_pct                   25327.5417\nplanting_doy             20103.7109\nsummer_rain_mm            8897.9201\nwhc_mm                    6193.5576\nph                        5844.0170\nsoil_depth_cm             2123.8879\ndrainage_class            1536.6150\nheat_stress_days           562.4736",
+    "crumbs": [
+      "Lessons",
+      "20-Regression Trees"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/regtrees.html#predictions-and-performance-on-the-test-set",
+    "href": "coding/week_11/regtrees.html#predictions-and-performance-on-the-test-set",
+    "title": "Regression Trees in R",
+    "section": "11.4 📉 Predictions and performance on the test set",
+    "text": "11.4 📉 Predictions and performance on the test set\n\n\nShow code\ntest_df &lt;- test_df %&gt;%\n  mutate(pred_rpart_eonr = predict(rpart_eonr, newdata = test_df))\n\n# Using metrica for prediction metrics\nmetrica::metrics_summary(\n  data = test_df,\n  obs = eonr_kgha,\n  pred = pred_rpart_eonr,\n  type = \"regression\",\n  metrics = c(\"RMSE\", \"MAE\", \"R2\")\n) %&gt;%\n  mutate(model = \"rpart_eonr\") %&gt;%\n  select(model, everything())\n\n\n       model Metric      Score\n1 rpart_eonr     R2  0.6491697\n2 rpart_eonr    MAE 12.9927656\n3 rpart_eonr   RMSE 17.5161638",
+    "crumbs": [
+      "Lessons",
+      "20-Regression Trees"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/regtrees.html#observed-vs-predicted-for-rpart",
+    "href": "coding/week_11/regtrees.html#observed-vs-predicted-for-rpart",
+    "title": "Regression Trees in R",
+    "section": "11.5 📈 Observed vs predicted for rpart()",
+    "text": "11.5 📈 Observed vs predicted for rpart()\n\n\nShow code\n# Basic ggplot for observed vs predicted\ntest_df %&gt;% \n  ggplot(aes(x = eonr_kgha, y = pred_rpart_eonr)) +\n  geom_point(alpha = 0.5, shape = 21, size = 3,\n             fill = \"forestgreen\", color = \"grey15\") +\n  geom_abline(intercept = 0, slope = 1, linetype = 2) +\n  scale_x_continuous(limits = c(0, 150), breaks = seq(0,200, by=50)) +\n  scale_y_continuous(limits = c(0, 150), breaks = seq(0,200, by=50)) +\n  labs(\n    title = \"Observed vs predicted EONR with rpart()\",\n    x = \"Observed EONR (kg N/ha)\",\n    y = \"Predicted EONR (kg N/ha)\"\n  )+\n  theme_bw()\n\n\n\n\n\n\n\n\n\nShow code\n# Use metrica's scatter_plot for a more standardized visualization\n# You can print metrics on the plot and draw a regression trendline\nmetrica::scatter_plot(data = test_df,\n                      obs = eonr_kgha,\n                      pred = pred_rpart_eonr,\n                      print_metrics = TRUE,\n                      metrics_list = c(\"RMSE\", \"MAE\", \"R2\")\n                      )+\n  scale_x_continuous(limits = c(0, 200), breaks = seq(0,200, by=50)) +\n  scale_y_continuous(limits = c(0, 200), breaks = seq(0,200, by=50)) +\n  labs(title = \"Observed vs predicted EONR with rpart()\",\n       x = \"Observed EONR (kg N/ha)\",\n       y = \"Predicted EONR (kg N/ha)\"  )",
+    "crumbs": [
+      "Lessons",
+      "20-Regression Trees"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/regtrees.html#model-for-eonr-1",
+    "href": "coding/week_11/regtrees.html#model-for-eonr-1",
+    "title": "Regression Trees in R",
+    "section": "14.1 Model for EONR",
+    "text": "14.1 Model for EONR\n\n\nShow code\nctree_eonr &lt;- ctree(\n  eonr_kgha ~\n    topo_pos + previous_crop + soil_texture + soil_depth_cm + whc_mm +\n    om_pct + ph + drainage_class + slope_pct + planting_doy +\n    spring_rain_mm + summer_rain_mm + gdd + heat_stress_days +\n    water_deficit_mm + excess_water_index + spring_nitrate_ppm +\n    n_mineralization_index + n_loss_risk_index,\n  data = train_df,\n  control = ctree_control(\n    minsplit = 30,\n    maxdepth = 3\n  )\n)\n\nctree_eonr\n\n\n\nModel formula:\neonr_kgha ~ topo_pos + previous_crop + soil_texture + soil_depth_cm + \n    whc_mm + om_pct + ph + drainage_class + slope_pct + planting_doy + \n    spring_rain_mm + summer_rain_mm + gdd + heat_stress_days + \n    water_deficit_mm + excess_water_index + spring_nitrate_ppm + \n    n_mineralization_index + n_loss_risk_index\n\nFitted party:\n[1] root\n|   [2] previous_crop in alfalfa, soybean\n|   |   [3] spring_nitrate_ppm &lt;= 7.5976\n|   |   |   [4] water_deficit_mm &lt;= 94.99674: 37.081 (n = 278, err = 138454.2)\n|   |   |   [5] water_deficit_mm &gt; 94.99674: 20.246 (n = 379, err = 96077.3)\n|   |   [6] spring_nitrate_ppm &gt; 7.5976\n|   |   |   [7] spring_nitrate_ppm &lt;= 10.33118: 9.284 (n = 440, err = 72574.8)\n|   |   |   [8] spring_nitrate_ppm &gt; 10.33118: 1.256 (n = 451, err = 10792.9)\n|   [9] previous_crop in corn\n|   |   [10] n_loss_risk_index &lt;= 3.20745\n|   |   |   [11] spring_nitrate_ppm &lt;= 5.81194: 54.837 (n = 461, err = 187284.5)\n|   |   |   [12] spring_nitrate_ppm &gt; 5.81194: 35.673 (n = 141, err = 57298.6)\n|   |   [13] n_loss_risk_index &gt; 3.20745\n|   |   |   [14] water_deficit_mm &lt;= 69.99636: 85.952 (n = 110, err = 46953.2)\n|   |   |   [15] water_deficit_mm &gt; 69.99636: 64.011 (n = 140, err = 42115.7)\n\nNumber of inner nodes:    7\nNumber of terminal nodes: 8",
+    "crumbs": [
+      "Lessons",
+      "20-Regression Trees"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/regtrees.html#plot-the-ctree-tree",
+    "href": "coding/week_11/regtrees.html#plot-the-ctree-tree",
+    "title": "Regression Trees in R",
+    "section": "14.2 🌿 Plot the ctree() tree",
+    "text": "14.2 🌿 Plot the ctree() tree\n\n\nShow code\nplot(ctree_eonr)",
+    "crumbs": [
+      "Lessons",
+      "20-Regression Trees"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/regtrees.html#predictions-and-performance-on-the-test-set-1",
+    "href": "coding/week_11/regtrees.html#predictions-and-performance-on-the-test-set-1",
+    "title": "Regression Trees in R",
+    "section": "14.3 Predictions and performance on the test set",
+    "text": "14.3 Predictions and performance on the test set\n\n\nShow code\ntest_df &lt;- test_df %&gt;%\n  mutate(pred_ctree_eonr = predict(ctree_eonr, newdata = test_df))\n\nbind_rows(\n  metrica::metrics_summary(\n    data = test_df,\n    obs = eonr_kgha,\n    pred = pred_rpart_eonr,\n    type = \"regression\",\n    metrics = c(\"RMSE\", \"MAE\", \"R2\")\n  ) %&gt;% mutate(model = \"rpart_eonr\"),\n  metrica::metrics_summary(\n    data = test_df,\n    obs = eonr_kgha,\n    pred = pred_rpart_eonr_pruned,\n    type = \"regression\",\n    metrics = c(\"RMSE\", \"MAE\", \"R2\")\n  ) %&gt;% mutate(model = \"rpart_eonr_pruned\"),\n  metrica::metrics_summary(\n    data = test_df,\n    obs = eonr_kgha,\n    pred = pred_ctree_eonr,\n    type = \"regression\",\n    metrics = c(\"RMSE\", \"MAE\", \"R2\")\n  ) %&gt;% mutate(model = \"ctree_eonr\")\n) %&gt;%\n  select(model, everything())\n\n\n              model Metric      Score\n1        rpart_eonr     R2  0.6491697\n2        rpart_eonr    MAE 12.9927656\n3        rpart_eonr   RMSE 17.5161638\n4 rpart_eonr_pruned     R2  0.6491697\n5 rpart_eonr_pruned    MAE 12.9927656\n6 rpart_eonr_pruned   RMSE 17.5161638\n7        ctree_eonr     R2  0.6385247\n8        ctree_eonr    MAE 13.0487819\n9        ctree_eonr   RMSE 17.7822996",
+    "crumbs": [
+      "Lessons",
+      "20-Regression Trees"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/regtrees.html#observed-vs-predicted-for-ctree",
+    "href": "coding/week_11/regtrees.html#observed-vs-predicted-for-ctree",
+    "title": "Regression Trees in R",
+    "section": "14.4 Observed vs predicted for ctree()",
+    "text": "14.4 Observed vs predicted for ctree()\n\n\nShow code\ntest_df %&gt;%\n  ggplot(aes(x = eonr_kgha, y = pred_ctree_eonr)) +\n  geom_point(alpha = 0.5, shape = 21, size = 3,\n             fill = \"orange\", color = \"grey15\") +\n  geom_abline(intercept = 0, slope = 1, linetype = 2) +\n  scale_x_continuous(limits = c(0, 150), breaks = seq(0,200, by=50)) +\n  scale_y_continuous(limits = c(0, 150), breaks = seq(0,200, by=50)) +\n  labs(\n    title = \"Observed vs predicted EONR with ctree()\",\n    x = \"Observed EONR (kg N/ha)\",\n    y = \"Predicted EONR (kg N/ha)\"\n  )+\n  theme_bw()\n\n\n\n\n\n\n\n\n\nShow code\n# Use metrica's scatter_plot for a more standardized visualization\nmetrica::scatter_plot(data = test_df,\n                      obs = eonr_kgha,\n                      pred = pred_ctree_eonr,\n                      print_metrics = TRUE,\n                      metrics_list = c(\"RMSE\", \"MAE\", \"R2\")\n                      )+\n    labs(title = \"Observed vs predicted EONR with ctree()\",\n       x = \"Observed EONR (kg N/ha)\",\n       y = \"Predicted EONR (kg N/ha)\"  )",
+    "crumbs": [
+      "Lessons",
+      "20-Regression Trees"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/regtrees.html#rpart-for-yield-at-eonr",
+    "href": "coding/week_11/regtrees.html#rpart-for-yield-at-eonr",
+    "title": "Regression Trees in R",
+    "section": "15.1 rpart() for yield at EONR",
+    "text": "15.1 rpart() for yield at EONR\n\n\nShow code\nrpart_yield &lt;- rpart(\n  yield_eonr_Mg_ha ~ \n    topo_pos + previous_crop + soil_texture + soil_depth_cm + whc_mm +\n    om_pct + ph + drainage_class + slope_pct + planting_doy +\n    spring_rain_mm + summer_rain_mm + gdd + heat_stress_days +\n    water_deficit_mm + excess_water_index + spring_nitrate_ppm +\n    n_mineralization_index + n_loss_risk_index,\n  data = train_df,\n  method = \"anova\",\n  control = rpart.control(\n    cp = 0.002,\n    minsplit = 30,\n    maxdepth = 3\n  )\n)\n\n# Plot rpart for EONR\nrpart.plot(\n  rpart_yield,\n  type = 2,\n  extra = 101,\n  fallen.leaves = TRUE,\n  tweak = 1.0,\n  box.palette = \"RdYlGn\",\n)",
+    "crumbs": [
+      "Lessons",
+      "20-Regression Trees"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/regtrees.html#ctree-for-yield-at-eonr",
+    "href": "coding/week_11/regtrees.html#ctree-for-yield-at-eonr",
+    "title": "Regression Trees in R",
+    "section": "15.2 ctree() for yield at EONR",
+    "text": "15.2 ctree() for yield at EONR\n\n\nShow code\nctree_yield &lt;- ctree(\n  yield_eonr_Mg_ha ~ \n    topo_pos + previous_crop + soil_texture + soil_depth_cm + whc_mm +\n    om_pct + ph + drainage_class + slope_pct + planting_doy +\n    spring_rain_mm + summer_rain_mm + gdd + heat_stress_days +\n    water_deficit_mm + excess_water_index + spring_nitrate_ppm +\n    n_mineralization_index + n_loss_risk_index,\n  data = train_df,\n  control = ctree_control(\n    minsplit = 30,\n    maxdepth = 3\n  )\n)\n\nplot(ctree_yield)",
+    "crumbs": [
+      "Lessons",
+      "20-Regression Trees"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/regtrees.html#test-set-comparison-for-yield-at-eonr",
+    "href": "coding/week_11/regtrees.html#test-set-comparison-for-yield-at-eonr",
+    "title": "Regression Trees in R",
+    "section": "15.3 Test-set comparison for yield at EONR",
+    "text": "15.3 Test-set comparison for yield at EONR\n\n\nShow code\ntest_df &lt;- test_df %&gt;%\n  mutate(\n    pred_rpart_yield = predict(rpart_yield, newdata = test_df),\n    pred_ctree_yield = predict(ctree_yield, newdata = test_df)\n  )\n\n# Merge performance metrics for both models into a single table for comparison\nbind_rows(\n  metrica::metrics_summary(\n    data = test_df,\n    obs = yield_eonr_Mg_ha,\n    pred = pred_rpart_yield,\n    type = \"regression\",\n    metrics = c(\"RMSE\", \"MAE\", \"R2\")\n  ) %&gt;% mutate(model = \"rpart_yield\"),\n  metrica::metrics_summary(\n    data = test_df,\n    obs = yield_eonr_Mg_ha,\n    pred = pred_ctree_yield,\n    type = \"regression\",\n    metrics = c(\"RMSE\", \"MAE\", \"R2\")\n  ) %&gt;% mutate(model = \"ctree_yield\")\n) %&gt;%\n  select(model, everything())\n\n\n        model Metric     Score\n1 rpart_yield     R2 0.7574397\n2 rpart_yield    MAE 0.6242395\n3 rpart_yield   RMSE 0.9642375\n4 ctree_yield     R2 0.7574633\n5 ctree_yield    MAE 0.6243926\n6 ctree_yield   RMSE 0.9641893",
+    "crumbs": [
+      "Lessons",
+      "20-Regression Trees"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/regtrees.html#strengths",
+    "href": "coding/week_11/regtrees.html#strengths",
+    "title": "Regression Trees in R",
+    "section": "18.1 Strengths",
+    "text": "18.1 Strengths\n\nEasy to visualize\nHandles nonlinear relationships naturally\nCaptures interactions automatically\nWorks with mixed predictor types\nProduces rules that are often intuitive",
+    "crumbs": [
+      "Lessons",
+      "20-Regression Trees"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/regtrees.html#limitations",
+    "href": "coding/week_11/regtrees.html#limitations",
+    "title": "Regression Trees in R",
+    "section": "18.2 Limitations",
+    "text": "18.2 Limitations\n\nA single tree is usually unstable\nSmall changes in the data can change the tree structure\nPrediction accuracy is often lower than ensemble methods\nTrees can overfit if not constrained or pruned\nVariable importance from one tree should not be overinterpreted as causality",
+    "crumbs": [
+      "Lessons",
+      "20-Regression Trees"
     ]
   },
   {
@@ -2415,6 +2613,270 @@
     "crumbs": [
       "Course Outline",
       "Outline"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/cross_validation.html",
+    "href": "coding/week_11/cross_validation.html",
+    "title": "Cross-validation in R",
+    "section": "",
+    "text": "When we talk about predictive agriculture, it is very important to understand that many models are built mainly for explanation, not necessarily for prediction of new cases. A common mistake is to evaluate model performance with the same data used to fit the model. That usually leads to an overly optimistic impression of how well the model will work with future observations.\nIn my view, the fitting algorithm matters, but what matters even more is whether model performance is evaluated with independent data that were not used for model training. That is the core idea behind out-of-sample evaluation. Cross-validation is one of the most useful tools for doing this because it helps us estimate how well a model may generalize to new data James et al. (2013) Hastie, Tibshirani, and Friedman (2009).\n\n\n\n\n\n\n🔎 Main idea\n\n\n\nA model can look excellent on the data used to fit it and still perform poorly on new observations.\n\n\n\n\nShow code\nflowchart LR\n    A[📦 Full dataset] --&gt; B[🛠️ Training set]\n    A --&gt; C[🧪 Test set]\n    B --&gt; D[📈 Fit model]\n    D --&gt; E[🔮 Predict unseen data]\n    C --&gt; F[📏 Compare observed vs predicted]\n    E --&gt; F\n\n    style A fill:#E8F1FB,stroke:#4C78A8,stroke-width:2px,color:#111\n    style B fill:#EAF7EA,stroke:#59A14F,stroke-width:2px,color:#111\n    style C fill:#FCECCF,stroke:#F28E2B,stroke-width:2px,color:#111\n    style D fill:#F3E8F8,stroke:#B07AA1,stroke-width:2px,color:#111\n    style E fill:#EAF7EA,stroke:#59A14F,stroke-width:2px,color:#111\n    style F fill:#FDEBEC,stroke:#E15759,stroke-width:2px,color:#111\n\n\n\n\n\nflowchart LR\n    A[📦 Full dataset] --&gt; B[🛠️ Training set]\n    A --&gt; C[🧪 Test set]\n    B --&gt; D[📈 Fit model]\n    D --&gt; E[🔮 Predict unseen data]\n    C --&gt; F[📏 Compare observed vs predicted]\n    E --&gt; F\n\n    style A fill:#E8F1FB,stroke:#4C78A8,stroke-width:2px,color:#111\n    style B fill:#EAF7EA,stroke:#59A14F,stroke-width:2px,color:#111\n    style C fill:#FCECCF,stroke:#F28E2B,stroke-width:2px,color:#111\n    style D fill:#F3E8F8,stroke:#B07AA1,stroke-width:2px,color:#111\n    style E fill:#EAF7EA,stroke:#59A14F,stroke-width:2px,color:#111\n    style F fill:#FDEBEC,stroke:#E15759,stroke-width:2px,color:#111",
+    "crumbs": [
+      "Lessons",
+      "19-Cross-validation"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/cross_validation.html#what-is-a-model",
+    "href": "coding/week_11/cross_validation.html#what-is-a-model",
+    "title": "Cross-validation in R",
+    "section": "2.1 What is a model?",
+    "text": "2.1 What is a model?\nA model is a mathematical representation of a system or process that we use to understand, explain, or predict outcomes. In agriculture, a model could represent the relationship between soil properties and crop yield, a calibration between two laboratory methods, or an algorithm that predicts disease risk.",
+    "crumbs": [
+      "Lessons",
+      "19-Cross-validation"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/cross_validation.html#what-is-training-a-model",
+    "href": "coding/week_11/cross_validation.html#what-is-training-a-model",
+    "title": "Cross-validation in R",
+    "section": "2.2 What is training a model?",
+    "text": "2.2 What is training a model?\nTraining a model means using a dataset to estimate its parameters. In regression, that usually means estimating coefficients that best describe the relationship between predictors and response variables.",
+    "crumbs": [
+      "Lessons",
+      "19-Cross-validation"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/cross_validation.html#what-is-testing-a-model",
+    "href": "coding/week_11/cross_validation.html#what-is-testing-a-model",
+    "title": "Cross-validation in R",
+    "section": "2.3 What is testing a model?",
+    "text": "2.3 What is testing a model?\nTesting a model means evaluating its performance on data that were not used during training. This helps us assess how well the model generalizes to new observations. Common performance metrics include Root Mean Squared Error (RMSE), Mean Absolute Error (MAE), and the coefficient of determination (\\(R^2\\)).\nBe careful, though. A metric is only useful if it matches the question being asked. For example, RMSE and MAE are usually easier to interpret as prediction-error metrics, while \\(R^2\\) can be less informative for nonlinear models or for situations where the main goal is calibration rather than explanation.",
+    "crumbs": [
+      "Lessons",
+      "19-Cross-validation"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/cross_validation.html#testing-vs-validation",
+    "href": "coding/week_11/cross_validation.html#testing-vs-validation",
+    "title": "Cross-validation in R",
+    "section": "2.4 Testing vs validation",
+    "text": "2.4 Testing vs validation\nThese terms are often used loosely, but it helps to separate them.\n\nTesting usually refers to evaluating the model on a holdout dataset.\nValidation usually refers to repeatedly evaluating the model across multiple splits of the data, as in cross-validation.\n\nValidation gives a more stable estimate of out-of-sample performance because results are not tied to a single arbitrary split James et al. (2013) Kuhn and Johnson (2013).",
+    "crumbs": [
+      "Lessons",
+      "19-Cross-validation"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/cross_validation.html#what-are-hyper-parameters",
+    "href": "coding/week_11/cross_validation.html#what-are-hyper-parameters",
+    "title": "Cross-validation in R",
+    "section": "2.5 What are hyper-parameters?",
+    "text": "2.5 What are hyper-parameters?\nHyper-parameters are settings chosen by the analyst before the model is trained. They are not estimated directly from the data in the same way as model coefficients. Instead, they control how flexible the model can be or how the fitting process behaves.\nA few examples:\n\nIn K-Fold cross-validation, the value of \\(k\\) is a hyper-parameter.\nIn a random forest, the number of trees and the number of variables tried at each split are hyper-parameters.\nIn k-nearest neighbors, the number of neighbors is a hyper-parameter.\n\nFor example, imagine fitting a k-nearest neighbors model to predict yield. If we choose \\(k = 1\\), the model may follow the training data too closely and overfit. If we choose a much larger value of \\(k\\), the model may become too smooth and miss important structure. Cross-validation is often used to compare candidate hyper-parameter values and choose a setting that performs well on independent data.\nIn contrast, in a simple linear regression, the intercept and slope are parameters, because they are estimated from the data during model fitting.",
+    "crumbs": [
+      "Lessons",
+      "19-Cross-validation"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/cross_validation.html#precision-vs-accuracy",
+    "href": "coding/week_11/cross_validation.html#precision-vs-accuracy",
+    "title": "Cross-validation in R",
+    "section": "2.6 Precision vs accuracy",
+    "text": "2.6 Precision vs accuracy\nThese two terms are often used as if they meant the same thing, but they describe different properties of model performance.\n\nAccuracy refers to how close predictions are, on average, to the observed values.\nPrecision refers to how tightly predictions follow a consistent pattern, regardless of whether that pattern is centered on the true values.\n\n🎯 Think of accuracy as being close to the target. 📌 Think of precision as hitting nearly the same place repeatedly.\nA model may be precise but not accurate. For example, imagine a model that consistently predicts values about 15 units above the observed ones. The predictions may align very tightly along a straight line, which suggests high precision, but they are still systematically biased, which means low accuracy. On the other hand, a model may be approximately accurate on average but quite scattered, meaning low precision.\nThis distinction is especially important when evaluating predicted vs observed datasets. Correndo et al. (2021) discuss how prediction error can be interpreted geometrically as a combination of lack of accuracy and lack of precision Correndo et al. (2021). In practical terms, that means we should not rely on a single summary metric alone. Two models can have similar RMSE values while differing in whether their main problem is systematic bias or random scatter.\nIn predictive agronomy, both matter. A useful model should ideally be close to the truth and consistent enough to support decisions.\n\n\n\n\n\n\n🎯 Quick intuition\n\n\n\nAccuracy is about location relative to the truth. Precision is about spread among repeated predictions.\n\n\n\n2.6.1 Visual examples\nThe classic target diagram is a useful first illustration. The center of the target represents the truth. Predictions close to the center are more accurate, whereas predictions clustered tightly together are more precise.\n\n\n\nAccuracy and precision target diagram\n\n\nCorrendo et al. (2021) also show how these concepts appear in predicted-versus-observed datasets. In that context, accuracy is related to how close predictions are to the 1:1 line, whereas precision is related to how tightly the cloud of points follows a consistent relationship around that line or fitted trend Correndo et al. (2021).\n\n\n\nExamples of predicted versus observed datasets illustrating different combinations of accuracy and precision\n\n\nA useful bridge between both figures is this:\n\n🎯 Accuracy asks whether predictions are centered near the truth.\n📌 Precision asks whether predictions are tightly grouped.\n📉 A model can fail mainly because of systematic bias (accuracy problem), scatter (precision problem), or both. :::",
+    "crumbs": [
+      "Lessons",
+      "19-Cross-validation"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/cross_validation.html#bias-variance-trade-off",
+    "href": "coding/week_11/cross_validation.html#bias-variance-trade-off",
+    "title": "Cross-validation in R",
+    "section": "2.7 Bias-variance trade-off",
+    "text": "2.7 Bias-variance trade-off\nThe bias-variance trade-off is a fundamental concept in predictive modeling. It helps explain why a model can miss the truth in two different ways.\n\nBias refers to systematic deviation from the truth. In practical terms, a high-bias model tends to be consistently off target.\nVariance refers to instability across samples or training sets. A high-variance model is overly sensitive to the particular data used for fitting and may produce predictions that change too much from one sample to another.\n\nThis connects naturally with the ideas of accuracy and precision, but the terms are not exactly interchangeable.\n\nBias is closely related to accuracy: if bias is large, predictions tend to be less accurate because they are systematically shifted away from the truth.\nVariance is closely related to precision: if variance is large, predictions tend to be less precise because they are more scattered and less stable.\n\nSo, as a first approximation:\n\n🎯 Accuracy is mainly threatened by bias.\n📌 Precision is mainly threatened by variance.\n\nStill, it is worth being careful. Bias and variance are properties of a modeling process across repeated samples, whereas accuracy and precision are often used to describe the pattern seen in a specific predicted-versus-observed dataset. The ideas are strongly connected, but they are not strictly identical.\nA model with high bias may underfit the data because it is too rigid to capture the main structure. A model with high variance may overfit because it is too sensitive to noise in the training data. Cross-validation helps us detect that trade-off by estimating how well the model performs on independent data Hastie, Tibshirani, and Friedman (2009) James et al. (2013).\n\n\n\n\n\n\n⚖️ Bias, variance, accuracy, and precision\n\n\n\n\nHigh bias often means lower accuracy.\nHigh variance often means lower precision.\nGood predictive models aim for both low bias and low variance.",
+    "crumbs": [
+      "Lessons",
+      "19-Cross-validation"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/cross_validation.html#what-is-overfitting",
+    "href": "coding/week_11/cross_validation.html#what-is-overfitting",
+    "title": "Cross-validation in R",
+    "section": "2.8 What is overfitting?",
+    "text": "2.8 What is overfitting?\nOverfitting occurs when a model learns idiosyncrasies of the training dataset rather than the broader pattern that we care about. As a result, the model may look strong during training but weak when applied to new observations. Cross-validation helps us detect that problem earlier by forcing the model to predict data it has not seen before Hastie, Tibshirani, and Friedman (2009) James et al. (2013).\nCross-validation is a statistical strategy in which the data are split into subsets, the model is trained on one portion, and evaluated on another. This process is repeated multiple times to reduce dependence on a single split. Common approaches include Leave-One-Out Cross-Validation (LOOCV), K-Fold Cross-Validation, and Leave-One-Group-Out Cross-Validation (LOGO-CV).\nLet us now implement these methods in R using a simulated dataset of soil test measurements.",
+    "crumbs": [
+      "Lessons",
+      "19-Cross-validation"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/cross_validation.html#function",
+    "href": "coding/week_11/cross_validation.html#function",
+    "title": "Cross-validation in R",
+    "section": "6.1 Function",
+    "text": "6.1 Function\n\n\nShow code\nloocv_lm &lt;- function(data) {\n  results &lt;- purrr::map_dfr(seq_len(nrow(data)), function(i) {\n    train_data &lt;- data[-i, ]\n    test_data  &lt;- data[i, ]\n    \n    lm_model &lt;- lm(d20 ~ d10, data = train_data)\n    slope &lt;- coef(lm_model)[2]\n    intercept &lt;- coef(lm_model)[1]\n    predicted &lt;- intercept + slope * test_data$d10\n    \n    tibble(\n      observed = test_data$d20,\n      predicted = predicted\n    )\n  })\n  \n  results\n}",
+    "crumbs": [
+      "Lessons",
+      "19-Cross-validation"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/cross_validation.html#run-loocv",
+    "href": "coding/week_11/cross_validation.html#run-loocv",
+    "title": "Cross-validation in R",
+    "section": "6.2 Run LOOCV",
+    "text": "6.2 Run LOOCV\n\n\nShow code\nloocv_results &lt;- loocv_lm(data)",
+    "crumbs": [
+      "Lessons",
+      "19-Cross-validation"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/cross_validation.html#performance-metrics-for-loocv",
+    "href": "coding/week_11/cross_validation.html#performance-metrics-for-loocv",
+    "title": "Cross-validation in R",
+    "section": "6.3 Performance metrics for LOOCV",
+    "text": "6.3 Performance metrics for LOOCV\n\n\nShow code\nloocv_metrics &lt;- loocv_results %&gt;%\n  summarize(\n    RMSE = metrica::RMSE(obs = observed, pred = predicted),\n    MAE  = metrica::MAE(obs = observed, pred = predicted),\n    R2   = metrica::R2(obs = observed, pred = predicted)\n  ) %&gt;% \n  as.data.frame()\n\nloocv_metrics\n\n\n      RMSE      MAE        R2\n1 13.21629 10.50428 0.8717034",
+    "crumbs": [
+      "Lessons",
+      "19-Cross-validation"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/cross_validation.html#visualize-loocv-predictions",
+    "href": "coding/week_11/cross_validation.html#visualize-loocv-predictions",
+    "title": "Cross-validation in R",
+    "section": "6.4 Visualize LOOCV predictions",
+    "text": "6.4 Visualize LOOCV predictions\n\n\nShow code\nmetrica::scatter_plot(data = loocv_results, obs = observed, pred = predicted,\n                      print_metrics = TRUE,\n                      metrics_list = c(\"RMSE\", \"MAE\", \"R2\") )",
+    "crumbs": [
+      "Lessons",
+      "19-Cross-validation"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/cross_validation.html#function-1",
+    "href": "coding/week_11/cross_validation.html#function-1",
+    "title": "Cross-validation in R",
+    "section": "7.1 Function",
+    "text": "7.1 Function\n\n\nShow code\nkfold_lm &lt;- function(data, k = 10) {\n  folds &lt;- caret::createFolds(data$d10, k = k, list = TRUE)\n  \n  results &lt;- purrr::map_dfr(seq_len(k), function(i) {\n    train_data &lt;- data[-folds[[i]], ]\n    test_data  &lt;- data[folds[[i]], ]\n    \n    lm_model &lt;- lm(d20 ~ d10, data = train_data)\n    slope &lt;- coef(lm_model)[2]\n    intercept &lt;- coef(lm_model)[1]\n    predictions &lt;- intercept + slope * test_data$d10\n    \n    tibble(\n      fold = as.character(i),\n      observed = test_data$d20,\n      predicted = predictions\n    )\n  })\n  \n  results\n}",
+    "crumbs": [
+      "Lessons",
+      "19-Cross-validation"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/cross_validation.html#run-k-fold-cv",
+    "href": "coding/week_11/cross_validation.html#run-k-fold-cv",
+    "title": "Cross-validation in R",
+    "section": "7.2 Run K-Fold CV",
+    "text": "7.2 Run K-Fold CV\n\n\nShow code\nkfold_results &lt;- kfold_lm(data, k = 10)",
+    "crumbs": [
+      "Lessons",
+      "19-Cross-validation"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/cross_validation.html#performance-metrics-for-k-fold",
+    "href": "coding/week_11/cross_validation.html#performance-metrics-for-k-fold",
+    "title": "Cross-validation in R",
+    "section": "7.3 Performance metrics for K-Fold",
+    "text": "7.3 Performance metrics for K-Fold\n\n\nShow code\nkfold_metrics &lt;- kfold_results %&gt;%\n  group_by(fold) %&gt;% \n  summarise(\n    RMSE = metrica::RMSE(obs = observed, pred = predicted),\n    MAE  = metrica::MAE(obs = observed, pred = predicted),\n    R2   = metrica::R2(obs = observed, pred = predicted)\n  ) %&gt;% \n  as.data.frame()\n\nkfold_metrics\n\n\n   fold     RMSE      MAE        R2\n1     1 10.60315 8.859033 0.9319562\n2    10  11.8203 9.214947 0.9207562\n3     2 13.20173 11.18334 0.8580328\n4     3 10.82056 8.481145 0.9300277\n5     4 11.52116 9.772838 0.9332875\n6     5 17.65191 12.91936 0.7611587\n7     6 14.50873 12.15068  0.918437\n8     7  13.7174 10.38589 0.8985983\n9     8 15.51362 12.66568 0.8774085\n10    9  11.0277 9.308678 0.8576117",
+    "crumbs": [
+      "Lessons",
+      "19-Cross-validation"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/cross_validation.html#plot-metrics",
+    "href": "coding/week_11/cross_validation.html#plot-metrics",
+    "title": "Cross-validation in R",
+    "section": "7.4 Plot metrics",
+    "text": "7.4 Plot metrics\n\n\nShow code\nkfold_metrics %&gt;% \n  pivot_longer(cols = c(RMSE, MAE, R2),\n               names_to = \"metric\", values_to = \"score\") %&gt;% \n  mutate(score = as.numeric(score)) %&gt;% \n  ggplot(aes(x = metric, y = score, fill = metric)) +\n  geom_boxplot() +\n  geom_jitter(aes(color = fold), width = 0.12) +\n  facet_wrap(~metric, scales = \"free_y\") +\n  theme_classic() +\n  theme(legend.position = \"right\",\n        axis.title.x = element_blank())",
+    "crumbs": [
+      "Lessons",
+      "19-Cross-validation"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/cross_validation.html#visualize-k-fold-predictions",
+    "href": "coding/week_11/cross_validation.html#visualize-k-fold-predictions",
+    "title": "Cross-validation in R",
+    "section": "7.5 Visualize K-Fold predictions",
+    "text": "7.5 Visualize K-Fold predictions\n\n\nShow code\nmetrica::scatter_plot(data = kfold_results, obs = observed, pred = predicted,\n                      print_metrics = TRUE,\n                      metrics_list = c(\"RMSE\", \"MAE\", \"R2\")) +\n  geom_point(aes(color = fold)) +\n  theme(legend.position = \"right\") #+\n\n\n\n\n\n\n\n\n\nShow code\n  #facet_wrap(~fold)",
+    "crumbs": [
+      "Lessons",
+      "19-Cross-validation"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/cross_validation.html#function-2",
+    "href": "coding/week_11/cross_validation.html#function-2",
+    "title": "Cross-validation in R",
+    "section": "8.1 Function",
+    "text": "8.1 Function\n\n\nShow code\nlogocv_lm &lt;- function(data) {\n  unique_groups &lt;- unique(data$group)\n  \n  results &lt;- purrr::map_dfr(unique_groups, function(g) {\n    train_data &lt;- dplyr::filter(data, group != g)\n    test_data  &lt;- dplyr::filter(data, group == g)\n    \n    lm_model &lt;- lm(d20 ~ d10, data = train_data)\n    slope &lt;- coef(lm_model)[2]\n    intercept &lt;- coef(lm_model)[1]\n    predictions &lt;- intercept + slope * test_data$d10\n    \n    tibble(\n      group = as.character(g),\n      observed = test_data$d20,\n      predicted = predictions\n    )\n  })\n  \n  results\n}",
+    "crumbs": [
+      "Lessons",
+      "19-Cross-validation"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/cross_validation.html#run-logo-cv",
+    "href": "coding/week_11/cross_validation.html#run-logo-cv",
+    "title": "Cross-validation in R",
+    "section": "8.2 Run LOGO-CV",
+    "text": "8.2 Run LOGO-CV\n\n\nShow code\nlogocv_results &lt;- logocv_lm(data)",
+    "crumbs": [
+      "Lessons",
+      "19-Cross-validation"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/cross_validation.html#performance-metrics-for-logo-cv",
+    "href": "coding/week_11/cross_validation.html#performance-metrics-for-logo-cv",
+    "title": "Cross-validation in R",
+    "section": "8.3 Performance metrics for LOGO-CV",
+    "text": "8.3 Performance metrics for LOGO-CV\n\n\nShow code\nlogocv_metrics &lt;- logocv_results %&gt;%\n  group_by(group) %&gt;% \n  summarise(\n    RMSE = metrica::RMSE(obs = observed, pred = predicted),\n    MAE  = metrica::MAE(obs = observed, pred = predicted),\n    R2   = metrica::R2(obs = observed, pred = predicted)\n  ) %&gt;% \n  as.data.frame()\n\nlogocv_metrics\n\n\n   group     RMSE      MAE        R2\n1      1 6.288193 4.877057 0.9766163\n2     10 10.24613 8.427732 0.8693853\n3      2 9.448485 7.537861 0.9676501\n4      3 16.92899 13.74772 0.9089262\n5      4  21.5735 19.79472 0.9951878\n6      5 5.912174  5.03155 0.9860526\n7      6   11.885 10.62274 0.9797774\n8      7 21.51519 20.52061 0.9678122\n9      8 12.24015 9.039525 0.9608013\n10     9 14.47829 12.51291 0.9062484",
+    "crumbs": [
+      "Lessons",
+      "19-Cross-validation"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/cross_validation.html#plot-metrics-1",
+    "href": "coding/week_11/cross_validation.html#plot-metrics-1",
+    "title": "Cross-validation in R",
+    "section": "8.4 Plot metrics",
+    "text": "8.4 Plot metrics\n\n\nShow code\nlogocv_metrics %&gt;% \n  pivot_longer(cols = c(RMSE, MAE, R2),\n               names_to = \"metric\", values_to = \"score\") %&gt;% \n  mutate(score = as.numeric(score)) %&gt;% \n  ggplot(aes(x = metric, y = score, fill = metric)) +\n  geom_boxplot() +\n  geom_jitter(aes(color = group), width = 0.12) +\n  facet_wrap(~metric, scales = \"free_y\") +\n  theme_classic() +\n  theme(legend.position = \"right\",\n        axis.title.x = element_blank())",
+    "crumbs": [
+      "Lessons",
+      "19-Cross-validation"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/cross_validation.html#visualize-logo-cv-predictions",
+    "href": "coding/week_11/cross_validation.html#visualize-logo-cv-predictions",
+    "title": "Cross-validation in R",
+    "section": "8.5 Visualize LOGO-CV predictions",
+    "text": "8.5 Visualize LOGO-CV predictions\n\n\nShow code\nmetrica::scatter_plot(data = logocv_results, obs = observed, pred = predicted,\n                      print_metrics = TRUE,\n                      metrics_list = c(\"RMSE\", \"MAE\", \"R2\")) +\n  geom_point(aes(color = group)) +\n  theme(legend.position = \"right\") #+\n\n\n\n\n\n\n\n\n\nShow code\n  #facet_wrap(~group)",
+    "crumbs": [
+      "Lessons",
+      "19-Cross-validation"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/cross_validation.html#skeleton-of-nested-cv-logic",
+    "href": "coding/week_11/cross_validation.html#skeleton-of-nested-cv-logic",
+    "title": "Cross-validation in R",
+    "section": "10.1 Skeleton of nested CV logic",
+    "text": "10.1 Skeleton of nested CV logic\n\n\nShow code\nflowchart TD\n    A[🧭 Outer split] --&gt; B[🌾 Outer-training groups]\n    A --&gt; C[🚫 Outer test group held out]\n    B --&gt; D[🔁 Inner CV on outer-training groups only]\n    D --&gt; E[🛠️ Fit candidate models across inner folds]\n    E --&gt; F[📏 Inner predicted vs observed]\n    F --&gt; G[✅ Choose best hyper-parameter setting]\n    G --&gt; H[📈 Refit final model on all outer-training groups]\n    H --&gt; I[🔮 Predict outer test group]\n    C --&gt; J[📋 Outer observed values]\n    I --&gt; K[🧪 Outer predicted vs observed]\n    J --&gt; K\n\n    style A fill:#E8F1FB,stroke:#4C78A8,stroke-width:2px,color:#111\n    style B fill:#EAF7EA,stroke:#59A14F,stroke-width:2px,color:#111\n    style C fill:#FDEBEC,stroke:#E15759,stroke-width:2px,color:#111\n    style D fill:#FCECCF,stroke:#F28E2B,stroke-width:2px,color:#111\n    style E fill:#F3E8F8,stroke:#B07AA1,stroke-width:2px,color:#111\n    style F fill:#E8F1FB,stroke:#4C78A8,stroke-width:2px,color:#111\n    style G fill:#EAF7EA,stroke:#59A14F,stroke-width:2px,color:#111\n    style H fill:#F3E8F8,stroke:#B07AA1,stroke-width:2px,color:#111\n    style I fill:#EAF7EA,stroke:#59A14F,stroke-width:2px,color:#111\n    style J fill:#FCECCF,stroke:#F28E2B,stroke-width:2px,color:#111\n    style K fill:#FDEBEC,stroke:#E15759,stroke-width:2px,color:#111\n\n\n\n\n\nflowchart TD\n    A[🧭 Outer split] --&gt; B[🌾 Outer-training groups]\n    A --&gt; C[🚫 Outer test group held out]\n    B --&gt; D[🔁 Inner CV on outer-training groups only]\n    D --&gt; E[🛠️ Fit candidate models across inner folds]\n    E --&gt; F[📏 Inner predicted vs observed]\n    F --&gt; G[✅ Choose best hyper-parameter setting]\n    G --&gt; H[📈 Refit final model on all outer-training groups]\n    H --&gt; I[🔮 Predict outer test group]\n    C --&gt; J[📋 Outer observed values]\n    I --&gt; K[🧪 Outer predicted vs observed]\n    J --&gt; K\n\n    style A fill:#E8F1FB,stroke:#4C78A8,stroke-width:2px,color:#111\n    style B fill:#EAF7EA,stroke:#59A14F,stroke-width:2px,color:#111\n    style C fill:#FDEBEC,stroke:#E15759,stroke-width:2px,color:#111\n    style D fill:#FCECCF,stroke:#F28E2B,stroke-width:2px,color:#111\n    style E fill:#F3E8F8,stroke:#B07AA1,stroke-width:2px,color:#111\n    style F fill:#E8F1FB,stroke:#4C78A8,stroke-width:2px,color:#111\n    style G fill:#EAF7EA,stroke:#59A14F,stroke-width:2px,color:#111\n    style H fill:#F3E8F8,stroke:#B07AA1,stroke-width:2px,color:#111\n    style I fill:#EAF7EA,stroke:#59A14F,stroke-width:2px,color:#111\n    style J fill:#FCECCF,stroke:#F28E2B,stroke-width:2px,color:#111\n    style K fill:#FDEBEC,stroke:#E15759,stroke-width:2px,color:#111",
+    "crumbs": [
+      "Lessons",
+      "19-Cross-validation"
     ]
   },
   {
@@ -3834,6 +4296,17 @@
     "crumbs": [
       "Extras",
       "p-value"
+    ]
+  },
+  {
+    "objectID": "coding/week_11/cross_validation.html#training-predicted-vs.-observed",
+    "href": "coding/week_11/cross_validation.html#training-predicted-vs.-observed",
+    "title": "Cross-validation in R",
+    "section": "5.1 Training Predicted vs. Observed",
+    "text": "5.1 Training Predicted vs. Observed\nBefore we dive into cross-validation, let us fit a simple linear regression model to the entire dataset and visualize the predicted vs observed values.\n\n\nShow code\nlm_model &lt;- lm(d20 ~ d10, data = data)\n\ntrain_po &lt;- data %&gt;%\n  mutate(predicted_020 = predict(lm_model))\n\nmetrica::scatter_plot(data = train_po, \n                      obs = d20, \n                      pred = predicted_020,\n                      print_metrics = TRUE,\n                      metrics_list = c(\"RMSE\", \"MAE\", \"R2\")) +\n  geom_point(aes(color = group), alpha = 0.8)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n🌱 Why this matters\n\n\n\nIf observations from the same site, year, farm, field, or depth interval are related to each other, a random split may make model performance look better than it really is. In those situations, grouped resampling methods such as LOGO-CV are often more appropriate Roberts et al. (2017).",
+    "crumbs": [
+      "Lessons",
+      "19-Cross-validation"
     ]
   }
 ]

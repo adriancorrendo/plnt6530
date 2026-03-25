@@ -20,6 +20,7 @@ execute:
   echo: true
   warning: false
   message: false
+  eval: false
 smooth-scroll: true
 link-citations: true
 ---
@@ -661,8 +662,6 @@ bayes_model_sy <-
 plot(bayes_model_sy)
 
 summary(bayes_model_sy)
-
-
 ```
 
 ### Prepare summaries by `site_year`

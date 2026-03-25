@@ -89,6 +89,10 @@ website:
             text: "17-Bayes I"
           - href: coding/week_10/bayes_02.qmd
             text: "18-Bayes II"
+          - href: coding/week_11/cross_validation.qmd
+            text: "19-Cross-validation"
+          - href: coding/week_11/regtrees.qmd
+            text: "20-Regression Trees"
       - section: "Extras"
         contents:
           - href: coding/quarto/quarto.qmd
