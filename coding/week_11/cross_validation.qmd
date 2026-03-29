@@ -593,5 +593,3 @@ In other words, the best cross-validation strategy is the one that best mimics t
 
 # References
 
-::: {#refs}
-:::

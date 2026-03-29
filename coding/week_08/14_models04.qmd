@@ -294,6 +294,21 @@ fit_corsymm_hetvar <- function(x){
       # Data
       data=x) }
 
+# Create same model but with variance modeled as continuos (incresing with fitted value)
+fit_corsymm_hetvar_cont <- function(x){
+  lme(# Response variable
+      STK ~ 
+        # Fixed
+        TREAT + DEPTH + TREAT:DEPTH,
+        # Random  
+        random = ~1|BLOCK,
+        # Correlation
+        correlation = corCompSymm(form = ~ DEPTH |BLOCK/PLOT),
+        # Variance
+        weights = varComb(varExp(form= ~ fitted(.))),
+      # Data
+      data=x) }
+
 ```
 
 ### Fit

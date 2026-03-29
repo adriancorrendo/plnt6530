@@ -20,7 +20,6 @@ execute:
   echo: true
   warning: false
   message: false
-  eval: false
 smooth-scroll: true
 link-citations: true
 ---
@@ -494,7 +493,9 @@ bayes_model <-
     seed = 1,
     refresh = 1000
   )
+```
 
+```{r}
 plot(bayes_model)
 bayes_model
 ```
@@ -659,6 +660,9 @@ bayes_model_sy <-
     seed = 1
   )
 
+```
+
+```{r}
 plot(bayes_model_sy)
 
 summary(bayes_model_sy)
